@@ -8,6 +8,7 @@ Enforces:
 """
 
 import os
+from typing import Optional, List, Dict, Any
 import discord
 from discord import app_commands
 from discord.ext import commands, tasks
@@ -91,23 +92,34 @@ async def on_message(message: discord.Message):
     await bot.process_commands(message)
 
 
-# --- Interactive Discord UI: Session RSVP View ---
+# --- Interactive Discord UI: Multi-Select Role Dropdown & Persistent RSVP View ---
 
-class RoleSelectModal(discord.ui.Modal, title="Select Role Preference"):
-    def __init__(self, session_id: str, action_type: str):
-        super().__init__()
+class RoleSelectView(discord.ui.View):
+    """Ephemeral view allowing players to multi-select up to 5 role preferences."""
+    def __init__(self, session_id: str, action_type: str, session_message: Optional[discord.Message] = None):
+        super().__init__(timeout=120)
         self.session_id = session_id
         self.action_type = action_type
-        self.role_input = discord.ui.TextInput(
-            label="Preferred Role(s)",
-            placeholder="e.g. Bot, Support, Mid, Jungle, Top, Fill",
-            default="Fill",
-            max_length=20
-        )
-        self.add_item(self.role_input)
+        self.session_message = session_message
 
-    async def on_submit(self, interaction: discord.Interaction):
-        # Double check @LOLers role
+        options = [
+            discord.SelectOption(label="Top", emoji="🛡️", value="Top", description="Solo top lane bruiser / tank"),
+            discord.SelectOption(label="Jungle", emoji="🌲", value="Jungle", description="Map objective control & ganks"),
+            discord.SelectOption(label="Mid", emoji="⚡", value="Mid", description="Solo mid lane mage / assassin"),
+            discord.SelectOption(label="Bot (ADC)", emoji="🏹", value="Bot", description="Attack damage carry"),
+            discord.SelectOption(label="Support", emoji="✨", value="Support", description="Vision control & bot utility"),
+            discord.SelectOption(label="Fill", emoji="🎲", value="Fill", description="Any available position"),
+        ]
+        self.select = discord.ui.Select(
+            placeholder="Select 1 or more preferred roles...",
+            min_values=1,
+            max_values=5,
+            options=options
+        )
+        self.select.callback = self.select_callback
+        self.add_item(self.select)
+
+    async def select_callback(self, interaction: discord.Interaction):
         if not has_lolers_role(interaction.user):
             await interaction.response.send_message(
                 f"⛔ Only members with the **@{ROSTER_ROLE_NAME}** role can join the 5-stack roster.",
@@ -115,72 +127,105 @@ class RoleSelectModal(discord.ui.Modal, title="Select Role Preference"):
             )
             return
 
-        role_pref = self.role_input.value.strip() or "Fill"
-        quorum_met, session = stats_mgr.register_player(
+        selected_roles = ", ".join(self.select.values)
+        quorum_met, session, promoted = stats_mgr.register_player(
             session_id=self.session_id,
             player_name=interaction.user.display_name,
             status=self.action_type,
-            role_pref=role_pref
+            role_pref=selected_roles
         )
+
+        await interaction.response.send_message(
+            f"✅ Registered as **{self.action_type}** with role preference(s): **{selected_roles}**!",
+            ephemeral=True
+        )
+
+        # Update the original session embed in the channel
         embed = build_session_embed(session, interaction.guild)
-        await interaction.response.edit_message(embed=embed)
+        if self.session_message:
+            try:
+                await self.session_message.edit(embed=embed)
+            except Exception:
+                pass
 
         if quorum_met and len(session["confirmed_players"]) == 5:
-            # Announce quorum ping in #5-stackers mentioning the @LOLers role
             role = discord.utils.find(lambda r: r.name.lower() == ROSTER_ROLE_NAME.lower(), interaction.guild.roles) if interaction.guild else None
             role_mention = role.mention if role else f"@{ROSTER_ROLE_NAME}"
-            
             players_ping = ", ".join([f"**{p['name']}**" for p in session['confirmed_players']])
             mode_announcement = (
                 f"🛡️ **Ranked 5s Mode Window is OPEN!** Time to queue tournament draft!"
                 if session['is_ranked_5s']
                 else f"⚡ **Ranked Flex Fallback**: Ranked 5s window closed, but 5-stack Ranked Flex is ready to launch!"
             )
-            await interaction.followup.send(
-                f"🚨 **LOBBY READY! 5-PLAYER QUORUM REACHED!** ({role_mention})\n"
-                f"Starting 5: {players_ping}\n"
-                f"Target Queue: **{session['mode']}**\n{mode_announcement}",
-                ephemeral=False
-            )
+            if interaction.channel:
+                await interaction.channel.send(
+                    f"🚨 **LOBBY READY! 5-PLAYER QUORUM REACHED!** ({role_mention})\n"
+                    f"Starting 5: {players_ping}\n"
+                    f"Target Queue: **{session['mode']}**\n{mode_announcement}"
+                )
 
 
 class SessionRSVPView(discord.ui.View):
+    """Persistent RSVP View with unique custom IDs per session."""
     def __init__(self, session_id: str):
         super().__init__(timeout=None)
         self.session_id = session_id
 
+        self.join_btn = discord.ui.Button(
+            label="✅ Join 5-Stack",
+            style=discord.ButtonStyle.green,
+            custom_id=f"session:join:{session_id}"
+        )
+        self.join_btn.callback = self.join_callback
+        self.add_item(self.join_btn)
+
+        self.bench_btn = discord.ui.Button(
+            label="⏳ Sub / Bench",
+            style=discord.ButtonStyle.secondary,
+            custom_id=f"session:bench:{session_id}"
+        )
+        self.bench_btn.callback = self.bench_callback
+        self.add_item(self.bench_btn)
+
+        self.decline_btn = discord.ui.Button(
+            label="❌ Can't Make It",
+            style=discord.ButtonStyle.danger,
+            custom_id=f"session:decline:{session_id}"
+        )
+        self.decline_btn.callback = self.decline_callback
+        self.add_item(self.decline_btn)
+
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
         return await check_channel_restriction(interaction)
 
-    @discord.ui.button(label="✅ Join 5-Stack", style=discord.ButtonStyle.green, custom_id="join_session")
-    async def join_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def join_callback(self, interaction: discord.Interaction):
         if not has_lolers_role(interaction.user):
             await interaction.response.send_message(
                 f"⛔ Access Denied: You must have the **@{ROSTER_ROLE_NAME}** role to join 5-stack sessions.",
                 ephemeral=True
             )
             return
-        await interaction.response.send_modal(RoleSelectModal(self.session_id, "CONFIRMED"))
+        view = RoleSelectView(self.session_id, "CONFIRMED", interaction.message)
+        await interaction.response.send_message("Select your preferred role(s) from the dropdown below:", view=view, ephemeral=True)
 
-    @discord.ui.button(label="⏳ Sub / Bench", style=discord.ButtonStyle.secondary, custom_id="bench_session")
-    async def bench_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def bench_callback(self, interaction: discord.Interaction):
         if not has_lolers_role(interaction.user):
             await interaction.response.send_message(
                 f"⛔ Access Denied: You must have the **@{ROSTER_ROLE_NAME}** role to join as a substitute.",
                 ephemeral=True
             )
             return
-        await interaction.response.send_modal(RoleSelectModal(self.session_id, "BENCH"))
+        view = RoleSelectView(self.session_id, "BENCH", interaction.message)
+        await interaction.response.send_message("Select your preferred substitute role(s) from the dropdown below:", view=view, ephemeral=True)
 
-    @discord.ui.button(label="❌ Can't Make It", style=discord.ButtonStyle.danger, custom_id="decline_session")
-    async def decline_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def decline_callback(self, interaction: discord.Interaction):
         if not has_lolers_role(interaction.user):
             await interaction.response.send_message(
                 f"⛔ Access Denied: Only **@{ROSTER_ROLE_NAME}** members are tracked on the roster.",
                 ephemeral=True
             )
             return
-        _, session = stats_mgr.register_player(
+        _, session, promoted = stats_mgr.register_player(
             session_id=self.session_id,
             player_name=interaction.user.display_name,
             status="DECLINED"
@@ -188,20 +233,26 @@ class SessionRSVPView(discord.ui.View):
         embed = build_session_embed(session, interaction.guild)
         await interaction.response.edit_message(embed=embed)
 
+        if promoted and interaction.channel:
+            await interaction.channel.send(
+                f"📢 **Roster Auto-Promotion**: {interaction.user.display_name} stepped down. **{promoted['name']}** has been promoted from the bench into the Starting 5!"
+            )
+
 
 def build_session_embed(session: dict, guild: discord.Guild = None) -> discord.Embed:
-    confirmed = session["confirmed_players"]
-    bench = session["bench_substitutes"]
-    declined = session["declined"]
+    confirmed = session.get("confirmed_players", [])
+    bench = session.get("bench_substitutes", [])
+    declined = session.get("declined", [])
     count = len(confirmed)
 
     status_color = 0x22C55E if count >= 5 else 0x3B82F6  # Green if ready, blue if polling
     embed = discord.Embed(
         title="🎮 League of Legends 5-Stack Coordinator",
         description=f"**Channel**: `#{COORDINATION_CHANNEL}` &bull; **Roster Role**: `@{ROSTER_ROLE_NAME}`\n"
-                    f"**Target Window**: `{session['scheduled_time']}`\n"
-                    f"**Detected Mode**: **{session['mode']}**\n"
-                    f"{'🏆 *Ranked 5s Tournament Draft Active*' if session['is_ranked_5s'] else '🔄 *Ranked Flex 24/7 Fallback Active*'}",
+                    f"**Session ID**: `{session.get('session_id')}`\n"
+                    f"**Target Window**: `{session.get('scheduled_time')}`\n"
+                    f"**Detected Mode**: **{session.get('mode')}**\n"
+                    f"{'🏆 *Ranked 5s Tournament Draft Active*' if session.get('is_ranked_5s') else '🔄 *Ranked Flex 24/7 Fallback Active*'}",
         color=status_color
     )
 
@@ -225,7 +276,7 @@ def build_session_embed(session: dict, guild: discord.Guild = None) -> discord.E
 # --- Slash Commands ---
 
 @bot.tree.command(name="session", description=f"Propose a new 5-stack session in #{COORDINATION_CHANNEL}.")
-@app_commands.describe(time_window="Proposed date and time (e.g. 'Tonight 8:30 PM', 'Saturday 9:00 PM')")
+@app_commands.describe(time_window="Proposed date and time (e.g. 'Tonight 8:30 PM', 'Friday 9:00 PM', 'Tomorrow 7pm')")
 async def session_cmd(interaction: discord.Interaction, time_window: str):
     if not has_lolers_role(interaction.user):
         await interaction.response.send_message(
@@ -234,28 +285,99 @@ async def session_cmd(interaction: discord.Interaction, time_window: str):
         )
         return
 
-    eval_res = scheduler.evaluate_time()
+    target_dt, display_time, parsed_ok = scheduler.parse_target_time(time_window)
+    eval_res = scheduler.evaluate_time(target_dt)
     session_id = str(uuid.uuid4())[:8]
 
     session = stats_mgr.create_session(
         session_id=session_id,
-        scheduled_time=time_window,
+        scheduled_time=display_time,
         mode=eval_res["mode"],
         is_ranked_5s=eval_res["is_ranked_5s"],
-        creator=interaction.user.display_name
+        creator=interaction.user.display_name,
+        scheduled_iso=eval_res.get("target_iso")
     )
 
     view = SessionRSVPView(session_id)
     embed = build_session_embed(session, interaction.guild)
     
-    # Mention the @LOLers role so the squad gets alerted in #5-stackers
     role = discord.utils.find(lambda r: r.name.lower() == ROSTER_ROLE_NAME.lower(), interaction.guild.roles) if interaction.guild else None
     role_mention = role.mention if role else f"@{ROSTER_ROLE_NAME}"
 
     await interaction.response.send_message(
-        f"📢 {role_mention}: **{interaction.user.display_name}** proposed a 5-stack session in **#{COORDINATION_CHANNEL}**! Who's in?",
+        f"📢 {role_mention}: **{interaction.user.display_name}** proposed a 5-stack session for **{display_time}** in **#{COORDINATION_CHANNEL}**! Who's in?",
         embed=embed,
         view=view
+    )
+
+
+@bot.tree.command(name="edit-session", description="Reschedule a planned 5-stack session and notify signed-up players.")
+@app_commands.describe(
+    session_id="The ID of the session to edit",
+    new_time="New proposed date/time (e.g. 'Tonight 9:30 PM', 'Friday 9:00 PM', 'Tomorrow 8pm')"
+)
+async def edit_session_cmd(interaction: discord.Interaction, session_id: str, new_time: str):
+    if not has_lolers_role(interaction.user):
+        await interaction.response.send_message(
+            f"⛔ Only members with the **@{ROSTER_ROLE_NAME}** role can edit sessions.",
+            ephemeral=True
+        )
+        return
+
+    target_dt, display_time, parsed_ok = scheduler.parse_target_time(new_time)
+    eval_res = scheduler.evaluate_time(target_dt)
+
+    success, session, affected = stats_mgr.edit_session_time(
+        session_id=session_id,
+        new_scheduled_time=display_time,
+        new_scheduled_iso=eval_res.get("target_iso"),
+        new_mode=eval_res["mode"],
+        is_ranked_5s=eval_res["is_ranked_5s"]
+    )
+
+    if not success:
+        await interaction.response.send_message(
+            f"❌ Session `{session_id}` not found or is already cancelled.",
+            ephemeral=True
+        )
+        return
+
+    embed = build_session_embed(session, interaction.guild)
+    view = SessionRSVPView(session_id)
+
+    affected_pings = []
+    if interaction.guild:
+        for name in affected:
+            m = discord.utils.find(lambda x: x.display_name.lower() == name.lower(), interaction.guild.members)
+            affected_pings.append(m.mention if m else f"**{name}**")
+    pings_str = ", ".join(affected_pings) or "Signed-up players"
+
+    await interaction.response.send_message(
+        f"⚠️ **SESSION RESCHEDULED!**\n"
+        f"Attention {pings_str}: **{interaction.user.display_name}** changed the session time to **{display_time}** ({eval_res['mode']}).\n"
+        f"Please check your availability and update your RSVP if needed!",
+        embed=embed,
+        view=view
+    )
+
+
+@bot.tree.command(name="cancel-session", description="Cancel an active 5-stack session.")
+@app_commands.describe(session_id="The ID of the session to cancel")
+async def cancel_session_cmd(interaction: discord.Interaction, session_id: str):
+    if not has_lolers_role(interaction.user):
+        await interaction.response.send_message(
+            f"⛔ Only members with the **@{ROSTER_ROLE_NAME}** role can cancel sessions.",
+            ephemeral=True
+        )
+        return
+
+    success, session = stats_mgr.cancel_session(session_id)
+    if not success:
+        await interaction.response.send_message(f"❌ Session `{session_id}` not found.", ephemeral=True)
+        return
+
+    await interaction.response.send_message(
+        f"🛑 **Session Cancelled**: The session `{session_id}` ({session.get('scheduled_time')}) was cancelled by **{interaction.user.display_name}**."
     )
 
 
@@ -271,6 +393,47 @@ async def queue_check_cmd(interaction: discord.Interaction):
     embed.add_field(name="Current Time", value=info["evaluated_time"], inline=True)
     embed.add_field(name="Next Ranked 5s Window", value=info["next_window_start"], inline=True)
     embed.set_footer(text=f"Ranked 5s runs Fri-Sun 8PM-1AM. Ranked Flex is 24/7 • #{COORDINATION_CHANNEL}")
+    await interaction.response.send_message(embed=embed)
+
+
+@bot.tree.command(name="synergy", description="View duo chemistry and win rates across team positions.")
+@app_commands.describe(pair_type="The duo partnership to inspect")
+@app_commands.choices(pair_type=[
+    app_commands.Choice(name="Botlane (ADC + Support)", value="botlane"),
+    app_commands.Choice(name="Mid + Jungle (2v2 Core)", value="mid_jungle"),
+    app_commands.Choice(name="Top + Jungle (Topside Synergy)", value="top_jungle"),
+    app_commands.Choice(name="Support + Jungle (Roam & Objectives)", value="support_jungle"),
+])
+async def synergy_cmd(interaction: discord.Interaction, pair_type: app_commands.Choice[str]):
+    mapping = {
+        "botlane": ("🏹 Botlane (ADC + Support)", stats_mgr.get_botlane_synergies()),
+        "mid_jungle": ("⚡ Mid + Jungle (2v2 Core)", stats_mgr.get_mid_jungle_synergies()),
+        "top_jungle": ("🛡️ Top + Jungle (Topside Synergy)", stats_mgr.get_top_jungle_synergies()),
+        "support_jungle": ("✨ Support + Jungle (Roam & Objectives)", stats_mgr.get_support_jungle_synergies()),
+    }
+    title, duos = mapping.get(pair_type.value, mapping["botlane"])
+
+    if not duos:
+        await interaction.response.send_message(f"No match history recorded yet for **{title}**.", ephemeral=True)
+        return
+
+    embed = discord.Embed(
+        title=f"Chemistry Leaderboard — {title}",
+        description=f"Pairwise performance across 5-stack & squad games in **#{COORDINATION_CHANNEL}**.",
+        color=0xEC4899
+    )
+
+    for duo in duos[:5]:
+        embed.add_field(
+            name=f"{duo['pair']} — {duo['tier']} ({duo['synergy_score']}/100)",
+            value=(
+                f"**Record**: {duo['wins']}W - {duo['losses']}L ({duo['win_rate']}% WR in {duo['games']} games)\n"
+                f"**Duo KDA**: {duo['combined_kda']} | **Tag**: `{duo['tag']}`\n"
+                f"**Signature Combo**: `{duo['favorite_combo']}`"
+            ),
+            inline=False
+        )
+
     await interaction.response.send_message(embed=embed)
 
 
@@ -291,8 +454,8 @@ async def botlane_cmd(interaction: discord.Interaction):
         embed.add_field(
             name=f"{duo['pair']} — {duo['tier']} ({duo['synergy_score']}/100)",
             value=(
-                f"**Record**: {duo['wins']}W - {duo['losses']}L ({duo['win_rate']}% WR)\n"
-                f"**Duo KDA**: {duo['combined_kda']} | **Tag**: {duo['tag']}\n"
+                f"**Record**: {duo['wins']}W - {duo['losses']}L ({duo['win_rate']}% WR in {duo['games']} games)\n"
+                f"**Duo KDA**: {duo['combined_kda']} | **Tag**: `{duo['tag']}`\n"
                 f"**Signature Combo**: `{duo['favorite_combo']}`"
             ),
             inline=False
@@ -575,9 +738,40 @@ async def sync_matches_cmd(interaction: discord.Interaction):
         await interaction.followup.send(embed=embed)
 
 
-# --- Automated Background Poller Task ---
+# --- Automated Background Tasks: Poller & 15-Minute Countdown ---
+
+@tasks.loop(minutes=1)
+async def session_reminder_task():
+    """Checks for active sessions starting within 15 minutes and alerts confirmed starters."""
+    await bot.wait_until_ready()
+    now_dt = datetime.now(scheduler.tz)
+    pending = stats_mgr.get_pending_reminders(now_dt)
+
+    for s in pending:
+        s_id = s.get("session_id")
+        stats_mgr.mark_reminder_sent(s_id)
+
+        for guild in bot.guilds:
+            channel = discord.utils.get(guild.text_channels, name=COORDINATION_CHANNEL)
+            if not channel:
+                continue
+
+            starters = s.get("confirmed_players", [])
+            starter_pings = []
+            for p in starters:
+                m = discord.utils.find(lambda x: x.display_name.lower() == p["name"].lower(), guild.members)
+                starter_pings.append(m.mention if m else f"**{p['name']}**")
+
+            ping_str = ", ".join(starter_pings) or f"@{ROSTER_ROLE_NAME}"
+            await channel.send(
+                f"⏰ **15-MINUTE COUNTDOWN ALERT!** ({ping_str})\n"
+                f"The 5-stack session for **{s.get('scheduled_time')}** starts in 15 minutes! Ready up your League clients!"
+            )
+
+
 @tasks.loop(minutes=AUTO_TRACKING_INTERVAL)
 async def auto_match_tracker():
+    """Polls Riot API and broadcasts squad games, pinging only participants."""
     await bot.wait_until_ready()
     if not riot_client.is_configured():
         return
@@ -591,10 +785,16 @@ async def auto_match_tracker():
             new_matches = await check_and_sync_recent_matches(guild)
             for m in new_matches:
                 embed = build_match_recap_embed(m)
-                squad_mentions = ", ".join([f"**{p}**" for p in m.get("squad_players", [])])
+                
+                # Only ever ping the specific players who participated in the match
+                participant_pings = []
+                for p_name in m.get("squad_players", []):
+                    found_member = discord.utils.find(lambda x: x.display_name.lower() == p_name.lower(), guild.members)
+                    participant_pings.append(found_member.mention if found_member else f"**{p_name}**")
+                pings_str = ", ".join(participant_pings) or "Squad"
+
                 await channel.send(
-                    f"🚨 **MATCH AUTO-RECORDED** &bull; **{m.get('result')}** ({m.get('mode')})\n"
-                    f"Squad: {squad_mentions}",
+                    f"🎮 **Match Auto-Recorded!** ({pings_str}) &bull; **{m.get('result')}** ({m.get('mode')})",
                     embed=embed
                 )
         except Exception as e:
@@ -606,6 +806,22 @@ async def on_ready():
     print(f"Logged in as {bot.user} (ID: {bot.user.id})")
     print(f"Channel Lock Active: #{COORDINATION_CHANNEL}")
     print(f"Roster Role Active: @{ROSTER_ROLE_NAME}")
+
+    # Register persistent RSVP views for all active sessions
+    active_sessions = stats_mgr.data.get("active_sessions", {})
+    registered_views = 0
+    for s_id, s in active_sessions.items():
+        if s.get("status") in ["POLLING", "READY"]:
+            bot.add_view(SessionRSVPView(s_id))
+            registered_views += 1
+    if registered_views > 0:
+        print(f"Re-registered {registered_views} persistent session RSVP view(s).")
+
+    # Start 15-minute countdown reminder loop
+    if not session_reminder_task.is_running():
+        session_reminder_task.start()
+        print("15-minute session countdown reminder task started.")
+
     if riot_client.is_configured():
         print(f"Riot API Active (Region: {RIOT_REGION}, Poll Interval: {AUTO_TRACKING_INTERVAL}m)")
         if not auto_match_tracker.is_running():

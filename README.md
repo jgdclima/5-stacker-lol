@@ -20,22 +20,34 @@ A dedicated Discord bot designed to organize League of Legends 5-man premade ses
 
 ## 🌟 Key Features
 
-* **Flexible 5-Player Quorum Coordination**:
-  - Any 5 players out of your group can form a squad.
+* **Flexible 5-Player Quorum & Automatic Bench Promotion**:
+  - Any 5 players out of your group can form a starting squad.
   - When the 5th player RSVPs with **✅ Join 5-Stack**, the bot instantly fires a **Lobby Ready** alert notifying the starting five.
-  - Subsequent signups (6th to 10th) are automatically placed onto the **Substitutes / Bench** roster in case someone needs to step out.
+  - Subsequent signups (6th to 10th) are placed onto the **Substitutes / Bench**.
+  - **Auto-Promotion**: If a starting 5 player clicks **❌ Can't Make It**, the first bench substitute is automatically promoted to the starting roster without manual re-coordination.
 
-* **Ranked 5s Window Detection & Ranked Flex Fallback**:
-  - Automatically checks if your session falls within Riot's weekend **Ranked 5s** tournament draft queue windows (Friday, Saturday, Sunday 8:00 PM – 1:00 AM local time).
-  - If outside the window or during weekdays, the bot automatically configures the session for **Ranked Flex (5-stack)** so your group never misses a game night.
+* **Natural Language Scheduling & Weekend Ranked 5s Detection**:
+  - Schedule sessions naturally using phrases like `"Tonight 8:30pm"`, `"Friday 9pm"`, or `"Tomorrow 7pm"`.
+  - Automatically evaluates whether the *intended session time* falls inside Riot's weekend **Ranked 5s** tournament draft queue windows (Friday, Saturday, Sunday 8:00 PM – 1:00 AM local time).
+  - Automatically falls back to **Ranked Flex (5-stack)** for weekday sessions.
 
-* **Botlane Synergy & Chemistry Tracking**:
-  - Calculates pairwise chemistry when two friends play **Bot (ADC)** and **Support** together.
-  - Tracks 2v2 Duo Win Rate, Combined KDA, Kill Participation, Synergy Tier (S+/S/A/B), and signature champion combos.
+* **15-Minute Countdown Reminders**:
+  - Automatically alerts the 5 confirmed starters in `#5-stackers` exactly 15 minutes before game time so the squad can queue up on time.
 
-* **Interactive Discord UI**:
-  - One-click buttons for RSVP: **Join 5-Stack**, **Sub / Bench**, **Can't Make It**.
-  - Role preference modal to declare Top, Jungle, Mid, Bot, Support, or Fill.
+* **Session Rescheduling & Participant Alerts (`/edit-session`)**:
+  - Session creators or admins can reschedule any planned session. The bot re-evaluates queue modes, updates the session card, and pings everyone currently signed up with an availability alert.
+
+* **Multi-Pair Chemistry & Synergy Engine (`/synergy`)**:
+  - Tracks pairwise chemistry across key map partnerships:
+    - **Botlane** (Bot + Support)
+    - **Mid + Jungle** (2v2 Core Playmakers)
+    - **Top + Jungle** (Topside Gank / Dive Synergy)
+    - **Support + Jungle** (Roam & Vision / Objective Control)
+  - Features Bayesian confidence dampening so low-game duos do not artificially inflate the leaderboards.
+
+* **Interactive Multi-Select Discord UI**:
+  - Persistent buttons that survive bot reboots without failing.
+  - Native **Multi-Select Role Dropdown**: Players can select 1 to 5 role preferences (e.g. `Mid` + `Bot`).
 
 ---
 
@@ -88,7 +100,7 @@ AUTO_TRACKING_INTERVAL_MINUTES=2
 pip install -r requirements.txt
 python bot.py
 ```
-When started, the bot will log in, register slash commands, and start the automated match tracking background loop!
+When started, the bot will log in, register slash commands, start the 15-minute reminder poller, and begin auto-tracking squad matches!
 
 ---
 
@@ -96,12 +108,15 @@ When started, the bot will log in, register slash commands, and start the automa
 
 | Command | Description |
 | :--- | :--- |
+| `/session [time_window]` | Propose a new session in `#5-stackers` using natural language (e.g. `'Tonight 8:30pm'`, `'Friday 9pm'`). Evaluates queue mode and opens RSVP buttons. |
+| `/edit-session <id> <new_time>` | Reschedule a planned session and alert all signed-up players. |
+| `/cancel-session <id>` | Cancel an active session poll. |
+| `/queue-check` | Check current Ranked 5s window status, whether it's open, and when the next window unlocks. |
+| `/synergy [pair_type]` | View duo chemistry across Botlane, Mid + Jungle, Top + Jungle, or Support + Jungle. |
+| `/botlane` | Quick shortcut to display Bot + Support duo chemistry ratings and win rates. |
+| `/roster` | View all server members who have the `@LOLers` role and their match stats. |
 | `/link-riot <riot_id>` | Link your Riot ID (`GameName#TagLine`) to your Discord account for automatic match tracking. |
 | `/sync-matches` | Manually trigger an immediate Riot API check for recent squad matches. |
-| `/session [time_window]` | Propose a new session in `#5-stackers`. Evaluates queue mode (Ranked 5s vs Flex fallback) and opens RSVP buttons. |
-| `/queue-check` | Check current Ranked 5s window status, whether it's open, and when the next window unlocks. |
-| `/botlane` | Display the top Bot + Support duo chemistry leaderboard and synergy ratings. |
-| `/roster` | View all server members who have the `@LOLers` role and their match stats. |
 | `/log-match` | Manually record a finished match outcome, botlane combo, KDA, and MVP (fallback for custom games). |
 
 ---

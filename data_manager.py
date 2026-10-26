@@ -6,7 +6,7 @@ Calculates duo synergy stats (specifically Bot + Support synergy), team chemistr
 
 import json
 import os
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple, Any
 from datetime import datetime
 
 DEFAULT_DATA_PATH = "data/league_stats.json"
@@ -55,38 +55,119 @@ class StatsManager:
             json.dump(self.data, f, indent=2)
 
     # Session Management
-    def create_session(self, session_id: str, scheduled_time: str, mode: str, is_ranked_5s: bool, creator: str) -> dict:
+    def create_session(
+        self,
+        session_id: str,
+        scheduled_time: str,
+        mode: str,
+        is_ranked_5s: bool,
+        creator: str,
+        scheduled_iso: Optional[str] = None
+    ) -> dict:
         session = {
             "session_id": session_id,
             "created_at": datetime.now().isoformat(),
             "scheduled_time": scheduled_time,
+            "scheduled_iso": scheduled_iso,
             "mode": mode,
             "is_ranked_5s": is_ranked_5s,
             "creator": creator,
             "status": "POLLING",  # POLLING, READY, IN_PROGRESS, COMPLETED, CANCELLED
             "confirmed_players": [],  # list of {name, role_pref}
             "bench_substitutes": [],
-            "declined": []
+            "declined": [],
+            "reminder_sent": False
         }
         self.data["active_sessions"][session_id] = session
         self.save()
         return session
 
-    def register_player(self, session_id: str, player_name: str, status: str = "CONFIRMED", role_pref: str = "Fill") -> tuple:
+    def edit_session_time(
+        self,
+        session_id: str,
+        new_scheduled_time: str,
+        new_scheduled_iso: Optional[str],
+        new_mode: str,
+        is_ranked_5s: bool
+    ) -> Tuple[bool, Optional[dict], List[str]]:
         """
-        Adds player to session. If status == 'CONFIRMED':
-        - First 5 players are confirmed starters
-        - 6th and onward go to bench_substitutes
-        Returns (is_ready, session)
+        Edits the scheduled time of a session and resets the reminder.
+        Returns: (success, session_dict, list_of_signed_up_players_to_alert)
         """
+        session = self.data["active_sessions"].get(session_id)
+        if not session or session.get("status") == "CANCELLED":
+            return False, None, []
+
+        session["scheduled_time"] = new_scheduled_time
+        session["scheduled_iso"] = new_scheduled_iso
+        session["mode"] = new_mode
+        session["is_ranked_5s"] = is_ranked_5s
+        session["reminder_sent"] = False
+
+        # Gather all currently signed-up participants
+        affected = [p["name"] for p in session.get("confirmed_players", [])] + \
+                   [p["name"] for p in session.get("bench_substitutes", [])]
+
+        self.save()
+        return True, session, affected
+
+    def cancel_session(self, session_id: str) -> Tuple[bool, Optional[dict]]:
+        """Cancels an active session."""
         session = self.data["active_sessions"].get(session_id)
         if not session:
             return False, None
+
+        session["status"] = "CANCELLED"
+        self.save()
+        return True, session
+
+    def get_pending_reminders(self, now_dt: datetime) -> List[dict]:
+        """
+        Returns active sessions starting within the next 15 minutes that haven't sent a reminder yet.
+        """
+        pending = []
+        for s_id, s in self.data.get("active_sessions", {}).items():
+            if s.get("status") in ["POLLING", "READY"] and not s.get("reminder_sent", False):
+                iso_str = s.get("scheduled_iso")
+                if not iso_str:
+                    continue
+                try:
+                    target_dt = datetime.fromisoformat(iso_str)
+                    diff_sec = (target_dt - now_dt).total_seconds()
+                    # Trigger if within 15 minutes (900s) and not passed more than 5 minutes ago (-300s)
+                    if -300 <= diff_sec <= 900:
+                        pending.append(s)
+                except Exception:
+                    continue
+        return pending
+
+    def mark_reminder_sent(self, session_id: str):
+        """Marks that the 15-minute reminder has been delivered."""
+        session = self.data["active_sessions"].get(session_id)
+        if session:
+            session["reminder_sent"] = True
+            self.save()
+
+    def register_player(self, session_id: str, player_name: str, status: str = "CONFIRMED", role_pref: str = "Fill") -> tuple:
+        """
+        Adds player to session with automatic bench promotion.
+        - First 5 players are confirmed starters
+        - 6th and onward go to bench_substitutes
+        - If a starter declines or leaves, the first bench substitute is auto-promoted!
+        Returns (is_ready, session, promoted_player_or_None)
+        """
+        session = self.data["active_sessions"].get(session_id)
+        if not session:
+            return False, None, None
+
+        was_confirmed = any(p["name"] == player_name for p in session.get("confirmed_players", []))
 
         # Clean existing entries for this player
         session["confirmed_players"] = [p for p in session["confirmed_players"] if p["name"] != player_name]
         session["bench_substitutes"] = [p for p in session["bench_substitutes"] if p["name"] != player_name]
         session["declined"] = [p for p in session["declined"] if p != player_name]
+
+        promoted_player = None
 
         if status == "CONFIRMED":
             if len(session["confirmed_players"]) < 5:
@@ -95,16 +176,33 @@ class StatsManager:
                 session["bench_substitutes"].append({"name": player_name, "role_pref": role_pref})
         elif status == "BENCH":
             session["bench_substitutes"].append({"name": player_name, "role_pref": role_pref})
+            # If they were a starter and moved to bench, promote the next bench player
+            if was_confirmed and session["bench_substitutes"]:
+                # The next player on bench (excluding the one who just joined bench)
+                candidates = [p for p in session["bench_substitutes"] if p["name"] != player_name]
+                if candidates:
+                    promoted = candidates[0]
+                    session["bench_substitutes"].remove(promoted)
+                    session["confirmed_players"].append(promoted)
+                    promoted_player = promoted
         elif status == "DECLINED":
             session["declined"].append(player_name)
+            # Auto-promote from bench if a starter declined
+            if was_confirmed and session["bench_substitutes"]:
+                promoted = session["bench_substitutes"].pop(0)
+                session["confirmed_players"].append(promoted)
+                promoted_player = promoted
 
         # Quorum threshold check (minimum 5 players)
         quorum_met = len(session["confirmed_players"]) >= 5
-        if quorum_met and session["status"] == "POLLING":
+        if quorum_met:
             session["status"] = "READY"
+        elif session["status"] == "READY":
+            session["status"] = "POLLING"
 
         self.save()
-        return quorum_met, session
+        return quorum_met, session, promoted_player
+
 
     def link_riot_account(self, discord_id: str, display_name: str, puuid: str, riot_id: str) -> dict:
         """
@@ -183,31 +281,32 @@ class StatsManager:
         return True, match_record
 
     # Synergy Analytics Engine
-    def get_botlane_synergies(self) -> List[dict]:
+    def get_pair_synergies(self, role_a: str, role_b: str, label_a: str, label_b: str) -> List[dict]:
         """
-        Analyzes all matches to compute Bot + Support duo chemistry.
-        Returns sorted list of duo pairs with games, win rate, KDA, and chemistry rating.
+        Generic pair synergy calculator with Bayesian confidence dampening for small sample sizes.
         """
-        duo_stats = {}
+        pair_stats = {}
 
         for match in self.data.get("match_history", []):
             lineup = match.get("lineup", {})
-            bot = lineup.get("Bot")
-            sup = lineup.get("Support")
-            if not bot or not sup:
+            pa = lineup.get(role_a)
+            pb = lineup.get(role_b)
+            if not pa or not pb:
                 continue
 
-            bot_name = bot.get("player")
-            sup_name = sup.get("player")
-            if not bot_name or not sup_name:
+            name_a = pa.get("player")
+            name_b = pb.get("player")
+            if not name_a or not name_b:
                 continue
 
-            pair_key = f"{bot_name} (ADC) & {sup_name} (SUP)"
-            if pair_key not in duo_stats:
-                duo_stats[pair_key] = {
+            pair_key = f"{name_a} ({label_a}) & {name_b} ({label_b})"
+            if pair_key not in pair_stats:
+                pair_stats[pair_key] = {
                     "pair": pair_key,
-                    "adc": bot_name,
-                    "support": sup_name,
+                    "player_a": name_a,
+                    "player_b": name_b,
+                    "label_a": label_a,
+                    "label_b": label_b,
                     "games": 0,
                     "wins": 0,
                     "losses": 0,
@@ -217,40 +316,42 @@ class StatsManager:
                     "champions_played": []
                 }
 
-            entry = duo_stats[pair_key]
+            entry = pair_stats[pair_key]
             entry["games"] += 1
             if match.get("result") == "WIN":
                 entry["wins"] += 1
             else:
                 entry["losses"] += 1
 
-            k = bot.get("kills", 0) + sup.get("kills", 0)
-            d = bot.get("deaths", 0) + sup.get("deaths", 0)
-            a = bot.get("assists", 0) + sup.get("assists", 0)
+            k = pa.get("kills", 0) + pb.get("kills", 0)
+            d = pa.get("deaths", 0) + pb.get("deaths", 0)
+            a = pa.get("assists", 0) + pb.get("assists", 0)
             entry["total_kills"] += k
             entry["total_deaths"] += d
             entry["total_assists"] += a
-            entry["champions_played"].append(f"{bot.get('champion')} + {sup.get('champion')}")
+            entry["champions_played"].append(f"{pa.get('champion')} + {pb.get('champion')}")
 
         result = []
-        for key, s in duo_stats.items():
-            win_rate = (s["wins"] / s["games"]) * 100 if s["games"] > 0 else 0
+        for key, s in pair_stats.items():
+            raw_win_rate = (s["wins"] / s["games"]) * 100 if s["games"] > 0 else 0
             kda = (s["total_kills"] + s["total_assists"]) / max(1, s["total_deaths"])
-            
-            # Synergy index (0-100 scale: combines win rate weight + KDA efficiency)
-            score = round(min(100.0, (win_rate * 0.6) + (min(kda, 6.0) / 6.0 * 40.0)), 1)
-            
+
+            # Confidence weighting: dampens 1-game wonders so duos with higher game volume rank appropriately
+            confidence = min(1.0, s["games"] / 5.0)
+            weighted_wr = (raw_win_rate * confidence) + (50.0 * (1.0 - confidence))
+
+            score = round(min(100.0, (weighted_wr * 0.6) + (min(kda, 6.0) / 6.0 * 40.0)), 1)
             tier = "S Tier" if score >= 80 else ("A Tier" if score >= 65 else "B Tier")
-            tag = "Lethal 2v2 Duo" if kda >= 4.0 else ("Objective Anchors" if win_rate >= 60 else "Developing Synergy")
+            tag = "Lethal Core" if kda >= 4.0 else ("Objective Anchors" if raw_win_rate >= 60 else "Developing Chemistry")
 
             result.append({
                 "pair": key,
-                "adc": s["adc"],
-                "support": s["support"],
+                "player_a": s["player_a"],
+                "player_b": s["player_b"],
                 "games": s["games"],
                 "wins": s["wins"],
                 "losses": s["losses"],
-                "win_rate": round(win_rate, 1),
+                "win_rate": round(raw_win_rate, 1),
                 "combined_kda": round(kda, 2),
                 "synergy_score": score,
                 "tier": tier,
@@ -258,7 +359,19 @@ class StatsManager:
                 "favorite_combo": max(set(s["champions_played"]), key=s["champions_played"].count) if s["champions_played"] else "N/A"
             })
 
-        return sorted(result, key=lambda x: (x["games"], x["synergy_score"]), reverse=True)
+        return sorted(result, key=lambda x: (x["games"] >= 3, x["synergy_score"], x["games"]), reverse=True)
+
+    def get_botlane_synergies(self) -> List[dict]:
+        return self.get_pair_synergies("Bot", "Support", "ADC", "SUP")
+
+    def get_mid_jungle_synergies(self) -> List[dict]:
+        return self.get_pair_synergies("Mid", "Jungle", "MID", "JNG")
+
+    def get_top_jungle_synergies(self) -> List[dict]:
+        return self.get_pair_synergies("Top", "Jungle", "TOP", "JNG")
+
+    def get_support_jungle_synergies(self) -> List[dict]:
+        return self.get_pair_synergies("Support", "Jungle", "SUP", "JNG")
 
     def get_player_leaderboard(self) -> List[dict]:
         """Calculates win rate and performance stats for each player in the group."""
