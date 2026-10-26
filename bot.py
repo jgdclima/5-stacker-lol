@@ -10,13 +10,14 @@ Enforces:
 import os
 import discord
 from discord import app_commands
-from discord.ext import commands
+from discord.ext import commands, tasks
 from datetime import datetime
 import uuid
 from dotenv import load_dotenv
 
 from schedule_checker import RankedSchedule
 from data_manager import StatsManager
+from riot_api import RiotAPIClient
 
 load_dotenv()
 
@@ -27,10 +28,17 @@ SERVER_TIMEZONE = os.getenv("SERVER_TIMEZONE", "America/Vancouver")
 RANKED_5S_START_HOUR = int(os.getenv("RANKED_5S_START_HOUR", "20"))
 RANKED_5S_END_HOUR = int(os.getenv("RANKED_5S_END_HOUR", "1"))
 
+# Riot Games Developer API Setup
+RIOT_API_KEY = os.getenv("RIOT_API_KEY", "")
+RIOT_REGION = os.getenv("RIOT_REGION", "americas")
+AUTO_TRACKING_INTERVAL = int(os.getenv("AUTO_TRACKING_INTERVAL_MINUTES", "2"))
+riot_client = RiotAPIClient(api_key=RIOT_API_KEY, region=RIOT_REGION)
+
 # Bot Setup
 intents = discord.Intents.default()
-intents.message_content = True
-intents.members = True  # Required to query members holding the @LOLers role
+if os.getenv("ENABLE_PRIVILEGED_INTENTS", "false").lower() == "true":
+    intents.message_content = True
+    intents.members = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 scheduler = RankedSchedule(
@@ -390,7 +398,7 @@ async def log_match_cmd(
             "Support": {"player": sup_player, "champion": sup_champion, "kills": sk, "deaths": sd, "assists": sa},
         }
     }
-    stats_mgr.log_match(record)
+    is_new, _ = stats_mgr.log_match(record)
 
     embed = discord.Embed(
         title=f"📝 Match Logged — {result.value}",
@@ -403,11 +411,208 @@ async def log_match_cmd(
     await interaction.response.send_message(embed=embed)
 
 
+def build_match_recap_embed(record: dict) -> discord.Embed:
+    """Builds a rich match recap embed for auto-tracked matches."""
+    is_win = record.get("result") == "WIN"
+    color = 0x22C55E if is_win else 0xEF4444
+    duration = record.get("duration_min", 0)
+
+    embed = discord.Embed(
+        title=f"{'🏆 Victory' if is_win else '💀 Defeat'} — {record.get('mode', 'Match')} ({duration} min)",
+        description=f"**Date**: `{record.get('date')}` &bull; **MVP**: 🌟 **{record.get('mvp', 'N/A')}**",
+        color=color
+    )
+
+    # Lineup display
+    lineup = record.get("lineup", {})
+    lineup_rows = []
+    for role in ["Top", "Jungle", "Mid", "Bot", "Support"]:
+        pinfo = lineup.get(role)
+        if pinfo:
+            star = "⭐ " if pinfo.get("is_squad") else ""
+            lineup_rows.append(
+                f"{star}**{role}**: **{pinfo['player']}** ({pinfo['champion']} `{pinfo['kills']}/{pinfo['deaths']}/{pinfo['assists']}`)"
+            )
+    if lineup_rows:
+        embed.add_field(name="Squad Lineup", value="\n".join(lineup_rows), inline=False)
+
+    # Botlane synergy highlight
+    bot_p = lineup.get("Bot")
+    sup_p = lineup.get("Support")
+    if bot_p and sup_p and bot_p.get("is_squad") and sup_p.get("is_squad"):
+        comb_k = bot_p["kills"] + sup_p["kills"]
+        comb_d = max(1, bot_p["deaths"] + sup_p["deaths"])
+        comb_a = bot_p["assists"] + sup_p["assists"]
+        comb_kda = round((comb_k + comb_a) / comb_d, 2)
+        embed.add_field(
+            name="🏹 Botlane Synergy Updated",
+            value=(
+                f"**{bot_p['player']}** & **{sup_p['player']}** ({bot_p['champion']} + {sup_p['champion']})\n"
+                f"Combined 2v2 KDA: `{comb_kda}`\n"
+                f"Use `/botlane` to view updated chemistry tier!"
+            ),
+            inline=False
+        )
+
+    embed.set_footer(text=f"Match ID: {record.get('match_id')} • Auto-tracked via Riot Games API")
+    return embed
+
+
+async def check_and_sync_recent_matches(guild: discord.Guild = None) -> list:
+    """
+    Queries Riot API for recently completed matches of linked squad members.
+    Logs any unrecorded squad matches and returns list of newly logged matches.
+    """
+    if not riot_client.is_configured():
+        return []
+
+    linked = stats_mgr.get_linked_puuids()
+    if not linked:
+        return []
+
+    new_logged = []
+    seen_match_ids = set()
+
+    for puuid in linked.keys():
+        match_ids = await riot_client.get_recent_match_ids(puuid, count=5)
+        for mid in match_ids:
+            if mid in seen_match_ids or stats_mgr.is_match_logged(mid):
+                continue
+            seen_match_ids.add(mid)
+
+            match_data = await riot_client.get_match_details(mid)
+            if not match_data:
+                continue
+
+            # Parse squad match (minimum 2 squad members together, up to full 5-stack)
+            record = riot_client.parse_squad_match(match_data, linked, min_squad_size=2)
+            if record:
+                is_new, saved = stats_mgr.log_match(record)
+                if is_new:
+                    new_logged.append(saved)
+
+    return new_logged
+
+
+@bot.tree.command(name="link-riot", description="Link your Riot ID to automatically track your match stats.")
+@app_commands.describe(riot_id="Your Riot ID in the format GameName#TagLine (e.g. Doublelift#NA1)")
+async def link_riot_cmd(interaction: discord.Interaction, riot_id: str):
+    if not has_lolers_role(interaction.user):
+        await interaction.response.send_message(
+            f"⛔ Only members with the **@{ROSTER_ROLE_NAME}** role can link Riot accounts.",
+            ephemeral=True
+        )
+        return
+
+    if "#" not in riot_id:
+        await interaction.response.send_message(
+            "❌ Invalid Riot ID format. Please use `GameName#TagLine` (e.g. `Faker#KR1` or `Doublelift#NA1`).",
+            ephemeral=True
+        )
+        return
+
+    parts = riot_id.split("#", 1)
+    game_name = parts[0].strip()
+    tag_line = parts[1].strip()
+
+    if not riot_client.is_configured():
+        await interaction.response.send_message(
+            "⚠️ Riot API key is not configured in `.env`. Please add your `RIOT_API_KEY` to enable Riot verification.",
+            ephemeral=True
+        )
+        return
+
+    await interaction.response.defer(ephemeral=False)
+    account = await riot_client.get_account_by_riot_id(game_name, tag_line)
+    if not account or "puuid" not in account:
+        await interaction.followup.send(
+            f"❌ Could not find Riot account for **{game_name}#{tag_line}** in region `{RIOT_REGION}`. Please verify spelling and region.",
+            ephemeral=True
+        )
+        return
+
+    puuid = account["puuid"]
+    actual_riot_id = f"{account.get('gameName', game_name)}#{account.get('tagLine', tag_line)}"
+    stats_mgr.link_riot_account(
+        discord_id=str(interaction.user.id),
+        display_name=interaction.user.display_name,
+        puuid=puuid,
+        riot_id=actual_riot_id
+    )
+
+    await interaction.followup.send(
+        f"✅ Successfully linked **{interaction.user.display_name}** to Riot ID **{actual_riot_id}**!\n"
+        f"Your squad matches in normal, flex, and tournament queues will now be automatically recorded."
+    )
+
+
+@bot.tree.command(name="sync-matches", description="Force check Riot API for recently completed squad games.")
+async def sync_matches_cmd(interaction: discord.Interaction):
+    if not has_lolers_role(interaction.user):
+        await interaction.response.send_message(
+            f"⛔ Only members with the **@{ROSTER_ROLE_NAME}** role can trigger a match sync.",
+            ephemeral=True
+        )
+        return
+
+    if not riot_client.is_configured():
+        await interaction.response.send_message(
+            "⚠️ Riot API key is not configured in `.env`. Please set `RIOT_API_KEY`.",
+            ephemeral=True
+        )
+        return
+
+    await interaction.response.defer(ephemeral=False)
+    new_matches = await check_and_sync_recent_matches(interaction.guild)
+
+    if not new_matches:
+        await interaction.followup.send("🔍 Match sync complete. No new squad matches found.")
+        return
+
+    await interaction.followup.send(f"✅ Found and recorded **{len(new_matches)}** new squad match(es)!")
+    for m in new_matches:
+        embed = build_match_recap_embed(m)
+        await interaction.followup.send(embed=embed)
+
+
+# --- Automated Background Poller Task ---
+@tasks.loop(minutes=AUTO_TRACKING_INTERVAL)
+async def auto_match_tracker():
+    await bot.wait_until_ready()
+    if not riot_client.is_configured():
+        return
+
+    for guild in bot.guilds:
+        channel = discord.utils.get(guild.text_channels, name=COORDINATION_CHANNEL)
+        if not channel:
+            continue
+
+        try:
+            new_matches = await check_and_sync_recent_matches(guild)
+            for m in new_matches:
+                embed = build_match_recap_embed(m)
+                squad_mentions = ", ".join([f"**{p}**" for p in m.get("squad_players", [])])
+                await channel.send(
+                    f"🚨 **MATCH AUTO-RECORDED** &bull; **{m.get('result')}** ({m.get('mode')})\n"
+                    f"Squad: {squad_mentions}",
+                    embed=embed
+                )
+        except Exception as e:
+            print(f"[Tracker] Error in auto match poller: {e}")
+
+
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user} (ID: {bot.user.id})")
     print(f"Channel Lock Active: #{COORDINATION_CHANNEL}")
     print(f"Roster Role Active: @{ROSTER_ROLE_NAME}")
+    if riot_client.is_configured():
+        print(f"Riot API Active (Region: {RIOT_REGION}, Poll Interval: {AUTO_TRACKING_INTERVAL}m)")
+        if not auto_match_tracker.is_running():
+            auto_match_tracker.start()
+    else:
+        print("Riot API not configured: Add RIOT_API_KEY to .env to enable auto-tracking.")
+
     try:
         synced = await bot.tree.sync()
         print(f"Synced {len(synced)} application commands.")
@@ -420,4 +625,9 @@ if __name__ == "__main__":
     if not TOKEN:
         print("Please set DISCORD_BOT_TOKEN environment variable in .env file.")
     else:
-        bot.run(TOKEN)
+        try:
+            bot.run(TOKEN)
+        finally:
+            if riot_client:
+                import asyncio
+                asyncio.run(riot_client.close())

@@ -45,15 +45,20 @@ A dedicated Discord bot designed to organize League of Legends 5-man premade ses
 1. Go to the [Discord Developer Portal](https://discord.com/developers/applications).
 2. Click **New Application**, name it `League 5-Stack Coordinator`.
 3. In the left sidebar, click **Bot**:
-   - Click **Reset Token** and copy your bot token.
-   - Under **Privileged Gateway Intents**, enable **Server Members Intent** and **Message Content Intent**.
-4. In the left sidebar, click **OAuth2 > URL Generator**:
-   - Under **Scopes**, check `bot` and `applications.commands`.
+   - Click **Reset Token** and copy your bot token into `.env`.
+   - Under **Privileged Gateway Intents**, enable **Server Members Intent** (and optionally **Message Content Intent**).
+4. In the left sidebar, click **Installation**:
+   - Under **Installation Contexts**, ensure **Guild Install** is checked (required to add the bot to servers).
+   - Click **Save Changes**.
+5. In the left sidebar, click **OAuth2 > URL Generator**:
+   - Under **Scopes**, check `bot`.
    - Under **Bot Permissions**, check:
+     - `View Channels`
      - `Send Messages`
      - `Embed Links`
      - `Read Message History`
-     - `Use Slash Commands`
+     - `Use External Emojis`
+     - `Add Reactions`
    - Copy the generated URL and open it in your browser to invite the bot to your Discord server.
 
 ### Step 2: Set Up Server Channel & Role
@@ -71,6 +76,11 @@ DISCORD_BOT_TOKEN=your_actual_bot_token_here
 COORDINATION_CHANNEL=5-stackers
 ROSTER_ROLE=LOLers
 SERVER_TIMEZONE=America/Vancouver
+
+# Riot Games Developer API (https://developer.riotgames.com/)
+RIOT_API_KEY=RGAPI-your-riot-api-key-here
+RIOT_REGION=americas
+AUTO_TRACKING_INTERVAL_MINUTES=2
 ```
 
 ### Step 4: Install Dependencies & Run
@@ -78,7 +88,7 @@ SERVER_TIMEZONE=America/Vancouver
 pip install -r requirements.txt
 python bot.py
 ```
-When started, the bot will log in and register all application slash commands with Discord!
+When started, the bot will log in, register slash commands, and start the automated match tracking background loop!
 
 ---
 
@@ -86,8 +96,11 @@ When started, the bot will log in and register all application slash commands wi
 
 | Command | Description |
 | :--- | :--- |
+| `/link-riot <riot_id>` | Link your Riot ID (`GameName#TagLine`) to your Discord account for automatic match tracking. |
+| `/sync-matches` | Manually trigger an immediate Riot API check for recent squad matches. |
 | `/session [time_window]` | Propose a new session in `#5-stackers`. Evaluates queue mode (Ranked 5s vs Flex fallback) and opens RSVP buttons. |
 | `/queue-check` | Check current Ranked 5s window status, whether it's open, and when the next window unlocks. |
 | `/botlane` | Display the top Bot + Support duo chemistry leaderboard and synergy ratings. |
 | `/roster` | View all server members who have the `@LOLers` role and their match stats. |
-| `/log-match` | Record a finished 5-stack match outcome, botlane combo, KDA, and MVP. |
+| `/log-match` | Manually record a finished match outcome, botlane combo, KDA, and MVP (fallback for custom games). |
+

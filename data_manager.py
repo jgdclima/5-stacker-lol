@@ -106,18 +106,81 @@ class StatsManager:
         self.save()
         return quorum_met, session
 
-    def log_match(self, match_record: dict) -> dict:
+    def link_riot_account(self, discord_id: str, display_name: str, puuid: str, riot_id: str) -> dict:
         """
-        Log a finished match record.
-        Expected keys:
-        - match_id, date, mode (Ranked 5s / Ranked Flex), result ("WIN" / "LOSS"), duration_min
-        - lineup: dict of role -> {player, champion, kills, deaths, assists, cs, vision}
-        - mvp: player name
-        - notes: string
+        Links a Discord user to a Riot PUUID and Riot ID (GameName#TagLine).
         """
-        self.data["match_history"].insert(0, match_record)
+        if "linked_players" not in self.data:
+            self.data["linked_players"] = {}
+
+        info = {
+            "discord_id": str(discord_id),
+            "discord_name": display_name,
+            "name": display_name,
+            "puuid": puuid,
+            "riot_id": riot_id,
+            "linked_at": datetime.now().isoformat()
+        }
+        self.data["linked_players"][str(discord_id)] = info
+
+        # Sync to members list if existing, or create new member entry
+        found = False
+        for m in self.data.get("members", []):
+            if m.get("discord_id") == str(discord_id) or m.get("name", "").lower() == display_name.lower():
+                m["discord_id"] = str(discord_id)
+                m["puuid"] = puuid
+                m["riot_id"] = riot_id
+                found = True
+                break
+        if not found:
+            self.data.setdefault("members", []).append({
+                "id": str(len(self.data.get("members", [])) + 1),
+                "name": display_name,
+                "discord_id": str(discord_id),
+                "discord_tag": display_name,
+                "puuid": puuid,
+                "riot_id": riot_id,
+                "primary_role": "Flex",
+                "secondary_role": "Flex",
+                "fav_champs": []
+            })
+
         self.save()
-        return match_record
+        return info
+
+    def get_linked_puuids(self) -> Dict[str, dict]:
+        """
+        Returns a dictionary mapping PUUID -> player info dict.
+        """
+        result = {}
+        for uid, p in self.data.get("linked_players", {}).items():
+            if p.get("puuid"):
+                result[p["puuid"]] = p
+        for m in self.data.get("members", []):
+            if m.get("puuid") and m["puuid"] not in result:
+                result[m["puuid"]] = m
+        return result
+
+    def is_match_logged(self, match_id: str) -> bool:
+        """Checks if a match ID has already been recorded."""
+        if not match_id:
+            return False
+        return any(m.get("match_id") == match_id for m in self.data.get("match_history", []))
+
+    def log_match(self, match_record: dict) -> Tuple[bool, dict]:
+        """
+        Log a finished match record with de-duplication by match_id.
+        Returns: (is_new, match_record)
+        """
+        match_id = match_record.get("match_id")
+        if match_id and self.is_match_logged(match_id):
+            for existing in self.data.get("match_history", []):
+                if existing.get("match_id") == match_id:
+                    return False, existing
+
+        self.data.setdefault("match_history", []).insert(0, match_record)
+        self.save()
+        return True, match_record
 
     # Synergy Analytics Engine
     def get_botlane_synergies(self) -> List[dict]:
@@ -198,18 +261,22 @@ class StatsManager:
         return sorted(result, key=lambda x: (x["games"], x["synergy_score"]), reverse=True)
 
     def get_player_leaderboard(self) -> List[dict]:
-        """Calculates win rate and performance stats for each of the 10 group players."""
-        stats = {m["name"]: {"name": m["name"], "games": 0, "wins": 0, "kills": 0, "deaths": 0, "assists": 0, "mvps": 0, "roles": {}} for m in self.data["members"]}
+        """Calculates win rate and performance stats for each player in the group."""
+        stats = {m["name"]: {"name": m["name"], "games": 0, "wins": 0, "kills": 0, "deaths": 0, "assists": 0, "mvps": 0, "roles": {}} for m in self.data.get("members", [])}
 
         for match in self.data.get("match_history", []):
             is_win = match.get("result") == "WIN"
             mvp = match.get("mvp")
-            if mvp and mvp in stats:
+            if mvp:
+                if mvp not in stats:
+                    stats[mvp] = {"name": mvp, "games": 0, "wins": 0, "kills": 0, "deaths": 0, "assists": 0, "mvps": 0, "roles": {}}
                 stats[mvp]["mvps"] += 1
 
             for role, pdata in match.get("lineup", {}).items():
                 pname = pdata.get("player")
-                if pname in stats:
+                if pname:
+                    if pname not in stats:
+                        stats[pname] = {"name": pname, "games": 0, "wins": 0, "kills": 0, "deaths": 0, "assists": 0, "mvps": 0, "roles": {}}
                     stats[pname]["games"] += 1
                     if is_win:
                         stats[pname]["wins"] += 1
@@ -235,3 +302,4 @@ class StatsManager:
             })
 
         return sorted(leaderboard, key=lambda x: (x["win_rate"], x["games"]), reverse=True)
+
