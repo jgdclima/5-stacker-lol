@@ -94,6 +94,20 @@ async def on_message(message: discord.Message):
 
 # --- Interactive Discord UI: Multi-Select Role Dropdown & Persistent RSVP View ---
 
+def is_session_organizer_or_admin(user: discord.User | discord.Member, session: dict) -> bool:
+    """Check if the user is the creator of the session or has guild admin permissions."""
+    if not isinstance(user, discord.Member):
+        return False
+    if user.guild_permissions.administrator or user.guild_permissions.manage_guild or user.guild_permissions.manage_channels:
+        return True
+    if session.get("creator_id") and str(user.id) == str(session["creator_id"]):
+        return True
+    creator_name = session.get("creator", "").lower()
+    if user.display_name.lower() == creator_name or user.name.lower() == creator_name:
+        return True
+    return False
+
+
 class RoleSelectView(discord.ui.View):
     """Ephemeral view allowing players to multi-select up to 5 role preferences."""
     def __init__(self, session_id: str, action_type: str, session_message: Optional[discord.Message] = None):
@@ -135,18 +149,34 @@ class RoleSelectView(discord.ui.View):
             role_pref=selected_roles
         )
 
-        await interaction.response.send_message(
-            f"✅ Registered as **{self.action_type}** with role preference(s): **{selected_roles}**!",
-            ephemeral=True
+        if not session:
+            await interaction.response.send_message("❌ Session not found or is no longer active.", ephemeral=True)
+            return
+
+        # Dismiss the dropdown in-place on the ephemeral message and confirm
+        await interaction.response.edit_message(
+            content=f"✅ Registered as **{self.action_type}** with role preference(s): **{selected_roles}**!",
+            view=None
         )
 
         # Update the original session embed in the channel
         embed = build_session_embed(session, interaction.guild)
-        if self.session_message:
+        msg_to_edit = self.session_message
+        if not msg_to_edit and session.get("channel_id") and session.get("message_id"):
             try:
-                await self.session_message.edit(embed=embed)
-            except Exception:
-                pass
+                ch = interaction.guild.get_channel(session["channel_id"]) if interaction.guild else None
+                if not ch:
+                    ch = bot.get_channel(session["channel_id"]) or await bot.fetch_channel(session["channel_id"])
+                if ch:
+                    msg_to_edit = await ch.fetch_message(session["message_id"])
+            except Exception as e:
+                print(f"[RSVP] Could not fetch session message: {e}")
+
+        if msg_to_edit:
+            try:
+                await msg_to_edit.edit(embed=embed)
+            except Exception as e:
+                print(f"[RSVP] Error updating session message embed: {e}")
 
         if quorum_met and len(session["confirmed_players"]) == 5:
             role = discord.utils.find(lambda r: r.name.lower() == ROSTER_ROLE_NAME.lower(), interaction.guild.roles) if interaction.guild else None
@@ -165,6 +195,109 @@ class RoleSelectView(discord.ui.View):
                 )
 
 
+class ConfirmActionView(discord.ui.View):
+    """Ephemeral confirmation view for destructive/lifecycle session actions."""
+    def __init__(self, session_id: str, action_type: str, session_message: Optional[discord.Message] = None):
+        super().__init__(timeout=60)
+        self.session_id = session_id
+        self.action_type = action_type  # "CANCEL" or "END"
+        self.session_message = session_message
+
+    @discord.ui.button(label="Confirm", style=discord.ButtonStyle.danger, emoji="⚠️")
+    async def confirm_btn(self, interaction: discord.Interaction, button: discord.ui.Button):
+        session = stats_mgr.get_session(self.session_id)
+        if not session:
+            await interaction.response.edit_message(content="❌ Session no longer exists.", view=None)
+            return
+
+        if self.action_type == "CANCEL":
+            success, session, affected = stats_mgr.cancel_session(self.session_id)
+            if not success:
+                await interaction.response.edit_message(content="❌ Could not cancel session.", view=None)
+                return
+
+            # Delete the channel RSVP message
+            msg_to_delete = self.session_message
+            if not msg_to_delete and session.get("channel_id") and session.get("message_id"):
+                try:
+                    ch = interaction.guild.get_channel(session["channel_id"]) if interaction.guild else None
+                    if not ch:
+                        ch = bot.get_channel(session["channel_id"]) or await bot.fetch_channel(session["channel_id"])
+                    if ch:
+                        msg_to_delete = await ch.fetch_message(session["message_id"])
+                except Exception as e:
+                    print(f"[Cancel] Could not fetch message to delete: {e}")
+
+            if msg_to_delete:
+                try:
+                    await msg_to_delete.delete()
+                except Exception as e:
+                    print(f"[Cancel] Error deleting session message: {e}")
+
+            # Notify in channel pinging all affected players
+            affected_pings = []
+            if interaction.guild:
+                for name in affected:
+                    m = discord.utils.find(lambda x: x.display_name.lower() == name.lower() or x.name.lower() == name.lower(), interaction.guild.members)
+                    affected_pings.append(m.mention if m else f"**{name}**")
+            pings_str = ", ".join(affected_pings)
+
+            channel = interaction.channel
+            if channel:
+                cancel_msg = (
+                    f"🛑 **SESSION CANCELLED**\n"
+                    f"The 5-stack session for **{session.get('scheduled_time')}** was cancelled by **{interaction.user.display_name}**."
+                )
+                if pings_str:
+                    cancel_msg += f"\n📢 Attention {pings_str}: This session will no longer take place."
+                await channel.send(cancel_msg)
+
+            await interaction.response.edit_message(
+                content=f"✅ Session `{self.session_id}` was cancelled and removed.",
+                view=None
+            )
+
+        elif self.action_type == "END":
+            success, session = stats_mgr.complete_session(self.session_id)
+            if not success:
+                await interaction.response.edit_message(content="❌ Could not end session.", view=None)
+                return
+
+            # Update the channel RSVP message: remove buttons and show COMPLETED embed
+            embed = build_session_embed(session, interaction.guild)
+            msg_to_edit = self.session_message
+            if not msg_to_edit and session.get("channel_id") and session.get("message_id"):
+                try:
+                    ch = interaction.guild.get_channel(session["channel_id"]) if interaction.guild else None
+                    if not ch:
+                        ch = bot.get_channel(session["channel_id"]) or await bot.fetch_channel(session["channel_id"])
+                    if ch:
+                        msg_to_edit = await ch.fetch_message(session["message_id"])
+                except Exception as e:
+                    print(f"[End] Could not fetch message to update: {e}")
+
+            if msg_to_edit:
+                try:
+                    await msg_to_edit.edit(embed=embed, view=None)
+                except Exception as e:
+                    print(f"[End] Error editing message: {e}")
+
+            channel = interaction.channel
+            if channel:
+                await channel.send(
+                    f"🏁 **Session Concluded**: The 5-stack session for **{session.get('scheduled_time')}** has officially concluded! Thanks for playing, squad!"
+                )
+
+            await interaction.response.edit_message(
+                content=f"✅ Session `{self.session_id}` has been ended.",
+                view=None
+            )
+
+    @discord.ui.button(label="Nevermind", style=discord.ButtonStyle.secondary)
+    async def cancel_btn(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.edit_message(content="Operation cancelled.", view=None)
+
+
 class SessionRSVPView(discord.ui.View):
     """Persistent RSVP View with unique custom IDs per session."""
     def __init__(self, session_id: str):
@@ -174,7 +307,8 @@ class SessionRSVPView(discord.ui.View):
         self.join_btn = discord.ui.Button(
             label="✅ Join 5-Stack",
             style=discord.ButtonStyle.green,
-            custom_id=f"session:join:{session_id}"
+            custom_id=f"session:join:{session_id}",
+            row=0
         )
         self.join_btn.callback = self.join_callback
         self.add_item(self.join_btn)
@@ -182,18 +316,38 @@ class SessionRSVPView(discord.ui.View):
         self.bench_btn = discord.ui.Button(
             label="⏳ Sub / Bench",
             style=discord.ButtonStyle.secondary,
-            custom_id=f"session:bench:{session_id}"
+            custom_id=f"session:bench:{session_id}",
+            row=0
         )
         self.bench_btn.callback = self.bench_callback
         self.add_item(self.bench_btn)
 
         self.decline_btn = discord.ui.Button(
             label="❌ Can't Make It",
-            style=discord.ButtonStyle.danger,
-            custom_id=f"session:decline:{session_id}"
+            style=discord.ButtonStyle.secondary,
+            custom_id=f"session:decline:{session_id}",
+            row=0
         )
         self.decline_btn.callback = self.decline_callback
         self.add_item(self.decline_btn)
+
+        self.end_btn = discord.ui.Button(
+            label="🏁 End Session",
+            style=discord.ButtonStyle.secondary,
+            custom_id=f"session:end:{session_id}",
+            row=1
+        )
+        self.end_btn.callback = self.end_callback
+        self.add_item(self.end_btn)
+
+        self.cancel_btn = discord.ui.Button(
+            label="🛑 Cancel Session",
+            style=discord.ButtonStyle.danger,
+            custom_id=f"session:cancel:{session_id}",
+            row=1
+        )
+        self.cancel_btn.callback = self.cancel_callback
+        self.add_item(self.cancel_btn)
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
         return await check_channel_restriction(interaction)
@@ -238,18 +392,79 @@ class SessionRSVPView(discord.ui.View):
                 f"📢 **Roster Auto-Promotion**: {interaction.user.display_name} stepped down. **{promoted['name']}** has been promoted from the bench into the Starting 5!"
             )
 
+    async def cancel_callback(self, interaction: discord.Interaction):
+        session = stats_mgr.get_session(self.session_id)
+        if not session or session.get("status") == "CANCELLED":
+            await interaction.response.send_message("❌ Session not found or already cancelled.", ephemeral=True)
+            return
+
+        if not is_session_organizer_or_admin(interaction.user, session):
+            await interaction.response.send_message(
+                f"⛔ Only the session organizer (**{session.get('creator')}**) or an administrator can cancel this session.",
+                ephemeral=True
+            )
+            return
+
+        view = ConfirmActionView(self.session_id, "CANCEL", interaction.message)
+        await interaction.response.send_message(
+            f"⚠️ **Are you sure you want to cancel the session for {session.get('scheduled_time')}?**\n"
+            f"This will delete the RSVP message and notify all signed-up players.",
+            view=view,
+            ephemeral=True
+        )
+
+    async def end_callback(self, interaction: discord.Interaction):
+        session = stats_mgr.get_session(self.session_id)
+        if not session or session.get("status") in ["CANCELLED", "COMPLETED"]:
+            await interaction.response.send_message("❌ Session not found or already concluded.", ephemeral=True)
+            return
+
+        if not is_session_organizer_or_admin(interaction.user, session):
+            await interaction.response.send_message(
+                f"⛔ Only the session organizer (**{session.get('creator')}**) or an administrator can end this session.",
+                ephemeral=True
+            )
+            return
+
+        view = ConfirmActionView(self.session_id, "END", interaction.message)
+        await interaction.response.send_message(
+            f"⚠️ **Are you sure you want to end the session for {session.get('scheduled_time')}?**\n"
+            f"This will mark the session as completed and close the RSVP view.",
+            view=view,
+            ephemeral=True
+        )
+
 
 def build_session_embed(session: dict, guild: discord.Guild = None) -> discord.Embed:
     confirmed = session.get("confirmed_players", [])
     bench = session.get("bench_substitutes", [])
     declined = session.get("declined", [])
     count = len(confirmed)
+    status = session.get("status", "POLLING")
 
-    status_color = 0x22C55E if count >= 5 else 0x3B82F6  # Green if ready, blue if polling
+    if status == "CANCELLED":
+        status_color = 0xEF4444
+        status_badge = "🛑 **STATUS: CANCELLED**"
+    elif status == "COMPLETED":
+        status_color = 0x6B7280
+        status_badge = "🏁 **STATUS: COMPLETED**"
+    elif status == "IN_PROGRESS":
+        status_color = 0xF59E0B
+        status_badge = "⚔️ **STATUS: IN PROGRESS / GAME TIME**"
+    elif status == "READY" or count >= 5:
+        status_color = 0x22C55E
+        status_badge = "✅ **STATUS: LOBBY READY (5/5)**"
+    else:
+        status_color = 0x3B82F6
+        status_badge = f"⏳ **STATUS: RECRUITING ({count}/5 Players)** (Needs {5-count} more from @{ROSTER_ROLE_NAME})"
+
+    creator_name = session.get("creator", "Unknown")
+
     embed = discord.Embed(
         title="🎮 League of Legends 5-Stack Coordinator",
-        description=f"**Channel**: `#{COORDINATION_CHANNEL}` &bull; **Roster Role**: `@{ROSTER_ROLE_NAME}`\n"
+        description=f"{status_badge}\n\n"
                     f"**Session ID**: `{session.get('session_id')}`\n"
+                    f"**Organizer**: **{creator_name}**\n"
                     f"**Target Window**: `{session.get('scheduled_time')}`\n"
                     f"**Detected Mode**: **{session.get('mode')}**\n"
                     f"{'🏆 *Ranked 5s Tournament Draft Active*' if session.get('is_ranked_5s') else '🔄 *Ranked Flex 24/7 Fallback Active*'}",
@@ -258,8 +473,7 @@ def build_session_embed(session: dict, guild: discord.Guild = None) -> discord.E
 
     # Starters (Minimum 5 required)
     starters_text = "\n".join([f"{i+1}. **{p['name']}** — *{p['role_pref']}*" for i, p in enumerate(confirmed)]) or "*No players registered yet.*"
-    status_indicator = "✅ **LOBBY READY (5/5)**" if count >= 5 else f"⏳ **Recruiting: {count}/5 Players** (Needs {5-count} more from @{ROSTER_ROLE_NAME})"
-    embed.add_field(name=f"Starting Roster ({count}/5)", value=f"{status_indicator}\n{starters_text}", inline=False)
+    embed.add_field(name=f"Starting Roster ({count}/5)", value=starters_text, inline=False)
 
     # Bench / Overflow
     bench_text = "\n".join([f"• **{p['name']}** ({p['role_pref']})" for p in bench]) or "*Empty*"
@@ -268,8 +482,6 @@ def build_session_embed(session: dict, guild: discord.Guild = None) -> discord.E
     # Unavailable
     declined_text = ", ".join(declined) or "*None*"
     embed.add_field(name="Unavailable", value=declined_text, inline=True)
-
-    embed.set_footer(text=f"Coordination restricted to #{COORDINATION_CHANNEL} • Roster restricted to @{ROSTER_ROLE_NAME}")
     return embed
 
 
@@ -295,7 +507,8 @@ async def session_cmd(interaction: discord.Interaction, time_window: str):
         mode=eval_res["mode"],
         is_ranked_5s=eval_res["is_ranked_5s"],
         creator=interaction.user.display_name,
-        scheduled_iso=eval_res.get("target_iso")
+        scheduled_iso=eval_res.get("target_iso"),
+        creator_id=str(interaction.user.id)
     )
 
     view = SessionRSVPView(session_id)
@@ -304,10 +517,19 @@ async def session_cmd(interaction: discord.Interaction, time_window: str):
     role = discord.utils.find(lambda r: r.name.lower() == ROSTER_ROLE_NAME.lower(), interaction.guild.roles) if interaction.guild else None
     role_mention = role.mention if role else f"@{ROSTER_ROLE_NAME}"
 
-    await interaction.response.send_message(
-        f"📢 {role_mention}: **{interaction.user.display_name}** proposed a 5-stack session for **{display_time}** in **#{COORDINATION_CHANNEL}**! Who's in?",
+    await interaction.response.defer(ephemeral=True)
+
+    session_msg = await interaction.channel.send(
+        content=f"📢 {role_mention}: **{interaction.user.display_name}** proposed a 5-stack session for **{display_time}** in **#{COORDINATION_CHANNEL}**! Who's in?",
         embed=embed,
         view=view
+    )
+
+    stats_mgr.set_session_message(session_id, session_msg.channel.id, session_msg.id)
+
+    await interaction.followup.send(
+        f"✅ 5-stack session `{session_id}` announced in {interaction.channel.mention}!",
+        ephemeral=True
     )
 
 
@@ -348,7 +570,7 @@ async def edit_session_cmd(interaction: discord.Interaction, session_id: str, ne
     affected_pings = []
     if interaction.guild:
         for name in affected:
-            m = discord.utils.find(lambda x: x.display_name.lower() == name.lower(), interaction.guild.members)
+            m = discord.utils.find(lambda x: x.display_name.lower() == name.lower() or x.name.lower() == name.lower(), interaction.guild.members)
             affected_pings.append(m.mention if m else f"**{name}**")
     pings_str = ", ".join(affected_pings) or "Signed-up players"
 
@@ -371,14 +593,137 @@ async def cancel_session_cmd(interaction: discord.Interaction, session_id: str):
         )
         return
 
-    success, session = stats_mgr.cancel_session(session_id)
+    session = stats_mgr.get_session(session_id)
+    if not session or session.get("status") == "CANCELLED":
+        await interaction.response.send_message(f"❌ Session `{session_id}` not found or already cancelled.", ephemeral=True)
+        return
+
+    if not is_session_organizer_or_admin(interaction.user, session):
+        await interaction.response.send_message(
+            f"⛔ Only the session organizer (**{session.get('creator')}**) or an administrator can cancel this session.",
+            ephemeral=True
+        )
+        return
+
+    success, session, affected = stats_mgr.cancel_session(session_id)
     if not success:
         await interaction.response.send_message(f"❌ Session `{session_id}` not found.", ephemeral=True)
         return
 
+    # Delete channel RSVP message if present
+    if session.get("channel_id") and session.get("message_id"):
+        try:
+            ch = interaction.guild.get_channel(session["channel_id"]) if interaction.guild else None
+            if not ch:
+                ch = bot.get_channel(session["channel_id"]) or await bot.fetch_channel(session["channel_id"])
+            if ch:
+                msg = await ch.fetch_message(session["message_id"])
+                await msg.delete()
+        except Exception as e:
+            print(f"[Slash Cancel] Error deleting message: {e}")
+
+    affected_pings = []
+    if interaction.guild:
+        for name in affected:
+            m = discord.utils.find(lambda x: x.display_name.lower() == name.lower() or x.name.lower() == name.lower(), interaction.guild.members)
+            affected_pings.append(m.mention if m else f"**{name}**")
+    pings_str = ", ".join(affected_pings)
+
+    cancel_msg = f"🛑 **Session Cancelled**: The session `{session_id}` ({session.get('scheduled_time')}) was cancelled by **{interaction.user.display_name}**."
+    if pings_str:
+        cancel_msg += f"\n📢 Attention {pings_str}: This session will no longer take place."
+
+    await interaction.response.send_message(cancel_msg)
+
+
+@bot.tree.command(name="end-session", description="End an active 5-stack session.")
+@app_commands.describe(session_id="The ID of the session to end")
+async def end_session_cmd(interaction: discord.Interaction, session_id: str):
+    if not has_lolers_role(interaction.user):
+        await interaction.response.send_message(
+            f"⛔ Only members with the **@{ROSTER_ROLE_NAME}** role can end sessions.",
+            ephemeral=True
+        )
+        return
+
+    session = stats_mgr.get_session(session_id)
+    if not session or session.get("status") in ["CANCELLED", "COMPLETED"]:
+        await interaction.response.send_message(f"❌ Session `{session_id}` not found or already concluded.", ephemeral=True)
+        return
+
+    if not is_session_organizer_or_admin(interaction.user, session):
+        await interaction.response.send_message(
+            f"⛔ Only the session organizer (**{session.get('creator')}**) or an administrator can end this session.",
+            ephemeral=True
+        )
+        return
+
+    success, session = stats_mgr.complete_session(session_id)
+    if not success:
+        await interaction.response.send_message(f"❌ Session `{session_id}` not found.", ephemeral=True)
+        return
+
+    # Update original session RSVP message
+    if session.get("channel_id") and session.get("message_id"):
+        try:
+            ch = interaction.guild.get_channel(session["channel_id"]) if interaction.guild else None
+            if not ch:
+                ch = bot.get_channel(session["channel_id"]) or await bot.fetch_channel(session["channel_id"])
+            if ch:
+                msg = await ch.fetch_message(session["message_id"])
+                embed = build_session_embed(session, interaction.guild)
+                await msg.edit(embed=embed, view=None)
+        except Exception as e:
+            print(f"[Slash End] Error updating message: {e}")
+
     await interaction.response.send_message(
-        f"🛑 **Session Cancelled**: The session `{session_id}` ({session.get('scheduled_time')}) was cancelled by **{interaction.user.display_name}**."
+        f"🏁 **Session Concluded**: The session `{session_id}` ({session.get('scheduled_time')}) was ended by **{interaction.user.display_name}**. Thanks for playing!"
     )
+
+
+@bot.tree.command(name="sessions", description="List all active and recent 5-stack sessions.")
+async def sessions_cmd(interaction: discord.Interaction):
+    active = stats_mgr.get_active_sessions()
+    all_sessions = stats_mgr.data.get("active_sessions", {})
+
+    if not all_sessions:
+        await interaction.response.send_message("No sessions found. Create one with `/session`!", ephemeral=True)
+        return
+
+    embed = discord.Embed(
+        title="📋 5-Stack Sessions Overview",
+        description=f"Showing all active and recent sessions in **#{COORDINATION_CHANNEL}**.",
+        color=0x3B82F6
+    )
+
+    if active:
+        active_lines = []
+        for s in active:
+            st = s.get("status")
+            badge = "⏳ Recruiting" if st == "POLLING" else ("✅ Lobby Ready" if st == "READY" else "⚔️ In Progress")
+            count = len(s.get("confirmed_players", []))
+            active_lines.append(
+                f"• `{s.get('session_id')}`: **{s.get('scheduled_time')}** ({s.get('mode')}) — {badge} ({count}/5)\n"
+                f"  *Organizer*: **{s.get('creator')}**"
+            )
+        embed.add_field(name=f"Active Sessions ({len(active)})", value="\n".join(active_lines), inline=False)
+    else:
+        embed.add_field(name="Active Sessions (0)", value="*No active sessions right now. Use `/session` to organize one!*", inline=False)
+
+    recent_closed = [
+        s for s in all_sessions.values()
+        if s.get("status") in ["COMPLETED", "CANCELLED"]
+    ][-3:]
+    if recent_closed:
+        closed_lines = []
+        for s in reversed(recent_closed):
+            badge = "🏁 Completed" if s.get("status") == "COMPLETED" else "🛑 Cancelled"
+            closed_lines.append(
+                f"• `{s.get('session_id')}`: {s.get('scheduled_time')} — {badge} (by {s.get('creator')})"
+            )
+        embed.add_field(name="Recent Past Sessions", value="\n".join(closed_lines), inline=False)
+
+    await interaction.response.send_message(embed=embed)
 
 
 @bot.tree.command(name="queue-check", description="Check current Ranked 5s window status and next opening.")
@@ -742,7 +1087,7 @@ async def sync_matches_cmd(interaction: discord.Interaction):
 
 @tasks.loop(minutes=1)
 async def session_reminder_task():
-    """Checks for active sessions starting within 15 minutes and alerts confirmed starters."""
+    """Checks for active sessions starting within 15 minutes and transitions session lifecycle."""
     await bot.wait_until_ready()
     now_dt = datetime.now(scheduler.tz)
     pending = stats_mgr.get_pending_reminders(now_dt)
@@ -759,7 +1104,7 @@ async def session_reminder_task():
             starters = s.get("confirmed_players", [])
             starter_pings = []
             for p in starters:
-                m = discord.utils.find(lambda x: x.display_name.lower() == p["name"].lower(), guild.members)
+                m = discord.utils.find(lambda x: x.display_name.lower() == p["name"].lower() or x.name.lower() == p["name"].lower(), guild.members)
                 starter_pings.append(m.mention if m else f"**{p['name']}**")
 
             ping_str = ", ".join(starter_pings) or f"@{ROSTER_ROLE_NAME}"
@@ -767,6 +1112,21 @@ async def session_reminder_task():
                 f"⏰ **15-MINUTE COUNTDOWN ALERT!** ({ping_str})\n"
                 f"The 5-stack session for **{s.get('scheduled_time')}** starts in 15 minutes! Ready up your League clients!"
             )
+
+    # Check session lifecycle (transitions to IN_PROGRESS or COMPLETED)
+    changed = stats_mgr.check_session_lifecycle(now_dt)
+    for s in changed:
+        if s.get("channel_id") and s.get("message_id"):
+            for guild in bot.guilds:
+                channel = guild.get_channel(s["channel_id"])
+                if channel:
+                    try:
+                        msg = await channel.fetch_message(s["message_id"])
+                        embed = build_session_embed(s, guild)
+                        new_view = None if s.get("status") in ["COMPLETED", "CANCELLED"] else SessionRSVPView(s.get("session_id"))
+                        await msg.edit(embed=embed, view=new_view)
+                    except Exception as e:
+                        print(f"[Lifecycle] Error updating session message: {e}")
 
 
 @tasks.loop(minutes=AUTO_TRACKING_INTERVAL)
@@ -789,7 +1149,7 @@ async def auto_match_tracker():
                 # Only ever ping the specific players who participated in the match
                 participant_pings = []
                 for p_name in m.get("squad_players", []):
-                    found_member = discord.utils.find(lambda x: x.display_name.lower() == p_name.lower(), guild.members)
+                    found_member = discord.utils.find(lambda x: x.display_name.lower() == p_name.lower() or x.name.lower() == p_name.lower(), guild.members)
                     participant_pings.append(found_member.mention if found_member else f"**{p_name}**")
                 pings_str = ", ".join(participant_pings) or "Squad"
 
@@ -808,12 +1168,12 @@ async def on_ready():
     print(f"Roster Role Active: @{ROSTER_ROLE_NAME}")
 
     # Register persistent RSVP views for all active sessions
-    active_sessions = stats_mgr.data.get("active_sessions", {})
+    active_sessions = stats_mgr.get_active_sessions()
     registered_views = 0
-    for s_id, s in active_sessions.items():
-        if s.get("status") in ["POLLING", "READY"]:
-            bot.add_view(SessionRSVPView(s_id))
-            registered_views += 1
+    for s in active_sessions:
+        s_id = s.get("session_id")
+        bot.add_view(SessionRSVPView(s_id))
+        registered_views += 1
     if registered_views > 0:
         print(f"Re-registered {registered_views} persistent session RSVP view(s).")
 

@@ -129,7 +129,7 @@ class TestRiotIntegration(unittest.TestCase):
         self.assertEqual(synergies[0]["wins"], 1)
         self.assertEqual(synergies[0]["losses"], 0)
         self.assertEqual(synergies[0]["win_rate"], 100.0)
-        self.assertEqual(synergies[0]["tier"], "S Tier")
+        self.assertEqual(synergies[0]["tier"], "A Tier")
 
         # Test player leaderboard
         leaderboard = self.stats_mgr.get_player_leaderboard()

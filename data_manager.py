@@ -62,7 +62,8 @@ class StatsManager:
         mode: str,
         is_ranked_5s: bool,
         creator: str,
-        scheduled_iso: Optional[str] = None
+        scheduled_iso: Optional[str] = None,
+        creator_id: Optional[str] = None
     ) -> dict:
         session = {
             "session_id": session_id,
@@ -72,15 +73,30 @@ class StatsManager:
             "mode": mode,
             "is_ranked_5s": is_ranked_5s,
             "creator": creator,
+            "creator_id": str(creator_id) if creator_id else None,
             "status": "POLLING",  # POLLING, READY, IN_PROGRESS, COMPLETED, CANCELLED
             "confirmed_players": [],  # list of {name, role_pref}
             "bench_substitutes": [],
             "declined": [],
-            "reminder_sent": False
+            "reminder_sent": False,
+            "channel_id": None,
+            "message_id": None
         }
         self.data["active_sessions"][session_id] = session
         self.save()
         return session
+
+    def set_session_message(self, session_id: str, channel_id: int, message_id: int):
+        """Stores the channel ID and message ID of the session's announcement."""
+        session = self.data["active_sessions"].get(session_id)
+        if session:
+            session["channel_id"] = channel_id
+            session["message_id"] = message_id
+            self.save()
+
+    def get_session(self, session_id: str) -> Optional[dict]:
+        """Fetches a session by ID."""
+        return self.data.get("active_sessions", {}).get(session_id)
 
     def edit_session_time(
         self,
@@ -95,7 +111,7 @@ class StatsManager:
         Returns: (success, session_dict, list_of_signed_up_players_to_alert)
         """
         session = self.data["active_sessions"].get(session_id)
-        if not session or session.get("status") == "CANCELLED":
+        if not session or session.get("status") in ["CANCELLED", "COMPLETED"]:
             return False, None, []
 
         session["scheduled_time"] = new_scheduled_time
@@ -111,15 +127,94 @@ class StatsManager:
         self.save()
         return True, session, affected
 
-    def cancel_session(self, session_id: str) -> Tuple[bool, Optional[dict]]:
-        """Cancels an active session."""
+    def cancel_session(self, session_id: str) -> Tuple[bool, Optional[dict], List[str]]:
+        """
+        Cancels an active session and returns affected players.
+        Returns: (success, session_dict, list_of_signed_up_players_to_alert)
+        """
         session = self.data["active_sessions"].get(session_id)
-        if not session:
-            return False, None
+        if not session or session.get("status") == "CANCELLED":
+            return False, None, []
+
+        affected = [p["name"] for p in session.get("confirmed_players", [])] + \
+                   [p["name"] for p in session.get("bench_substitutes", [])]
 
         session["status"] = "CANCELLED"
         self.save()
+        return True, session, affected
+
+    def complete_session(self, session_id: str) -> Tuple[bool, Optional[dict]]:
+        """Marks an active session as completed."""
+        session = self.data["active_sessions"].get(session_id)
+        if not session or session.get("status") in ["CANCELLED", "COMPLETED"]:
+            return False, None
+
+        session["status"] = "COMPLETED"
+        self.save()
         return True, session
+
+    def get_active_sessions(self) -> List[dict]:
+        """Returns all non-cancelled, non-completed sessions."""
+        return [
+            s for s in self.data.get("active_sessions", {}).values()
+            if s.get("status") in ["POLLING", "READY", "IN_PROGRESS"]
+        ]
+
+    def check_session_lifecycle(self, now_dt: datetime) -> List[dict]:
+        """
+        Inspects active sessions and transitions their statuses:
+        - If now >= scheduled_time and status is 'READY' or 'POLLING': transitions to 'IN_PROGRESS'
+        - If now >= scheduled_time + 4 hours: transitions to 'COMPLETED'
+        - If scheduled_iso is missing and now >= created_at + 8 hours: transitions to 'COMPLETED'
+        Returns list of sessions whose status changed.
+        """
+        changed = []
+        for s_id, s in self.data.get("active_sessions", {}).items():
+            current_status = s.get("status")
+            if current_status not in ["POLLING", "READY", "IN_PROGRESS"]:
+                continue
+
+            iso_str = s.get("scheduled_iso")
+            new_status = None
+
+            if iso_str:
+                try:
+                    target_dt = datetime.fromisoformat(iso_str)
+                    if target_dt.tzinfo is None and now_dt.tzinfo is not None:
+                        target_dt = now_dt.tzinfo.localize(target_dt)
+                    elif target_dt.tzinfo is not None and now_dt.tzinfo is None:
+                        target_dt = target_dt.replace(tzinfo=None)
+
+                    diff_sec = (now_dt - target_dt).total_seconds()
+                    # 4 hours after scheduled time -> COMPLETED
+                    if diff_sec >= 4 * 3600:
+                        new_status = "COMPLETED"
+                    # At scheduled time (up to 4 hours after) -> IN_PROGRESS
+                    elif diff_sec >= 0 and current_status in ["POLLING", "READY"]:
+                        new_status = "IN_PROGRESS"
+                except Exception:
+                    pass
+
+            if not new_status and s.get("created_at"):
+                try:
+                    created_dt = datetime.fromisoformat(s["created_at"])
+                    if created_dt.tzinfo is None and now_dt.tzinfo is not None:
+                        created_dt = now_dt.tzinfo.localize(created_dt)
+                    elif created_dt.tzinfo is not None and now_dt.tzinfo is None:
+                        created_dt = created_dt.replace(tzinfo=None)
+
+                    if (now_dt - created_dt).total_seconds() >= 8 * 3600:
+                        new_status = "COMPLETED"
+                except Exception:
+                    pass
+
+            if new_status and new_status != current_status:
+                s["status"] = new_status
+                changed.append(s)
+
+        if changed:
+            self.save()
+        return changed
 
     def get_pending_reminders(self, now_dt: datetime) -> List[dict]:
         """
@@ -362,7 +457,11 @@ class StatsManager:
         return sorted(result, key=lambda x: (x["games"] >= 3, x["synergy_score"], x["games"]), reverse=True)
 
     def get_botlane_synergies(self) -> List[dict]:
-        return self.get_pair_synergies("Bot", "Support", "ADC", "SUP")
+        res = self.get_pair_synergies("Bot", "Support", "ADC", "SUP")
+        for item in res:
+            item["adc"] = item.get("player_a")
+            item["support"] = item.get("player_b")
+        return res
 
     def get_mid_jungle_synergies(self) -> List[dict]:
         return self.get_pair_synergies("Mid", "Jungle", "MID", "JNG")
