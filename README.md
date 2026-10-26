@@ -104,3 +104,61 @@ When started, the bot will log in, register slash commands, and start the automa
 | `/roster` | View all server members who have the `@LOLers` role and their match stats. |
 | `/log-match` | Manually record a finished match outcome, botlane combo, KDA, and MVP (fallback for custom games). |
 
+---
+
+## 📜 Riot Developer Portal Application Description
+
+When submitting an application for a **Personal API Key** / **Personal Project** on the [Riot Developer Portal](https://developer.riotgames.com/), you can use or adapt the template below for your product description fields:
+
+```markdown
+### Product Name
+League 5-Stack Coordinator
+
+### Product Type
+Discord Bot / Community Gaming Tool (Personal / Non-Commercial)
+
+### Product Summary
+League 5-Stack Coordinator is a non-commercial Discord bot built for a private community of League of Legends players. It organizes 5-player game nights, manages starting and substitute rosters, evaluates game windows (such as Ranked 5s / Ranked Flex), and provides post-game team chemistry metrics (such as ADC & Support duo synergy ratings) without requiring manual statistical entry.
+
+### Detailed Product Description & User Workflow
+1. User Opt-In & Account Linking:
+   - Players in our Discord server explicitly opt in by issuing `/link-riot riot_id:GameName#TagLine`.
+   - The bot calls the `ACCOUNT-V1` endpoint to resolve the provided Riot ID to a permanent PUUID and stores this mapping in a local data store. No passwords, session tokens, or sensitive account credentials are ever requested or stored.
+
+2. Match Detection & Post-Game Analytics:
+   - When our Discord group organizes a 5-stack session, the bot monitors for newly concluded games involving the linked squad members.
+   - Using the `MATCH-V5` endpoints, the bot fetches the most recent match IDs for linked players and retrieves match details.
+   - If two or more linked squad members played on the same team (in Normals, Ranked Flex, Ranked 5s, or Clash), the bot extracts end-game metrics: team outcome (Win/Loss), champions played, role positions, K/D/A, and team kill participation.
+   - Matches are indexed and de-duplicated by Riot's unique match ID to prevent duplicate requests and eliminate redundant processing.
+
+3. Community Metrics & Synergy Tracking:
+   - The bot calculates pairwise botlane chemistry (ADC + Support combined win rates, average KDA, and champion combinations) and updates an internal community leaderboard accessible via `/roster` and `/botlane`.
+   - Match results are broadcast exclusively to a designated channel (`#5-stackers`) in our server as a summary embed.
+
+### API Endpoints Used & Justification
+- `ACCOUNT-V1` (`/riot/account/v1/accounts/by-riot-id/{gameName}/{tagLine}`):
+  - Justification: Required to convert user-provided Riot IDs into immutable PUUIDs during the `/link-riot` command, ensuring tracking persists across summoner name changes.
+- `MATCH-V5` (`/lol/match/v5/matches/by-puuid/{puuid}/ids`):
+  - Justification: Used to poll recent match history (count: 5) for registered squad players to identify newly completed group matches.
+- `MATCH-V5` (`/lol/match/v5/matches/{matchId}`):
+  - Justification: Fetches the match statistics (participants, queueId, teamId, win/loss, role, kills, deaths, assists, championName) necessary to generate the post-match summary and compute duo synergy stats.
+
+### Rate Limiting & Architecture
+- Polling is throttled via an asynchronous task loop running once every 2 minutes.
+- Only accounts that have explicitly linked their Riot ID are queried.
+- All match IDs are locally cached, ensuring each match detail payload is requested only once.
+- Total request volume averages under 10–15 calls per polling cycle, remaining well below Riot's personal development limit of 20 requests/second and 100 requests per 2 minutes.
+
+### Riot Developer Policy & Terms of Service Compliance
+- Non-Commercial: Free of charge, with no paywalls, subscriptions, donations, or advertisements.
+- Competitive Integrity: Does not provide in-game overlays, live scouting, opponent MMR tracking, or real-time advantages during an active match.
+- Privacy & Consent: Only collects data for users who voluntarily initiate the `/link-riot` command.
+- Legal Disclaimer: Includes the mandatory Riot Games legal disclaimer on all documentation and Discord embeds.
+```
+
+---
+
+## ⚖️ Legal Disclaimer
+League 5-Stack Coordinator isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
+
+
