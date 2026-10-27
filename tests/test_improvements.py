@@ -479,5 +479,16 @@ class TestAppImprovements(unittest.TestCase):
         self.assertEqual(self.stats_mgr.get_mid_jungle_synergies(), [])
         self.assertEqual(self.stats_mgr.get_top_jungle_synergies(), [])
 
+        # 3. Verify min_games=3 threshold filters out pairs with < 3 games
+        self.assertEqual(self.stats_mgr.get_botlane_synergies(min_games=3), [])
+        for idx in (2, 3):
+            extra = dict(match)
+            extra["match_id"] = f"M_FILTER_TEST_{idx}"
+            self.stats_mgr.log_match(extra)
+
+        qualifying_bot = self.stats_mgr.get_botlane_synergies(min_games=3)
+        self.assertEqual(len(qualifying_bot), 1)
+        self.assertEqual(qualifying_bot[0]["games"], 3)
+
 if __name__ == "__main__":
     unittest.main()

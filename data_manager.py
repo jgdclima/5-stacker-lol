@@ -555,10 +555,12 @@ class StatsManager:
         label_a: str,
         label_b: str,
         allowed_names: Optional[set] = None,
+        min_games: int = 1,
     ) -> List[dict]:
         """
         Generic pair synergy calculator with Bayesian confidence dampening for small sample sizes.
-        Strictly considers pairs where BOTH players are @LOLers squad members.
+        Strictly considers pairs where BOTH players are @LOLers squad members and have played
+        at least `min_games` together.
         """
         pair_stats = {}
 
@@ -614,6 +616,8 @@ class StatsManager:
 
         result = []
         for key, s in pair_stats.items():
+            if s["games"] < min_games:
+                continue
             raw_win_rate = (s["wins"] / s["games"]) * 100 if s["games"] > 0 else 0
             kda = (s["total_kills"] + s["total_assists"]) / max(1, s["total_deaths"])
 
@@ -642,21 +646,21 @@ class StatsManager:
 
         return sorted(result, key=lambda x: (x["games"] >= 3, x["synergy_score"], x["games"]), reverse=True)
 
-    def get_botlane_synergies(self) -> List[dict]:
-        res = self.get_pair_synergies("Bot", "Support", "ADC", "SUP")
+    def get_botlane_synergies(self, min_games: int = 1) -> List[dict]:
+        res = self.get_pair_synergies("Bot", "Support", "ADC", "SUP", min_games=min_games)
         for item in res:
             item["adc"] = item.get("player_a")
             item["support"] = item.get("player_b")
         return res
 
-    def get_mid_jungle_synergies(self) -> List[dict]:
-        return self.get_pair_synergies("Mid", "Jungle", "MID", "JNG")
+    def get_mid_jungle_synergies(self, min_games: int = 1) -> List[dict]:
+        return self.get_pair_synergies("Mid", "Jungle", "MID", "JNG", min_games=min_games)
 
-    def get_top_jungle_synergies(self) -> List[dict]:
-        return self.get_pair_synergies("Top", "Jungle", "TOP", "JNG")
+    def get_top_jungle_synergies(self, min_games: int = 1) -> List[dict]:
+        return self.get_pair_synergies("Top", "Jungle", "TOP", "JNG", min_games=min_games)
 
-    def get_support_jungle_synergies(self) -> List[dict]:
-        return self.get_pair_synergies("Support", "Jungle", "SUP", "JNG")
+    def get_support_jungle_synergies(self, min_games: int = 1) -> List[dict]:
+        return self.get_pair_synergies("Support", "Jungle", "SUP", "JNG", min_games=min_games)
 
     def get_player_leaderboard(self, allowed_names: Optional[set] = None) -> List[dict]:
         """Calculates win rate and performance stats strictly for @LOLers members."""

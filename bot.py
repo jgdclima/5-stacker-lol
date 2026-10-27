@@ -762,12 +762,15 @@ SYNERGY_OPTIONS: Dict[str, Dict[str, str]] = {
 }
 
 
+MIN_SYNERGY_GAMES = 3
+
+
 def build_synergy_embed(pair_key: str, is_living_thread: bool = False) -> discord.Embed:
-    """Builds the chemistry leaderboard embed for any of the 4 synergy options."""
+    """Builds the chemistry leaderboard embed for any of the 4 synergy options (requires >= 3 games together)."""
     cfg = SYNERGY_OPTIONS.get(pair_key, SYNERGY_OPTIONS["botlane"])
     title = cfg["title"]
     getter = getattr(stats_mgr, cfg["method"])
-    duos = getter()
+    duos = [d for d in getter(min_games=MIN_SYNERGY_GAMES) if d.get("games", 0) >= MIN_SYNERGY_GAMES]
 
     state = stats_mgr.get_synergy_thread_state(pair_key)
     thread_link = ""
@@ -775,9 +778,11 @@ def build_synergy_embed(pair_key: str, is_living_thread: bool = False) -> discor
         thread_link = f"\n📌 **Living Thread**: <#{state['thread_id']}>"
 
     desc = (
-        f"Live auto-updating leaderboard across 5-stack & squad games in **#{COORDINATION_CHANNEL}**."
+        f"Live auto-updating leaderboard across 5-stack & squad games in **#{COORDINATION_CHANNEL}** "
+        f"*(min. {MIN_SYNERGY_GAMES} games together)*."
         if is_living_thread
-        else f"Pairwise performance across 5-stack & squad games in **#{COORDINATION_CHANNEL}**.{thread_link}"
+        else f"Pairwise performance across 5-stack & squad games in **#{COORDINATION_CHANNEL}** "
+             f"*(min. {MIN_SYNERGY_GAMES} games together)*.{thread_link}"
     )
 
     embed = discord.Embed(
@@ -789,8 +794,8 @@ def build_synergy_embed(pair_key: str, is_living_thread: bool = False) -> discor
     limit = 10 if is_living_thread else 5
     if not duos:
         embed.add_field(
-            name="No Matches Recorded Yet",
-            value="*Play squad matches with linked Riot accounts (`/link-riot`) or log a match (`/log-match`) to populate this leaderboard!*",
+            name=f"No Qualifying Duos Yet (Min. {MIN_SYNERGY_GAMES} Games)",
+            value=f"*Play at least {MIN_SYNERGY_GAMES} squad matches together as @{ROSTER_ROLE_NAME} members to appear on this leaderboard!*",
             inline=False,
         )
     else:
@@ -806,7 +811,7 @@ def build_synergy_embed(pair_key: str, is_living_thread: bool = False) -> discor
             )
 
     updated_str = datetime.now().strftime("%Y-%m-%d %H:%M")
-    embed.set_footer(text=f"Last updated: {updated_str} • Auto-updates as matches are processed")
+    embed.set_footer(text=f"Last updated: {updated_str} • Min. {MIN_SYNERGY_GAMES} games required • Auto-updates")
     return embed
 
 
