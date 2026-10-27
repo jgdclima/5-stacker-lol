@@ -953,7 +953,7 @@ def build_match_recap_embed(record: dict) -> discord.Embed:
     for role in ["Top", "Jungle", "Mid", "Bot", "Support"]:
         pinfo = lineup.get(role)
         if pinfo:
-            star = "⭐ " if pinfo.get("is_squad") else ""
+            star = "🐒 " if pinfo.get("is_squad") else ""
             lineup_rows.append(
                 f"{star}**{role}**: **{pinfo['player']}** ({pinfo['champion']} `{pinfo['kills']}/{pinfo['deaths']}/{pinfo['assists']}`)"
             )
