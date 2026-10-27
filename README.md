@@ -38,16 +38,85 @@ A dedicated Discord bot designed to organize League of Legends 5-man premade ses
   - Session creators or admins can reschedule any planned session. The bot re-evaluates queue modes, updates the session card, and pings everyone currently signed up with an availability alert.
 
 * **Multi-Pair Chemistry & Synergy Engine (`/synergy`)**:
-  - Tracks pairwise chemistry across key map partnerships:
+  - Tracks pairwise chemistry across key map partnerships in 4 auto-updating Living Threads:
     - **Botlane** (Bot + Support)
     - **Mid + Jungle** (2v2 Core Playmakers)
     - **Top + Jungle** (Topside Gank / Dive Synergy)
     - **Support + Jungle** (Roam & Vision / Objective Control)
-  - Features Bayesian confidence dampening so low-game duos do not artificially inflate the leaderboards.
+  - Powered by a holistic role- and champion-aware rating engine with Bayesian confidence dampening and a 3-game minimum leaderboard threshold.
 
 * **Interactive Multi-Select Discord UI**:
   - Persistent buttons that survive bot reboots without failing.
   - Native **Multi-Select Role Dropdown**: Players can select 1 to 5 role preferences (e.g. `Mid` + `Bot`).
+
+---
+
+## 📊 Holistic Rating & Synergy System Overview
+
+All post-game player ratings, Match MVP selections, and pairwise synergy scores are computed by [`rating_engine.py`](rating_engine.py) using rich telemetry from Riot's **Match-v5 API** (including participant stats and `challenges` sub-metrics).
+
+### 1. Individual Player Rating (`0–100`) & Match MVP Selection
+
+Instead of judging every player strictly by KDA or raw damage, each participant is evaluated across **6 Performance Pillars**:
+
+| Pillar | Key Riot Match-v5 & `challenges` Metrics |
+| :--- | :--- |
+| **1. Combat & KDA Efficiency** | KDA ratio, Kill Participation (`killParticipation`) benchmarked by role, deaths per 5 min survival rate, `soloKills`, `outnumberedKills`, and carry kill-share conversion. |
+| **2. Damage & Carry Output** | Damage to champions per minute (DPM) benchmarked against champion kit archetype, plus team damage share (`teamDamagePercentage`). |
+| **3. Objective & Structural Pressure** | Turret damage, `turretTakedowns`, `turretPlatesTaken`, objective damage, `dragonTakedowns`, `baronTakedowns`, `riftHeraldTakedowns`, `voidMonsterKill` (Void Grubs), and `epicMonsterSteals`. |
+| **4. Frontline & Durability** | Self-mitigated damage per minute (`damageSelfMitigated`), team damage taken share (`damageTakenOnTeamPercentage`), and tanking efficiency `(damage_taken + mitigated) / deaths`. |
+| **5. Utility, CC & Team Enablement** | Crowd control score per minute (`timeCCingOthers`), effective ally healing & shielding (`effectiveHealAndShielding`), `saveAllyFromDeath`, `immobilizeAndKillWithAlly`, and `pickKillWithAlly`. |
+| **6. Vision, Economy & Lane Dominance** | Role-normalized CS/min and Vision Score/min (`visionScore`), plus laning leads (`laningPhaseGoldExpAdvantage`, `maxCsAdvantageOnLaneOpponent`, `controlWardsPlaced`, `wardTakedowns`). |
+
+#### Blended Role (55%) + Champion Kit Archetype (45%) Weighting
+A player's pillar weights are dynamically blended from **55% Assigned Role** (`Top`, `Jungle`, `Mid`, `Bot`, `Support`) and **45% Champion Kit Archetype** (`marksman`, `mage`, `assassin`, `splitpusher`, `bruiser`, `tank`, `enchanter`, `catcher`):
+
+| Role / Archetype | Combat | Damage | Objective | Frontline | Utility | Macro / Vision |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Role: Top** | 22% | 20% | 20% | 20% | 6% | 12% |
+| **Role: Jungle** | 24% | 14% | 28% | 12% | 10% | 12% |
+| **Role: Mid** | 28% | 30% | 12% | 5% | 10% | 15% |
+| **Role: Bot (ADC)** | 26% | 36% | 14% | 4% | 4% | 16% |
+| **Role: Support** | 20% | 6% | 8% | 10% | 32% | 24% |
+| *Archetype: Marksman* | 30% | 38% | 12% | 0% | 0% | 20% |
+| *Archetype: Mage* | 28% | 36% | 8% | 0% | 14% | 14% |
+| *Archetype: Assassin* | 40% | 34% | 8% | 0% | 6% | 12% |
+| *Archetype: Splitpusher* | 22% | 20% | 34% | 8% | 0% | 16% |
+| *Archetype: Bruiser* | 28% | 22% | 16% | 20% | 4% | 10% |
+| *Archetype: Tank* | 18% | 6% | 12% | 34% | 22% | 8% |
+| *Archetype: Enchanter* | 18% | 4% | 6% | 4% | 46% | 22% |
+| *Archetype: Catcher* | 22% | 6% | 8% | 16% | 30% | 18% |
+
+* **Why Blending Matters**: An Enchanter Support (`Soraka`/`Lulu`) who goes `1/1/24` with 14k healing and 2.5 vision/min, or a Splitpusher Top (`Yorick`/`Tryndamere`) who takes 5 turrets and 14k structural damage, can earn an `S`/`S+` rating and **Match MVP** on equal footing with a high-kill Marksman or Assassin—while off-meta flex picks (e.g., `Taliyah` Jungle or `Thresh` Top) are automatically evaluated on both their map position and their champion's kit.
+* **Excess-Death Liability & Outcome Adjustment**: Exceeding `2.0` deaths per 10 minutes applies a scaling liability penalty (stricter for fragile carry archetypes), and match outcome adds `+2.5` for a Win or `-1.5` for a Loss.
+* **Letter Grades & Standout Badges**:
+  - **Grades**: `S+` ($\ge 88$), `S` ($\ge 80$), `A+` ($\ge 73$), `A` ($\ge 65$), `B` ($\ge 55$), `C` ($< 55$).
+  - **Standout Badges**: Automatically awarded on match recaps (`Splitpush Titan`, `Objective Commander`, `Peel & Enchanter Carry`, `Unkillable Frontline`, `Vision Oracle`, `Hypercarry DPS`, `Map Omnipresence`, `Deathless Precision`).
+* **Strict `@LOLers` MVP Selection**: Only verified `@LOLers` squad members (`is_squad=True`) are eligible to be named Match MVP.
+
+---
+
+### 2. Pairwise Chemistry & Synergy Rating (`0–100`)
+
+The 4 synergy leaderboards (`Bot + Support`, `Mid + Jungle`, `Top + Jungle`, `Support + Jungle`) evaluate each `@LOLers` duo across 4 dimensions:
+
+$$\text{Synergy Score} = 0.42 \times \text{Bayesian WR} + 0.24 \times \text{Dampened Duo Rating} + 0.14 \times \text{Pair Coordination} + 0.20 \times \text{Duo KDA}$$
+
+1. **Bayesian-Dampened Win Rate (42%)**: Blends the duo's raw win rate toward a `50%` prior over a 5-game confidence ramp ($\text{confidence} = \min(1.0, \text{games}/5)$) so 1- or 2-game samples cannot artificially outrank established partnerships.
+2. **Role & Champion-Adjusted Duo Rating (24%)**: The mean of both partners' holistic `0–100` individual match ratings across all games played together in those two roles (dampened toward a `62.0` baseline for $< 3$ games).
+3. **Position-Pair Coordination Score (14%)**: Measures how effectively the two specific positions executed their partnership responsibilities together:
+   - **Bot + Support**: Combined kill participation, ADC damage/min conversion, Support vision/min, and Support peel (`effective_heal_shield` + CC score).
+   - **Mid + Jungle**: 2v2 skirmish participation, joint CC/pick kills (`immobilizeAndKillWithAlly` + `pickKillWithAlly`), and neutral objective control (Dragons, Void Grubs, Heralds, Barons).
+   - **Top + Jungle**: Topside pressure (`turretTakedowns`, Rift Heralds, Void Grubs), joint CC/pick kills, and kill participation.
+   - **Support + Jungle**: Combined vision control per minute (`visionScore / min`), roam pick kills, and kill participation.
+4. **Combined Duo KDA Efficiency (20%)**: Normalized combined $(K + A) / \max(1, D)$ capped at `6.0` KDA $= 100$.
+
+#### Synergy Tiers & Leaderboard Eligibility
+* **Tiers**: `S Tier` ($\ge 80.0$), `A Tier` ($65.0\text{–}79.9$), `B Tier` ($< 65.0$).
+* **Dynamic Chemistry Tags**: Duos earn contextual tags based on their strengths (`2v8 Bot Kingdom`, `Map Terror 2v2`, `Topside Raidbosses`, `Vision & Roam Lords`, `Lethal Core`, `Objective Anchors`, `High-Impact Duo`, or `Developing Chemistry`).
+* **Strict Eligibility Rules**:
+  - **Both** players in the pair must be `@LOLers` members (`is_squad=True`).
+  - A pair must have played **at least 3 games together** (`MIN_SYNERGY_GAMES = 3`) in that specific role combination to appear on the chemistry leaderboards.
 
 ---
 
