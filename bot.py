@@ -519,11 +519,24 @@ async def session_cmd(interaction: discord.Interaction, time_window: str):
 
     await interaction.response.defer(ephemeral=True)
 
-    session_msg = await interaction.channel.send(
-        content=f"📢 {role_mention}: **{interaction.user.display_name}** proposed a 5-stack session for **{display_time}** in **#{COORDINATION_CHANNEL}**! Who's in?",
-        embed=embed,
-        view=view
-    )
+    try:
+        session_msg = await interaction.channel.send(
+            content=f"📢 {role_mention}: **{interaction.user.display_name}** proposed a 5-stack session for **{display_time}** in **#{COORDINATION_CHANNEL}**! Who's in?",
+            embed=embed,
+            view=view
+        )
+    except discord.errors.Forbidden as e:
+        if e.code in [50001, 50013]:
+            await interaction.followup.send(
+                f"❌ **Missing Channel Access in #{COORDINATION_CHANNEL}** (Discord error {e.code}):\n"
+                f"The bot does not have permission to view or post in **#{COORDINATION_CHANNEL}**.\n\n"
+                f"**How to fix** (Discord Server Settings):\n"
+                f"1. In Discord, assign the **`@{ROSTER_ROLE_NAME}`** role to **`5 Stacker LoL`** (or go to **#{COORDINATION_CHANNEL}** ⚙️ ➔ **Permissions** and add **`5 Stacker LoL`**).\n"
+                f"2. Ensure **View Channel**, **Send Messages**, **Embed Links**, and **Manage Messages** are enabled.",
+                ephemeral=True
+            )
+            return
+        raise
 
     stats_mgr.set_session_message(session_id, session_msg.channel.id, session_msg.id)
 
