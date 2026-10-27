@@ -8,6 +8,9 @@ Enforces:
 """
 
 import os
+import sys
+import json
+import hashlib
 from typing import Optional, List, Dict, Any
 import discord
 from discord import app_commands
@@ -1174,6 +1177,102 @@ async def auto_match_tracker():
             print(f"[Tracker] Error in auto match poller: {e}")
 
 
+COMMANDS_STATE_FILE = os.path.join("data", "commands_state.json")
+
+
+def get_slash_commands_payload(tree: Optional[app_commands.CommandTree] = None) -> List[Dict[str, Any]]:
+    """Serialize all registered slash commands in deterministic order for change detection."""
+    target_tree = tree or bot.tree
+    payloads = [cmd.to_dict(target_tree) for cmd in target_tree.get_commands()]
+    return sorted(payloads, key=lambda c: c.get("name", ""))
+
+
+def compute_commands_hash(payloads: List[Dict[str, Any]]) -> str:
+    """Compute a deterministic SHA-256 hash of the slash command registration payloads."""
+    canonical = json.dumps(payloads, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def detect_slash_command_changes(
+    tree: Optional[app_commands.CommandTree] = None,
+    state_file: str = COMMANDS_STATE_FILE,
+) -> Dict[str, Any]:
+    """
+    Compare current slash command definitions against the last registered state on disk.
+    Returns a dictionary detailing whether re-registration with Discord is needed and which
+    commands were added, removed, or modified.
+    """
+    payloads = get_slash_commands_payload(tree)
+    current_hash = compute_commands_hash(payloads)
+    current_map = {c["name"]: c for c in payloads}
+
+    if not os.path.exists(state_file):
+        return {
+            "changed": True,
+            "first_run": True,
+            "current_hash": current_hash,
+            "previous_hash": None,
+            "added": sorted(current_map.keys()),
+            "removed": [],
+            "modified": [],
+            "payloads": payloads,
+        }
+
+    try:
+        with open(state_file, "r", encoding="utf-8") as f:
+            saved = json.load(f)
+        previous_hash = saved.get("hash")
+        saved_commands = saved.get("commands", {})
+    except Exception:
+        return {
+            "changed": True,
+            "first_run": True,
+            "current_hash": current_hash,
+            "previous_hash": None,
+            "added": sorted(current_map.keys()),
+            "removed": [],
+            "modified": [],
+            "payloads": payloads,
+        }
+
+    added = sorted(name for name in current_map if name not in saved_commands)
+    removed = sorted(name for name in saved_commands if name not in current_map)
+    modified = sorted(
+        name
+        for name in current_map
+        if name in saved_commands
+        and json.dumps(current_map[name], sort_keys=True) != json.dumps(saved_commands[name], sort_keys=True)
+    )
+    changed = (previous_hash != current_hash) or bool(added or removed or modified)
+
+    return {
+        "changed": changed,
+        "first_run": False,
+        "current_hash": current_hash,
+        "previous_hash": previous_hash,
+        "added": added,
+        "removed": removed,
+        "modified": modified,
+        "payloads": payloads,
+    }
+
+
+def save_slash_command_state(
+    payloads: List[Dict[str, Any]],
+    current_hash: str,
+    state_file: str = COMMANDS_STATE_FILE,
+) -> None:
+    """Persist the currently registered slash command schema and hash to disk."""
+    os.makedirs(os.path.dirname(state_file) or ".", exist_ok=True)
+    state_data = {
+        "hash": current_hash,
+        "synced_at": datetime.now().isoformat(),
+        "commands": {c["name"]: c for c in payloads},
+    }
+    with open(state_file, "w", encoding="utf-8") as f:
+        json.dump(state_data, f, indent=2, sort_keys=True)
+
+
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user} (ID: {bot.user.id})")
@@ -1202,11 +1301,40 @@ async def on_ready():
     else:
         print("Riot API not configured: Add RIOT_API_KEY to .env to enable auto-tracking.")
 
-    try:
-        synced = await bot.tree.sync()
-        print(f"Synced {len(synced)} application commands.")
-    except Exception as e:
-        print(f"Failed to sync commands: {e}")
+    force_sync = (
+        os.getenv("FORCE_COMMAND_SYNC", "false").lower() in ("1", "true", "yes")
+        or "--sync" in sys.argv
+        or "--force-sync" in sys.argv
+    )
+    cmd_diff = detect_slash_command_changes(bot.tree)
+
+    if force_sync or cmd_diff["changed"]:
+        try:
+            if force_sync and not cmd_diff["changed"]:
+                print("Force command sync requested — re-registering slash commands with Discord...")
+            elif cmd_diff["first_run"]:
+                print(f"No cached command state found — registering {len(cmd_diff['payloads'])} slash commands with Discord...")
+            else:
+                changes = []
+                if cmd_diff["added"]:
+                    changes.append(f"added: {', '.join('/' + c for c in cmd_diff['added'])}")
+                if cmd_diff["modified"]:
+                    changes.append(f"modified: {', '.join('/' + c for c in cmd_diff['modified'])}")
+                if cmd_diff["removed"]:
+                    changes.append(f"removed: {', '.join('/' + c for c in cmd_diff['removed'])}")
+                print(f"Slash command changes detected ({'; '.join(changes)}) — re-registering with Discord...")
+
+            synced = await bot.tree.sync()
+            save_slash_command_state(cmd_diff["payloads"], cmd_diff["current_hash"])
+            os.environ.pop("FORCE_COMMAND_SYNC", None)
+            print(f"Synced {len(synced)} application commands (schema hash: {cmd_diff['current_hash'][:8]}).")
+        except Exception as e:
+            print(f"Failed to sync commands: {e}")
+    else:
+        print(
+            f"Slash commands unchanged ({len(cmd_diff['payloads'])} commands, "
+            f"schema hash: {cmd_diff['current_hash'][:8]}) — skipping Discord re-registration."
+        )
 
 
 if __name__ == "__main__":

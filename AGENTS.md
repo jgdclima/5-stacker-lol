@@ -18,3 +18,7 @@
 ## 3. Discord UI & Component Patterns
 - **In-Place Ephemeral Updates**: When a user makes a selection on an ephemeral dropdown or button, always dismiss the component in-place using `await interaction.response.edit_message(content=..., view=None)`. Never send a secondary ephemeral message that leaves the previous dropdown dangling.
 - **Creator Authorization Checks**: Destructive or terminating actions (Cancel Session, End Session) must strictly verify that `interaction.user` is either the session organizer (`session['creator_id']` / `session['creator']`) or a server administrator.
+
+## 4. Bot Relaunch & Slash Command Syncing
+- **Relaunch Script (`relaunch.py` / `relaunch.bat`)**: After modifying bot code, run `.\relaunch.bat` (or `python relaunch.py`) to cleanly terminate any existing `bot.py` instances, launch the updated bot in the background (`data/bot.log`), and verify startup.
+- **Conditional Slash Command Registration**: `bot.py` and `relaunch.py` compute a deterministic SHA-256 hash of all `app_commands` schemas (`data/commands_state.json`) and only call `await bot.tree.sync()` when slash command names, descriptions, options, choices, or permissions change (or when `--sync` / `FORCE_COMMAND_SYNC=1` is passed).

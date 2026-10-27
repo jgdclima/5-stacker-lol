@@ -102,6 +102,21 @@ python bot.py
 ```
 When started, the bot will log in, register slash commands, start the 15-minute reminder poller, and begin auto-tracking squad matches!
 
+To restart the bot after making code changes (and automatically re-register slash commands with Discord only if command definitions changed):
+```bash
+# Windows (CMD / PowerShell)
+.\relaunch.bat
+
+# Cross-platform Python
+python relaunch.py
+
+# Optional flags:
+#   --sync / --force-sync : Force Discord slash command re-registration even if unchanged
+#   --check-only          : Inspect pending slash command changes without restarting
+#   --stop-only           : Stop running bot.py instance(s) and exit
+#   --foreground (-f)     : Keep bot running attached in the foreground terminal
+```
+
 ---
 
 ## 🕹️ Command Reference (Restricted to `#5-stackers`)

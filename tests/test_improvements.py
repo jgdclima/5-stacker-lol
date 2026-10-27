@@ -293,5 +293,55 @@ class TestAppImprovements(unittest.TestCase):
         m4.guild_permissions.manage_channels = False
         self.assertFalse(is_session_organizer_or_admin(m4, session))
 
+    def test_slash_command_change_detection(self):
+        import json
+        from bot import (
+            bot,
+            detect_slash_command_changes,
+            save_slash_command_state,
+            compute_commands_hash,
+        )
+
+        state_file = tempfile.NamedTemporaryFile(delete=False, suffix=".json")
+        state_file.close()
+        os.remove(state_file.name)
+
+        try:
+            # 1. First run (no state file exists) -> changed=True, first_run=True
+            diff1 = detect_slash_command_changes(bot.tree, state_file=state_file.name)
+            self.assertTrue(diff1["changed"])
+            self.assertTrue(diff1["first_run"])
+            self.assertGreaterEqual(len(diff1["added"]), 12)
+
+            # Save state
+            save_slash_command_state(diff1["payloads"], diff1["current_hash"], state_file=state_file.name)
+
+            # 2. Second check with identical tree -> changed=False
+            diff2 = detect_slash_command_changes(bot.tree, state_file=state_file.name)
+            self.assertFalse(diff2["changed"])
+            self.assertFalse(diff2["first_run"])
+            self.assertEqual(diff2["added"], [])
+            self.assertEqual(diff2["modified"], [])
+            self.assertEqual(diff2["removed"], [])
+
+            # 3. Simulate a modified command description and a removed command in saved state
+            with open(state_file.name, "r", encoding="utf-8") as f:
+                saved = json.load(f)
+            saved["commands"]["session"]["description"] = "Old description"
+            saved["commands"]["legacy-cmd"] = {"name": "legacy-cmd", "description": "Old"}
+            del saved["commands"]["roster"]
+            saved["hash"] = compute_commands_hash(list(saved["commands"].values()))
+            with open(state_file.name, "w", encoding="utf-8") as f:
+                json.dump(saved, f)
+
+            diff3 = detect_slash_command_changes(bot.tree, state_file=state_file.name)
+            self.assertTrue(diff3["changed"])
+            self.assertEqual(diff3["added"], ["roster"])
+            self.assertEqual(diff3["modified"], ["session"])
+            self.assertEqual(diff3["removed"], ["legacy-cmd"])
+        finally:
+            if os.path.exists(state_file.name):
+                os.remove(state_file.name)
+
 if __name__ == "__main__":
     unittest.main()
