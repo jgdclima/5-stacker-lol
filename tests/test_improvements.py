@@ -343,5 +343,141 @@ class TestAppImprovements(unittest.TestCase):
             if os.path.exists(state_file.name):
                 os.remove(state_file.name)
 
+    def test_hybrid_session_activity_and_matches(self):
+        from bot import build_session_embed
+
+        s = self.stats_mgr.create_session("s_hyb", "Tonight 8:30 PM", "Ranked Flex", False, "Faker")
+        self.stats_mgr.set_session_thread("s_hyb", 1122334455)
+        self.stats_mgr.append_session_activity("s_hyb", "🔄 Rescheduled to Tonight 9:00 PM")
+
+        # Attach a match to the active session
+        matched = self.stats_mgr.attach_match_to_active_session({
+            "match_id": "M_HYB_1",
+            "result": "WIN",
+            "mode": "Ranked Flex",
+            "mvp": "Faker"
+        })
+        self.assertIsNotNone(matched)
+        self.assertEqual(matched["session_id"], "s_hyb")
+        self.assertEqual(len(matched["session_matches"]), 1)
+
+        embed = build_session_embed(matched)
+        self.assertIn("<#1122334455>", embed.description)
+        field_names = [f.name for f in embed.fields]
+        self.assertTrue(any("Session Match Log (1W - 0L)" in n for n in field_names))
+        self.assertTrue(any("Recent Session Updates" in n for n in field_names))
+
+    def test_living_synergy_thread_state_and_embed(self):
+        from bot import build_synergy_embed
+
+        self.stats_mgr.set_synergy_thread_state("botlane", thread_id=998877, message_id=665544)
+        state = self.stats_mgr.get_synergy_thread_state("botlane")
+        self.assertIsNotNone(state)
+        self.assertEqual(state["thread_id"], 998877)
+        self.assertEqual(state["message_id"], 665544)
+
+        embed = build_synergy_embed("botlane", is_living_thread=True)
+        self.assertIn("Botlane", embed.title)
+
+    def test_github_feedback_formatting_and_rate_limit(self):
+        from github_tickets import GitHubTicketClient
+
+        client = GitHubTicketClient(repo="jgdclima/5-stacker-lol")
+        payload = client.format_issue_payload(
+            category="Bug Report",
+            title="Duplicate messages on edit",
+            description="Editing a session created a second card.",
+            reporter_name="Doublelift",
+            reporter_id="12345",
+            session_id="abc12345",
+        )
+        self.assertEqual(payload["title"], "[Bug] Duplicate messages on edit")
+        self.assertIn("bug", payload["labels"])
+        self.assertIn("abc12345", payload["body"])
+        self.assertIn("Doublelift", payload["body"])
+
+        # Rate-limit check (default 5 per hour)
+        for i in range(5):
+            allowed, _ = self.stats_mgr.can_submit_feedback("user_99", max_per_hour=5)
+            self.assertTrue(allowed)
+            self.stats_mgr.record_feedback(
+                user_id="user_99",
+                user_name="Tester",
+                category="Feature",
+                title=f"Idea {i}",
+                description="Details",
+                issue_url=f"https://github.com/jgdclima/5-stacker-lol/issues/{i+1}",
+                issue_number=i + 1,
+            )
+
+        allowed_after, remaining = self.stats_mgr.can_submit_feedback("user_99", max_per_hour=5)
+        self.assertFalse(allowed_after)
+        self.assertEqual(remaining, 0)
+
+    def test_channel_and_thread_restriction_helper(self):
+        from unittest.mock import MagicMock
+        from bot import is_allowed_coordination_channel, COORDINATION_CHANNEL
+
+        ch_main = MagicMock()
+        ch_main.name = COORDINATION_CHANNEL
+        ch_main.parent = None
+        self.assertTrue(is_allowed_coordination_channel(ch_main))
+
+        ch_thread = MagicMock()
+        ch_thread.name = "🎮 Session 123"
+        ch_thread.parent = ch_main
+        self.assertTrue(is_allowed_coordination_channel(ch_thread))
+
+        ch_other = MagicMock()
+        ch_other.name = "general"
+        ch_other.parent = None
+        self.assertFalse(is_allowed_coordination_channel(ch_other))
+
+    def test_synergy_excludes_non_lolers_and_reconciles_linked_players(self):
+        # Log a match where Mid + Jungle has one @LOLers member (Ryan) and one random stranger (RandomMid#NA1)
+        # and Bot + Support has a player recorded by raw Riot ID before linking (enkryptos#NA1) + Aditya
+        match = {
+            "match_id": "M_FILTER_TEST",
+            "date": "2026-10-27 15:00",
+            "mode": "Normal Draft",
+            "result": "WIN",
+            "mvp": "Ryan",
+            "squad_players": ["Ryan", "Aditya"],
+            "lineup": {
+                "Top": {"player": "RandomTop#NA1", "is_squad": False, "champion": "Garen", "kills": 2, "deaths": 4, "assists": 3},
+                "Jungle": {"player": "Ryan", "is_squad": True, "champion": "Sejuani", "kills": 5, "deaths": 2, "assists": 12},
+                "Mid": {"player": "RandomMid#NA1", "is_squad": False, "champion": "Xerath", "kills": 10, "deaths": 1, "assists": 8},
+                "Bot": {"player": "Aditya", "is_squad": True, "champion": "Sivir", "kills": 8, "deaths": 3, "assists": 9},
+                "Support": {"player": "enkryptos#NA1", "is_squad": False, "champion": "Braum", "kills": 1, "deaths": 2, "assists": 15},
+            }
+        }
+        self.stats_mgr.log_match(match)
+
+        # 1. Before linking enkryptos#NA1:
+        #    - Mid + Jungle must be empty (RandomMid#NA1 is not a @LOLers squad member)
+        #    - Top + Jungle must be empty (RandomTop#NA1 is not a @LOLers squad member)
+        #    - Botlane must be empty (enkryptos#NA1 has is_squad=False)
+        self.assertEqual(self.stats_mgr.get_mid_jungle_synergies(), [])
+        self.assertEqual(self.stats_mgr.get_top_jungle_synergies(), [])
+        self.assertEqual(self.stats_mgr.get_botlane_synergies(), [])
+
+        # 2. Now enkryptos links their Riot account (enkryptos#NA1) -> retroactively reconciled!
+        self.stats_mgr.link_riot_account("19468", "enkryptos", "puuid-enk", "enkryptos#NA1")
+
+        # Botlane (Aditya + enkryptos) and Support+Jungle (enkryptos + Ryan) now appear,
+        # while RandomMid#NA1 and RandomTop#NA1 remain strictly excluded!
+        bot_duos = self.stats_mgr.get_botlane_synergies()
+        self.assertEqual(len(bot_duos), 1)
+        self.assertEqual(bot_duos[0]["player_a"], "Aditya")
+        self.assertEqual(bot_duos[0]["player_b"], "enkryptos")
+
+        sj_duos = self.stats_mgr.get_support_jungle_synergies()
+        self.assertEqual(len(sj_duos), 1)
+        self.assertEqual(sj_duos[0]["player_a"], "enkryptos")
+        self.assertEqual(sj_duos[0]["player_b"], "Ryan")
+
+        self.assertEqual(self.stats_mgr.get_mid_jungle_synergies(), [])
+        self.assertEqual(self.stats_mgr.get_top_jungle_synergies(), [])
+
 if __name__ == "__main__":
     unittest.main()

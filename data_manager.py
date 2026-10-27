@@ -16,6 +16,8 @@ class StatsManager:
         self.filepath = filepath
         self._ensure_dir()
         self.data = self._load()
+        if self.reconcile_linked_players_in_history():
+            self.save()
 
     def _ensure_dir(self):
         dirname = os.path.dirname(self.filepath)
@@ -47,7 +49,9 @@ class StatsManager:
                 {"id": "10", "name": "Sam", "discord_tag": "Sam#8901", "primary_role": "Top", "secondary_role": "Mid", "fav_champs": ["Gnar", "Jax", "Malphite"]}
             ],
             "active_sessions": {},
-            "match_history": []
+            "match_history": [],
+            "synergy_threads": {},
+            "feedback_history": []
         }
 
     def save(self):
@@ -80,7 +84,10 @@ class StatsManager:
             "declined": [],
             "reminder_sent": False,
             "channel_id": None,
-            "message_id": None
+            "message_id": None,
+            "thread_id": None,
+            "activity_log": [],
+            "session_matches": []
         }
         self.data["active_sessions"][session_id] = session
         self.save()
@@ -93,6 +100,52 @@ class StatsManager:
             session["channel_id"] = channel_id
             session["message_id"] = message_id
             self.save()
+
+    def set_session_thread(self, session_id: str, thread_id: int):
+        """Stores the attached Discord thread ID for a session."""
+        session = self.data["active_sessions"].get(session_id)
+        if session:
+            session["thread_id"] = thread_id
+            self.save()
+
+    def append_session_activity(self, session_id: str, entry: str, max_entries: int = 5) -> Optional[dict]:
+        """Appends a timestamped update to the session's in-place activity log."""
+        session = self.data["active_sessions"].get(session_id)
+        if not session:
+            return None
+        timestamp = datetime.now().strftime("%I:%M %p").lstrip("0")
+        log = session.setdefault("activity_log", [])
+        log.append(f"`{timestamp}` {entry}")
+        if len(log) > max_entries:
+            session["activity_log"] = log[-max_entries:]
+        self.save()
+        return session
+
+    def attach_match_to_active_session(self, match_record: dict) -> Optional[dict]:
+        """
+        Associates a newly logged match with the most relevant active session (preferring IN_PROGRESS,
+        then READY, then POLLING) so the session card can display a live W-L tally and route the
+        detailed match recap into the session's thread.
+        """
+        active = self.get_active_sessions()
+        if not active:
+            return None
+
+        priority = {"IN_PROGRESS": 0, "READY": 1, "POLLING": 2}
+        active_sorted = sorted(active, key=lambda s: priority.get(s.get("status", "POLLING"), 3))
+        target = active_sorted[0]
+
+        matches = target.setdefault("session_matches", [])
+        match_id = match_record.get("match_id")
+        if not any(m.get("match_id") == match_id for m in matches):
+            matches.append({
+                "match_id": match_id,
+                "result": match_record.get("result", "WIN"),
+                "mode": match_record.get("mode", "Match"),
+                "mvp": match_record.get("mvp", "N/A")
+            })
+            self.save()
+        return target
 
     def get_session(self, session_id: str) -> Optional[dict]:
         """Fetches a session by ID."""
@@ -338,8 +391,127 @@ class StatsManager:
                 "fav_champs": []
             })
 
+        self.reconcile_linked_players_in_history()
         self.save()
         return info
+
+    def set_lolers_roster(self, member_names: List[str]) -> None:
+        """
+        Records the live Discord server's @LOLers role member display names/usernames
+        so synergy and leaderboard calculations strictly filter to @LOLers members.
+        """
+        cleaned = sorted({n.strip() for n in member_names if n and n.strip()})
+        self.data["lolers_roster"] = cleaned
+        self.save()
+
+    def get_valid_lolers_names(self) -> set:
+        """
+        Returns the lowercase set of known @LOLers member names:
+        - Live @LOLers role members synced from Discord (`lolers_roster`)
+        - Verified @LOLers members who linked Riot accounts (`linked_players`)
+        - Configured group members (`members`)
+        """
+        names = set()
+        for n in self.data.get("lolers_roster", []):
+            if n:
+                names.add(n.lower())
+        for info in self.data.get("linked_players", {}).values():
+            if info.get("name"):
+                names.add(info["name"].lower())
+            if info.get("discord_name"):
+                names.add(info["discord_name"].lower())
+        for m in self.data.get("members", []):
+            if m.get("name"):
+                names.add(m["name"].lower())
+        return names
+
+    def reconcile_linked_players_in_history(self) -> bool:
+        """
+        Retroactively updates any match_history lineup entries where a linked @LOLers
+        member was previously recorded by their raw Riot ID with `is_squad=False`
+        before they ran `/link-riot`.
+        """
+        riot_id_map: Dict[str, str] = {}
+        linked_names: set = set()
+
+        for info in self.data.get("linked_players", {}).values():
+            rid = (info.get("riot_id") or "").strip().lower()
+            name = (info.get("name") or info.get("discord_name") or "").strip()
+            if rid and name:
+                riot_id_map[rid] = name
+                linked_names.add(name.lower())
+
+        for m in self.data.get("members", []):
+            rid = (m.get("riot_id") or "").strip().lower()
+            name = (m.get("name") or "").strip()
+            if rid and name and rid not in riot_id_map:
+                riot_id_map[rid] = name
+                linked_names.add(name.lower())
+
+        if not riot_id_map and not linked_names:
+            return False
+
+        updated = False
+        for match in self.data.get("match_history", []):
+            squad_list = match.setdefault("squad_players", [])
+            lineup = match.get("lineup", {})
+            for role, pdata in lineup.items():
+                if not isinstance(pdata, dict):
+                    continue
+                raw_player = (pdata.get("player") or "").strip()
+                raw_lower = raw_player.lower()
+
+                if raw_lower in riot_id_map:
+                    canonical_name = riot_id_map[raw_lower]
+                    if pdata.get("player") != canonical_name or not pdata.get("is_squad"):
+                        pdata["player"] = canonical_name
+                        pdata["is_squad"] = True
+                        updated = True
+                    if canonical_name not in squad_list:
+                        squad_list.append(canonical_name)
+                        updated = True
+                elif raw_lower in linked_names and pdata.get("is_squad") is False:
+                    pdata["is_squad"] = True
+                    if raw_player not in squad_list:
+                        squad_list.append(raw_player)
+                    updated = True
+
+        return updated
+
+    def is_lolers_member_entry(
+        self,
+        pdata: dict,
+        match: Optional[dict] = None,
+        allowed_names: Optional[set] = None,
+    ) -> bool:
+        """
+        Returns True only if a match lineup participant is a verified @LOLers member.
+        Excludes random matchmade players (`is_squad == False`).
+        """
+        if not isinstance(pdata, dict):
+            return False
+        name = (pdata.get("player") or "").strip()
+        if not name:
+            return False
+
+        # Auto-tracked Riot matches explicitly mark non-LOLers randoms with is_squad=False
+        if "is_squad" in pdata and not pdata.get("is_squad"):
+            return False
+
+        if match and "squad_players" in match and isinstance(match["squad_players"], list):
+            squad_lower = {p.lower() for p in match["squad_players"] if isinstance(p, str)}
+            if squad_lower and name.lower() not in squad_lower and not pdata.get("is_squad"):
+                return False
+
+        if allowed_names is not None:
+            return name.lower() in allowed_names
+
+        valid_names = self.get_valid_lolers_names()
+        if valid_names and "is_squad" not in pdata:
+            # For manually logged matches, allow if in valid_names or if not a raw RiotID stranger
+            return True
+
+        return True if pdata.get("is_squad", True) else False
 
     def get_linked_puuids(self) -> Dict[str, dict]:
         """
@@ -376,9 +548,17 @@ class StatsManager:
         return True, match_record
 
     # Synergy Analytics Engine
-    def get_pair_synergies(self, role_a: str, role_b: str, label_a: str, label_b: str) -> List[dict]:
+    def get_pair_synergies(
+        self,
+        role_a: str,
+        role_b: str,
+        label_a: str,
+        label_b: str,
+        allowed_names: Optional[set] = None,
+    ) -> List[dict]:
         """
         Generic pair synergy calculator with Bayesian confidence dampening for small sample sizes.
+        Strictly considers pairs where BOTH players are @LOLers squad members.
         """
         pair_stats = {}
 
@@ -387,6 +567,12 @@ class StatsManager:
             pa = lineup.get(role_a)
             pb = lineup.get(role_b)
             if not pa or not pb:
+                continue
+
+            # Strictly require both roles to be played by @LOLers members
+            if not self.is_lolers_member_entry(pa, match, allowed_names):
+                continue
+            if not self.is_lolers_member_entry(pb, match, allowed_names):
                 continue
 
             name_a = pa.get("player")
@@ -472,19 +658,25 @@ class StatsManager:
     def get_support_jungle_synergies(self) -> List[dict]:
         return self.get_pair_synergies("Support", "Jungle", "SUP", "JNG")
 
-    def get_player_leaderboard(self) -> List[dict]:
-        """Calculates win rate and performance stats for each player in the group."""
+    def get_player_leaderboard(self, allowed_names: Optional[set] = None) -> List[dict]:
+        """Calculates win rate and performance stats strictly for @LOLers members."""
         stats = {m["name"]: {"name": m["name"], "games": 0, "wins": 0, "kills": 0, "deaths": 0, "assists": 0, "mvps": 0, "roles": {}} for m in self.data.get("members", [])}
 
         for match in self.data.get("match_history", []):
             is_win = match.get("result") == "WIN"
             mvp = match.get("mvp")
             if mvp:
-                if mvp not in stats:
-                    stats[mvp] = {"name": mvp, "games": 0, "wins": 0, "kills": 0, "deaths": 0, "assists": 0, "mvps": 0, "roles": {}}
-                stats[mvp]["mvps"] += 1
+                # Only credit MVP if the player is a @LOLers squad member
+                lineup_values = list(match.get("lineup", {}).values())
+                mvp_entry = next((p for p in lineup_values if p.get("player") == mvp), {"player": mvp, "is_squad": True})
+                if self.is_lolers_member_entry(mvp_entry, match, allowed_names):
+                    if mvp not in stats:
+                        stats[mvp] = {"name": mvp, "games": 0, "wins": 0, "kills": 0, "deaths": 0, "assists": 0, "mvps": 0, "roles": {}}
+                    stats[mvp]["mvps"] += 1
 
             for role, pdata in match.get("lineup", {}).items():
+                if not self.is_lolers_member_entry(pdata, match, allowed_names):
+                    continue
                 pname = pdata.get("player")
                 if pname:
                     if pname not in stats:
@@ -514,4 +706,71 @@ class StatsManager:
             })
 
         return sorted(leaderboard, key=lambda x: (x["win_rate"], x["games"]), reverse=True)
+
+    # Living Synergy Thread State Management
+    def get_synergy_thread_state(self, pair_key: str) -> Optional[dict]:
+        """Returns stored {thread_id, message_id, updated_at} for a living synergy thread."""
+        return self.data.get("synergy_threads", {}).get(pair_key)
+
+    def set_synergy_thread_state(self, pair_key: str, thread_id: int, message_id: int) -> dict:
+        """Saves the thread_id and living leaderboard message_id for a synergy option."""
+        threads = self.data.setdefault("synergy_threads", {})
+        state = {
+            "pair_key": pair_key,
+            "thread_id": thread_id,
+            "message_id": message_id,
+            "updated_at": datetime.now().isoformat(),
+        }
+        threads[pair_key] = state
+        self.save()
+        return state
+
+    # User Feedback & GitHub Ticket History / Rate Limiting
+    def can_submit_feedback(self, user_id: str, max_per_hour: int = 5) -> Tuple[bool, int]:
+        """
+        Checks whether a Discord user is within the hourly feedback ticket submission limit.
+        Returns (allowed, remaining_quota).
+        """
+        now = datetime.now()
+        history = self.data.get("feedback_history", [])
+        recent_count = 0
+        for item in history:
+            if str(item.get("user_id")) != str(user_id):
+                continue
+            try:
+                submitted_dt = datetime.fromisoformat(item["created_at"])
+                if (now - submitted_dt).total_seconds() < 3600:
+                    recent_count += 1
+            except Exception:
+                continue
+        remaining = max(0, max_per_hour - recent_count)
+        return recent_count < max_per_hour, remaining
+
+    def record_feedback(
+        self,
+        user_id: str,
+        user_name: str,
+        category: str,
+        title: str,
+        description: str,
+        issue_url: Optional[str],
+        issue_number: Optional[int] = None,
+        session_id: Optional[str] = None,
+    ) -> dict:
+        """Persists a submitted user feedback entry and its created GitHub issue metadata."""
+        entry = {
+            "user_id": str(user_id),
+            "user_name": user_name,
+            "category": category,
+            "title": title,
+            "description": description,
+            "issue_url": issue_url,
+            "issue_number": issue_number,
+            "session_id": session_id,
+            "created_at": datetime.now().isoformat(),
+        }
+        self.data.setdefault("feedback_history", []).insert(0, entry)
+        self.save()
+        return entry
+
 

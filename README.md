@@ -123,16 +123,19 @@ python relaunch.py
 
 | Command | Description |
 | :--- | :--- |
-| `/session [time_window]` | Propose a new session in `#5-stackers` using natural language (e.g. `'Tonight 8:30pm'`, `'Friday 9pm'`). Evaluates queue mode and opens RSVP buttons. |
-| `/edit-session <id> <new_time>` | Reschedule a planned session and alert all signed-up players. |
-| `/cancel-session <id>` | Cancel an active session poll. |
-| `/queue-check` | Check current Ranked 5s window status, whether it's open, and when the next window unlocks. |
-| `/synergy [pair_type]` | View duo chemistry across Botlane, Mid + Jungle, Top + Jungle, or Support + Jungle. |
-| `/botlane` | Quick shortcut to display Bot + Support duo chemistry ratings and win rates. |
-| `/roster` | View all server members who have the `@LOLers` role and their match stats. |
-| `/link-riot <riot_id>` | Link your Riot ID (`GameName#TagLine`) to your Discord account for automatic match tracking. |
-| `/sync-matches` | Manually trigger an immediate Riot API check for recent squad matches. |
-| `/log-match` | Manually record a finished match outcome, botlane combo, KDA, and MVP (fallback for custom games). |
+| `/session [time_window]` | Propose a new session in `#5-stackers` using natural language (e.g. `'Tonight 8:30pm'`, `'Friday 9pm'`). Creates 1 living Session Card + 1 attached Session Thread. |
+| `/edit-session <id> <new_time>` | Reschedule a planned session in-place on the Session Card and alert signed-up players in the Session Thread. |
+| `/cancel-session <id>` | Cancel an active session in-place and archive its thread. |
+| `/end-session <id>` | Conclude an active session in-place and archive its thread. |
+| `/sessions [public]` | View active and recent sessions (ephemeral by default; set `public: True` to share). |
+| `/queue-check [public]` | Check current Ranked 5s window status and next opening (ephemeral by default). |
+| `/synergy <pair_type> [public]` | View duo chemistry across Botlane, Mid + Jungle, Top + Jungle, or Support + Jungle (ephemeral by default, links to the living Synergy Thread). |
+| `/botlane [public]` | Quick shortcut to display Bot + Support duo chemistry ratings and win rates (ephemeral by default). |
+| `/roster [public]` | View all server members who have the `@LOLers` role and their match stats (ephemeral by default). |
+| `/link-riot <riot_id> [public]` | Link your Riot ID (`GameName#TagLine`) to your Discord account for automatic match tracking. |
+| `/sync-matches [public]` | Manually trigger an immediate Riot API check for recent squad matches and update living synergy threads. |
+| `/log-match ... [public]` | Manually record a finished match outcome, botlane combo, KDA, and MVP, updating living synergy threads. |
+| `/feedback [category]` | Open a modal form to submit a Bug Report, Feature Request, or UX idea that automatically creates a GitHub Issue on `jgdclima/5-stacker-lol` (also accessible via the **💡 Feedback** button on session cards). |
 
 ---
 
