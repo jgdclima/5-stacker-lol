@@ -490,5 +490,106 @@ class TestAppImprovements(unittest.TestCase):
         self.assertEqual(len(qualifying_bot), 1)
         self.assertEqual(qualifying_bot[0]["games"], 3)
 
+    def test_holistic_role_and_champion_rating_and_synergy(self):
+        from rating_engine import evaluate_match_lineup_and_mvp
+
+        record = {
+            "match_id": "M_HOLISTIC_1",
+            "date": "2026-10-27 18:00",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "duration_min": 30.0,
+            "squad_players": ["Julian", "Ryan", "Aditya", "Joao/Brazil"],
+            "lineup": {
+                "Top": {
+                    "player": "Julian",
+                    "is_squad": True,
+                    "champion": "Yorick",
+                    "kills": 6,
+                    "deaths": 2,
+                    "assists": 5,
+                    "damage": 28000,
+                    "cs": 255,
+                    "vision": 24,
+                    "turret_damage": 14500,
+                    "turret_takedowns": 5,
+                    "turret_plates": 4,
+                    "damage_taken": 26000,
+                    "damage_mitigated": 32000,
+                    "solo_kills": 2,
+                },
+                "Jungle": {
+                    "player": "Ryan",
+                    "is_squad": True,
+                    "champion": "Sejuani",
+                    "kills": 4,
+                    "deaths": 2,
+                    "assists": 18,
+                    "damage": 16500,
+                    "cs": 185,
+                    "vision": 42,
+                    "objective_damage": 28000,
+                    "dragon_takedowns": 3,
+                    "baron_takedowns": 1,
+                    "void_monster_kills": 5,
+                    "damage_taken": 31000,
+                    "damage_mitigated": 45000,
+                    "cc_score": 48,
+                    "immobilize_and_kill_with_ally": 9,
+                },
+                "Mid": {
+                    "player": "RandomCarry#NA1",
+                    "is_squad": False,
+                    "champion": "Xerath",
+                    "kills": 19,
+                    "deaths": 0,
+                    "assists": 12,
+                    "damage": 55000,
+                    "cs": 300,
+                    "vision": 35,
+                },
+                "Bot": {
+                    "player": "Aditya",
+                    "is_squad": True,
+                    "champion": "Jinx",
+                    "kills": 11,
+                    "deaths": 2,
+                    "assists": 10,
+                    "damage": 34000,
+                    "cs": 265,
+                    "vision": 26,
+                    "turret_damage": 6500,
+                },
+                "Support": {
+                    "player": "Joao/Brazil",
+                    "is_squad": True,
+                    "champion": "Soraka",
+                    "kills": 1,
+                    "deaths": 1,
+                    "assists": 24,
+                    "damage": 6200,
+                    "cs": 28,
+                    "vision": 78,
+                    "effective_heal_shield": 14500,
+                    "save_ally_from_death": 4,
+                    "wards_killed": 9,
+                    "control_wards_placed": 5,
+                },
+            },
+        }
+
+        mvp, mvp_rating, lineup = evaluate_match_lineup_and_mvp(record)
+        self.assertNotEqual(mvp, "RandomCarry#NA1")
+        self.assertIn(mvp, ["Julian", "Ryan", "Aditya", "Joao/Brazil"])
+        self.assertGreaterEqual(mvp_rating, 80.0)
+
+        self.assertEqual(lineup["Top"]["archetype"], "splitpusher")
+        self.assertEqual(lineup["Top"]["highlight"], "Splitpush Titan")
+        self.assertEqual(lineup["Jungle"]["archetype"], "tank")
+        self.assertEqual(lineup["Jungle"]["highlight"], "Objective Commander")
+        self.assertEqual(lineup["Support"]["archetype"], "enchanter")
+        self.assertEqual(lineup["Support"]["highlight"], "Peel & Enchanter Carry")
+        self.assertGreaterEqual(lineup["Support"]["rating"], 82.0)
+
 if __name__ == "__main__":
     unittest.main()

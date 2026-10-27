@@ -8,6 +8,12 @@ import json
 import os
 from typing import Dict, List, Optional, Tuple, Any
 from datetime import datetime
+from rating_engine import (
+    evaluate_match_lineup_and_mvp,
+    score_player_in_match,
+    compute_holistic_pair_synergy,
+    rating_to_grade,
+)
 
 DEFAULT_DATA_PATH = "data/league_stats.json"
 
@@ -543,6 +549,14 @@ class StatsManager:
                 if existing.get("match_id") == match_id:
                     return False, existing
 
+        # Ensure every lineup participant has a holistic rating/grade/archetype/highlight
+        lineup = match_record.get("lineup", {})
+        if lineup and any(isinstance(p, dict) and "rating" not in p for p in lineup.values()):
+            explicit_mvp = match_record.get("mvp")
+            evaluate_match_lineup_and_mvp(match_record)
+            if explicit_mvp:
+                match_record["mvp"] = explicit_mvp
+
         self.data.setdefault("match_history", []).insert(0, match_record)
         self.save()
         return True, match_record
@@ -558,7 +572,9 @@ class StatsManager:
         min_games: int = 1,
     ) -> List[dict]:
         """
-        Generic pair synergy calculator with Bayesian confidence dampening for small sample sizes.
+        Holistic pair synergy calculator combining Bayesian-dampened win rate,
+        role & champion-adjusted individual performance ratings, position-pair
+        specific coordination metrics, and combined duo KDA.
         Strictly considers pairs where BOTH players are @LOLers squad members and have played
         at least `min_games` together.
         """
@@ -596,7 +612,8 @@ class StatsManager:
                     "total_kills": 0,
                     "total_deaths": 0,
                     "total_assists": 0,
-                    "champions_played": []
+                    "champions_played": [],
+                    "match_instances": [],
                 }
 
             entry = pair_stats[pair_key]
@@ -613,6 +630,7 @@ class StatsManager:
             entry["total_deaths"] += d
             entry["total_assists"] += a
             entry["champions_played"].append(f"{pa.get('champion')} + {pb.get('champion')}")
+            entry["match_instances"].append((match, pa, pb))
 
         result = []
         for key, s in pair_stats.items():
@@ -621,13 +639,12 @@ class StatsManager:
             raw_win_rate = (s["wins"] / s["games"]) * 100 if s["games"] > 0 else 0
             kda = (s["total_kills"] + s["total_assists"]) / max(1, s["total_deaths"])
 
-            # Confidence weighting: dampens 1-game wonders so duos with higher game volume rank appropriately
-            confidence = min(1.0, s["games"] / 5.0)
-            weighted_wr = (raw_win_rate * confidence) + (50.0 * (1.0 - confidence))
-
-            score = round(min(100.0, (weighted_wr * 0.6) + (min(kda, 6.0) / 6.0 * 40.0)), 1)
-            tier = "S Tier" if score >= 80 else ("A Tier" if score >= 65 else "B Tier")
-            tag = "Lethal Core" if kda >= 4.0 else ("Objective Anchors" if raw_win_rate >= 60 else "Developing Chemistry")
+            holistic = compute_holistic_pair_synergy(
+                role_a=role_a,
+                role_b=role_b,
+                pair_entry=s,
+                match_instances=s["match_instances"],
+            )
 
             result.append({
                 "pair": key,
@@ -638,9 +655,11 @@ class StatsManager:
                 "losses": s["losses"],
                 "win_rate": round(raw_win_rate, 1),
                 "combined_kda": round(kda, 2),
-                "synergy_score": score,
-                "tier": tier,
-                "tag": tag,
+                "synergy_score": holistic["synergy_score"],
+                "tier": holistic["tier"],
+                "tag": holistic["tag"],
+                "avg_duo_rating": holistic["avg_duo_rating"],
+                "coordination_score": holistic["coordination_score"],
                 "favorite_combo": max(set(s["champions_played"]), key=s["champions_played"].count) if s["champions_played"] else "N/A"
             })
 
@@ -663,8 +682,21 @@ class StatsManager:
         return self.get_pair_synergies("Support", "Jungle", "SUP", "JNG", min_games=min_games)
 
     def get_player_leaderboard(self, allowed_names: Optional[set] = None) -> List[dict]:
-        """Calculates win rate and performance stats strictly for @LOLers members."""
-        stats = {m["name"]: {"name": m["name"], "games": 0, "wins": 0, "kills": 0, "deaths": 0, "assists": 0, "mvps": 0, "roles": {}} for m in self.data.get("members", [])}
+        """Calculates win rate, KDA, and holistic role/champion rating strictly for @LOLers members."""
+        stats = {
+            m["name"]: {
+                "name": m["name"],
+                "games": 0,
+                "wins": 0,
+                "kills": 0,
+                "deaths": 0,
+                "assists": 0,
+                "mvps": 0,
+                "ratings": [],
+                "roles": {},
+            }
+            for m in self.data.get("members", [])
+        }
 
         for match in self.data.get("match_history", []):
             is_win = match.get("result") == "WIN"
@@ -675,7 +707,7 @@ class StatsManager:
                 mvp_entry = next((p for p in lineup_values if p.get("player") == mvp), {"player": mvp, "is_squad": True})
                 if self.is_lolers_member_entry(mvp_entry, match, allowed_names):
                     if mvp not in stats:
-                        stats[mvp] = {"name": mvp, "games": 0, "wins": 0, "kills": 0, "deaths": 0, "assists": 0, "mvps": 0, "roles": {}}
+                        stats[mvp] = {"name": mvp, "games": 0, "wins": 0, "kills": 0, "deaths": 0, "assists": 0, "mvps": 0, "ratings": [], "roles": {}}
                     stats[mvp]["mvps"] += 1
 
             for role, pdata in match.get("lineup", {}).items():
@@ -684,19 +716,25 @@ class StatsManager:
                 pname = pdata.get("player")
                 if pname:
                     if pname not in stats:
-                        stats[pname] = {"name": pname, "games": 0, "wins": 0, "kills": 0, "deaths": 0, "assists": 0, "mvps": 0, "roles": {}}
+                        stats[pname] = {"name": pname, "games": 0, "wins": 0, "kills": 0, "deaths": 0, "assists": 0, "mvps": 0, "ratings": [], "roles": {}}
                     stats[pname]["games"] += 1
                     if is_win:
                         stats[pname]["wins"] += 1
                     stats[pname]["kills"] += pdata.get("kills", 0)
                     stats[pname]["deaths"] += pdata.get("deaths", 0)
                     stats[pname]["assists"] += pdata.get("assists", 0)
+                    r_val = pdata.get("rating")
+                    if r_val is None:
+                        r_val = score_player_in_match(role, pdata, match)["rating"]
+                    stats[pname]["ratings"].append(float(r_val))
                     stats[pname]["roles"][role] = stats[pname]["roles"].get(role, 0) + 1
 
         leaderboard = []
         for name, p in stats.items():
             wr = round((p["wins"] / p["games"] * 100), 1) if p["games"] > 0 else 0
             kda = round((p["kills"] + p["assists"]) / max(1, p["deaths"]), 2) if p["games"] > 0 else 0.0
+            avg_rating = round(sum(p["ratings"]) / len(p["ratings"]), 1) if p["ratings"] else 0.0
+            grade = rating_to_grade(avg_rating) if p["ratings"] else "N/A"
             most_played_role = max(p["roles"], key=p["roles"].get) if p["roles"] else "Flex"
             leaderboard.append({
                 "name": name,
@@ -705,11 +743,13 @@ class StatsManager:
                 "losses": p["games"] - p["wins"],
                 "win_rate": wr,
                 "kda": kda,
+                "avg_rating": avg_rating,
+                "grade": grade,
                 "mvps": p["mvps"],
                 "main_role": most_played_role
             })
 
-        return sorted(leaderboard, key=lambda x: (x["win_rate"], x["games"]), reverse=True)
+        return sorted(leaderboard, key=lambda x: (x["avg_rating"], x["win_rate"], x["games"]), reverse=True)
 
     # Living Synergy Thread State Management
     def get_synergy_thread_state(self, pair_key: str) -> Optional[dict]:

@@ -10,6 +10,7 @@ import asyncio
 from typing import Dict, List, Optional, Tuple
 import urllib.parse
 from datetime import datetime
+from rating_engine import evaluate_match_lineup_and_mvp
 
 QUEUE_NAMES = {
     400: "Normal Draft",
@@ -210,15 +211,12 @@ class RiotAPIClient:
             assists = p.get("assists", 0)
             champ = p.get("championName", "Unknown")
             damage = p.get("totalDamageDealtToChampions", 0)
+            challenges = p.get("challenges") or {}
 
-            # Score for MVP determination (weighted KDA + Kill Participation)
-            kda = (kills + assists) / max(1, deaths)
-            kp = (kills + assists) / max(1, team_kills)
-            score = (kda * 2.0) + (kp * 10.0)
-
-            if is_squad_member and score > highest_score:
-                highest_score = score
-                mvp_candidate = player_display_name
+            heal_shield = (
+                challenges.get("effectiveHealAndShielding")
+                or (p.get("totalHealsOnTeammates", 0) + p.get("totalDamageShieldedOnTeammates", 0))
+            )
 
             lineup[role] = {
                 "player": player_display_name,
@@ -229,7 +227,35 @@ class RiotAPIClient:
                 "assists": assists,
                 "damage": damage,
                 "cs": p.get("totalMinionsKilled", 0) + p.get("neutralMinionsKilled", 0),
-                "vision": p.get("visionScore", 0)
+                "vision": p.get("visionScore", 0),
+                "gold_earned": p.get("goldEarned", 0),
+                "damage_taken": p.get("totalDamageTaken", 0),
+                "damage_mitigated": p.get("damageSelfMitigated", 0),
+                "objective_damage": p.get("damageDealtToObjectives", 0),
+                "turret_damage": p.get("damageDealtToTurrets", 0),
+                "turret_takedowns": p.get("turretTakedowns", 0),
+                "turret_plates": challenges.get("turretPlatesTaken", 0),
+                "cc_score": p.get("timeCCingOthers", 0),
+                "effective_heal_shield": round(float(heal_shield or 0), 1),
+                "wards_placed": p.get("wardsPlaced", 0),
+                "wards_killed": p.get("wardsKilled", challenges.get("wardTakedowns", 0)),
+                "control_wards_placed": challenges.get("controlWardsPlaced", p.get("detectorWardsPlaced", 0)),
+                "kill_participation": round(float(challenges.get("killParticipation", (kills + assists) / max(1, team_kills))), 3),
+                "team_damage_pct": round(float(challenges.get("teamDamagePercentage", 0.0)), 3),
+                "damage_taken_pct": round(float(challenges.get("damageTakenOnTeamPercentage", 0.0)), 3),
+                "solo_kills": challenges.get("soloKills", 0),
+                "outnumbered_kills": challenges.get("outnumberedKills", 0),
+                "dragon_takedowns": challenges.get("dragonTakedowns", 0),
+                "baron_takedowns": challenges.get("baronTakedowns", 0),
+                "rift_herald_takedowns": challenges.get("riftHeraldTakedowns", 0),
+                "void_monster_kills": challenges.get("voidMonsterKill", 0),
+                "objectives_stolen": p.get("objectivesStolen", challenges.get("epicMonsterSteals", 0)),
+                "save_ally_from_death": challenges.get("saveAllyFromDeath", 0),
+                "immobilize_and_kill_with_ally": challenges.get("immobilizeAndKillWithAlly", 0),
+                "pick_kill_with_ally": challenges.get("pickKillWithAlly", 0),
+                "laning_gold_xp_advantage": challenges.get("laningPhaseGoldExpAdvantage", 0),
+                "max_cs_advantage": round(float(challenges.get("maxCsAdvantageOnLaneOpponent", 0.0)), 1),
+                "max_level_lead": challenges.get("maxLevelLeadLaneOpponent", 0),
             }
 
         # Timestamp formatting
@@ -247,9 +273,10 @@ class RiotAPIClient:
             "queue_id": queue_id,
             "result": result_str,
             "duration_min": duration_min,
-            "mvp": mvp_candidate or target_squad[0].get("riotIdGameName", "Squad"),
+            "mvp": target_squad[0].get("riotIdGameName", "Squad"),
             "squad_players": [linked_puuids[p["puuid"]]["name"] for p in target_squad],
             "lineup": lineup
         }
 
+        evaluate_match_lineup_and_mvp(record)
         return record

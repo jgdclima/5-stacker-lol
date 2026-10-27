@@ -800,11 +800,12 @@ def build_synergy_embed(pair_key: str, is_living_thread: bool = False) -> discor
         )
     else:
         for i, duo in enumerate(duos[:limit], start=1):
+            duo_rating_str = f" | **Avg Duo Rating**: `{duo['avg_duo_rating']}/100`" if duo.get("avg_duo_rating") else ""
             embed.add_field(
                 name=f"#{i} {duo['pair']} — {duo['tier']} ({duo['synergy_score']}/100)",
                 value=(
                     f"**Record**: {duo['wins']}W - {duo['losses']}L ({duo['win_rate']}% WR in {duo['games']} games)\n"
-                    f"**Duo KDA**: {duo['combined_kda']} | **Tag**: `{duo['tag']}`\n"
+                    f"**Duo KDA**: {duo['combined_kda']}{duo_rating_str} | **Tag**: `{duo['tag']}`\n"
                     f"**Signature Combo**: `{duo['favorite_combo']}`"
                 ),
                 inline=False,
@@ -1226,9 +1227,13 @@ async def roster_cmd(interaction: discord.Interaction, public: bool = False):
     if role and role.members:
         # Display live guild members who hold the role
         for member in role.members:
-            p_stat = leaderboard_map.get(member.display_name.lower())
-            if p_stat:
-                stat_str = f"**WR**: {p_stat['win_rate']}% ({p_stat['wins']}W-{p_stat['losses']}L) | **KDA**: {p_stat['kda']} | 🏆 {p_stat['mvps']} MVPs"
+            p_stat = leaderboard_map.get(member.display_name.lower()) or leaderboard_map.get(member.name.lower())
+            if p_stat and p_stat.get("games", 0) > 0:
+                rating_part = f" | **Rating**: `{p_stat['avg_rating']}` ({p_stat['grade']})" if p_stat.get("avg_rating") else ""
+                stat_str = (
+                    f"**WR**: {p_stat['win_rate']}% ({p_stat['wins']}W-{p_stat['losses']}L) | "
+                    f"**KDA**: {p_stat['kda']}{rating_part} | 🏆 {p_stat['mvps']} MVPs"
+                )
             else:
                 stat_str = "*Ready for first 5-stack session*"
             embed.add_field(
@@ -1240,9 +1245,10 @@ async def roster_cmd(interaction: discord.Interaction, public: bool = False):
     else:
         # Fallback to configured data manager members if role not found in cache
         for p in leaderboard:
+            rating_part = f" | **Rating**: `{p['avg_rating']}` ({p['grade']})" if p.get("avg_rating") else ""
             embed.add_field(
                 name=f"{p['name']} ({p['main_role']})",
-                value=f"**WR**: {p['win_rate']}% ({p['wins']}W-{p['losses']}L) | **KDA**: {p['kda']} | **MVPs**: 🏆 {p['mvps']}",
+                value=f"**WR**: {p['win_rate']}% ({p['wins']}W-{p['losses']}L) | **KDA**: {p['kda']}{rating_part} | **MVPs**: 🏆 {p['mvps']}",
                 inline=True
             )
         embed.set_footer(text=f"Ensure the @{ROSTER_ROLE_NAME} role exists in your Discord server.")
@@ -1360,10 +1366,13 @@ def build_match_recap_embed(record: dict) -> discord.Embed:
     is_win = record.get("result") == "WIN"
     color = 0x22C55E if is_win else 0xEF4444
     duration = record.get("duration_min", 0)
+    mvp_name = record.get("mvp", "N/A")
+    mvp_rating = record.get("mvp_rating")
+    mvp_suffix = f" (`{mvp_rating}/100`)" if mvp_rating else ""
 
     embed = discord.Embed(
         title=f"{'🏆 Victory' if is_win else '💀 Defeat'} — {record.get('mode', 'Match')} ({duration} min)",
-        description=f"**Date**: `{record.get('date')}` &bull; **MVP**: 🌟 **{record.get('mvp', 'N/A')}**",
+        description=f"**Date**: `{record.get('date')}` &bull; **MVP**: 🌟 **{mvp_name}**{mvp_suffix}",
         color=color
     )
 
@@ -1374,8 +1383,14 @@ def build_match_recap_embed(record: dict) -> discord.Embed:
         pinfo = lineup.get(role)
         if pinfo:
             star = "🐒 " if pinfo.get("is_squad") else ""
+            rating_badge = (
+                f" • `{pinfo['grade']} ({pinfo['rating']})`"
+                if pinfo.get("rating") is not None and pinfo.get("grade")
+                else ""
+            )
+            highlight_badge = f" *[{pinfo['highlight']}]*" if pinfo.get("highlight") and pinfo.get("is_squad") else ""
             lineup_rows.append(
-                f"{star}**{role}**: **{pinfo['player']}** ({pinfo['champion']} `{pinfo['kills']}/{pinfo['deaths']}/{pinfo['assists']}`)"
+                f"{star}**{role}**: **{pinfo['player']}** ({pinfo['champion']} `{pinfo['kills']}/{pinfo['deaths']}/{pinfo['assists']}`){rating_badge}{highlight_badge}"
             )
     if lineup_rows:
         embed.add_field(name="Squad Lineup", value="\n".join(lineup_rows), inline=False)
