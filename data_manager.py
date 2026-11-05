@@ -30,6 +30,56 @@ class StatsManager:
         if dirname and not os.path.exists(dirname):
             os.makedirs(dirname, exist_ok=True)
 
+    @staticmethod
+    def _extract_accounts(entry: dict) -> List[dict]:
+        """
+        Extracts all linked Riot accounts from a player/member dict.
+        Supports both multi-account `accounts` list and legacy single `puuid`/`riot_id` fields.
+        """
+        if not isinstance(entry, dict):
+            return []
+
+        accounts: List[dict] = []
+        seen_puuids = set()
+        seen_riot_ids = set()
+
+        for acct in entry.get("accounts", []):
+            if not isinstance(acct, dict):
+                continue
+            puuid = (acct.get("puuid") or "").strip()
+            riot_id = (acct.get("riot_id") or "").strip()
+            if not puuid and not riot_id:
+                continue
+            if puuid and puuid in seen_puuids:
+                continue
+            if not puuid and riot_id.lower() in seen_riot_ids:
+                continue
+            if puuid:
+                seen_puuids.add(puuid)
+            if riot_id:
+                seen_riot_ids.add(riot_id.lower())
+            accounts.append({
+                "puuid": puuid,
+                "riot_id": riot_id,
+                "linked_at": acct.get("linked_at") or entry.get("linked_at") or datetime.now().isoformat(),
+            })
+
+        legacy_puuid = (entry.get("puuid") or "").strip()
+        legacy_riot_id = (entry.get("riot_id") or "").strip()
+        if legacy_puuid or legacy_riot_id:
+            already_present = (
+                (legacy_puuid and legacy_puuid in seen_puuids)
+                or (not legacy_puuid and legacy_riot_id.lower() in seen_riot_ids)
+            )
+            if not already_present:
+                accounts.append({
+                    "puuid": legacy_puuid,
+                    "riot_id": legacy_riot_id,
+                    "linked_at": entry.get("linked_at") or datetime.now().isoformat(),
+                })
+
+        return accounts
+
     def _load(self) -> dict:
         if os.path.exists(self.filepath):
             try:
@@ -361,37 +411,100 @@ class StatsManager:
     def link_riot_account(self, discord_id: str, display_name: str, puuid: str, riot_id: str) -> dict:
         """
         Links a Discord user to a Riot PUUID and Riot ID (GameName#TagLine).
+        Supports multiple Riot accounts per Discord user (preserving existing linked Riot IDs).
         """
         if "linked_players" not in self.data:
             self.data["linked_players"] = {}
 
+        uid_str = str(discord_id)
+        now_iso = datetime.now().isoformat()
+
+        # Remove this PUUID from any other Discord user if it was previously linked elsewhere
+        for other_uid, other_info in list(self.data["linked_players"].items()):
+            if other_uid == uid_str or not isinstance(other_info, dict):
+                continue
+            other_accts = [
+                a for a in self._extract_accounts(other_info)
+                if a.get("puuid") != puuid and (a.get("riot_id") or "").lower() != riot_id.lower()
+            ]
+            if len(other_accts) != len(self._extract_accounts(other_info)):
+                other_info["accounts"] = other_accts
+                other_info["puuids"] = [a["puuid"] for a in other_accts if a.get("puuid")]
+                other_info["riot_ids"] = [a["riot_id"] for a in other_accts if a.get("riot_id")]
+                other_info["puuid"] = other_accts[-1]["puuid"] if other_accts else ""
+                other_info["riot_id"] = other_accts[-1]["riot_id"] if other_accts else ""
+
+        existing_info = self.data["linked_players"].get(uid_str, {})
+        accounts = self._extract_accounts(existing_info)
+
+        # Also merge any accounts stored on the matching `members` entry
+        for m in self.data.get("members", []):
+            if m.get("discord_id") == uid_str or m.get("name", "").lower() == display_name.lower():
+                for m_acct in self._extract_accounts(m):
+                    if not any(
+                        (m_acct.get("puuid") and a.get("puuid") == m_acct.get("puuid"))
+                        or (m_acct.get("riot_id") and (a.get("riot_id") or "").lower() == m_acct["riot_id"].lower())
+                        for a in accounts
+                    ):
+                        accounts.append(m_acct)
+
+        updated_existing = False
+        for acct in accounts:
+            if (puuid and acct.get("puuid") == puuid) or (
+                riot_id and (acct.get("riot_id") or "").lower() == riot_id.lower()
+            ):
+                acct["puuid"] = puuid
+                acct["riot_id"] = riot_id
+                acct["linked_at"] = now_iso
+                updated_existing = True
+                break
+
+        if not updated_existing:
+            accounts.append({
+                "puuid": puuid,
+                "riot_id": riot_id,
+                "linked_at": now_iso,
+            })
+
+        puuids_list = [a["puuid"] for a in accounts if a.get("puuid")]
+        riot_ids_list = [a["riot_id"] for a in accounts if a.get("riot_id")]
+
         info = {
-            "discord_id": str(discord_id),
+            "discord_id": uid_str,
             "discord_name": display_name,
             "name": display_name,
             "puuid": puuid,
             "riot_id": riot_id,
-            "linked_at": datetime.now().isoformat()
+            "puuids": puuids_list,
+            "riot_ids": riot_ids_list,
+            "accounts": accounts,
+            "linked_at": now_iso,
         }
-        self.data["linked_players"][str(discord_id)] = info
+        self.data["linked_players"][uid_str] = info
 
         # Sync to members list if existing, or create new member entry
         found = False
         for m in self.data.get("members", []):
-            if m.get("discord_id") == str(discord_id) or m.get("name", "").lower() == display_name.lower():
-                m["discord_id"] = str(discord_id)
+            if m.get("discord_id") == uid_str or m.get("name", "").lower() == display_name.lower():
+                m["discord_id"] = uid_str
                 m["puuid"] = puuid
                 m["riot_id"] = riot_id
+                m["puuids"] = list(puuids_list)
+                m["riot_ids"] = list(riot_ids_list)
+                m["accounts"] = [dict(a) for a in accounts]
                 found = True
                 break
         if not found:
             self.data.setdefault("members", []).append({
                 "id": str(len(self.data.get("members", [])) + 1),
                 "name": display_name,
-                "discord_id": str(discord_id),
+                "discord_id": uid_str,
                 "discord_tag": display_name,
                 "puuid": puuid,
                 "riot_id": riot_id,
+                "puuids": list(puuids_list),
+                "riot_ids": list(riot_ids_list),
+                "accounts": [dict(a) for a in accounts],
                 "primary_role": "Flex",
                 "secondary_role": "Flex",
                 "fav_champs": []
@@ -400,6 +513,42 @@ class StatsManager:
         self.reconcile_linked_players_in_history()
         self.save()
         return info
+
+    def get_user_riot_accounts(self, discord_id: Optional[str] = None, name: Optional[str] = None) -> List[dict]:
+        """
+        Returns the list of all linked Riot accounts (`[{"puuid": ..., "riot_id": ..., "linked_at": ...}]`)
+        for a given Discord user ID or display name.
+        """
+        accounts: List[dict] = []
+        seen_keys = set()
+
+        def _collect(entry: dict):
+            for acct in self._extract_accounts(entry):
+                key = acct.get("puuid") or (acct.get("riot_id") or "").lower()
+                if key and key not in seen_keys:
+                    seen_keys.add(key)
+                    accounts.append(acct)
+
+        if discord_id:
+            uid_str = str(discord_id)
+            if uid_str in self.data.get("linked_players", {}):
+                _collect(self.data["linked_players"][uid_str])
+            for m in self.data.get("members", []):
+                if str(m.get("discord_id")) == uid_str:
+                    _collect(m)
+
+        if name:
+            name_lower = name.strip().lower()
+            for info in self.data.get("linked_players", {}).values():
+                if (info.get("name") or "").strip().lower() == name_lower or (
+                    info.get("discord_name") or ""
+                ).strip().lower() == name_lower:
+                    _collect(info)
+            for m in self.data.get("members", []):
+                if (m.get("name") or "").strip().lower() == name_lower:
+                    _collect(m)
+
+        return accounts
 
     def set_lolers_roster(self, member_names: List[str]) -> None:
         """
@@ -435,24 +584,30 @@ class StatsManager:
         """
         Retroactively updates any match_history lineup entries where a linked @LOLers
         member was previously recorded by their raw Riot ID with `is_squad=False`
-        before they ran `/link-riot`.
+        before they ran `/link-riot` (across all Riot IDs linked to each Discord user).
         """
         riot_id_map: Dict[str, str] = {}
         linked_names: set = set()
 
         for info in self.data.get("linked_players", {}).values():
-            rid = (info.get("riot_id") or "").strip().lower()
             name = (info.get("name") or info.get("discord_name") or "").strip()
-            if rid and name:
-                riot_id_map[rid] = name
-                linked_names.add(name.lower())
+            if not name:
+                continue
+            linked_names.add(name.lower())
+            for acct in self._extract_accounts(info):
+                rid = (acct.get("riot_id") or "").strip().lower()
+                if rid:
+                    riot_id_map[rid] = name
 
         for m in self.data.get("members", []):
-            rid = (m.get("riot_id") or "").strip().lower()
             name = (m.get("name") or "").strip()
-            if rid and name and rid not in riot_id_map:
-                riot_id_map[rid] = name
-                linked_names.add(name.lower())
+            if not name:
+                continue
+            linked_names.add(name.lower())
+            for acct in self._extract_accounts(m):
+                rid = (acct.get("riot_id") or "").strip().lower()
+                if rid and rid not in riot_id_map:
+                    riot_id_map[rid] = name
 
         if not riot_id_map and not linked_names:
             return False
@@ -461,6 +616,7 @@ class StatsManager:
         for match in self.data.get("match_history", []):
             squad_list = match.setdefault("squad_players", [])
             lineup = match.get("lineup", {})
+            match_reconciled = False
             for role, pdata in lineup.items():
                 if not isinstance(pdata, dict):
                     continue
@@ -473,6 +629,7 @@ class StatsManager:
                         pdata["player"] = canonical_name
                         pdata["is_squad"] = True
                         updated = True
+                        match_reconciled = True
                     if canonical_name not in squad_list:
                         squad_list.append(canonical_name)
                         updated = True
@@ -481,6 +638,10 @@ class StatsManager:
                     if raw_player not in squad_list:
                         squad_list.append(raw_player)
                     updated = True
+                    match_reconciled = True
+
+            if match_reconciled:
+                evaluate_match_lineup_and_mvp(match)
 
         return updated
 
@@ -521,15 +682,28 @@ class StatsManager:
 
     def get_linked_puuids(self) -> Dict[str, dict]:
         """
-        Returns a dictionary mapping PUUID -> player info dict.
+        Returns a dictionary mapping every linked PUUID -> player info dict
+        (supporting multiple Riot accounts per Discord user).
         """
         result = {}
         for uid, p in self.data.get("linked_players", {}).items():
-            if p.get("puuid"):
-                result[p["puuid"]] = p
+            for acct in self._extract_accounts(p):
+                acct_puuid = acct.get("puuid")
+                if acct_puuid:
+                    result[acct_puuid] = {
+                        **p,
+                        "puuid": acct_puuid,
+                        "riot_id": acct.get("riot_id") or p.get("riot_id"),
+                    }
         for m in self.data.get("members", []):
-            if m.get("puuid") and m["puuid"] not in result:
-                result[m["puuid"]] = m
+            for acct in self._extract_accounts(m):
+                acct_puuid = acct.get("puuid")
+                if acct_puuid and acct_puuid not in result:
+                    result[acct_puuid] = {
+                        **m,
+                        "puuid": acct_puuid,
+                        "riot_id": acct.get("riot_id") or m.get("riot_id"),
+                    }
         return result
 
     def is_match_logged(self, match_id: str) -> bool:

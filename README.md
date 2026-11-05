@@ -200,8 +200,8 @@ python relaunch.py
 | `/queue-check [public]` | Check current Ranked 5s window status and next opening (ephemeral by default). |
 | `/synergy <pair_type> [public]` | View duo chemistry across Botlane, Mid + Jungle, Top + Jungle, or Support + Jungle (ephemeral by default, links to the living Synergy Thread). |
 | `/botlane [public]` | Quick shortcut to display Bot + Support duo chemistry ratings and win rates (ephemeral by default). |
-| `/roster [public]` | View all server members who have the `@LOLers` role and their match stats (ephemeral by default). |
-| `/link-riot <riot_id> [public]` | Link your Riot ID (`GameName#TagLine`) to your Discord account for automatic match tracking. |
+| `/roster [public]` | View all server members who have the `@LOLers` role, their linked Riot ID(s), and their match stats (ephemeral by default). |
+| `/link-riot <riot_id> [public]` | Link one or more Riot IDs (`GameName#TagLine`, or comma-separated `Main#NA1, Alt#NA1`) to your Discord account. Running `/link-riot` with a new Riot ID adds it to your profile so all your accounts aggregate stats together. |
 | `/sync-matches [public]` | Manually trigger an immediate Riot API check for recent squad matches and update living synergy threads. |
 | `/log-match ... [public]` | Manually record a finished match outcome, botlane combo, KDA, and MVP, updating living synergy threads. |
 | `/feedback [category]` | Open a modal form to submit a Bug Report, Feature Request, or UX idea that automatically creates a GitHub Issue on `jgdclima/5-stacker-lol` (also accessible via the **💡 Feedback** button on session cards). |

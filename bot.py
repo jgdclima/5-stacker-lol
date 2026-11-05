@@ -1228,14 +1228,17 @@ async def roster_cmd(interaction: discord.Interaction, public: bool = False):
         # Display live guild members who hold the role
         for member in role.members:
             p_stat = leaderboard_map.get(member.display_name.lower()) or leaderboard_map.get(member.name.lower())
+            accts = stats_mgr.get_user_riot_accounts(discord_id=str(member.id), name=member.display_name)
+            riot_ids_str = ", ".join(f"`{a['riot_id']}`" for a in accts if a.get("riot_id"))
+            riot_line = f"\n**Riot ID(s)**: {riot_ids_str}" if riot_ids_str else ""
             if p_stat and p_stat.get("games", 0) > 0:
                 rating_part = f" | **Rating**: `{p_stat['avg_rating']}` ({p_stat['grade']})" if p_stat.get("avg_rating") else ""
                 stat_str = (
                     f"**WR**: {p_stat['win_rate']}% ({p_stat['wins']}W-{p_stat['losses']}L) | "
-                    f"**KDA**: {p_stat['kda']}{rating_part} | 🏆 {p_stat['mvps']} MVPs"
+                    f"**KDA**: {p_stat['kda']}{rating_part} | 🏆 {p_stat['mvps']} MVPs{riot_line}"
                 )
             else:
-                stat_str = "*Ready for first 5-stack session*"
+                stat_str = f"*Ready for first 5-stack session*{riot_line}"
             embed.add_field(
                 name=f"🎮 {member.display_name}",
                 value=stat_str,
@@ -1245,10 +1248,13 @@ async def roster_cmd(interaction: discord.Interaction, public: bool = False):
     else:
         # Fallback to configured data manager members if role not found in cache
         for p in leaderboard:
+            accts = stats_mgr.get_user_riot_accounts(name=p["name"])
+            riot_ids_str = ", ".join(f"`{a['riot_id']}`" for a in accts if a.get("riot_id"))
+            riot_line = f"\n**Riot ID(s)**: {riot_ids_str}" if riot_ids_str else ""
             rating_part = f" | **Rating**: `{p['avg_rating']}` ({p['grade']})" if p.get("avg_rating") else ""
             embed.add_field(
                 name=f"{p['name']} ({p['main_role']})",
-                value=f"**WR**: {p['win_rate']}% ({p['wins']}W-{p['losses']}L) | **KDA**: {p['kda']}{rating_part} | **MVPs**: 🏆 {p['mvps']}",
+                value=f"**WR**: {p['win_rate']}% ({p['wins']}W-{p['losses']}L) | **KDA**: {p['kda']}{rating_part} | **MVPs**: 🏆 {p['mvps']}{riot_line}",
                 inline=True
             )
         embed.set_footer(text=f"Ensure the @{ROSTER_ROLE_NAME} role exists in your Discord server.")
@@ -1466,16 +1472,13 @@ async def link_riot_cmd(interaction: discord.Interaction, riot_id: str, public: 
         )
         return
 
-    if "#" not in riot_id:
+    raw_ids = [r.strip() for r in riot_id.split(",") if r.strip()]
+    if not raw_ids or any("#" not in r for r in raw_ids):
         await interaction.response.send_message(
-            "❌ Invalid Riot ID format. Please use `GameName#TagLine` (e.g. `Faker#KR1` or `Doublelift#NA1`).",
+            "❌ Invalid Riot ID format. Please use `GameName#TagLine` (e.g. `Faker#KR1` or `Doublelift#NA1, AltName#NA1`).",
             ephemeral=True
         )
         return
-
-    parts = riot_id.split("#", 1)
-    game_name = parts[0].strip()
-    tag_line = parts[1].strip()
 
     if not riot_client.is_configured():
         await interaction.response.send_message(
@@ -1485,28 +1488,58 @@ async def link_riot_cmd(interaction: discord.Interaction, riot_id: str, public: 
         return
 
     await interaction.response.defer(ephemeral=not public)
-    account = await riot_client.get_account_by_riot_id(game_name, tag_line)
-    if not account or "puuid" not in account:
+
+    linked_now = []
+    failed_ids = []
+    last_info = None
+
+    for candidate in raw_ids:
+        parts = candidate.split("#", 1)
+        game_name = parts[0].strip()
+        tag_line = parts[1].strip()
+
+        account = await riot_client.get_account_by_riot_id(game_name, tag_line)
+        if not account or "puuid" not in account:
+            failed_ids.append(f"{game_name}#{tag_line}")
+            continue
+
+        puuid = account["puuid"]
+        actual_riot_id = f"{account.get('gameName', game_name)}#{account.get('tagLine', tag_line)}"
+        last_info = stats_mgr.link_riot_account(
+            discord_id=str(interaction.user.id),
+            display_name=interaction.user.display_name,
+            puuid=puuid,
+            riot_id=actual_riot_id
+        )
+        linked_now.append(actual_riot_id)
+
+    if not linked_now:
+        failed_str = ", ".join(f"**{f}**" for f in failed_ids)
         await interaction.followup.send(
-            f"❌ Could not find Riot account for **{game_name}#{tag_line}** in region `{RIOT_REGION}`. Please verify spelling and region.",
+            f"❌ Could not find Riot account(s) for {failed_str} in region `{RIOT_REGION}`. Please verify spelling and region.",
             ephemeral=True
         )
         return
 
-    puuid = account["puuid"]
-    actual_riot_id = f"{account.get('gameName', game_name)}#{account.get('tagLine', tag_line)}"
-    stats_mgr.link_riot_account(
+    all_accounts = stats_mgr.get_user_riot_accounts(
         discord_id=str(interaction.user.id),
-        display_name=interaction.user.display_name,
-        puuid=puuid,
-        riot_id=actual_riot_id
+        name=interaction.user.display_name,
     )
+    all_riot_ids = [a["riot_id"] for a in all_accounts if a.get("riot_id")]
+    linked_now_str = ", ".join(f"**{r}**" for r in linked_now)
+    all_linked_str = ", ".join(f"`{r}`" for r in all_riot_ids)
 
-    await interaction.followup.send(
-        f"✅ Successfully linked **{interaction.user.display_name}** to Riot ID **{actual_riot_id}**!\n"
-        f"Your squad matches in normal, flex, and tournament queues will now be automatically recorded.",
-        ephemeral=not public
-    )
+    msg_lines = [
+        f"✅ Successfully linked **{interaction.user.display_name}** to Riot ID {linked_now_str}!",
+    ]
+    if len(all_riot_ids) > 1:
+        msg_lines.append(f"📋 **All Linked Riot IDs ({len(all_riot_ids)})**: {all_linked_str}")
+    if failed_ids:
+        msg_lines.append(f"⚠️ Could not verify: {', '.join(f'`{f}`' for f in failed_ids)}")
+    msg_lines.append("Your squad matches across all linked accounts in normal, flex, and tournament queues will be automatically recorded under your profile.")
+
+    await interaction.followup.send("\n".join(msg_lines), ephemeral=not public)
+    await sync_living_synergy_threads(interaction.guild)
 
 
 @bot.tree.command(name="sync-matches", description="Force check Riot API for recently completed squad games.")

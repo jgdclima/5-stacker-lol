@@ -274,7 +274,7 @@ class RiotAPIClient:
             "result": result_str,
             "duration_min": duration_min,
             "mvp": target_squad[0].get("riotIdGameName", "Squad"),
-            "squad_players": [linked_puuids[p["puuid"]]["name"] for p in target_squad],
+            "squad_players": list(dict.fromkeys(linked_puuids[p["puuid"]]["name"] for p in target_squad)),
             "lineup": lineup
         }
 
