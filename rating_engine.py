@@ -418,7 +418,9 @@ def rating_to_grade(score: float) -> str:
         return "A"
     if score >= 55.0:
         return "B"
-    return "C"
+    if score >= 45.0:
+        return "C"
+    return "F"
 
 
 def score_player_in_match(
