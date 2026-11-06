@@ -1,0 +1,18 @@
+services:
+  5-stacker-lol:
+    build: .
+    container_name: 5-stacker-lol
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # Persistent stats and logs
+      - ./data:/app/data
+      # Live code mounts (instant updates without Docker rebuilds)
+      - ./bot.py:/app/bot.py:ro
+      - ./data_manager.py:/app/data_manager.py:ro
+      - ./rating_engine.py:/app/rating_engine.py:ro
+      - ./riot_api.py:/app/riot_api.py:ro
+      - ./schedule_checker.py:/app/schedule_checker.py:ro
+      - ./github_tickets.py:/app/github_tickets.py:ro
+
