@@ -1378,7 +1378,7 @@ def build_match_recap_embed(record: dict) -> discord.Embed:
 
     embed = discord.Embed(
         title=f"{'🏆 Victory' if is_win else '💀 Defeat'} — {record.get('mode', 'Match')} ({duration} min)",
-        description=f"**Date**: `{record.get('date')}` &bull; **MVP**: 🌟 **{mvp_name}**{mvp_suffix}",
+        description=f"**Date**: `{record.get('date')}`;\n **MVP**: 🌟 **{mvp_name}**{mvp_suffix}",
         color=color
     )
 
@@ -1667,7 +1667,7 @@ async def auto_match_tracker():
                     found_member = discord.utils.find(lambda x: x.display_name.lower() == p_name.lower() or x.name.lower() == p_name.lower(), guild.members)
                     participant_pings.append(found_member.mention if found_member else f"**{p_name}**")
                 pings_str = ", ".join(participant_pings) or "Squad"
-                recap_header = f"🎮 **Match Auto-Recorded!** ({pings_str}) &bull; **{m.get('result')}** ({m.get('mode')})"
+                recap_header = f"🎮 **Match Auto-Recorded!** ({pings_str});\n **{m.get('result')}** ({m.get('mode')})"
 
                 matched_session = stats_mgr.attach_match_to_active_session(m)
                 if matched_session:
