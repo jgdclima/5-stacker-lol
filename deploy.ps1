@@ -21,15 +21,44 @@ param (
 )
 
 # ================= Configuration =================
-# Set these or override them via environment variables:
-# $env:SYNOLOGY_USER = "your_admin_username"
-# $env:SYNOLOGY_HOST = "192.168.1.100" (or QuickConnect / Tailscale hostname)
-# $env:SYNOLOGY_PATH = "/volume1/docker/5-stacker-lol"
+# Load variables from .env file if present
+$envFile = Join-Path $PSScriptRoot ".env"
+$fileEnv = @{}
+if (Test-Path $envFile) {
+    Get-Content $envFile | ForEach-Object {
+        $line = $_.Trim()
+        if ($line -and -not $line.StartsWith("#") -and $line.Contains("=")) {
+            $parts = $line -split "=", 2
+            $key = $parts[0].Trim()
+            $value = $parts[1].Trim()
+            # Remove surrounding single or double quotes if present
+            if (($value.StartsWith('"') -and $value.EndsWith('"')) -or ($value.StartsWith("'") -and $value.EndsWith("'"))) {
+                $value = $value.Substring(1, $value.Length - 2)
+            }
+            $fileEnv[$key] = $value
+        }
+    }
+}
 
-$NasUser = if ($env:SYNOLOGY_USER) { $env:SYNOLOGY_USER } else { "admin" }
-$NasHost = if ($env:SYNOLOGY_HOST) { $env:SYNOLOGY_HOST } else { "synology.local" }
-$RemoteDir = if ($env:SYNOLOGY_PATH) { $env:SYNOLOGY_PATH } else { "/volume1/docker/5-stacker-lol" }
-$ContainerName = "5-stacker-lol"
+function Get-EnvConfig($key, $defaultVal) {
+    if ([System.Environment]::GetEnvironmentVariable($key)) {
+        return [System.Environment]::GetEnvironmentVariable($key)
+    }
+    if ($fileEnv.ContainsKey($key) -and $fileEnv[$key]) {
+        return $fileEnv[$key]
+    }
+    return $defaultVal
+}
+
+$NasUser = Get-EnvConfig "SYNOLOGY_USER" $null
+$NasHost = Get-EnvConfig "SYNOLOGY_HOST" $null
+$RemoteDir = Get-EnvConfig "SYNOLOGY_PATH" "/volume1/docker/5-stacker-lol"
+$ContainerName = Get-EnvConfig "SYNOLOGY_CONTAINER" "5-stacker-lol"
+
+if (-not $NasUser -or -not $NasHost) {
+    Write-Error "Missing required Synology connection settings in .env! Please add SYNOLOGY_USER and SYNOLOGY_HOST to your .env file."
+    exit 1
+}
 
 Write-Host "==========================================================" -ForegroundColor Cyan
 Write-Host "  5-Stacker Discord Bot - Synology NAS Deployment" -ForegroundColor Cyan
@@ -37,7 +66,7 @@ Write-Host "  Target: ${NasUser}@${NasHost}:${RemoteDir}" -ForegroundColor DarkG
 Write-Host "==========================================================" -ForegroundColor Cyan
 
 # 1. Quick check for unpushed commits
-$unpushed = git log @{u}.. --oneline 2>$null
+$unpushed = git log "@{u}.." --oneline 2>$null
 if ($unpushed) {
     Write-Warning "You have local commits that have NOT been pushed to remote:"
     $unpushed | ForEach-Object { Write-Host "  $_" -ForegroundColor Yellow }
