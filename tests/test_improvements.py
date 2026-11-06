@@ -591,5 +591,73 @@ class TestAppImprovements(unittest.TestCase):
         self.assertEqual(lineup["Support"]["highlight"], "Peel & Enchanter Carry")
         self.assertGreaterEqual(lineup["Support"]["rating"], 82.0)
 
+    def test_dynamic_discord_timestamp_formatting(self):
+        from bot import get_session_timestamp, format_session_time, build_session_embed
+
+        iso_str = "2026-11-06T20:00:00-07:00"
+        dt = datetime.fromisoformat(iso_str)
+        expected_ts = int(dt.timestamp())
+
+        session_with_iso = {
+            "session_id": "test_time_1",
+            "scheduled_time": "Friday Nov 06 at 08:00 PM MST",
+            "scheduled_iso": iso_str,
+            "status": "POLLING",
+            "confirmed_players": [],
+            "creator": "Faker",
+        }
+
+        # 1. Timestamp extraction
+        self.assertEqual(get_session_timestamp(session_with_iso), expected_ts)
+
+        # 2. Formatted output styles
+        card_fmt = format_session_time(session_with_iso, style="card")
+        self.assertEqual(card_fmt, f"<t:{expected_ts}:F> (<t:{expected_ts}:R>)")
+
+        short_fmt = format_session_time(session_with_iso, style="short")
+        self.assertEqual(short_fmt, f"<t:{expected_ts}:f> (<t:{expected_ts}:R>)")
+
+        list_fmt = format_session_time(session_with_iso, style="list")
+        self.assertEqual(list_fmt, f"<t:{expected_ts}:f>")
+
+        time_fmt = format_session_time(session_with_iso, style="time")
+        self.assertEqual(time_fmt, f"<t:{expected_ts}:t>")
+
+        # 3. Fallback when scheduled_iso is missing or invalid
+        session_fallback = {
+            "session_id": "test_time_2",
+            "scheduled_time": "Tomorrow at 8pm",
+            "status": "POLLING",
+            "confirmed_players": [],
+            "creator": "Faker",
+        }
+        self.assertIsNone(get_session_timestamp(session_fallback))
+        self.assertEqual(format_session_time(session_fallback, style="card"), "Tomorrow at 8pm")
+
+        # 4. Session embed uses dynamic timestamp and does not wrap it in backticks
+        embed = build_session_embed(session_with_iso)
+        self.assertIn(f"**Target Window**: <t:{expected_ts}:F> (<t:{expected_ts}:R>)", embed.description)
+        # Ensure backticks are NOT present around the timestamp tag (backticks break Discord timestamp parsing)
+        self.assertNotIn(f"`<t:{expected_ts}:F>`", embed.description)
+
+    def test_append_session_activity_uses_discord_timestamp(self):
+        s = self.stats_mgr.create_session("s_act", "Tonight 8:00 PM", "Ranked Flex", False, "Leader")
+        updated = self.stats_mgr.append_session_activity("s_act", "Player confirmed")
+        self.assertIsNotNone(updated)
+        log = updated.get("activity_log", [])
+        self.assertEqual(len(log), 1)
+        # Verify it has <t:...:t> format
+        import re
+        self.assertTrue(re.match(r"^<t:\d+:t> Player confirmed$", log[0]))
+
+    def test_evaluate_time_returns_timestamps(self):
+        eval_res = self.scheduler.evaluate_time()
+        self.assertIn("target_timestamp", eval_res)
+        self.assertIsInstance(eval_res["target_timestamp"], int)
+        if eval_res.get("next_window_start") != "N/A":
+            self.assertIn("next_window_timestamp", eval_res)
+            self.assertIsInstance(eval_res["next_window_timestamp"], int)
+
+
 if __name__ == "__main__":
     unittest.main()

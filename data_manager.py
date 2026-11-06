@@ -169,9 +169,10 @@ class StatsManager:
         session = self.data["active_sessions"].get(session_id)
         if not session:
             return None
-        timestamp = datetime.now().strftime("%I:%M %p").lstrip("0")
+        now_ts = int(datetime.now().timestamp())
+        timestamp_badge = f"<t:{now_ts}:t>"
         log = session.setdefault("activity_log", [])
-        log.append(f"`{timestamp}` {entry}")
+        log.append(f"{timestamp_badge} {entry}")
         if len(log) > max_entries:
             session["activity_log"] = log[-max_entries:]
         self.save()

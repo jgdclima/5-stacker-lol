@@ -208,6 +208,47 @@ class FeedbackModal(discord.ui.Modal, title="💡 Bot Feedback & GitHub Ticket")
             )
 
 
+def get_session_timestamp(session: dict) -> Optional[int]:
+    """Returns unix epoch timestamp integer if session has a valid scheduled_iso."""
+    iso_str = session.get("scheduled_iso")
+    if iso_str:
+        try:
+            dt = datetime.fromisoformat(iso_str)
+            return int(dt.timestamp())
+        except Exception:
+            pass
+    return None
+
+
+def format_session_time(session: dict, style: str = "card") -> str:
+    """
+    Formats the session's scheduled time using Discord's dynamic timestamp tag.
+    Styles:
+      'card':  <t:TS:F> (<t:TS:R>) -> e.g. Friday, November 6, 2026 8:00 PM (in 2 hours)
+      'full':  <t:TS:F>           -> e.g. Friday, November 6, 2026 8:00 PM
+      'short': <t:TS:f> (<t:TS:R>) -> e.g. November 6, 2026 8:00 PM (in 2 hours)
+      'list':  <t:TS:f>           -> e.g. November 6, 2026 8:00 PM
+      'time':  <t:TS:t>           -> e.g. 8:00 PM
+      'rel':   <t:TS:R>           -> e.g. in 2 hours
+    Falls back to session.get('scheduled_time') if no valid scheduled_iso exists.
+    """
+    ts = get_session_timestamp(session)
+    if ts is not None:
+        if style == "card":
+            return f"<t:{ts}:F> (<t:{ts}:R>)"
+        elif style == "full":
+            return f"<t:{ts}:F>"
+        elif style == "short":
+            return f"<t:{ts}:f> (<t:{ts}:R>)"
+        elif style == "list":
+            return f"<t:{ts}:f>"
+        elif style == "time":
+            return f"<t:{ts}:t>"
+        elif style == "rel":
+            return f"<t:{ts}:R>"
+    return str(session.get("scheduled_time") or "Unknown time")
+
+
 async def fetch_session_message(
     session: dict,
     guild: Optional[discord.Guild] = None,
@@ -444,7 +485,7 @@ class ConfirmActionView(discord.ui.View):
 
             cancel_msg = (
                 f"🛑 **SESSION CANCELLED**\n"
-                f"The 5-stack session for **{session.get('scheduled_time')}** was cancelled by **{interaction.user.display_name}**."
+                f"The 5-stack session for {format_session_time(session, 'short')} was cancelled by **{interaction.user.display_name}**."
             )
             if pings_str:
                 cancel_msg += f"\n📢 Attention {pings_str}: This session will no longer take place."
@@ -474,7 +515,7 @@ class ConfirmActionView(discord.ui.View):
                 session=session,
                 activity_entry=f"🏁 Concluded by **{interaction.user.display_name}**",
                 thread_content=(
-                    f"🏁 **Session Concluded**: The 5-stack session for **{session.get('scheduled_time')}** "
+                    f"🏁 **Session Concluded**: The 5-stack session for {format_session_time(session, 'short')} "
                     f"has officially concluded! Thanks for playing, squad!"
                 ),
                 guild=interaction.guild,
@@ -622,7 +663,7 @@ class SessionRSVPView(discord.ui.View):
 
         view = ConfirmActionView(self.session_id, "CANCEL", interaction.message)
         await interaction.response.send_message(
-            f"⚠️ **Are you sure you want to cancel the session for {session.get('scheduled_time')}?**\n"
+            f"⚠️ **Are you sure you want to cancel the session for {format_session_time(session, 'short')}?**\n"
             f"This will mark the session card as cancelled and notify signed-up players in the session thread.",
             view=view,
             ephemeral=True
@@ -643,7 +684,7 @@ class SessionRSVPView(discord.ui.View):
 
         view = ConfirmActionView(self.session_id, "END", interaction.message)
         await interaction.response.send_message(
-            f"⚠️ **Are you sure you want to end the session for {session.get('scheduled_time')}?**\n"
+            f"⚠️ **Are you sure you want to end the session for {format_session_time(session, 'short')}?**\n"
             f"This will mark the session as completed and close the RSVP view.",
             view=view,
             ephemeral=True
@@ -690,7 +731,7 @@ def build_session_embed(session: dict, guild: discord.Guild = None) -> discord.E
         description=f"{status_badge}\n\n"
                     f"**Session ID**: `{session.get('session_id')}`\n"
                     f"**Organizer**: **{creator_name}**\n"
-                    f"**Target Window**: `{session.get('scheduled_time')}`\n"
+                    f"**Target Window**: {format_session_time(session, 'card')}\n"
                     f"**Detected Mode**: **{session.get('mode')}**\n"
                     f"{thread_line}"
                     f"{'🏆 *Ranked 5s Tournament Draft Active*' if session.get('is_ranked_5s') else '🔄 *Ranked Flex 24/7 Fallback Active*'}",
@@ -918,7 +959,7 @@ async def session_cmd(interaction: discord.Interaction, time_window: str):
         mode=eval_res["mode"],
         is_ranked_5s=eval_res["is_ranked_5s"],
         creator=interaction.user.display_name,
-        scheduled_iso=eval_res.get("target_iso"),
+        scheduled_iso=eval_res.get("target_iso") if parsed_ok else None,
         creator_id=str(interaction.user.id)
     )
 
@@ -934,9 +975,10 @@ async def session_cmd(interaction: discord.Interaction, time_window: str):
     if isinstance(target_channel, discord.Thread) and target_channel.parent:
         target_channel = target_channel.parent
 
+    session_time_str = format_session_time(session, "short")
     try:
         session_msg = await target_channel.send(
-            content=f"📢 {role_mention}: **{interaction.user.display_name}** proposed a 5-stack session for **{display_time}** in **#{COORDINATION_CHANNEL}**! Who's in?",
+            content=f"📢 {role_mention}: **{interaction.user.display_name}** proposed a 5-stack session for {session_time_str} in **#{COORDINATION_CHANNEL}**! Who's in?",
             embed=embed,
             view=view
         )
@@ -989,7 +1031,7 @@ async def edit_session_cmd(interaction: discord.Interaction, session_id: str, ne
     success, session, affected = stats_mgr.edit_session_time(
         session_id=session_id,
         new_scheduled_time=display_time,
-        new_scheduled_iso=eval_res.get("target_iso"),
+        new_scheduled_iso=eval_res.get("target_iso") if parsed_ok else None,
         new_mode=eval_res["mode"],
         is_ranked_5s=eval_res["is_ranked_5s"]
     )
@@ -1008,19 +1050,21 @@ async def edit_session_cmd(interaction: discord.Interaction, session_id: str, ne
             affected_pings.append(m.mention if m else f"**{name}**")
     pings_str = ", ".join(affected_pings) or "Signed-up players"
 
+    time_badge = format_session_time(session, "card")
+    time_short = format_session_time(session, "short")
     await notify_session(
         session=session,
-        activity_entry=f"🔄 Rescheduled to **{display_time}** ({eval_res['mode']}) by **{interaction.user.display_name}**",
+        activity_entry=f"🔄 Rescheduled to {time_short} ({eval_res['mode']}) by **{interaction.user.display_name}**",
         thread_content=(
             f"⚠️ **SESSION RESCHEDULED!**\n"
-            f"Attention {pings_str}: **{interaction.user.display_name}** changed the session time to **{display_time}** ({eval_res['mode']}).\n"
+            f"Attention {pings_str}: **{interaction.user.display_name}** changed the session time to {time_badge} ({eval_res['mode']}).\n"
             f"Please check your availability and update your RSVP on the session card if needed!"
         ),
         guild=interaction.guild,
     )
 
     await interaction.response.send_message(
-        f"✅ Session `{session_id}` updated in-place to **{display_time}** ({eval_res['mode']})!",
+        f"✅ Session `{session_id}` updated in-place to {time_badge} ({eval_res['mode']})!",
         ephemeral=True
     )
 
@@ -1059,7 +1103,7 @@ async def cancel_session_cmd(interaction: discord.Interaction, session_id: str):
             affected_pings.append(m.mention if m else f"**{name}**")
     pings_str = ", ".join(affected_pings)
 
-    cancel_msg = f"🛑 **Session Cancelled**: The session `{session_id}` ({session.get('scheduled_time')}) was cancelled by **{interaction.user.display_name}**."
+    cancel_msg = f"🛑 **Session Cancelled**: The session `{session_id}` ({format_session_time(session, 'short')}) was cancelled by **{interaction.user.display_name}**."
     if pings_str:
         cancel_msg += f"\n📢 Attention {pings_str}: This session will no longer take place."
 
@@ -1109,7 +1153,7 @@ async def end_session_cmd(interaction: discord.Interaction, session_id: str):
         session=session,
         activity_entry=f"🏁 Concluded by **{interaction.user.display_name}**",
         thread_content=(
-            f"🏁 **Session Concluded**: The session `{session_id}` ({session.get('scheduled_time')}) "
+            f"🏁 **Session Concluded**: The session `{session_id}` ({format_session_time(session, 'short')}) "
             f"was ended by **{interaction.user.display_name}**. Thanks for playing!"
         ),
         guild=interaction.guild,
@@ -1147,7 +1191,7 @@ async def sessions_cmd(interaction: discord.Interaction, public: bool = False):
             count = len(s.get("confirmed_players", []))
             thread_ref = f" • <#{s['thread_id']}>" if s.get("thread_id") else ""
             active_lines.append(
-                f"• `{s.get('session_id')}`: **{s.get('scheduled_time')}** ({s.get('mode')}) — {badge} ({count}/5){thread_ref}\n"
+                f"• `{s.get('session_id')}`: {format_session_time(s, 'short')} ({s.get('mode')}) — {badge} ({count}/5){thread_ref}\n"
                 f"  *Organizer*: **{s.get('creator')}**"
             )
         embed.add_field(name=f"Active Sessions ({len(active)})", value="\n".join(active_lines), inline=False)
@@ -1163,7 +1207,7 @@ async def sessions_cmd(interaction: discord.Interaction, public: bool = False):
         for s in reversed(recent_closed):
             badge = "🏁 Completed" if s.get("status") == "COMPLETED" else "🛑 Cancelled"
             closed_lines.append(
-                f"• `{s.get('session_id')}`: {s.get('scheduled_time')} — {badge} (by {s.get('creator')})"
+                f"• `{s.get('session_id')}`: {format_session_time(s, 'list')} — {badge} (by {s.get('creator')})"
             )
         embed.add_field(name="Recent Past Sessions", value="\n".join(closed_lines), inline=False)
 
@@ -1180,8 +1224,17 @@ async def queue_check_cmd(interaction: discord.Interaction, public: bool = False
     )
     embed.add_field(name="Current Mode", value=f"**{info['mode']}**", inline=False)
     embed.add_field(name="Status", value=info["description"], inline=False)
-    embed.add_field(name="Current Time", value=info["evaluated_time"], inline=True)
-    embed.add_field(name="Next Ranked 5s Window", value=info["next_window_start"], inline=True)
+
+    now_ts = info.get("target_timestamp")
+    cur_time_str = f"<t:{now_ts}:f>" if now_ts else info["evaluated_time"]
+    embed.add_field(name="Current Time", value=cur_time_str, inline=True)
+
+    nw_ts = info.get("next_window_timestamp")
+    next_window_str = f"<t:{nw_ts}:F> (<t:{nw_ts}:R>)" if nw_ts else info["next_window_start"]
+    embed.add_field(name="Next Ranked 5s Window", value=next_window_str, inline=True)
+
+    embed.set_footer(text=f"Ranked 5s runs Fri-Sun 8PM-1AM. Ranked Flex is 24/7 • #{COORDINATION_CHANNEL}")
+    await interaction.response.send_message(embed=embed, ephemeral=not public)
     embed.set_footer(text=f"Ranked 5s runs Fri-Sun 8PM-1AM. Ranked Flex is 24/7 • #{COORDINATION_CHANNEL}")
     await interaction.response.send_message(embed=embed, ephemeral=not public)
 
@@ -1616,7 +1669,7 @@ async def session_reminder_task():
                 activity_entry="⏰ **15-minute countdown reminder sent**",
                 thread_content=(
                     f"⏰ **15-MINUTE COUNTDOWN ALERT!** ({ping_str})\n"
-                    f"The 5-stack session for **{s.get('scheduled_time')}** starts in 15 minutes! Ready up your League clients!"
+                    f"The 5-stack session for {format_session_time(s, 'short')} starts in 15 minutes! Ready up your League clients!"
                 ),
                 guild=guild,
             )

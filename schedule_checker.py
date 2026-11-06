@@ -183,7 +183,10 @@ class RankedSchedule:
             "description": desc,
             "evaluated_time": dt.strftime("%Y-%m-%d %I:%M %p %Z"),
             "target_iso": dt.isoformat(),
-            "next_window_start": next_window.strftime("%A %b %d at %I:%M %p %Z") if next_window else "N/A"
+            "target_timestamp": int(dt.timestamp()),
+            "next_window_start": next_window.strftime("%A %b %d at %I:%M %p %Z") if next_window else "N/A",
+            "next_window_iso": next_window.isoformat() if next_window else None,
+            "next_window_timestamp": int(next_window.timestamp()) if next_window else None,
         }
 
     def get_next_window(self, dt: Optional[datetime] = None) -> Optional[datetime]:
