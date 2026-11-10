@@ -658,6 +658,55 @@ class TestAppImprovements(unittest.TestCase):
             self.assertIn("next_window_timestamp", eval_res)
             self.assertIsInstance(eval_res["next_window_timestamp"], int)
 
+    def test_static_dashboard_export_and_faq_content(self):
+        from export_dashboard import build_dashboard_payload, generate_dashboard
+
+        # Create a session and log a match
+        self.stats_mgr.create_session("dash_s1", "Friday 9:00 PM", "Ranked 5s", True, "João")
+        self.stats_mgr.register_player("dash_s1", "João", "CONFIRMED", "Bot")
+        self.stats_mgr.register_player("dash_s1", "Melanie", "CONFIRMED", "Support")
+
+        match = {
+            "match_id": "DASH_MATCH_1",
+            "date": "2026-11-10 21:00",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "duration_min": 30.0,
+            "lineup": {
+                "Top": {"player": "David", "champion": "Ornn", "kills": 3, "deaths": 1, "assists": 12, "damage": 16000, "cs": 200, "vision": 25},
+                "Jungle": {"player": "Marcus", "champion": "Vi", "kills": 7, "deaths": 2, "assists": 10, "damage": 21000, "cs": 175, "vision": 32},
+                "Mid": {"player": "Elena", "champion": "Ahri", "kills": 9, "deaths": 1, "assists": 8, "damage": 27000, "cs": 225, "vision": 28},
+                "Bot": {"player": "João", "champion": "Jinx", "kills": 12, "deaths": 1, "assists": 7, "damage": 35000, "cs": 250, "vision": 24},
+                "Support": {"player": "Melanie", "champion": "Lulu", "kills": 1, "deaths": 1, "assists": 21, "damage": 6500, "cs": 30, "vision": 68},
+            },
+        }
+        self.stats_mgr.log_match(match)
+
+        payload = build_dashboard_payload(stats_mgr=self.stats_mgr)
+        self.assertTrue(payload["has_live_matches"])
+        self.assertEqual(payload["live"]["kpis"]["total_matches"], 1)
+        self.assertEqual(payload["live"]["kpis"]["win_rate"], 100.0)
+        self.assertGreaterEqual(len(payload["live"]["champions"]), 5)
+        self.assertGreaterEqual(len(payload["live"]["synergies"]["botlane"]), 1)
+        self.assertIn("role_weights", payload["rating_formulas"])
+        self.assertIn("archetype_weights", payload["rating_formulas"])
+
+        # Generate HTML file in temp location
+        out_html = tempfile.NamedTemporaryFile(delete=False, suffix=".html")
+        out_html.close()
+        try:
+            generated_path = generate_dashboard(stats_mgr=self.stats_mgr, output_path=out_html.name)
+            self.assertTrue(os.path.exists(generated_path))
+            with open(generated_path, "r", encoding="utf-8") as f:
+                html_text = f.read()
+            self.assertIn("DASH_MATCH_1", html_text)
+            self.assertIn("How the Bot Gets Its Data", html_text)
+            self.assertIn("Holistic Individual Performance Rating Engine", html_text)
+            self.assertIn("issues/new", html_text)
+        finally:
+            if os.path.exists(out_html.name):
+                os.remove(out_html.name)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -111,8 +111,16 @@ class StatsManager:
         }
 
     def save(self):
+        if self.filepath == ":memory_demo:":
+            return
         with open(self.filepath, "w", encoding="utf-8") as f:
             json.dump(self.data, f, indent=2)
+        if os.path.normpath(self.filepath) == os.path.normpath(DEFAULT_DATA_PATH):
+            try:
+                from export_dashboard import generate_dashboard
+                generate_dashboard(stats_mgr=self)
+            except Exception as e:
+                print(f"[StatsManager] Warning: Failed to auto-export static dashboard: {e}")
 
     # Session Management
     def create_session(

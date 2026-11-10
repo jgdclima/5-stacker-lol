@@ -1869,6 +1869,13 @@ async def on_ready():
     except Exception as e:
         print(f"Warning: Could not synchronize living synergy threads: {e}")
 
+    try:
+        from export_dashboard import generate_dashboard
+        dash_path = generate_dashboard(stats_mgr=stats_mgr)
+        print(f"Static web dashboard synchronized: {dash_path}")
+    except Exception as e:
+        print(f"Warning: Could not generate static web dashboard: {e}")
+
     force_sync = (
         os.getenv("FORCE_COMMAND_SYNC", "false").lower() in ("1", "true", "yes")
         or "--sync" in sys.argv
