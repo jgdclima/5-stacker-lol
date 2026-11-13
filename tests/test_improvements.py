@@ -956,6 +956,48 @@ class TestAppImprovements(unittest.TestCase):
         self.assertTrue(res_unchanged["unchanged"])
         self.assertFalse(any(c[0] == "PUT" for c in recorded_calls))
 
+    def test_dashboard_infers_primary_and_secondary_roles_from_history(self):
+        from export_dashboard import build_dashboard_payload
+
+        self.stats_mgr.link_riot_account("101", "BotMain", "puuid-101", "BotMain#NA1")
+        self.stats_mgr.link_riot_account("102", "JngOTP", "puuid-102", "JngOTP#NA1")
+        self.stats_mgr.link_riot_account("103", "ZeroGames", "puuid-103", "ZeroGames#NA1")
+
+        # BotMain: 2 Bot games, 1 Top game -> primary=Bot, secondary=Top
+        # JngOTP: 3 Jungle games -> primary=Jungle, secondary=Fill
+        # ZeroGames: 0 games -> primary=Flex, secondary=Flex
+        matches = [
+            ("ROLE_M1", "WIN", "Bot", "Jinx", "Jungle", "Vi"),
+            ("ROLE_M2", "WIN", "Bot", "Kai'Sa", "Jungle", "Jarvan IV"),
+            ("ROLE_M3", "LOSS", "Top", "Ornn", "Jungle", "Sejuani"),
+        ]
+        for idx, (mid, res, r1, c1, r2, c2) in enumerate(matches, start=1):
+            self.stats_mgr.log_match({
+                "match_id": mid,
+                "date": f"2026-11-1{idx} 20:00",
+                "mode": "Ranked Flex",
+                "result": res,
+                "duration_min": 30.0,
+                "lineup": {
+                    r1: {"player": "BotMain", "puuid": "puuid-101", "is_squad": True, "champion": c1, "kills": 7, "deaths": 2, "assists": 8, "damage": 24000, "cs": 210, "vision": 20},
+                    r2: {"player": "JngOTP", "puuid": "puuid-102", "is_squad": True, "champion": c2, "kills": 5, "deaths": 3, "assists": 12, "damage": 18000, "cs": 170, "vision": 30},
+                },
+            })
+
+        live = build_dashboard_payload(stats_mgr=self.stats_mgr)["live"]
+        by_name = {p["name"]: p for p in live["players"]}
+
+        self.assertEqual(by_name["BotMain"]["primary_role"], "Bot")
+        self.assertEqual(by_name["BotMain"]["secondary_role"], "Top")
+        self.assertEqual(by_name["BotMain"]["main_role"], "Bot")
+
+        self.assertEqual(by_name["JngOTP"]["primary_role"], "Jungle")
+        self.assertEqual(by_name["JngOTP"]["secondary_role"], "Fill")
+        self.assertEqual(by_name["JngOTP"]["main_role"], "Jungle")
+
+        self.assertEqual(by_name["ZeroGames"]["primary_role"], "Flex")
+        self.assertEqual(by_name["ZeroGames"]["secondary_role"], "Flex")
+
 
 if __name__ == "__main__":
     unittest.main()

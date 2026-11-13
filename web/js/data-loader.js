@@ -7,6 +7,27 @@
  * 3. `window.__DASHBOARD_BUNDLE__` from `./data/dashboard_bundle.js` (for `file://` browsing).
  */
 
+import { buildRoleMatchIndex, resolvePlayerRoles } from './utils.js';
+
+export function normalizeDatasetRoles(dataset) {
+  if (!dataset || !Array.isArray(dataset.players)) return dataset;
+  const roleIndex = buildRoleMatchIndex(dataset.matches || []);
+  dataset.players.forEach(p => {
+    const resolved = resolvePlayerRoles(p, roleIndex[p.name]);
+    p.primary_role = resolved.primary_role;
+    p.secondary_role = resolved.secondary_role;
+    p.main_role = resolved.main_role;
+  });
+  return dataset;
+}
+
+function normalizePayload(payload) {
+  if (!payload) return payload;
+  normalizeDatasetRoles(payload.live);
+  normalizeDatasetRoles(payload.demo);
+  return payload;
+}
+
 function emptyLiveDataset() {
   return {
     is_demo: false,
@@ -55,7 +76,7 @@ export async function loadDashboardData() {
   const inlineEl = document.getElementById('dashboard-data');
   if (inlineEl && inlineEl.textContent.trim() && !inlineEl.textContent.includes('__DASHBOARD_JSON_PAYLOAD__')) {
     try {
-      return JSON.parse(inlineEl.textContent);
+      return normalizePayload(JSON.parse(inlineEl.textContent));
     } catch (err) {
       console.warn('[DataLoader] Failed to parse inline dashboard-data JSON:', err);
     }
@@ -80,20 +101,20 @@ export async function loadDashboardData() {
       const hasLiveMatches = livePayload?.has_live_matches ??
         ((liveDataset.matches?.length || 0) > 0 || (liveDataset.sessions?.length || 0) > 0);
 
-      return {
+      return normalizePayload({
         generated_at: livePayload?.generated_at || demoPayload?.generated_at || fallbackBundle.generated_at || '',
         github_repo: base?.github_repo || fallbackBundle.github_repo || 'jgdclima/5-stacker-lol',
         has_live_matches: Boolean(hasLiveMatches),
         rating_formulas: demoPayload?.rating_formulas || livePayload?.rating_formulas || fallbackBundle.rating_formulas || {},
         live: liveDataset,
         demo: demoDataset
-      };
+      });
     }
   }
 
   // 3. Fallback to synchronous JS bundle for local `file://` usage
   if (window.__DASHBOARD_BUNDLE__) {
-    return window.__DASHBOARD_BUNDLE__;
+    return normalizePayload(window.__DASHBOARD_BUNDLE__);
   }
 
   throw new Error(

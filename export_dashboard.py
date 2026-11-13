@@ -44,6 +44,25 @@ DEFAULT_OUTPUT_PATH = os.path.join(DEFAULT_WEB_DIR, "index.html")
 DEFAULT_GITHUB_REPO = "jgdclima/5-stacker-lol"
 DEFAULT_GH_PAGES_BRANCH = "gh-pages"
 DEFAULT_GH_PAGES_LIVE_PATH = "data/live_payload.json"
+STANDARD_ROLES = ("Top", "Jungle", "Mid", "Bot", "Support")
+
+
+def _infer_ranked_roles(
+    roles_played: Dict[str, int],
+    role_perf: Optional[Dict[str, Dict[str, float]]] = None,
+) -> List[str]:
+    """Ranks standard Summoner's Rift roles played by volume, then win rate and rating."""
+    perf = role_perf or {}
+    candidates = [r for r in STANDARD_ROLES if (roles_played.get(r) or 0) > 0]
+    candidates.sort(
+        key=lambda r: (
+            -(roles_played.get(r) or 0),
+            -((perf.get(r, {}).get("wins", 0)) / max(1, perf.get(r, {}).get("games", roles_played.get(r, 1)))),
+            -((perf.get(r, {}).get("rating_sum", 0.0)) / max(1, perf.get(r, {}).get("games", roles_played.get(r, 1)))),
+            STANDARD_ROLES.index(r),
+        )
+    )
+    return candidates
 
 
 def _build_demo_dataset() -> Dict[str, Any]:
@@ -422,9 +441,10 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
     # Aggregate champion trends, role stats, archetype stats, and per-player details
     champ_stats: Dict[str, Dict[str, Any]] = {}
     role_distribution: Dict[str, Dict[str, int]] = {
-        r: {"games": 0, "wins": 0} for r in ["Top", "Jungle", "Mid", "Bot", "Support"]
+        r: {"games": 0, "wins": 0} for r in STANDARD_ROLES
     }
     archetype_stats: Dict[str, Dict[str, Any]] = {}
+    player_role_perf: Dict[str, Dict[str, Dict[str, float]]] = {}
 
     for match in enriched_matches:
         is_win = match.get("result") == "WIN"
@@ -505,6 +525,13 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
                 prof["deaths"] += deaths
                 prof["assists"] += assists
                 prof["roles_played"][role] = prof["roles_played"].get(role, 0) + 1
+                rp = player_role_perf.setdefault(pname, {}).setdefault(
+                    role, {"games": 0, "wins": 0, "rating_sum": 0.0}
+                )
+                rp["games"] += 1
+                if is_win:
+                    rp["wins"] += 1
+                rp["rating_sum"] += rating
                 for pil_k, pil_v in pillars.items():
                     prof["pillar_totals"][pil_k] = prof["pillar_totals"].get(pil_k, 0.0) + float(pil_v)
                     prof["pillar_counts"][pil_k] = prof["pillar_counts"].get(pil_k, 0) + 1
@@ -577,6 +604,24 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
             })
         prof["champion_pool"] = sorted(champ_list, key=lambda x: (x["games"], x["avg_rating"]), reverse=True)
         prof.pop("champions", None)
+
+        ranked_roles = _infer_ranked_roles(prof["roles_played"], player_role_perf.get(name))
+        if prof.get("primary_role") not in STANDARD_ROLES:
+            if ranked_roles:
+                prof["primary_role"] = ranked_roles[0]
+            elif prof.get("main_role") in STANDARD_ROLES:
+                prof["primary_role"] = prof["main_role"]
+            else:
+                prof["primary_role"] = "Flex"
+        if prof.get("main_role") not in STANDARD_ROLES and prof["primary_role"] in STANDARD_ROLES:
+            prof["main_role"] = prof["primary_role"]
+        if prof.get("secondary_role") not in STANDARD_ROLES or prof.get("secondary_role") == prof["primary_role"]:
+            alt_role = next((r for r in ranked_roles if r != prof["primary_role"]), None)
+            if alt_role:
+                prof["secondary_role"] = alt_role
+            elif prof["primary_role"] in STANDARD_ROLES:
+                prof["secondary_role"] = "Fill"
+
         final_players.append(prof)
 
     final_players.sort(key=lambda x: (x["avg_rating"], x["win_rate"], x["games"]), reverse=True)
