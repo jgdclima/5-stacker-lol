@@ -36,14 +36,40 @@ export const PILLAR_DEFINITIONS = [
 export const ROLES_ORDER = ['Top', 'Jungle', 'Mid', 'Bot', 'Support'];
 
 /**
+ * Returns the lowercase set of verified @LOLers squad member names in a dataset.
+ */
+export function getSquadPlayerNameSet(data) {
+  return new Set(
+    (data?.players || [])
+      .map(p => (p?.name || '').trim().toLowerCase())
+      .filter(Boolean)
+  );
+}
+
+/**
+ * Returns true only if a match lineup participant belongs to the verified @LOLers squad.
+ * Excludes random matchmade teammates (is_squad === false) and unlinked players.
+ */
+export function isSquadLineupEntry(pdata, squadNames = null) {
+  if (!pdata || !pdata.player) return false;
+  if (pdata.is_squad === false) return false;
+  const nameLower = String(pdata.player).trim().toLowerCase();
+  if (!nameLower) return false;
+  if (squadNames && squadNames.size > 0) {
+    return squadNames.has(nameLower);
+  }
+  return true;
+}
+
+/**
  * Aggregates per-player, per-role match volume, wins, ratings, and champion picks.
  */
-export function buildRoleMatchIndex(matches) {
+export function buildRoleMatchIndex(matches, squadNames = null) {
   const index = {};
   (matches || []).forEach(m => {
     const isWin = m.result === 'WIN';
     Object.entries(m.lineup || {}).forEach(([role, pdata]) => {
-      if (!pdata || !pdata.player) return;
+      if (!isSquadLineupEntry(pdata, squadNames)) return;
       const pname = pdata.player;
       if (!index[pname]) index[pname] = {};
       if (!index[pname][role]) {

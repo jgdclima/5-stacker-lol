@@ -419,9 +419,12 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
             "recent_matches": [],
         }
 
+    has_linked_roster = bool(raw_data.get("linked_players"))
     player_profiles: Dict[str, Dict[str, Any]] = {}
     for member in members:
         if not is_demo and stats_mgr.is_unlinked_legacy_demo_member(member, ref_names):
+            continue
+        if not is_demo and has_linked_roster and not member.get("discord_id") and not StatsManager._extract_accounts(member):
             continue
         name = member["name"]
         player_profiles[name] = _make_player_profile(name, member)
@@ -454,6 +457,8 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
 
         for role, pdata in lineup.items():
             if not isinstance(pdata, dict):
+                continue
+            if not stats_mgr.is_lolers_member_entry(pdata, m_copy):
                 continue
             pname = pdata.get("player", "Unknown")
             champ = pdata.get("champion", "Unknown")

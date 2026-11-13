@@ -4,7 +4,14 @@
  * optimizing individual role proficiency + all 4 pairwise duo synergy channels.
  */
 
-import { buildRoleMatchIndex, escapeHtml, gradeClass, resolvePlayerRoles, ROLES_ORDER } from './utils.js';
+import {
+  buildRoleMatchIndex,
+  escapeHtml,
+  getSquadPlayerNameSet,
+  gradeClass,
+  resolvePlayerRoles,
+  ROLES_ORDER
+} from './utils.js';
 
 const SYNERGY_CHANNELS = [
   { key: 'botlane', roleA: 'Bot', roleB: 'Support', label: '🏹🛡️ Bot + Support' },
@@ -93,7 +100,7 @@ function scorePlayerRoleFit(player, role, roleIndex) {
 export function evaluateOptimalLineups(chosenPlayers, data, roleIndexOpt = null) {
   if (!chosenPlayers || chosenPlayers.length !== 5) return [];
 
-  const roleIndex = roleIndexOpt || buildRoleMatchIndex(data.matches || []);
+  const roleIndex = roleIndexOpt || buildRoleMatchIndex(data.matches || [], getSquadPlayerNameSet(data));
   const synLookup = {};
   SYNERGY_CHANNELS.forEach(ch => {
     synLookup[ch.key] = {};
@@ -263,7 +270,7 @@ export function renderSquadBuilderTab(data) {
     return;
   }
 
-  const roleIndex = buildRoleMatchIndex(data?.matches || []);
+  const roleIndex = buildRoleMatchIndex(data?.matches || [], getSquadPlayerNameSet(data));
   const chosenPlayers = players.filter(p => selectedPlayerNames.includes(p.name));
   const playerButtonsHtml = players.map(p => {
     const isSelected = selectedPlayerNames.includes(p.name);

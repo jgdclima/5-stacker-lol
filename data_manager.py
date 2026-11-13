@@ -753,7 +753,7 @@ class StatsManager:
         valid_names = self.get_valid_lolers_names()
         if valid_names and "is_squad" not in pdata:
             # For manually logged matches, allow if in valid_names or if not a raw RiotID stranger
-            return True
+            return name.lower() in valid_names or "#" not in name
 
         return True if pdata.get("is_squad", True) else False
 

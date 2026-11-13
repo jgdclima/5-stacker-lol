@@ -1042,6 +1042,47 @@ class TestAppImprovements(unittest.TestCase):
         self.assertEqual(pool_entries[("Thresh", "Support")]["wins"], 1)
         self.assertEqual(pool_entries[("Thresh", "Top")]["losses"], 1)
 
+    def test_dashboard_excludes_non_lolers_players_from_all_calculations(self):
+        from export_dashboard import build_dashboard_payload
+
+        self.stats_mgr.link_riot_account("301", "SquadBot", "puuid-301", "SquadBot#NA1")
+        self.stats_mgr.link_riot_account("302", "SquadSup", "puuid-302", "SquadSup#NA1")
+        # Unlinked placeholder member should not enter live players once Riot linking is active
+        self.stats_mgr.data.setdefault("members", []).append({
+            "id": "999",
+            "name": "UnlinkedGuest",
+            "primary_role": "Mid",
+            "secondary_role": "Top",
+            "fav_champs": [],
+        })
+
+        self.stats_mgr.log_match({
+            "match_id": "NONSQUAD_1",
+            "date": "2026-11-13 20:00",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "duration_min": 28.0,
+            "squad_players": ["SquadBot", "SquadSup"],
+            "lineup": {
+                "Top": {"player": "StrangerTop#NA1", "is_squad": False, "champion": "Garen", "kills": 15, "deaths": 0, "assists": 5, "damage": 40000, "cs": 250, "vision": 20},
+                "Jungle": {"player": "StrangerJng#NA1", "is_squad": False, "champion": "LeeSin", "kills": 10, "deaths": 1, "assists": 10, "damage": 25000, "cs": 190, "vision": 35},
+                "Mid": {"player": "StrangerMid#NA1", "champion": "Yasuo", "kills": 12, "deaths": 2, "assists": 6, "damage": 31000, "cs": 220, "vision": 18},
+                "Bot": {"player": "SquadBot", "puuid": "puuid-301", "is_squad": True, "champion": "Jinx", "kills": 8, "deaths": 2, "assists": 9, "damage": 28000, "cs": 225, "vision": 22},
+                "Support": {"player": "SquadSup", "puuid": "puuid-302", "is_squad": True, "champion": "Lulu", "kills": 1, "deaths": 1, "assists": 18, "damage": 6500, "cs": 25, "vision": 65},
+            },
+        })
+
+        live = build_dashboard_payload(stats_mgr=self.stats_mgr)["live"]
+        self.assertEqual({p["name"] for p in live["players"]}, {"SquadBot", "SquadSup"})
+        self.assertEqual({c["champion"] for c in live["champions"]}, {"Jinx", "Lulu"})
+        self.assertEqual(live["role_distribution"]["Top"]["games"], 0)
+        self.assertEqual(live["role_distribution"]["Jungle"]["games"], 0)
+        self.assertEqual(live["role_distribution"]["Mid"]["games"], 0)
+        self.assertEqual(live["role_distribution"]["Bot"]["games"], 1)
+        self.assertEqual(live["role_distribution"]["Support"]["games"], 1)
+        total_arch_picks = sum(a["picks"] for a in live["archetypes"])
+        self.assertEqual(total_arch_picks, 2)
+
 
 if __name__ == "__main__":
     unittest.main()
