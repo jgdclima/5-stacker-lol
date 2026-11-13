@@ -1337,6 +1337,29 @@ async def feedback_cmd(
     await interaction.response.send_modal(FeedbackModal(default_category=default_cat))
 
 
+async def trigger_match_dashboard_sync() -> None:
+    """
+    Refreshes local dashboard payloads and pushes privacy-sanitized live match stats
+    to the `gh-pages` branch whenever matches are logged or synced.
+    """
+    try:
+        from export_dashboard import generate_dashboard, sync_live_payload_to_github_pages
+
+        generate_dashboard(stats_mgr=stats_mgr)
+        res = await sync_live_payload_to_github_pages(stats_mgr=stats_mgr)
+        if res.get("success"):
+            if res.get("unchanged"):
+                print("[Dashboard Sync] Sanitized live_payload.json unchanged on gh-pages (skipped commit).")
+            else:
+                print(f"[Dashboard Sync] Pushed sanitized live_payload.json to gh-pages ({res.get('matches')} matches).")
+        elif res.get("skipped"):
+            print(f"[Dashboard Sync] GitHub Pages push skipped: {res.get('reason')}")
+        else:
+            print(f"[Dashboard Sync] Warning: GitHub Pages push failed: {res.get('error')}")
+    except Exception as exc:
+        print(f"[Dashboard Sync] Warning: Failed to sync dashboard to GitHub Pages: {exc}")
+
+
 @bot.tree.command(name="log-match", description="Log a completed 5-stack match and update synergy/player stats.")
 @app_commands.describe(
     result="Match outcome (WIN or LOSS)",
@@ -1418,6 +1441,7 @@ async def log_match_cmd(
                 guild=interaction.guild,
             )
         await sync_living_synergy_threads(interaction.guild)
+        await trigger_match_dashboard_sync()
 
 
 def build_match_recap_embed(record: dict) -> discord.Embed:
@@ -1616,6 +1640,7 @@ async def sync_matches_cmd(interaction: discord.Interaction, public: bool = Fals
     new_matches = await check_and_sync_recent_matches(interaction.guild)
 
     if not new_matches:
+        await trigger_match_dashboard_sync()
         await interaction.followup.send("🔍 Match sync complete. No new squad matches found.", ephemeral=not public)
         return
 
@@ -1629,6 +1654,7 @@ async def sync_matches_cmd(interaction: discord.Interaction, public: bool = Fals
                 guild=interaction.guild,
             )
     await sync_living_synergy_threads(interaction.guild)
+    await trigger_match_dashboard_sync()
 
     await interaction.followup.send(
         f"✅ Found and recorded **{len(new_matches)}** new squad match(es)! Living synergy threads updated.",
@@ -1735,6 +1761,7 @@ async def auto_match_tracker():
                     await channel.send(recap_header, embed=embed)
 
             await sync_living_synergy_threads(guild)
+            await trigger_match_dashboard_sync()
         except Exception as e:
             print(f"[Tracker] Error in auto match poller: {e}")
 

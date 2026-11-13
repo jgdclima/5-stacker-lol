@@ -749,13 +749,212 @@ class TestAppImprovements(unittest.TestCase):
             generate_dashboard(stats_mgr=legacy_mgr, output_path=out_html.name)
             with open(out_html.name, "r", encoding="utf-8") as f:
                 html_text = f.read()
-            self.assertIn("let datasetMode = 'live';", html_text)
-            self.assertNotIn("let datasetMode = RAW_BUNDLE.has_live_matches", html_text)
+            self.assertIn('<script id="dashboard-data" type="application/json">', html_text)
+            self.assertIn('"RealPlayer"', html_text)
+
+            with open(os.path.join("web", "js", "app.js"), "r", encoding="utf-8") as f:
+                app_js = f.read()
+            self.assertIn("let datasetMode = 'demo';", app_js)
+            self.assertIn("requestedMode === 'live' ? 'live' : 'demo'", app_js)
         finally:
             if os.path.exists(legacy_file.name):
                 os.remove(legacy_file.name)
             if os.path.exists(out_html.name):
                 os.remove(out_html.name)
+
+    def test_live_payload_privacy_sanitization(self):
+        from export_dashboard import build_dashboard_payload
+
+        self.stats_mgr.link_riot_account("123456789012345678", "SanitizedUser", "secret-puuid-123", "Sanitized#NA1")
+        self.stats_mgr.create_session(
+            "sess_priv",
+            "Friday 9:00 PM",
+            "Ranked 5s",
+            True,
+            "SanitizedUser",
+            creator_id="123456789012345678",
+        )
+        self.stats_mgr.set_session_message("sess_priv", 9876543210, 1122334455)
+        self.stats_mgr.set_session_thread("sess_priv", 5566778899)
+        self.stats_mgr.log_match({
+            "match_id": "PRIV_MATCH_1",
+            "date": "2026-11-13 20:00",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "duration_min": 29.0,
+            "lineup": {
+                "Bot": {
+                    "player": "SanitizedUser",
+                    "puuid": "secret-puuid-123",
+                    "is_squad": True,
+                    "champion": "Jinx",
+                    "kills": 9,
+                    "deaths": 2,
+                    "assists": 10,
+                    "damage": 31000,
+                    "cs": 230,
+                    "vision": 24,
+                }
+            },
+        })
+
+        payload = build_dashboard_payload(stats_mgr=self.stats_mgr)
+        live = payload["live"]
+
+        player = next((p for p in live["players"] if p["name"] == "SanitizedUser"), None)
+        self.assertIsNotNone(player)
+        self.assertEqual(player["id"], "")
+        self.assertNotIn("discord_id", player)
+        self.assertEqual(len(player["accounts"]), 1)
+        self.assertEqual(player["accounts"][0]["riot_id"], "Sanitized#NA1")
+        self.assertNotIn("puuid", player["accounts"][0])
+
+        sess = next((s for s in live["sessions"] if s["session_id"] == "sess_priv"), None)
+        self.assertIsNotNone(sess)
+        self.assertEqual(sess["creator"], "SanitizedUser")
+        for key in ("creator_id", "channel_id", "message_id", "thread_id"):
+            self.assertNotIn(key, sess)
+
+        match = live["matches"][0]
+        self.assertEqual(match["match_id"], "PRIV_MATCH_1")
+        self.assertNotIn("puuid", match["lineup"]["Bot"])
+
+    def test_modular_web_assets_and_json_export(self):
+        import json
+        import shutil
+        from export_dashboard import export_dashboard_data, generate_dashboard
+
+        required_files = [
+            os.path.join("web", "index.html"),
+            os.path.join("web", "case-study.html"),
+            os.path.join("web", "css", "styles.css"),
+            os.path.join("web", "js", "app.js"),
+            os.path.join("web", "js", "data-loader.js"),
+            os.path.join("web", "js", "squad-builder.js"),
+            os.path.join("web", "js", "insights.js"),
+            os.path.join("web", "js", "charts.js"),
+            os.path.join("web", "js", "views.js"),
+            os.path.join("web", "js", "utils.js"),
+        ]
+        for path in required_files:
+            self.assertTrue(os.path.exists(path), f"Missing modular web asset: {path}")
+            self.assertGreater(os.path.getsize(path), 0, f"Empty modular web asset: {path}")
+
+        with open(os.path.join("web", "index.html"), "r", encoding="utf-8") as f:
+            original_index = f.read()
+
+        temp_dir = tempfile.mkdtemp()
+        try:
+            res = export_dashboard_data(stats_mgr=self.stats_mgr, data_dir=temp_dir)
+            self.assertTrue(os.path.exists(res["live_path"]))
+            self.assertTrue(os.path.exists(res["demo_path"]))
+            self.assertTrue(os.path.exists(res["bundle_path"]))
+
+            with open(res["live_path"], "r", encoding="utf-8") as f:
+                live_doc = json.load(f)
+            with open(res["demo_path"], "r", encoding="utf-8") as f:
+                demo_doc = json.load(f)
+            with open(res["bundle_path"], "r", encoding="utf-8") as f:
+                bundle_js = f.read()
+
+            self.assertIn("dataset", live_doc)
+            self.assertIn("rating_formulas", live_doc)
+            self.assertEqual(len(demo_doc["dataset"]["players"]), 10)
+            self.assertTrue(bundle_js.startswith("window.__DASHBOARD_BUNDLE__ = "))
+
+            # generate_dashboard targeting web/index.html must never overwrite the modular HTML shell
+            generate_dashboard(stats_mgr=self.stats_mgr, output_path="web/index.html", data_dir=temp_dir)
+            with open(os.path.join("web", "index.html"), "r", encoding="utf-8") as f:
+                after_index = f.read()
+            self.assertEqual(original_index, after_index)
+        finally:
+            shutil.rmtree(temp_dir, ignore_errors=True)
+
+    def test_github_pages_match_sync_client(self):
+        import asyncio
+        import base64
+        import json
+        from unittest.mock import patch
+        from export_dashboard import build_dashboard_payload, build_live_payload_document, sync_live_payload_to_github_pages
+
+        # 1. Skips gracefully without token
+        skip_res = asyncio.run(sync_live_payload_to_github_pages(stats_mgr=self.stats_mgr, token=""))
+        self.assertFalse(skip_res["success"])
+        self.assertTrue(skip_res["skipped"])
+
+        # 2. Mocks aiohttp.ClientSession for create (404 -> PUT 201) and unchanged (200 -> skip PUT)
+        recorded_calls = []
+
+        class MockResponse:
+            def __init__(self, status, payload):
+                self.status = status
+                self._payload = payload
+
+            async def json(self):
+                return self._payload
+
+            async def text(self):
+                return json.dumps(self._payload)
+
+            async def __aenter__(self):
+                return self
+
+            async def __aexit__(self, exc_type, exc, tb):
+                return False
+
+        def make_session_cls(get_status, get_payload, put_status=201):
+            class MockSession:
+                async def __aenter__(self):
+                    return self
+
+                async def __aexit__(self, exc_type, exc, tb):
+                    return False
+
+                def get(self, url, **kwargs):
+                    recorded_calls.append(("GET", url, kwargs))
+                    return MockResponse(get_status, get_payload)
+
+                def put(self, url, **kwargs):
+                    recorded_calls.append(("PUT", url, kwargs))
+                    return MockResponse(put_status, {"content": {"html_url": "https://github.com/jgdclima/5-stacker-lol/blob/gh-pages/data/live_payload.json"}})
+
+            return MockSession
+
+        with patch("export_dashboard.aiohttp.ClientSession", make_session_cls(404, {"message": "Not Found"})):
+            res = asyncio.run(
+                sync_live_payload_to_github_pages(
+                    stats_mgr=self.stats_mgr,
+                    repo="jgdclima/5-stacker-lol",
+                    token="ghp_mock_token",
+                )
+            )
+        self.assertTrue(res["success"])
+        self.assertFalse(res["unchanged"])
+        put_call = next(c for c in recorded_calls if c[0] == "PUT")
+        self.assertEqual(put_call[1], "https://api.github.com/repos/jgdclima/5-stacker-lol/contents/data/live_payload.json")
+        put_json = put_call[2]["json"]
+        self.assertEqual(put_json["branch"], "gh-pages")
+        decoded_doc = json.loads(base64.b64decode(put_json["content"]).decode("utf-8"))
+        self.assertIn("dataset", decoded_doc)
+
+        # Case B: Existing remote dataset matches -> skip PUT
+        recorded_calls.clear()
+        expected_doc = build_live_payload_document(build_dashboard_payload(stats_mgr=self.stats_mgr))
+        existing_b64 = base64.b64encode(json.dumps(expected_doc).encode("utf-8")).decode("ascii")
+        with patch(
+            "export_dashboard.aiohttp.ClientSession",
+            make_session_cls(200, {"sha": "abc123", "content": existing_b64, "html_url": "https://example.com/live.json"}),
+        ):
+            res_unchanged = asyncio.run(
+                sync_live_payload_to_github_pages(
+                    stats_mgr=self.stats_mgr,
+                    repo="jgdclima/5-stacker-lol",
+                    token="ghp_mock_token",
+                )
+            )
+        self.assertTrue(res_unchanged["success"])
+        self.assertTrue(res_unchanged["unchanged"])
+        self.assertFalse(any(c[0] == "PUT" for c in recorded_calls))
 
 
 if __name__ == "__main__":

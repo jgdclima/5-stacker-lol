@@ -1,0 +1,52 @@
+name: Deploy Dashboard & Case Study to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "web/**"
+      - "export_dashboard.py"
+      - "rating_engine.py"
+      - "data_manager.py"
+      - ".github/workflows/deploy-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Export demo payload and fallback bundle
+        run: python export_dashboard.py
+
+      - name: Preserve live_payload.json from existing gh-pages branch
+        run: |
+          touch web/.nojekyll
+          if git fetch origin gh-pages:gh-pages 2>/dev/null; then
+            if git cat-file -e gh-pages:data/live_payload.json 2>/dev/null; then
+              git show gh-pages:data/live_payload.json > web/data/live_payload.json
+              echo "Preserved existing gh-pages:data/live_payload.json"
+            fi
+          fi
+
+      - name: Publish web/ to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web
+          publish_branch: gh-pages
+          commit_message: "chore(pages): deploy modular dashboard & case study"
