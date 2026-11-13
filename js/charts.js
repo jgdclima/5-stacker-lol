@@ -29,13 +29,18 @@ export function renderTrendsCharts(champList, filteredMatches) {
   const topPicked = [...list].sort((a, b) => (b.picks - a.picks) || (b.win_rate - a.win_rate)).slice(0, 8);
   const topRated = [...list].sort((a, b) => b.avg_rating - a.avg_rating).slice(0, 8);
 
+  const formatChampLabel = c => {
+    const r = c.role || c.primary_role;
+    return r ? `${c.champion} (${r})` : c.champion;
+  };
+
   // Chart 1: Most Picked Champions (Wins vs Losses stacked bar)
   const ctx1 = document.getElementById('chart-most-picked');
   if (ctx1) {
     trendChartInstances.c1 = new Chart(ctx1, {
       type: 'bar',
       data: {
-        labels: topPicked.map(c => c.champion),
+        labels: topPicked.map(formatChampLabel),
         datasets: [
           { label: 'Wins', data: topPicked.map(c => c.wins), backgroundColor: 'rgba(46, 204, 113, 0.8)' },
           { label: 'Losses', data: topPicked.map(c => c.losses), backgroundColor: 'rgba(231, 76, 60, 0.8)' }
@@ -59,7 +64,7 @@ export function renderTrendsCharts(champList, filteredMatches) {
     trendChartInstances.c2 = new Chart(ctx2, {
       type: 'bar',
       data: {
-        labels: topRated.map(c => c.champion),
+        labels: topRated.map(formatChampLabel),
         datasets: [{
           label: 'Avg Holistic Rating (0-100)',
           data: topRated.map(c => c.avg_rating),

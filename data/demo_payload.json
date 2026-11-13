@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13 23:00:07",
+  "generated_at": "2026-11-13 23:11:37",
   "github_repo": "jgdclima/5-stacker-lol",
   "rating_formulas": {
     "role_weights": {
@@ -1557,6 +1557,7 @@
         "champion_pool": [
           {
             "champion": "Jinx",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 3,
             "wins": 2,
@@ -1571,6 +1572,7 @@
           },
           {
             "champion": "Jhin",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -1585,6 +1587,7 @@
           },
           {
             "champion": "Kai'Sa",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -1720,6 +1723,7 @@
         "champion_pool": [
           {
             "champion": "Ornn",
+            "role": "Top",
             "archetype": "tank",
             "games": 3,
             "wins": 2,
@@ -1734,6 +1738,7 @@
           },
           {
             "champion": "Shen",
+            "role": "Top",
             "archetype": "tank",
             "games": 1,
             "wins": 1,
@@ -1748,6 +1753,7 @@
           },
           {
             "champion": "Aatrox",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 1,
@@ -1883,6 +1889,7 @@
         "champion_pool": [
           {
             "champion": "Vi",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 3,
             "wins": 3,
@@ -1897,6 +1904,7 @@
           },
           {
             "champion": "Sejuani",
+            "role": "Jungle",
             "archetype": "tank",
             "games": 1,
             "wins": 1,
@@ -1911,6 +1919,7 @@
           },
           {
             "champion": "Jarvan IV",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 1,
             "wins": 1,
@@ -2046,6 +2055,7 @@
         "champion_pool": [
           {
             "champion": "Ahri",
+            "role": "Mid",
             "archetype": "assassin",
             "games": 3,
             "wins": 3,
@@ -2060,6 +2070,7 @@
           },
           {
             "champion": "Orianna",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 1,
@@ -2074,6 +2085,7 @@
           },
           {
             "champion": "Syndra",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -2179,6 +2191,7 @@
         "champion_pool": [
           {
             "champion": "Ashe",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -2193,6 +2206,7 @@
           },
           {
             "champion": "Ezreal",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -2207,6 +2221,7 @@
           },
           {
             "champion": "Varus",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 0,
@@ -2312,6 +2327,7 @@
         "champion_pool": [
           {
             "champion": "Hwei",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 1,
@@ -2326,6 +2342,7 @@
           },
           {
             "champion": "Viktor",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 1,
@@ -2340,6 +2357,7 @@
           },
           {
             "champion": "Sylas",
+            "role": "Mid",
             "archetype": "assassin",
             "games": 1,
             "wins": 0,
@@ -2475,6 +2493,7 @@
         "champion_pool": [
           {
             "champion": "Lulu",
+            "role": "Support",
             "archetype": "enchanter",
             "games": 3,
             "wins": 2,
@@ -2489,6 +2508,7 @@
           },
           {
             "champion": "Leona",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 1,
@@ -2503,6 +2523,7 @@
           },
           {
             "champion": "Nami",
+            "role": "Support",
             "archetype": "enchanter",
             "games": 1,
             "wins": 1,
@@ -2608,6 +2629,7 @@
         "champion_pool": [
           {
             "champion": "Jax",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 1,
             "wins": 1,
@@ -2622,6 +2644,7 @@
           },
           {
             "champion": "Gnar",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 1,
@@ -2636,6 +2659,7 @@
           },
           {
             "champion": "Malphite",
+            "role": "Top",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -2741,6 +2765,7 @@
         "champion_pool": [
           {
             "champion": "Nautilus",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 1,
@@ -2755,6 +2780,7 @@
           },
           {
             "champion": "Thresh",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 1,
@@ -2769,6 +2795,7 @@
           },
           {
             "champion": "Rakan",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 0,
@@ -2874,6 +2901,7 @@
         "champion_pool": [
           {
             "champion": "Amumu",
+            "role": "Jungle",
             "archetype": "tank",
             "games": 1,
             "wins": 1,
@@ -2888,6 +2916,7 @@
           },
           {
             "champion": "Zac",
+            "role": "Jungle",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -2902,6 +2931,7 @@
           },
           {
             "champion": "Xin Zhao",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 1,
             "wins": 0,
@@ -2951,7 +2981,7 @@
           "tag": "2v8 Bot Kingdom",
           "avg_duo_rating": 81.2,
           "coordination_score": 87.3,
-          "favorite_combo": "Ezreal + Thresh",
+          "favorite_combo": "Ashe + Nautilus",
           "adc": "Leo",
           "support": "Sarah"
         }
@@ -3003,7 +3033,7 @@
           "tag": "Lethal Core",
           "avg_duo_rating": 72.8,
           "coordination_score": 85.7,
-          "favorite_combo": "Sylas + Xin Zhao"
+          "favorite_combo": "Hwei + Amumu"
         },
         {
           "pair": "Elena (MID) & Alex (JNG)",
@@ -3135,7 +3165,7 @@
           "tag": "Lethal Core",
           "avg_duo_rating": 68.8,
           "coordination_score": 85.9,
-          "favorite_combo": "Rakan + Xin Zhao"
+          "favorite_combo": "Nautilus + Amumu"
         },
         {
           "pair": "Melanie (SUP) & Alex (JNG)",
@@ -3158,6 +3188,7 @@
     "champions": [
       {
         "champion": "Vi",
+        "role": "Jungle",
         "archetype": "bruiser",
         "picks": 3,
         "wins": 3,
@@ -3183,6 +3214,7 @@
       },
       {
         "champion": "Ahri",
+        "role": "Mid",
         "archetype": "assassin",
         "picks": 3,
         "wins": 3,
@@ -3208,6 +3240,7 @@
       },
       {
         "champion": "Jinx",
+        "role": "Bot",
         "archetype": "marksman",
         "picks": 3,
         "wins": 2,
@@ -3233,6 +3266,7 @@
       },
       {
         "champion": "Ornn",
+        "role": "Top",
         "archetype": "tank",
         "picks": 3,
         "wins": 2,
@@ -3258,6 +3292,7 @@
       },
       {
         "champion": "Lulu",
+        "role": "Support",
         "archetype": "enchanter",
         "picks": 3,
         "wins": 2,
@@ -3283,6 +3318,7 @@
       },
       {
         "champion": "Orianna",
+        "role": "Mid",
         "archetype": "mage",
         "picks": 1,
         "wins": 1,
@@ -3308,6 +3344,7 @@
       },
       {
         "champion": "Ashe",
+        "role": "Bot",
         "archetype": "marksman",
         "picks": 1,
         "wins": 1,
@@ -3333,6 +3370,7 @@
       },
       {
         "champion": "Shen",
+        "role": "Top",
         "archetype": "tank",
         "picks": 1,
         "wins": 1,
@@ -3358,6 +3396,7 @@
       },
       {
         "champion": "Leona",
+        "role": "Support",
         "archetype": "catcher",
         "picks": 1,
         "wins": 1,
@@ -3383,6 +3422,7 @@
       },
       {
         "champion": "Sejuani",
+        "role": "Jungle",
         "archetype": "tank",
         "picks": 1,
         "wins": 1,
@@ -3408,6 +3448,7 @@
       },
       {
         "champion": "Jax",
+        "role": "Top",
         "archetype": "splitpusher",
         "picks": 1,
         "wins": 1,
@@ -3433,6 +3474,7 @@
       },
       {
         "champion": "Jhin",
+        "role": "Bot",
         "archetype": "marksman",
         "picks": 1,
         "wins": 1,
@@ -3458,6 +3500,7 @@
       },
       {
         "champion": "Hwei",
+        "role": "Mid",
         "archetype": "mage",
         "picks": 1,
         "wins": 1,
@@ -3483,6 +3526,7 @@
       },
       {
         "champion": "Nami",
+        "role": "Support",
         "archetype": "enchanter",
         "picks": 1,
         "wins": 1,
@@ -3508,6 +3552,7 @@
       },
       {
         "champion": "Aatrox",
+        "role": "Top",
         "archetype": "bruiser",
         "picks": 1,
         "wins": 1,
@@ -3533,6 +3578,7 @@
       },
       {
         "champion": "Ezreal",
+        "role": "Bot",
         "archetype": "marksman",
         "picks": 1,
         "wins": 1,
@@ -3558,6 +3604,7 @@
       },
       {
         "champion": "Nautilus",
+        "role": "Support",
         "archetype": "catcher",
         "picks": 1,
         "wins": 1,
@@ -3583,6 +3630,7 @@
       },
       {
         "champion": "Kai'Sa",
+        "role": "Bot",
         "archetype": "marksman",
         "picks": 1,
         "wins": 1,
@@ -3608,6 +3656,7 @@
       },
       {
         "champion": "Thresh",
+        "role": "Support",
         "archetype": "catcher",
         "picks": 1,
         "wins": 1,
@@ -3633,6 +3682,7 @@
       },
       {
         "champion": "Viktor",
+        "role": "Mid",
         "archetype": "mage",
         "picks": 1,
         "wins": 1,
@@ -3658,6 +3708,7 @@
       },
       {
         "champion": "Jarvan IV",
+        "role": "Jungle",
         "archetype": "bruiser",
         "picks": 1,
         "wins": 1,
@@ -3683,6 +3734,7 @@
       },
       {
         "champion": "Gnar",
+        "role": "Top",
         "archetype": "bruiser",
         "picks": 1,
         "wins": 1,
@@ -3708,6 +3760,7 @@
       },
       {
         "champion": "Amumu",
+        "role": "Jungle",
         "archetype": "tank",
         "picks": 1,
         "wins": 1,
@@ -3733,6 +3786,7 @@
       },
       {
         "champion": "Varus",
+        "role": "Bot",
         "archetype": "marksman",
         "picks": 1,
         "wins": 0,
@@ -3758,6 +3812,7 @@
       },
       {
         "champion": "Sylas",
+        "role": "Mid",
         "archetype": "assassin",
         "picks": 1,
         "wins": 0,
@@ -3783,6 +3838,7 @@
       },
       {
         "champion": "Syndra",
+        "role": "Mid",
         "archetype": "mage",
         "picks": 1,
         "wins": 0,
@@ -3808,6 +3864,7 @@
       },
       {
         "champion": "Malphite",
+        "role": "Top",
         "archetype": "tank",
         "picks": 1,
         "wins": 0,
@@ -3833,6 +3890,7 @@
       },
       {
         "champion": "Rakan",
+        "role": "Support",
         "archetype": "catcher",
         "picks": 1,
         "wins": 0,
@@ -3858,6 +3916,7 @@
       },
       {
         "champion": "Zac",
+        "role": "Jungle",
         "archetype": "tank",
         "picks": 1,
         "wins": 0,
@@ -3883,6 +3942,7 @@
       },
       {
         "champion": "Xin Zhao",
+        "role": "Jungle",
         "archetype": "bruiser",
         "picks": 1,
         "wins": 0,
