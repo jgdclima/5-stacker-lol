@@ -3,7 +3,12 @@
  * Computes data-driven callouts from squad roster, match telemetry, and 4-pair synergies.
  */
 
-import { PILLAR_DEFINITIONS, ROLES_ORDER } from './utils.js';
+import {
+  getSquadPlayerNameSet,
+  isSquadLineupEntry,
+  PILLAR_DEFINITIONS,
+  ROLES_ORDER
+} from './utils.js';
 
 export function computeSquadRoleBenchmark(players) {
   const active = (players || []).filter(p => (p.games || 0) > 0 && p.pillars_avg);
@@ -22,6 +27,7 @@ export function computeSquadRoleBenchmark(players) {
 export function computeExecutiveInsights(data, filteredMatchesOpt = null) {
   const players = data?.players || [];
   const matches = filteredMatchesOpt || data?.matches || [];
+  const squadNames = getSquadPlayerNameSet(data);
   const insights = [];
 
   // 1. Role Scarcity & On-Role Performance Lift
@@ -45,7 +51,7 @@ export function computeExecutiveInsights(data, filteredMatchesOpt = null) {
     let offRoleRatings = [];
     matches.forEach(m => {
       Object.entries(m.lineup || {}).forEach(([role, pdata]) => {
-        if (!pdata || pdata.rating == null) return;
+        if (!isSquadLineupEntry(pdata, squadNames) || pdata.rating == null) return;
         const prof = playerMap[pdata.player];
         if (!prof) return;
         if (prof.primary_role === role) {
@@ -95,7 +101,7 @@ export function computeExecutiveInsights(data, filteredMatchesOpt = null) {
     matches.forEach(m => {
       const isWin = m.result === 'WIN';
       Object.values(m.lineup || {}).forEach(p => {
-        if (!p || !p.archetype) return;
+        if (!isSquadLineupEntry(p, squadNames) || !p.archetype) return;
         const arch = p.archetype;
         if (!archMap[arch]) {
           archMap[arch] = { archetype: arch, picks: 0, wins: 0, ratingSum: 0 };

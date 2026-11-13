@@ -4,7 +4,9 @@
 
 import {
   escapeHtml,
+  getSquadPlayerNameSet,
   gradeClass,
+  isSquadLineupEntry,
   statusBadgeClass,
   PILLAR_DEFINITIONS,
   ROLES_ORDER
@@ -17,7 +19,7 @@ import {
 } from './charts.js';
 import { renderSquadBuilderTab } from './squad-builder.js';
 
-export function matchPassesFilters(match, filters) {
+export function matchPassesFilters(match, filters, squadNames = null) {
   if (filters.mode !== 'ALL') {
     const mMode = (match.mode || '').toLowerCase();
     if (filters.mode === 'Ranked 5s' && !mMode.includes('5s')) return false;
@@ -26,15 +28,15 @@ export function matchPassesFilters(match, filters) {
   }
 
   const lineup = match.lineup || {};
-  const entries = Object.entries(lineup);
+  const squadEntries = Object.entries(lineup).filter(([, p]) => isSquadLineupEntry(p, squadNames));
 
   if (filters.player !== 'ALL') {
-    const hasPlayer = entries.some(
-      ([r, p]) => p && p.player === filters.player && (filters.role === 'ALL' || r === filters.role)
+    const hasPlayer = squadEntries.some(
+      ([r, p]) => p.player === filters.player && (filters.role === 'ALL' || r === filters.role)
     );
     if (!hasPlayer) return false;
   } else if (filters.role !== 'ALL') {
-    if (!lineup[filters.role]) return false;
+    if (!isSquadLineupEntry(lineup[filters.role], squadNames)) return false;
   }
 
   if (filters.search) {
@@ -43,7 +45,7 @@ export function matchPassesFilters(match, filters) {
       (match.match_id || '').toLowerCase().includes(q) ||
       (match.mode || '').toLowerCase().includes(q) ||
       (match.mvp || '').toLowerCase().includes(q);
-    const inLineup = entries.some(([, p]) =>
+    const inLineup = squadEntries.some(([, p]) =>
       (p.player || '').toLowerCase().includes(q) ||
       (p.champion || '').toLowerCase().includes(q) ||
       (p.highlight || '').toLowerCase().includes(q)
@@ -69,7 +71,8 @@ function renderInsightsHtml(insights) {
 
 // --- TAB 1: OVERVIEW ---
 export function renderOverviewTab(data, filters) {
-  const filteredMatches = (data.matches || []).filter(m => matchPassesFilters(m, filters));
+  const squadNames = getSquadPlayerNameSet(data);
+  const filteredMatches = (data.matches || []).filter(m => matchPassesFilters(m, filters, squadNames));
 
   // 1. Hero Active Session
   const activeSessions = (data.sessions || []).filter(s => ['IN_PROGRESS', 'READY', 'POLLING'].includes(s.status));
@@ -258,15 +261,17 @@ export function renderOverviewTab(data, filters) {
 
     const detailRows = rolesPresent.map(r => {
       const p = lineup[r];
+      const isSquad = isSquadLineupEntry(p, squadNames);
       const kda = ((p.kills + p.assists) / Math.max(1, p.deaths)).toFixed(2);
-      const isMvp = p.player === m.mvp;
+      const isMvp = isSquad && p.player === m.mvp;
+      const playerLabel = isSquad
+        ? `<strong style="cursor: pointer; color: var(--gold-bright);" onclick="openPlayerModal('${escapeHtml(p.player)}')">${escapeHtml(p.player)}</strong>`
+        : `<span style="color: var(--text-dim);">${escapeHtml(p.player)}</span> <span style="font-size: 0.7rem; color: var(--text-dim);">(Random)</span>`;
       return `
-        <tr>
+        <tr style="${isSquad ? '' : 'opacity: 0.65;'}">
           <td><span class="role-badge">${escapeHtml(r)}</span></td>
           <td>
-            <strong style="cursor: pointer; color: var(--gold-bright);" onclick="openPlayerModal('${escapeHtml(p.player)}')">
-              ${escapeHtml(p.player)}
-            </strong>
+            ${playerLabel}
             ${isMvp ? ' <span class="badge badge-polling">👑 MVP</span>' : ''}
           </td>
           <td>
@@ -794,7 +799,8 @@ export { renderSquadBuilderTab };
 
 // --- TAB 6: META & GAMEPLAY TRENDS ---
 export function getFilteredChampionStats(data, filters, champSort) {
-  const filteredMatches = (data.matches || []).filter(m => matchPassesFilters(m, filters));
+  const squadNames = getSquadPlayerNameSet(data);
+  const filteredMatches = (data.matches || []).filter(m => matchPassesFilters(m, filters, squadNames));
   const map = {};
 
   filteredMatches.forEach(m => {
@@ -802,7 +808,7 @@ export function getFilteredChampionStats(data, filters, champSort) {
     const dur = parseFloat(m.duration_min || 30);
     const lineup = m.lineup || {};
     Object.entries(lineup).forEach(([role, p]) => {
-      if (!p) return;
+      if (!isSquadLineupEntry(p, squadNames)) return;
       if (filters.role !== 'ALL' && role !== filters.role) return;
       if (filters.player !== 'ALL' && p.player !== filters.player) return;
       if (filters.search) {

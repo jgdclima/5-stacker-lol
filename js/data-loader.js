@@ -7,9 +7,14 @@
  * 3. `window.__DASHBOARD_BUNDLE__` from `./data/dashboard_bundle.js` (for `file://` browsing).
  */
 
-import { buildRoleMatchIndex, resolvePlayerRoles } from './utils.js';
+import {
+  buildRoleMatchIndex,
+  getSquadPlayerNameSet,
+  isSquadLineupEntry,
+  resolvePlayerRoles
+} from './utils.js';
 
-function splitLegacyChampionSummaries(dataset) {
+function splitLegacyChampionSummaries(dataset, squadNames = null) {
   const matches = dataset?.matches || [];
   if (matches.length === 0) return;
 
@@ -26,7 +31,7 @@ function splitLegacyChampionSummaries(dataset) {
     const isWin = m.result === 'WIN';
     const dur = parseFloat(m.duration_min || 30);
     Object.entries(m.lineup || {}).forEach(([role, p]) => {
-      if (!p || !p.champion) return;
+      if (!isSquadLineupEntry(p, squadNames) || !p.champion) return;
       const champ = p.champion;
       const arch = p.archetype || 'bruiser';
       const kills = p.kills || 0;
@@ -125,14 +130,15 @@ function splitLegacyChampionSummaries(dataset) {
 
 export function normalizeDatasetRoles(dataset) {
   if (!dataset || !Array.isArray(dataset.players)) return dataset;
-  const roleIndex = buildRoleMatchIndex(dataset.matches || []);
+  const squadNames = getSquadPlayerNameSet(dataset);
+  const roleIndex = buildRoleMatchIndex(dataset.matches || [], squadNames);
   dataset.players.forEach(p => {
     const resolved = resolvePlayerRoles(p, roleIndex[p.name]);
     p.primary_role = resolved.primary_role;
     p.secondary_role = resolved.secondary_role;
     p.main_role = resolved.main_role;
   });
-  splitLegacyChampionSummaries(dataset);
+  splitLegacyChampionSummaries(dataset, squadNames);
   return dataset;
 }
 

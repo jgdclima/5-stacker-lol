@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13 23:11:37",
+  "generated_at": "2026-11-13 23:33:43",
   "github_repo": "jgdclima/5-stacker-lol",
   "rating_formulas": {
     "role_weights": {
@@ -2981,7 +2981,7 @@
           "tag": "2v8 Bot Kingdom",
           "avg_duo_rating": 81.2,
           "coordination_score": 87.3,
-          "favorite_combo": "Ashe + Nautilus",
+          "favorite_combo": "Varus + Rakan",
           "adc": "Leo",
           "support": "Sarah"
         }
@@ -3099,7 +3099,7 @@
           "tag": "Lethal Core",
           "avg_duo_rating": 71.4,
           "coordination_score": 85.3,
-          "favorite_combo": "Malphite + Xin Zhao"
+          "favorite_combo": "Jax + Amumu"
         },
         {
           "pair": "David (TOP) & Alex (JNG)",
@@ -3165,7 +3165,7 @@
           "tag": "Lethal Core",
           "avg_duo_rating": 68.8,
           "coordination_score": 85.9,
-          "favorite_combo": "Nautilus + Amumu"
+          "favorite_combo": "Rakan + Xin Zhao"
         },
         {
           "pair": "Melanie (SUP) & Alex (JNG)",
