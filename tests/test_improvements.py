@@ -998,6 +998,50 @@ class TestAppImprovements(unittest.TestCase):
         self.assertEqual(by_name["ZeroGames"]["primary_role"], "Flex")
         self.assertEqual(by_name["ZeroGames"]["secondary_role"], "Flex")
 
+    def test_dashboard_splits_champion_stats_by_role(self):
+        from export_dashboard import build_dashboard_payload
+
+        self.stats_mgr.link_riot_account("201", "FlexThresh", "puuid-201", "FlexThresh#NA1")
+        self.stats_mgr.link_riot_account("202", "BotPartner", "puuid-202", "BotPartner#NA1")
+
+        # FlexThresh plays Thresh Support (WIN) and Thresh Top (LOSS)
+        self.stats_mgr.log_match({
+            "match_id": "CHAMP_ROLE_1",
+            "date": "2026-11-12 20:00",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "duration_min": 30.0,
+            "lineup": {
+                "Support": {"player": "FlexThresh", "puuid": "puuid-201", "is_squad": True, "champion": "Thresh", "kills": 1, "deaths": 2, "assists": 18, "damage": 7500, "cs": 30, "vision": 65},
+                "Bot": {"player": "BotPartner", "puuid": "puuid-202", "is_squad": True, "champion": "Jinx", "kills": 10, "deaths": 2, "assists": 7, "damage": 32000, "cs": 230, "vision": 22},
+            },
+        })
+        self.stats_mgr.log_match({
+            "match_id": "CHAMP_ROLE_2",
+            "date": "2026-11-12 21:00",
+            "mode": "Ranked Flex",
+            "result": "LOSS",
+            "duration_min": 30.0,
+            "lineup": {
+                "Top": {"player": "FlexThresh", "puuid": "puuid-201", "is_squad": True, "champion": "Thresh", "kills": 4, "deaths": 5, "assists": 5, "damage": 19000, "cs": 185, "vision": 24},
+                "Bot": {"player": "BotPartner", "puuid": "puuid-202", "is_squad": True, "champion": "Jinx", "kills": 6, "deaths": 4, "assists": 4, "damage": 24000, "cs": 210, "vision": 20},
+            },
+        })
+
+        live = build_dashboard_payload(stats_mgr=self.stats_mgr)["live"]
+        thresh_entries = {(c["champion"], c["role"]): c for c in live["champions"] if c["champion"] == "Thresh"}
+        self.assertEqual(set(thresh_entries.keys()), {("Thresh", "Support"), ("Thresh", "Top")})
+        self.assertEqual(thresh_entries[("Thresh", "Support")]["picks"], 1)
+        self.assertEqual(thresh_entries[("Thresh", "Support")]["win_rate"], 100.0)
+        self.assertEqual(thresh_entries[("Thresh", "Top")]["picks"], 1)
+        self.assertEqual(thresh_entries[("Thresh", "Top")]["win_rate"], 0.0)
+
+        flex_player = next(p for p in live["players"] if p["name"] == "FlexThresh")
+        pool_entries = {(c["champion"], c["role"]): c for c in flex_player["champion_pool"]}
+        self.assertEqual(set(pool_entries.keys()), {("Thresh", "Support"), ("Thresh", "Top")})
+        self.assertEqual(pool_entries[("Thresh", "Support")]["wins"], 1)
+        self.assertEqual(pool_entries[("Thresh", "Top")]["losses"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()

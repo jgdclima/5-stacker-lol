@@ -185,7 +185,7 @@ export function renderOverviewTab(data, filters) {
     <div class="kpi-card">
       <div class="kpi-label">Signature Comfort Pick</div>
       <div class="kpi-value">${topChamp ? escapeHtml(topChamp.champion) : 'N/A'}</div>
-      <div class="kpi-sub">${topChamp ? `${topChamp.picks} Picks • ${topChamp.win_rate}% WR • ${topChamp.kda} KDA` : 'No picks logged yet'}</div>
+      <div class="kpi-sub">${topChamp ? `${escapeHtml(topChamp.role || topChamp.primary_role)} • ${topChamp.picks} Picks • ${topChamp.win_rate}% WR • ${topChamp.kda} KDA` : 'No picks logged yet'}</div>
     </div>
   `;
 
@@ -568,7 +568,7 @@ export function openPlayerModal(data, playerName, compareName = '__SQUAD_AVG__')
   const champRows = (p.champion_pool || []).map(c => `
     <tr>
       <td><strong>${escapeHtml(c.champion)}</strong> <span class="archetype-tag">${escapeHtml(c.archetype)}</span></td>
-      <td><span class="role-badge">${escapeHtml(c.primary_role)}</span></td>
+      <td><span class="role-badge">${escapeHtml(c.role || c.primary_role)}</span></td>
       <td>${c.games} (${c.wins}W-${c.losses}L)</td>
       <td style="color: ${c.win_rate >= 50 ? 'var(--win-green)' : 'var(--loss-red)'}; font-weight: 700;">${c.win_rate}%</td>
       <td>${c.avg_kills}/${c.avg_deaths}/${c.avg_assists} (<strong style="color: var(--cyan-bright);">${c.kda}</strong>)</td>
@@ -811,17 +811,19 @@ export function getFilteredChampionStats(data, filters, champSort) {
         if (!hay.includes(q)) return;
       }
       const c = p.champion || 'Unknown';
-      if (!map[c]) {
-        map[c] = {
+      const key = `${c}||${role}`;
+      if (!map[key]) {
+        map[key] = {
           champion: c,
+          role,
           archetype: p.archetype || 'bruiser',
           picks: 0, wins: 0, losses: 0,
           kills: 0, deaths: 0, assists: 0,
           damage: 0, cs: 0, dur: 0, ratingSum: 0,
-          roles: {}, pilots: {}
+          pilots: {}
         };
       }
-      const entry = map[c];
+      const entry = map[key];
       entry.picks += 1;
       if (isWin) entry.wins += 1; else entry.losses += 1;
       entry.kills += (p.kills || 0);
@@ -831,7 +833,6 @@ export function getFilteredChampionStats(data, filters, champSort) {
       entry.cs += (p.cs || 0);
       entry.dur += dur;
       entry.ratingSum += parseFloat(p.rating || 65);
-      entry.roles[role] = (entry.roles[role] || 0) + 1;
       entry.pilots[p.player] = (entry.pilots[p.player] || 0) + 1;
     });
   });
@@ -839,12 +840,12 @@ export function getFilteredChampionStats(data, filters, champSort) {
   const list = Object.values(map).map(e => {
     const g = e.picks;
     const avgR = +(e.ratingSum / g).toFixed(1);
-    const topRole = Object.keys(e.roles).sort((a, b) => e.roles[b] - e.roles[a])[0] || 'Flex';
     const topPilot = Object.keys(e.pilots).sort((a, b) => e.pilots[b] - e.pilots[a])[0] || 'N/A';
     return {
       champion: e.champion,
+      role: e.role,
       archetype: e.archetype,
-      primary_role: topRole,
+      primary_role: e.role,
       picks: g,
       wins: e.wins,
       losses: e.losses,
@@ -883,7 +884,7 @@ export function renderTrendsTab(data, filters, champSort, currentTab) {
     <tr>
       <td><strong style="color: var(--gold-bright);">${escapeHtml(c.champion)}</strong></td>
       <td><span class="archetype-tag">${escapeHtml(c.archetype)}</span></td>
-      <td><span class="role-badge">${escapeHtml(c.primary_role)}</span></td>
+      <td><span class="role-badge">${escapeHtml(c.role || c.primary_role)}</span></td>
       <td><strong>${c.picks}</strong> (${c.wins}W-${c.losses}L)</td>
       <td><strong style="color: ${c.win_rate >= 50 ? 'var(--win-green)' : 'var(--loss-red)'};">${c.win_rate}%</strong></td>
       <td><strong style="color: var(--cyan-bright);">${c.kda}</strong></td>

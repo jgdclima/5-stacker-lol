@@ -9,6 +9,120 @@
 
 import { buildRoleMatchIndex, resolvePlayerRoles } from './utils.js';
 
+function splitLegacyChampionSummaries(dataset) {
+  const matches = dataset?.matches || [];
+  if (matches.length === 0) return;
+
+  const needsGlobalSplit = Array.isArray(dataset.champions) && dataset.champions.some(c => !c.role);
+  const needsPlayerSplit = Array.isArray(dataset.players) && dataset.players.some(
+    p => Array.isArray(p.champion_pool) && p.champion_pool.some(c => !c.role)
+  );
+  if (!needsGlobalSplit && !needsPlayerSplit) return;
+
+  const globalMap = {};
+  const playerMap = {};
+
+  matches.forEach(m => {
+    const isWin = m.result === 'WIN';
+    const dur = parseFloat(m.duration_min || 30);
+    Object.entries(m.lineup || {}).forEach(([role, p]) => {
+      if (!p || !p.champion) return;
+      const champ = p.champion;
+      const arch = p.archetype || 'bruiser';
+      const kills = p.kills || 0;
+      const deaths = p.deaths || 0;
+      const assists = p.assists || 0;
+      const damage = p.damage || 0;
+      const cs = p.cs || 0;
+      const vision = p.vision || 0;
+      const rating = parseFloat(p.rating || 65);
+
+      if (needsGlobalSplit) {
+        const gKey = `${champ}||${role}`;
+        if (!globalMap[gKey]) {
+          globalMap[gKey] = {
+            champion: champ, role, archetype: arch, picks: 0, wins: 0, losses: 0,
+            kills: 0, deaths: 0, assists: 0, damage: 0, cs: 0, vision: 0, dur: 0, ratingSum: 0, pilots: {}
+          };
+        }
+        const ge = globalMap[gKey];
+        ge.picks += 1;
+        if (isWin) ge.wins += 1; else ge.losses += 1;
+        ge.kills += kills; ge.deaths += deaths; ge.assists += assists;
+        ge.damage += damage; ge.cs += cs; ge.vision += vision; ge.dur += dur; ge.ratingSum += rating;
+        if (p.player) ge.pilots[p.player] = (ge.pilots[p.player] || 0) + 1;
+      }
+
+      if (needsPlayerSplit && p.player) {
+        const pm = (playerMap[p.player] ||= {});
+        const pKey = `${champ}||${role}`;
+        if (!pm[pKey]) {
+          pm[pKey] = {
+            champion: champ, role, archetype: arch, games: 0, wins: 0,
+            kills: 0, deaths: 0, assists: 0, ratingSum: 0
+          };
+        }
+        const pe = pm[pKey];
+        pe.games += 1;
+        if (isWin) pe.wins += 1;
+        pe.kills += kills; pe.deaths += deaths; pe.assists += assists; pe.ratingSum += rating;
+      }
+    });
+  });
+
+  if (needsGlobalSplit) {
+    dataset.champions = Object.values(globalMap).map(c => {
+      const g = c.picks;
+      const d = Math.max(1, c.dur);
+      return {
+        champion: c.champion,
+        role: c.role,
+        archetype: c.archetype,
+        picks: g,
+        wins: c.wins,
+        losses: c.losses,
+        win_rate: +((c.wins / g) * 100).toFixed(1),
+        kda: +((c.kills + c.assists) / Math.max(1, c.deaths)).toFixed(2),
+        avg_kills: +(c.kills / g).toFixed(1),
+        avg_deaths: +(c.deaths / g).toFixed(1),
+        avg_assists: +(c.assists / g).toFixed(1),
+        dpm: Math.round(c.damage / d),
+        cspm: +(c.cs / d).toFixed(1),
+        vspm: +(c.vision / d).toFixed(2),
+        avg_rating: +(c.ratingSum / g).toFixed(1),
+        primary_role: c.role,
+        top_pilot: Object.keys(c.pilots).sort((a, b) => c.pilots[b] - c.pilots[a])[0] || 'N/A',
+        pilots: c.pilots
+      };
+    }).sort((a, b) => (b.picks - a.picks) || (b.win_rate - a.win_rate) || (b.avg_rating - a.avg_rating));
+  }
+
+  if (needsPlayerSplit) {
+    dataset.players.forEach(pl => {
+      const pm = playerMap[pl.name];
+      if (!pm) return;
+      pl.champion_pool = Object.values(pm).map(c => {
+        const g = c.games;
+        return {
+          champion: c.champion,
+          role: c.role,
+          archetype: c.archetype,
+          games: g,
+          wins: c.wins,
+          losses: g - c.wins,
+          win_rate: +((c.wins / g) * 100).toFixed(1),
+          kda: +((c.kills + c.assists) / Math.max(1, c.deaths)).toFixed(2),
+          avg_kills: +(c.kills / g).toFixed(1),
+          avg_deaths: +(c.deaths / g).toFixed(1),
+          avg_assists: +(c.assists / g).toFixed(1),
+          avg_rating: +(c.ratingSum / g).toFixed(1),
+          primary_role: c.role
+        };
+      }).sort((a, b) => (b.games - a.games) || (b.avg_rating - a.avg_rating));
+    });
+  }
+}
+
 export function normalizeDatasetRoles(dataset) {
   if (!dataset || !Array.isArray(dataset.players)) return dataset;
   const roleIndex = buildRoleMatchIndex(dataset.matches || []);
@@ -18,6 +132,7 @@ export function normalizeDatasetRoles(dataset) {
     p.secondary_role = resolved.secondary_role;
     p.main_role = resolved.main_role;
   });
+  splitLegacyChampionSummaries(dataset);
   return dataset;
 }
 

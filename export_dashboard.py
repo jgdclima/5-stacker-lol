@@ -480,10 +480,12 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
                 archetype_stats[arch]["wins"] += 1
             archetype_stats[arch]["total_rating"] += rating
 
-            # Champion aggregation
-            if champ not in champ_stats:
-                champ_stats[champ] = {
+            # Champion aggregation (split by champion + role played)
+            champ_role_key = (champ, role)
+            if champ_role_key not in champ_stats:
+                champ_stats[champ_role_key] = {
                     "champion": champ,
+                    "role": role,
                     "archetype": arch,
                     "picks": 0,
                     "wins": 0,
@@ -500,7 +502,7 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
                     "pilots": {},
                     "modes": {},
                 }
-            cs_entry = champ_stats[champ]
+            cs_entry = champ_stats[champ_role_key]
             cs_entry["picks"] += 1
             if is_win:
                 cs_entry["wins"] += 1
@@ -536,9 +538,10 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
                     prof["pillar_totals"][pil_k] = prof["pillar_totals"].get(pil_k, 0.0) + float(pil_v)
                     prof["pillar_counts"][pil_k] = prof["pillar_counts"].get(pil_k, 0) + 1
 
-                if champ not in prof["champions"]:
-                    prof["champions"][champ] = {
+                if champ_role_key not in prof["champions"]:
+                    prof["champions"][champ_role_key] = {
                         "champion": champ,
+                        "role": role,
                         "archetype": arch,
                         "games": 0,
                         "wins": 0,
@@ -546,9 +549,8 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
                         "deaths": 0,
                         "assists": 0,
                         "total_rating": 0.0,
-                        "roles": {},
                     }
-                pc = prof["champions"][champ]
+                pc = prof["champions"][champ_role_key]
                 pc["games"] += 1
                 if is_win:
                     pc["wins"] += 1
@@ -556,7 +558,6 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
                 pc["deaths"] += deaths
                 pc["assists"] += assists
                 pc["total_rating"] += rating
-                pc["roles"][role] = pc["roles"].get(role, 0) + 1
 
                 prof["recent_matches"].append({
                     "match_id": match.get("match_id"),
@@ -586,10 +587,11 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
         prof.pop("pillar_counts", None)
 
         champ_list = []
-        for cname, cdata in prof["champions"].items():
+        for (_cname, _crole), cdata in prof["champions"].items():
             g = cdata["games"]
             champ_list.append({
-                "champion": cname,
+                "champion": cdata["champion"],
+                "role": cdata["role"],
                 "archetype": cdata["archetype"],
                 "games": g,
                 "wins": cdata["wins"],
@@ -600,7 +602,7 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
                 "avg_deaths": round(cdata["deaths"] / g, 1),
                 "avg_assists": round(cdata["assists"] / g, 1),
                 "avg_rating": round(cdata["total_rating"] / g, 1),
-                "primary_role": max(cdata["roles"], key=cdata["roles"].get) if cdata["roles"] else "Flex",
+                "primary_role": cdata["role"],
             })
         prof["champion_pool"] = sorted(champ_list, key=lambda x: (x["games"], x["avg_rating"]), reverse=True)
         prof.pop("champions", None)
@@ -628,12 +630,13 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
 
     # Finalize champion summary list
     champions_list: List[Dict[str, Any]] = []
-    for cname, c in champ_stats.items():
+    for (_cname, _crole), c in champ_stats.items():
         g = c["picks"]
         dur_total = max(1.0, c["duration_min"])
         avg_r = round(c["total_rating"] / g, 1) if g > 0 else 0.0
         champions_list.append({
-            "champion": cname,
+            "champion": c["champion"],
+            "role": c["role"],
             "archetype": c["archetype"],
             "picks": g,
             "wins": c["wins"],
@@ -648,7 +651,7 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
             "vspm": round(c["vision"] / dur_total, 2),
             "avg_rating": avg_r,
             "grade": rating_to_grade(avg_r),
-            "primary_role": max(c["roles"], key=c["roles"].get) if c["roles"] else "Flex",
+            "primary_role": c["role"],
             "roles": c["roles"],
             "top_pilot": max(c["pilots"], key=c["pilots"].get) if c["pilots"] else "N/A",
             "pilots": c["pilots"],
