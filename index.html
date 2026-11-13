@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5-Stack Coordinator Hub</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="top-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-crest">5S</div>
+        <div>
+          <div class="brand-title" id="header-group-name">5 Stackers</div>
+          <div class="brand-subtitle">
+            <span>5-Stack Coordinator Hub</span>
+            <span>•</span>
+            <span id="header-updated-at">Synced</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav-tabs" role="tablist">
+        <button class="nav-tab active" data-tab="overview">⚡ Overview</button>
+        <button class="nav-tab" data-tab="sessions">📅 Sessions</button>
+        <button class="nav-tab" data-tab="players">🛡️ Players</button>
+        <button class="nav-tab" data-tab="synergies">🤝 Synergies</button>
+        <button class="nav-tab" data-tab="builder">🧠 Squad Builder</button>
+        <button class="nav-tab" data-tab="trends">📈 Meta &amp; Trends</button>
+        <button class="nav-tab" data-tab="faq">📖 FAQ &amp; Feedback</button>
+      </nav>
+
+      <div class="header-controls">
+        <a class="case-study-pill" href="./case-study.html">
+          💼 Case Study
+        </a>
+        <div class="data-mode-switch" title="Switch between live bot data and rich demonstration data">
+          <button class="mode-btn" id="btn-mode-demo" onclick="setDatasetMode('demo')">Demo Preview</button>
+          <button class="mode-btn" id="btn-mode-live" onclick="setDatasetMode('live')">Live Data</button>
+        </div>
+        <button class="gh-feedback-top-btn" onclick="switchTab('faq', 'feedback-anchor')">
+          💡 Submit Feedback
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- Notice banner when viewing Demo Preview or empty Live Data -->
+    <div id="demo-notice-banner" class="demo-banner" style="display: none;">
+      <div>
+        <strong style="color: var(--gold-bright);">✨ Interactive Demo Preview Active:</strong>
+        <span id="demo-banner-text" style="color: var(--text-main);">
+          Exploring sample 5-stack sessions, Riot Match-v5 telemetry, duo synergies, and champion trends.
+        </span>
+      </div>
+      <button class="mode-btn active" onclick="setDatasetMode('live')" id="banner-switch-live-btn">
+        View Live Server Data
+      </button>
+    </div>
+
+    <!-- Global Interactive Filter Bar (shown on data tabs) -->
+    <section class="filter-bar" id="global-filter-bar">
+      <div class="filter-group">
+        <span class="filter-label">Role</span>
+        <div class="role-pills" id="role-filter-pills">
+          <button class="role-pill active" data-role="ALL">All</button>
+          <button class="role-pill" data-role="Top">Top</button>
+          <button class="role-pill" data-role="Jungle">Jungle</button>
+          <button class="role-pill" data-role="Mid">Mid</button>
+          <button class="role-pill" data-role="Bot">Bot</button>
+          <button class="role-pill" data-role="Support">Support</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label">Player</span>
+        <select id="filter-player" class="hex-select">
+          <option value="ALL">All Squad Members</option>
+        </select>
+
+        <span class="filter-label">Queue</span>
+        <select id="filter-mode" class="hex-select">
+          <option value="ALL">All Queues</option>
+          <option value="Ranked 5s">Ranked 5s</option>
+          <option value="Ranked Flex">Ranked Flex</option>
+          <option value="Normal">Normal / Other</option>
+        </select>
+
+        <div class="range-wrap">
+          <span class="filter-label">Min Games: <strong id="min-games-val" style="color: var(--cyan-bright);">1</strong></span>
+          <input type="range" id="filter-min-games" min="1" max="5" value="1" />
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <input type="text" id="filter-search" class="hex-input" placeholder="Search player, champ, session..." />
+        <button class="reset-btn" onclick="resetFilters()">Reset</button>
+      </div>
+    </section>
+
+    <!-- TAB 1: OVERVIEW -->
+    <section id="tab-overview" class="tab-panel active">
+      <div id="overview-hero-session"></div>
+      <div class="kpi-grid" id="overview-kpi-grid"></div>
+
+      <div class="section-header" style="margin-top: 0.25rem;">
+        <div class="section-title">🔎 Automated Executive Insights &amp; Anomaly Callouts</div>
+      </div>
+      <div class="insights-grid" id="overview-insights-grid"></div>
+
+      <div class="grid-2" style="margin-bottom: 1.5rem;">
+        <div class="hex-card">
+          <div class="section-title" style="margin-bottom: 0.85rem;">🏆 Top Squad Performers</div>
+          <div id="overview-top-players"></div>
+        </div>
+        <div class="hex-card">
+          <div class="section-title" style="margin-bottom: 0.85rem;">🤝 Highest Synergy Duos</div>
+          <div id="overview-top-synergies"></div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">⚔️ Recent Match History (Click any match to inspect full 5-role telemetry)</div>
+      </div>
+      <div id="overview-matches-list"></div>
+    </section>
+
+    <!-- TAB 2: SESSIONS -->
+    <section id="tab-sessions" class="tab-panel">
+      <div class="section-header" style="margin-top: 0;">
+        <div class="section-title">📅 Active &amp; Historical Sessions</div>
+        <div class="filter-group">
+          <span class="filter-label">Status</span>
+          <select id="session-status-filter" class="hex-select" onchange="renderSessionsTab()">
+            <option value="ALL">All Statuses</option>
+            <option value="ACTIVE">Active (Polling / Ready / In Progress)</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+        </div>
+      </div>
+      <div id="sessions-grid" class="grid-2"></div>
+    </section>
+
+    <!-- TAB 3: PLAYERS -->
+    <section id="tab-players" class="tab-panel">
+      <div class="section-header" style="margin-top: 0;">
+        <div class="section-title">🛡️ @LOLers Roster Cards (Click a player for 6-Pillar Radar &amp; Head-to-Head Comparison)</div>
+      </div>
+      <div id="players-cards-grid" class="grid-3" style="margin-bottom: 1.75rem;"></div>
+
+      <div class="section-header">
+        <div class="section-title">📊 Squad Leaderboard Table (Click headers to sort)</div>
+      </div>
+      <div class="table-wrap">
+        <table class="hex-table" id="players-leaderboard-table">
+          <thead>
+            <tr>
+              <th onclick="sortPlayersBy('rank')">#</th>
+              <th onclick="sortPlayersBy('name')">Player</th>
+              <th onclick="sortPlayersBy('main_role')">Primary / Main Role</th>
+              <th onclick="sortPlayersBy('games')">Games</th>
+              <th onclick="sortPlayersBy('win_rate')">Win Rate</th>
+              <th onclick="sortPlayersBy('kda')">KDA</th>
+              <th onclick="sortPlayersBy('avg_rating')">Holistic Rating</th>
+              <th onclick="sortPlayersBy('mvps')">MVPs</th>
+              <th>Favorite Champions</th>
+            </tr>
+          </thead>
+          <tbody id="players-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 4: SYNERGIES -->
+    <section id="tab-synergies" class="tab-panel">
+      <div class="section-header" style="margin-top: 0;">
+        <div class="section-title">🤝 Living Duo Synergy Leaderboards</div>
+        <div class="role-pills" id="synergy-pair-pills">
+          <button class="role-pill active" data-pair="ALL" onclick="setSynergyCategory('ALL')">All Pairs</button>
+          <button class="role-pill" data-pair="botlane" onclick="setSynergyCategory('botlane')">🏹🛡️ Bot + Support</button>
+          <button class="role-pill" data-pair="mid_jungle" onclick="setSynergyCategory('mid_jungle')">🔮🌲 Mid + Jungle</button>
+          <button class="role-pill" data-pair="top_jungle" onclick="setSynergyCategory('top_jungle')">⚔️🌲 Top + Jungle</button>
+          <button class="role-pill" data-pair="support_jungle" onclick="setSynergyCategory('support_jungle')">🛡️🌲 Support + Jungle</button>
+        </div>
+      </div>
+
+      <div id="synergies-cards-grid" class="grid-3" style="margin-bottom: 1.6rem;"></div>
+
+      <div class="table-wrap">
+        <table class="hex-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Duo Partners</th>
+              <th>Tier &amp; Tag</th>
+              <th onclick="sortSynergiesBy('synergy_score')">Synergy Score ▾</th>
+              <th onclick="sortSynergiesBy('win_rate')">Win Rate</th>
+              <th onclick="sortSynergiesBy('combined_kda')">Duo KDA</th>
+              <th onclick="sortSynergiesBy('avg_duo_rating')">Avg Duo Rating</th>
+              <th onclick="sortSynergiesBy('coordination_score')">Coordination</th>
+              <th onclick="sortSynergiesBy('games')">Games</th>
+              <th>Signature Combo</th>
+            </tr>
+          </thead>
+          <tbody id="synergies-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 5: SQUAD BUILDER -->
+    <section id="tab-builder" class="tab-panel">
+      <div id="squad-builder-root"></div>
+    </section>
+
+    <!-- TAB 6: META & GAMEPLAY TRENDS -->
+    <section id="tab-trends" class="tab-panel">
+      <div class="insights-grid" id="trends-insights-grid" style="margin-bottom: 1.4rem;"></div>
+
+      <div class="grid-2" style="margin-bottom: 1.4rem;">
+        <div class="hex-card">
+          <div class="section-title" style="margin-bottom: 0.75rem;">🔥 Most Picked Champions (Wins vs Losses)</div>
+          <div class="chart-box">
+            <canvas id="chart-most-picked"></canvas>
+          </div>
+        </div>
+        <div class="hex-card">
+          <div class="section-title" style="margin-bottom: 0.75rem;">🏆 Highest Holistic Rating by Champion</div>
+          <div class="chart-box">
+            <canvas id="chart-champ-ratings"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom: 1.5rem;">
+        <div class="hex-card">
+          <div class="section-title" style="margin-bottom: 0.75rem;">🧬 Champion Kit Archetype Meta Share</div>
+          <div class="chart-box">
+            <canvas id="chart-archetypes"></canvas>
+          </div>
+        </div>
+        <div class="hex-card">
+          <div class="section-title" style="margin-bottom: 0.75rem;">📈 Cumulative Win Rate &amp; Match Tempo Trend</div>
+          <div class="chart-box">
+            <canvas id="chart-tempo-trend"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">🐉 Champion Pool &amp; Meta Analytics Table (Click headers to sort)</div>
+      </div>
+      <div class="table-wrap">
+        <table class="hex-table">
+          <thead>
+            <tr>
+              <th onclick="sortChampsBy('champion')">Champion</th>
+              <th onclick="sortChampsBy('archetype')">Kit Archetype</th>
+              <th onclick="sortChampsBy('primary_role')">Primary Role</th>
+              <th onclick="sortChampsBy('picks')">Picks ▾</th>
+              <th onclick="sortChampsBy('win_rate')">Win Rate</th>
+              <th onclick="sortChampsBy('kda')">KDA</th>
+              <th onclick="sortChampsBy('dpm')">Avg DPM</th>
+              <th onclick="sortChampsBy('cspm')">Avg CS/m</th>
+              <th onclick="sortChampsBy('avg_rating')">Holistic Rating</th>
+              <th>Top Squad Pilot</th>
+            </tr>
+          </thead>
+          <tbody id="champions-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 7: FAQ, RATING MATH & GITHUB FEEDBACK -->
+    <section id="tab-faq" class="tab-panel">
+      <!-- 1. How the Bot Gets Its Data -->
+      <div class="faq-section">
+        <h3>📡 1. How the Bot Gets Its Data &amp; Syncs Matches</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.9rem;">
+          The 5-Stack Coordinator combines real-time Discord session state on a Synology NAS Docker container with official <strong>Riot Games Developer API</strong> telemetry stored in <code>data/league_stats.json</code>, automatically publishing privacy-sanitized JSON to GitHub Pages whenever new matches are recorded:
+        </p>
+        <div class="grid-3">
+          <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+            <div style="color: var(--gold-bright); font-weight: 700; margin-bottom: 0.35rem;">🔗 1. Riot Account Linking</div>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">
+              Players link one or more Riot IDs (<code>GameName#TAG</code>) via <code>/link-riot</code>. The bot queries Riot's <strong>Account-v1 API</strong> (<code>/riot/account/v1/accounts/by-riot-id/</code>) to resolve immutable <code>PUUID</code> identifiers and reconciles past match history automatically.
+            </p>
+          </div>
+          <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+            <div style="color: var(--gold-bright); font-weight: 700; margin-bottom: 0.35rem;">🔄 2. Automated &amp; Manual Match Sync</div>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">
+              Every polling cycle or when <code>/sync-matches</code> is triggered, the bot fetches recent match IDs via <strong>Match-v5</strong> (<code>/lol/match/v5/matches/by-puuid/</code>) and inspects full post-game telemetry and Riot Challenges data.
+            </p>
+          </div>
+          <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+            <div style="color: var(--gold-bright); font-weight: 700; margin-bottom: 0.35rem;">🛡️ 3. Privacy-Sanitized Public Sync</div>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">
+              Whenever <strong>2 or more linked @LOLers members</strong> play on the same team, the match is scored by the Holistic Rating Engine, synced to the 4 Living Synergy Threads, stripped of raw Discord IDs &amp; Riot <code>PUUID</code>s, and pushed to <code>gh-pages</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Performance Rating Calculations -->
+      <div class="faq-section">
+        <h3>🧮 2. Holistic Individual Performance Rating Engine (0–100 Scale)</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Unlike raw KDA formulas that unfairly penalize frontline tanks or sacrificial engage supports, <code>rating_engine.py</code> evaluates every player on a <strong>0–100 scale</strong> by blending <strong>55% Role Responsibility Weights</strong> with <strong>45% Champion Kit Archetype Weights</strong> across <strong>6 Performance Pillars</strong>:
+        </p>
+
+        <div class="formula-box">
+          Blended Pillar Weight = (0.55 × Role_Weight[pillar]) + (0.45 × Archetype_Weight[pillar])<br/>
+          Base Score = Σ (Pillar_Score × Blended_Weight) / Σ (Active_Blended_Weights)<br/>
+          Final Rating = clamp(Base_Score − Excess_Death_Penalty + Outcome_Adjustment, 15.0, 99.5)
+        </div>
+
+        <div class="grid-3" style="margin-top: 1rem; margin-bottom: 1.2rem;">
+          <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+            <div style="color: var(--cyan-bright); font-weight: 700; font-size: 0.88rem;">⚔️ Pillar 1: Combat &amp; KDA Efficiency</div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">
+              44% KDA ratio (target <code>3.2</code>) + 34% Kill Participation (target <code>58%</code> Jng/Sup/Mid, <code>48%</code> Top/Bot) + 22% Death-rate survival + up to <code>+14</code> playmaking bonus (Solo Kills &amp; Outnumbered Kills) + <code>+8</code> carry kill-conversion bonus.
+            </p>
+          </div>
+          <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+            <div style="color: var(--cyan-bright); font-weight: 700; font-size: 0.88rem;">🔥 Pillar 2: Damage &amp; Carry Output</div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">
+              60% Damage Per Minute (benchmarked against kit archetype: <code>780</code> Marksman, <code>760</code> Mage, <code>680</code> Assassin, <code>650</code> Splitpusher, <code>620</code> Bruiser, <code>440</code> Tank, <code>300</code> Catcher, <code>240</code> Enchanter) + 40% Team Damage Share (target <code>24%</code> carries).
+            </p>
+          </div>
+          <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+            <div style="color: var(--cyan-bright); font-weight: 700; font-size: 0.88rem;">🐉 Pillar 3: Objective &amp; Structural Pressure</div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">
+              Combines Structural Pressure (Turret Damage + Takedowns <code>×1500</code> + Plates <code>×600</code>) and Monster Control (Objective Dmg + Dragons <code>×3500</code> + Barons <code>×5000</code> + Heralds <code>×3000</code> + Void Grubs <code>×1200</code> + Steals <code>×6000</code>). Weighted 72/28 monster-heavy for Jungle and 72/28 structure-heavy for Top/Splitpushers.
+            </p>
+          </div>
+          <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+            <div style="color: var(--cyan-bright); font-weight: 700; font-size: 0.88rem;">🛡️ Pillar 4: Frontline &amp; Durability</div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">
+              45% Self-Mitigated Damage/min (target <code>900/m</code> for Tanks/Bruisers/Catchers) + 25% Team Damage Taken Share (target <code>24%</code> Top/Jng) + 30% Tank Survival Efficiency (<code>(Damage Taken + Mitigated) / Deaths</code>, target <code>9,500</code>).
+            </p>
+          </div>
+          <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+            <div style="color: var(--cyan-bright); font-weight: 700; font-size: 0.88rem;">✨ Pillar 5: Utility, CC &amp; Enablement</div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">
+              Evaluates CC Score/min (target <code>1.1/m</code> Catchers/Tanks), Effective Healing &amp; Shielding/min (target <code>320/m</code> Enchanters), Immobilize &amp; Pick Kills with Allies, and clutch <code>saveAllyFromDeath</code> rescues.
+            </p>
+          </div>
+          <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+            <div style="color: var(--cyan-bright); font-weight: 700; font-size: 0.88rem;">👁️ Pillar 6: Vision, Economy &amp; Lane Lead</div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">
+              Role-benchmarked CS/min (<code>7.2</code> Bot, <code>7.0</code> Mid, <code>6.8</code> Top, <code>5.8</code> Jng, <code>1.2</code> Sup) and Vision Score/min (<code>2.10</code> Sup, <code>1.05</code> Jng), plus bonuses for Laning Gold/XP advantage, <code>+25</code> CS leads, and Control Wards.
+            </p>
+          </div>
+        </div>
+
+        <!-- Interactive Role + Archetype Weight Calculator -->
+        <div class="hex-card" style="background: rgba(6, 13, 24, 0.78); border-color: var(--border-gold);">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.9rem;">
+            <div style="font-weight: 700; color: var(--gold-bright);">
+              🔬 Interactive Blended Weight Simulator (55% Role + 45% Archetype)
+            </div>
+            <div class="filter-group">
+              <span class="filter-label">Select Role:</span>
+              <select id="sim-role" class="hex-select" onchange="updateWeightSimulator()">
+                <option value="Top">Top</option>
+                <option value="Jungle">Jungle</option>
+                <option value="Mid">Mid</option>
+                <option value="Bot" selected>Bot (ADC)</option>
+                <option value="Support">Support</option>
+              </select>
+              <span class="filter-label">Select Kit Archetype:</span>
+              <select id="sim-arch" class="hex-select" onchange="updateWeightSimulator()">
+                <option value="marksman" selected>Marksman</option>
+                <option value="mage">Mage</option>
+                <option value="assassin">Assassin</option>
+                <option value="splitpusher">Splitpusher</option>
+                <option value="bruiser">Bruiser</option>
+                <option value="tank">Tank</option>
+                <option value="enchanter">Enchanter</option>
+                <option value="catcher">Catcher / Engage</option>
+              </select>
+            </div>
+          </div>
+          <div id="sim-weights-output"></div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.7rem;">
+            <strong>Adjustments &amp; Grades:</strong> Excess deaths above <code>2.0 deaths / 10 min</code> incur up to a <code>-14.0</code> penalty (<code>6.5×</code> rate for carries, <code>4.5×</code> for frontline/utility). Match outcome adds <code>+2.5</code> for a WIN or <code>-1.5</code> for a LOSS.
+            Letter Grades: <span class="grade-badge grade-Splus">S+ ≥ 88</span> <span class="grade-badge grade-S">S ≥ 80</span> <span class="grade-badge grade-Aplus">A+ ≥ 73</span> <span class="grade-badge grade-A">A ≥ 65</span> <span class="grade-badge grade-B">B ≥ 55</span> <span class="grade-badge grade-C">C ≥ 45</span> <span class="grade-badge grade-F">F &lt; 45</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Pairwise Synergy Formula -->
+      <div class="faq-section">
+        <h3>🤝 3. Holistic Pairwise Duo Synergy Formula</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          The 4 Living Synergy Leaderboards (<strong>Bot + Support</strong>, <strong>Mid + Jungle</strong>, <strong>Top + Jungle</strong>, and <strong>Support + Jungle</strong>) evaluate duo chemistry on a 0–100 scale with Bayesian sample-size dampening so 1-game flukes don't outrank proven partnerships:
+        </p>
+        <div class="formula-box">
+          Synergy Score = (0.42 × Bayesian_Win_Rate) + (0.24 × Dampened_Duo_Rating) + (0.14 × Pair_Coordination) + (0.20 × Duo_KDA_Norm)<br/>
+          • Bayesian_Win_Rate = (Raw_WR × min(1.0, Games / 5)) + (50.0 × (1 − min(1.0, Games / 5)))<br/>
+          • Tiers: S Tier (≥ 80.0) | A Tier (≥ 65.0) | B Tier (&lt; 65.0)
+        </div>
+      </div>
+
+      <!-- 4. Feedback -> GitHub Issue Creator -->
+      <div class="faq-section" id="feedback-anchor" style="border-color: var(--cyan-bright);">
+        <h3>💡 4. Submit Feedback &amp; Automatically Open a GitHub Issue</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.1rem;">
+          Have a feature request, bug report, or UX suggestion for the Discord bot or this web dashboard? Fill out the form below to open a pre-formatted GitHub Issue directly on <a id="faq-repo-link" href="https://github.com/jgdclima/5-stacker-lol/issues" target="_blank" rel="noopener"><code>jgdclima/5-stacker-lol</code></a>, or use the <code>/feedback</code> slash command / <strong>💡 Feedback</strong> button on any session card in Discord (which creates the GitHub Issue automatically via <code>github_tickets.py</code>!).
+        </p>
+
+        <div class="feedback-form-grid">
+          <div>
+            <div class="form-field">
+              <label for="fb-category">Feedback Category</label>
+              <select id="fb-category" onchange="updateFeedbackPreview()">
+                <option value="feature">✨ Feature Request (label: enhancement)</option>
+                <option value="bug">🐛 Bug Report (label: bug)</option>
+                <option value="ux">🎨 UX / Channel / Dashboard Feedback (label: enhancement)</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="fb-title">Issue Title</label>
+              <input type="text" id="fb-title" placeholder="e.g., Add champion matchup winrate matrix to Trends tab" oninput="updateFeedbackPreview()" />
+            </div>
+            <div class="form-field">
+              <label for="fb-reporter">Your Name / Discord Tag (Optional)</label>
+              <input type="text" id="fb-reporter" placeholder="e.g., YourName#1234" oninput="updateFeedbackPreview()" />
+            </div>
+            <div class="form-field">
+              <label for="fb-desc">Detailed Description</label>
+              <textarea id="fb-desc" placeholder="Describe what you'd like to see, steps to reproduce a bug, or how the dashboard/bot can be improved..." oninput="updateFeedbackPreview()"></textarea>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;">
+              <a id="fb-submit-link" class="btn-gold" href="https://github.com/jgdclima/5-stacker-lol/issues/new" target="_blank" rel="noopener">
+                🚀 Create GitHub Issue
+              </a>
+              <a id="fb-view-issues-link" class="gh-feedback-top-btn" href="https://github.com/jgdclima/5-stacker-lol/issues" target="_blank" rel="noopener">
+                📋 View Existing Issues
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size: 0.78rem; font-weight: 700; color: var(--gold-primary); text-transform: uppercase; margin-bottom: 0.35rem;">
+              Live GitHub Issue Payload Preview
+            </div>
+            <div class="formula-box" id="fb-markdown-preview" style="margin-top: 0; min-height: 255px; white-space: pre-wrap; color: var(--text-main);"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Player Detail Modal -->
+  <div class="modal-backdrop" id="player-modal" onclick="if(event.target === this) closePlayerModal()">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closePlayerModal()" title="Close">✕</button>
+      <div id="player-modal-body"></div>
+    </div>
+  </div>
+
+  <footer>
+    5-Stack Coordinator • Modular Hextech Analytics Hub • <a href="./case-study.html">Product &amp; Analytics Case Study</a> • <a href="https://jgdclima.github.io/portfolio/projects/" target="_blank" rel="noopener">Portfolio Projects</a>
+  </footer>
+
+  <!-- Zero-CORS file:// fallback bundle (over HTTP/GitHub Pages, live_payload.json & demo_payload.json are fetched fresh) -->
+  <script src="./data/dashboard_bundle.js"></script>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

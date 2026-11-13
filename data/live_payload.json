@@ -1,0 +1,186 @@
+{
+  "generated_at": "2026-11-13 22:11:08",
+  "github_repo": "jgdclima/5-stacker-lol",
+  "has_live_matches": false,
+  "rating_formulas": {
+    "role_weights": {
+      "Top": {
+        "combat": 0.22,
+        "damage": 0.2,
+        "objective": 0.2,
+        "frontline": 0.22,
+        "utility": 0.08,
+        "macro_vision": 0.08
+      },
+      "Jungle": {
+        "combat": 0.22,
+        "damage": 0.14,
+        "objective": 0.3,
+        "frontline": 0.12,
+        "utility": 0.12,
+        "macro_vision": 0.1
+      },
+      "Mid": {
+        "combat": 0.26,
+        "damage": 0.32,
+        "objective": 0.12,
+        "frontline": 0.06,
+        "utility": 0.12,
+        "macro_vision": 0.12
+      },
+      "Bot": {
+        "combat": 0.26,
+        "damage": 0.36,
+        "objective": 0.14,
+        "frontline": 0.04,
+        "utility": 0.06,
+        "macro_vision": 0.14
+      },
+      "Support": {
+        "combat": 0.2,
+        "damage": 0.08,
+        "objective": 0.08,
+        "frontline": 0.12,
+        "utility": 0.28,
+        "macro_vision": 0.24
+      }
+    },
+    "archetype_weights": {
+      "marksman": {
+        "combat": 0.26,
+        "damage": 0.38,
+        "objective": 0.14,
+        "frontline": 0.02,
+        "utility": 0.04,
+        "macro_vision": 0.16
+      },
+      "mage": {
+        "combat": 0.24,
+        "damage": 0.36,
+        "objective": 0.1,
+        "frontline": 0.04,
+        "utility": 0.14,
+        "macro_vision": 0.12
+      },
+      "assassin": {
+        "combat": 0.35,
+        "damage": 0.32,
+        "objective": 0.11,
+        "frontline": 0.05,
+        "utility": 0.07,
+        "macro_vision": 0.1
+      },
+      "splitpusher": {
+        "combat": 0.2,
+        "damage": 0.2,
+        "objective": 0.3,
+        "frontline": 0.12,
+        "utility": 0.04,
+        "macro_vision": 0.14
+      },
+      "bruiser": {
+        "combat": 0.25,
+        "damage": 0.23,
+        "objective": 0.18,
+        "frontline": 0.2,
+        "utility": 0.07,
+        "macro_vision": 0.07
+      },
+      "tank": {
+        "combat": 0.18,
+        "damage": 0.1,
+        "objective": 0.14,
+        "frontline": 0.32,
+        "utility": 0.18,
+        "macro_vision": 0.08
+      },
+      "enchanter": {
+        "combat": 0.2,
+        "damage": 0.04,
+        "objective": 0.06,
+        "frontline": 0.06,
+        "utility": 0.38,
+        "macro_vision": 0.26
+      },
+      "catcher": {
+        "combat": 0.2,
+        "damage": 0.06,
+        "objective": 0.08,
+        "frontline": 0.16,
+        "utility": 0.28,
+        "macro_vision": 0.22
+      }
+    },
+    "dpm_benchmarks": {
+      "marksman": 780.0,
+      "mage": 760.0,
+      "assassin": 680.0,
+      "splitpusher": 650.0,
+      "bruiser": 620.0,
+      "tank": 440.0,
+      "catcher": 300.0,
+      "enchanter": 240.0
+    },
+    "cspm_benchmarks": {
+      "Top": 6.8,
+      "Jungle": 5.8,
+      "Mid": 7.0,
+      "Bot": 7.2,
+      "Support": 1.2
+    },
+    "vspm_benchmarks": {
+      "Top": 0.75,
+      "Jungle": 1.05,
+      "Mid": 0.8,
+      "Bot": 0.75,
+      "Support": 2.1
+    }
+  },
+  "dataset": {
+    "is_demo": false,
+    "group_name": "5 Stackers",
+    "kpis": {
+      "total_matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "win_rate": 0.0,
+      "streak_type": "NONE",
+      "streak_count": 0,
+      "active_sessions_count": 0,
+      "total_sessions_count": 0
+    },
+    "sessions": [],
+    "matches": [],
+    "players": [],
+    "synergies": {
+      "botlane": [],
+      "mid_jungle": [],
+      "top_jungle": [],
+      "support_jungle": []
+    },
+    "champions": [],
+    "archetypes": [],
+    "role_distribution": {
+      "Top": {
+        "games": 0,
+        "wins": 0
+      },
+      "Jungle": {
+        "games": 0,
+        "wins": 0
+      },
+      "Mid": {
+        "games": 0,
+        "wins": 0
+      },
+      "Bot": {
+        "games": 0,
+        "wins": 0
+      },
+      "Support": {
+        "games": 0,
+        "wins": 0
+      }
+    }
+  }
+}

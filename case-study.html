@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Study • 5-Stack Coordinator Product Design &amp; Data Analytics</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="top-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-crest">5S</div>
+        <div>
+          <div class="brand-title">5-Stack Coordinator</div>
+          <div class="brand-subtitle">
+            <span>Product Design &amp; Data Analytics Case Study</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <a class="gh-feedback-top-btn" href="https://jgdclima.github.io/portfolio/projects/" target="_blank" rel="noopener">
+          ← Back to Portfolio
+        </a>
+        <a class="btn-cyan-outline" href="./index.html?mode=live">
+          📡 View Live Squad Data
+        </a>
+        <a class="btn-gold" href="./index.html?mode=demo">
+          🚀 Launch Interactive Demo
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- Hero Executive Summary -->
+    <section class="cs-hero">
+      <div class="cs-eyebrow">Product Design • Behavioral UX • Applied Sports/Game Analytics</div>
+      <h1>Turning Disorganized Discord Game Nights into a Self-Balancing, Data-Driven 5-Stack Platform</h1>
+      <p class="cs-lead">
+        Organizing 5-player League of Legends sessions among working adults fails for two reasons: <strong>coordination friction</strong> (noisy Discord pings, unclear quorum rules, and awkward 6th-player benching) and <strong>biased post-game feedback</strong> (raw KDA scoreboards that undervalue frontline tanks, roam supports, and splitpushers). I designed and built an end-to-end Discord bot, automated Riot Match-v5 telemetry pipeline, and modular analytics web hub to solve both.
+      </p>
+
+      <div class="cs-cta-row">
+        <a class="btn-gold" href="./index.html?mode=demo">🚀 Launch Interactive Demo Dashboard</a>
+        <a class="btn-cyan-outline" href="./index.html?mode=demo&tab=builder">🧠 Try 5-Stack Squad Builder (120-Permutation Solver)</a>
+        <a class="case-study-pill" href="./index.html?mode=live">📡 Inspect Live NAS-Synced Squad Stats</a>
+        <a class="gh-feedback-top-btn" href="https://github.com/jgdclima/5-stacker-lol" target="_blank" rel="noopener">💻 View GitHub Repository</a>
+      </div>
+    </section>
+
+    <!-- Outcome KPI Ribbon -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Channel Noise Reduction</div>
+        <div class="kpi-value">1 Card</div>
+        <div class="kpi-sub">In-place Discord embed replaces 15+ RSVP/reschedule spam messages per session</div>
+      </div>
+      <div class="kpi-card cyan-top">
+        <div class="kpi-label">Flexible Session Quorum</div>
+        <div class="kpi-value">2–5+ Players</div>
+        <div class="kpi-sub">Supports Duo/Trio/Flex fallback + automated #6–#10 Bench promotion</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Holistic Scoring Model</div>
+        <div class="kpi-value">6 Pillars</div>
+        <div class="kpi-sub">Blends 55% Role Responsibility + 45% Champion Kit Archetype weights</div>
+      </div>
+      <div class="kpi-card cyan-top">
+        <div class="kpi-label">Combinatorial Optimizer</div>
+        <div class="kpi-value">5! = 120</div>
+        <div class="kpi-sub">Evaluates every 5-role permutation against role comfort &amp; 4 duo chemistry pairs</div>
+      </div>
+    </section>
+
+    <!-- Section 1: Problem Statement & Product Discovery -->
+    <section class="faq-section">
+      <h3>1. Problem Statement &amp; Product Discovery</h3>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1rem;">
+        Before writing code, I audited the recurring failure modes in our 10-player Discord server (<code>#5-stackers</code>) across scheduling, lobby management, and post-match retention:
+      </p>
+      <div class="grid-3">
+        <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+          <div style="color: var(--gold-bright); font-weight: 700; margin-bottom: 0.4rem;">📉 1. The "5-or-Bust" Dropoff Trap</div>
+          <p style="font-size: 0.83rem; color: var(--text-muted);">
+            Traditional scheduling polls expire or cancel if 5 players aren't reached, killing viable 2-, 3-, or 4-player Flex nights. Conversely, when 6+ players want to play, manual benching creates social awkwardness.
+          </p>
+        </div>
+        <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+          <div style="color: var(--gold-bright); font-weight: 700; margin-bottom: 0.4rem;">🔔 2. Notification Fatigue in Discord</div>
+          <p style="font-size: 0.83rem; color: var(--text-muted);">
+            Posting a new message for every RSVP, role change, reschedule, or lookup buries active session cards and causes squad members to mute the coordination channel.
+          </p>
+        </div>
+        <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+          <div style="color: var(--gold-bright); font-weight: 700; margin-bottom: 0.4rem;">⚖️ 3. Misaligned Match Analytics</div>
+          <p style="font-size: 0.83rem; color: var(--text-muted);">
+            Public sites like OP.GG mix solo queue games with random strangers alongside organized 5-stack games, and naive KDA formulas punish sacrificial engage supports and macro splitpushers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Product Design & UX Architecture -->
+    <section class="faq-section">
+      <h3>2. Product Design &amp; Behavioral UX Architecture</h3>
+
+      <div class="grid-2" style="margin-bottom: 1.25rem;">
+        <div class="hex-card" style="background: rgba(6, 13, 24, 0.7);">
+          <div style="color: var(--cyan-bright); font-weight: 700; margin-bottom: 0.5rem;">🔄 Quorum Viability &amp; Auto-Promotion State Machine</div>
+          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+            Sessions never auto-cancel below 5 players; 2–4 confirmed starters remain viable for Duo/Trio/Flex, while 5 starters unlock full <strong>Weekend Ranked 5s</strong> detection (Fri–Sun 8 PM–1 AM local time). Players 6–10 enter a FIFO <strong>Bench Substitute Queue</strong>. If any starter clicks <em>Can't Make It</em>, Bench #1 is atomically promoted and notified.
+          </p>
+          <div class="cs-flow-strip">
+            <div class="cs-step-card gold">
+              <div style="font-weight: 800; color: var(--gold-bright); font-size: 0.82rem;">1. POLLING</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">1–4 Starters • Viable Duo/Trio/Flex</div>
+            </div>
+            <div class="cs-step-card">
+              <div style="font-weight: 800; color: var(--cyan-bright); font-size: 0.82rem;">2. READY (5/5)</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Lobby Ready Alert + Bench Queue Active</div>
+            </div>
+            <div class="cs-step-card gold">
+              <div style="font-weight: 800; color: var(--gold-bright); font-size: 0.82rem;">3. IN_PROGRESS</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">15-min ping + Live W-L Match Tally</div>
+            </div>
+            <div class="cs-step-card">
+              <div style="font-weight: 800; color: var(--win-green); font-size: 0.82rem;">4. COMPLETED</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Manual end or 4h post-start auto-close</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hex-card" style="background: rgba(6, 13, 24, 0.7);">
+          <div style="color: var(--cyan-bright); font-weight: 700; margin-bottom: 0.5rem;">🔕 Anti-Noise "Living Card + Attached Thread" Pattern</div>
+          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+            To keep <code>#5-stackers</code> clean and scannable, I separated persistent status from real-time notifications:
+          </p>
+          <div class="cs-comparison">
+            <div style="background: rgba(231, 76, 60, 0.08); border: 1px solid rgba(231, 76, 60, 0.3); border-radius: 8px; padding: 0.8rem;">
+              <div style="color: #f87171; font-weight: 700; font-size: 0.8rem; margin-bottom: 0.35rem;">❌ Legacy Bot Pattern</div>
+              <ul class="cs-list">
+                <li>15+ separate messages per game night</li>
+                <li>Public slash command spam from stats lookups</li>
+                <li>Outdated embeds buried 2 screens up</li>
+              </ul>
+            </div>
+            <div style="background: rgba(46, 204, 113, 0.08); border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 8px; padding: 0.8rem;">
+              <div style="color: #4ade80; font-weight: 700; font-size: 0.8rem; margin-bottom: 0.35rem;">✅ Living Card + Thread Architecture</div>
+              <ul class="cs-list">
+                <li>Exactly <strong>1 Session Card</strong> edited in-place for all RSVPs &amp; W-L updates</li>
+                <li><strong>1 Attached Thread</strong> for targeted pings &amp; match recaps</li>
+                <li><strong>4 Living Synergy Threads</strong> edited in-place + ephemeral-by-default lookups</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hex-card" style="background: rgba(6, 13, 24, 0.65);">
+        <div style="color: var(--gold-bright); font-weight: 700; margin-bottom: 0.35rem;">💡 Closed-Loop Product Feedback Pipeline</div>
+        <p style="font-size: 0.84rem; color: var(--text-muted);">
+          Users report friction or propose features either directly inside Discord via <code>/feedback</code> (and the <strong>💡 Feedback</strong> button on every session card) or through the Web Dashboard's Feedback Builder. <code>github_tickets.py</code> validates per-user rate limits, structures metadata, and creates labeled GitHub Issues via the GitHub REST API (or authenticated <code>gh</code> CLI).
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 3: Data Science, Rating Engine & Decision Analytics -->
+    <section class="faq-section">
+      <h3>3. Data Science, Rating Engine &amp; Decision Support Methodology</h3>
+
+      <div class="grid-2" style="margin-bottom: 1.2rem;">
+        <div class="hex-card" style="background: rgba(6, 13, 24, 0.7);">
+          <div style="color: var(--gold-bright); font-weight: 700; margin-bottom: 0.45rem;">🧮 De-Biasing Evaluation: 55% Role + 45% Kit Archetype Blending</div>
+          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 0.6rem;">
+            Using Riot <code>Match-v5</code> participant telemetry and <code>challenges</code> sub-metrics (CC time, effective healing/shielding, <code>saveAllyFromDeath</code>, turret plates, void monsters), <code>rating_engine.py</code> scores 6 normalized pillars and dynamically blends weights based on <em>where</em> a player played (55%) and <em>what champion kit</em> they piloted (45%):
+          </p>
+          <div class="formula-box">
+            Weight[pillar] = 0.55 × Role_Weight[pillar] + 0.45 × Archetype_Weight[pillar]<br/>
+            Rating = clamp(Weighted_Mean(Pillars) − Death_Liability + Outcome_Adj, 15.0, 99.5)
+          </div>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">
+            <strong>Result:</strong> A Lulu Support going <code>1/1/26</code> with 11.4k shielding and 2.35 vision/min competes fairly for <strong>Match MVP</strong> alongside a 14-kill Jinx, and off-meta flex picks (e.g., Tank Top vs Splitpusher Top) are benchmarked against realistic kit expectations.
+          </p>
+        </div>
+
+        <div class="hex-card" style="background: rgba(6, 13, 24, 0.7);">
+          <div style="color: var(--cyan-bright); font-weight: 700; margin-bottom: 0.45rem;">📊 Empirical Bayes Shrinkage for Small-Sample Synergy Stabilization</div>
+          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 0.6rem;">
+            In recreational squad datasets, a duo going <code>1W-0L</code> (100% raw win rate) would otherwise outrank a proven <code>14W-6L</code> (70% WR) partnership. To eliminate small-sample noise across the 4 map partnerships (<strong>Bot+Sup</strong>, <strong>Mid+Jng</strong>, <strong>Top+Jng</strong>, <strong>Sup+Jng</strong>), I implemented a 5-game Bayesian confidence ramp toward a 50% prior plus a <code>MIN_SYNERGY_GAMES = 3</code> leaderboard threshold:
+          </p>
+          <div class="formula-box">
+            c = min(1.0, games / 5.0)<br/>
+            Bayesian_WR = (c × Raw_WR) + ((1 − c) × 50.0)<br/>
+            Synergy = 0.42×Bayesian_WR + 0.24×Duo_Rating + 0.14×Coord + 0.20×KDA_Norm
+          </div>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">
+            <strong>Result:</strong> Proven 5+ game partnerships with strong joint CC/objective coordination anchor S-Tier slots, while 1-game flukes stay dampened near the 50% baseline.
+          </p>
+        </div>
+      </div>
+
+      <div class="hex-card" style="background: rgba(6, 13, 24, 0.7); border-color: var(--border-gold);">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+          <div style="max-width: 72ch;">
+            <div style="color: var(--gold-bright); font-weight: 700; margin-bottom: 0.35rem;">🧠 Combinatorial Decision Support: 5-Stack Lineup &amp; Role Optimizer</div>
+            <p style="font-size: 0.84rem; color: var(--text-muted);">
+              When 5 friends with overlapping role preferences (e.g., two Mid mains and zero Top mains) ready up, assigning lanes manually leads to suboptimal flex picks and broken duo chemistry. The <strong>Squad Builder</strong> solves all <code>5! = 120</code> lane permutations in-browser, maximizing <code>58% Role Proficiency</code> (historical role-specific rating + primary/secondary comfort) + <code>42% 4-Pair Map Synergy</code> across Bot+Sup, Mid+Jng, Top+Jng, and Sup+Jng.
+            </p>
+          </div>
+          <a class="btn-gold" href="./index.html?mode=demo&tab=builder">Open Squad Builder →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Hybrid NAS + GitHub Pages System Architecture -->
+    <section class="faq-section">
+      <h3>4. Hybrid System Architecture &amp; Privacy-Preserving Deployment</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.9rem;">
+        To showcase real production data on GitHub Pages without exposing the home Synology NAS to public internet traffic or leaking private Discord/Riot identifiers, the system uses a decoupled, match-triggered static publishing pipeline:
+      </p>
+      <div class="cs-flow-strip">
+        <div class="cs-step-card">
+          <div style="font-weight: 800; color: var(--cyan-bright); font-size: 0.84rem;">1. Synology NAS Docker</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">
+            Runs <code>bot.py</code> 24/7 via Container Manager; polls Riot <code>Account-v1</code> &amp; <code>Match-v5</code> APIs and persists <code>data/league_stats.json</code>.
+          </div>
+        </div>
+        <div class="cs-step-card gold">
+          <div style="font-weight: 800; color: var(--gold-bright); font-size: 0.84rem;">2. Privacy Sanitizer</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">
+            <code>export_dashboard.py</code> strips Discord snowflake IDs (<code>id</code>, <code>creator_id</code>, <code>channel_id</code>, <code>thread_id</code>) and immutable Riot <code>puuid</code> tokens.
+          </div>
+        </div>
+        <div class="cs-step-card">
+          <div style="font-weight: 800; color: var(--cyan-bright); font-size: 0.84rem;">3. Match-Only GitHub Push</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">
+            Only when new matches are recorded (<code>/sync-matches</code>, <code>/log-match</code>, or auto-tracker), the bot updates <code>data/live_payload.json</code> on the <code>gh-pages</code> branch via GitHub Contents API.
+          </div>
+        </div>
+        <div class="cs-step-card gold">
+          <div style="font-weight: 800; color: var(--gold-bright); font-size: 0.84rem;">4. Modular ES Dashboard</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">
+            GitHub Pages serves clean Vanilla ES Modules (<code>web/js/*.js</code>), defaulting to <strong>Demo Preview</strong> for portfolio visitors with one-click switching to <strong>Live Data</strong>.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    5-Stack Coordinator Case Study • Designed &amp; Engineered by João Clima •
+    <a href="./index.html?mode=demo">Interactive Demo</a> •
+    <a href="./index.html?mode=live">Live Squad View</a> •
+    <a href="https://jgdclima.github.io/portfolio/projects/" target="_blank" rel="noopener">Portfolio Projects</a>
+  </footer>
+</body>
+</html>

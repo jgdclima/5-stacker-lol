@@ -1,0 +1,3991 @@
+{
+  "generated_at": "2026-11-13 22:11:08",
+  "github_repo": "jgdclima/5-stacker-lol",
+  "rating_formulas": {
+    "role_weights": {
+      "Top": {
+        "combat": 0.22,
+        "damage": 0.2,
+        "objective": 0.2,
+        "frontline": 0.22,
+        "utility": 0.08,
+        "macro_vision": 0.08
+      },
+      "Jungle": {
+        "combat": 0.22,
+        "damage": 0.14,
+        "objective": 0.3,
+        "frontline": 0.12,
+        "utility": 0.12,
+        "macro_vision": 0.1
+      },
+      "Mid": {
+        "combat": 0.26,
+        "damage": 0.32,
+        "objective": 0.12,
+        "frontline": 0.06,
+        "utility": 0.12,
+        "macro_vision": 0.12
+      },
+      "Bot": {
+        "combat": 0.26,
+        "damage": 0.36,
+        "objective": 0.14,
+        "frontline": 0.04,
+        "utility": 0.06,
+        "macro_vision": 0.14
+      },
+      "Support": {
+        "combat": 0.2,
+        "damage": 0.08,
+        "objective": 0.08,
+        "frontline": 0.12,
+        "utility": 0.28,
+        "macro_vision": 0.24
+      }
+    },
+    "archetype_weights": {
+      "marksman": {
+        "combat": 0.26,
+        "damage": 0.38,
+        "objective": 0.14,
+        "frontline": 0.02,
+        "utility": 0.04,
+        "macro_vision": 0.16
+      },
+      "mage": {
+        "combat": 0.24,
+        "damage": 0.36,
+        "objective": 0.1,
+        "frontline": 0.04,
+        "utility": 0.14,
+        "macro_vision": 0.12
+      },
+      "assassin": {
+        "combat": 0.35,
+        "damage": 0.32,
+        "objective": 0.11,
+        "frontline": 0.05,
+        "utility": 0.07,
+        "macro_vision": 0.1
+      },
+      "splitpusher": {
+        "combat": 0.2,
+        "damage": 0.2,
+        "objective": 0.3,
+        "frontline": 0.12,
+        "utility": 0.04,
+        "macro_vision": 0.14
+      },
+      "bruiser": {
+        "combat": 0.25,
+        "damage": 0.23,
+        "objective": 0.18,
+        "frontline": 0.2,
+        "utility": 0.07,
+        "macro_vision": 0.07
+      },
+      "tank": {
+        "combat": 0.18,
+        "damage": 0.1,
+        "objective": 0.14,
+        "frontline": 0.32,
+        "utility": 0.18,
+        "macro_vision": 0.08
+      },
+      "enchanter": {
+        "combat": 0.2,
+        "damage": 0.04,
+        "objective": 0.06,
+        "frontline": 0.06,
+        "utility": 0.38,
+        "macro_vision": 0.26
+      },
+      "catcher": {
+        "combat": 0.2,
+        "damage": 0.06,
+        "objective": 0.08,
+        "frontline": 0.16,
+        "utility": 0.28,
+        "macro_vision": 0.22
+      }
+    },
+    "dpm_benchmarks": {
+      "marksman": 780.0,
+      "mage": 760.0,
+      "assassin": 680.0,
+      "splitpusher": 650.0,
+      "bruiser": 620.0,
+      "tank": 440.0,
+      "catcher": 300.0,
+      "enchanter": 240.0
+    },
+    "cspm_benchmarks": {
+      "Top": 6.8,
+      "Jungle": 5.8,
+      "Mid": 7.0,
+      "Bot": 7.2,
+      "Support": 1.2
+    },
+    "vspm_benchmarks": {
+      "Top": 0.75,
+      "Jungle": 1.05,
+      "Mid": 0.8,
+      "Bot": 0.75,
+      "Support": 2.1
+    }
+  },
+  "dataset": {
+    "is_demo": true,
+    "group_name": "The Summoner's Ten",
+    "kpis": {
+      "total_matches": 8,
+      "wins": 6,
+      "losses": 2,
+      "win_rate": 75.0,
+      "streak_type": "WIN",
+      "streak_count": 3,
+      "active_sessions_count": 2,
+      "total_sessions_count": 3
+    },
+    "sessions": [
+      {
+        "session_id": "sess-fri-9pm",
+        "created_at": "2026-11-10T17:30:00",
+        "scheduled_time": "Friday 9:00 PM PST",
+        "scheduled_iso": "2026-11-13T21:00:00-08:00",
+        "mode": "Ranked 5s (Weekend Queue)",
+        "is_ranked_5s": true,
+        "creator": "João",
+        "creator_id": "1",
+        "status": "READY",
+        "confirmed_players": [
+          {
+            "name": "João",
+            "role_pref": "Bot"
+          },
+          {
+            "name": "Melanie",
+            "role_pref": "Support"
+          },
+          {
+            "name": "Marcus",
+            "role_pref": "Jungle"
+          },
+          {
+            "name": "Elena",
+            "role_pref": "Mid"
+          },
+          {
+            "name": "David",
+            "role_pref": "Top"
+          }
+        ],
+        "bench_substitutes": [
+          {
+            "name": "Sarah",
+            "role_pref": "Support"
+          },
+          {
+            "name": "Leo",
+            "role_pref": "Bot"
+          }
+        ],
+        "declined": [
+          "Sam"
+        ],
+        "reminder_sent": false,
+        "activity_log": [
+          "17:32 ✅ João joined as starter (Bot)",
+          "17:35 ✅ Melanie joined as starter (Support)",
+          "17:41 ✅ Marcus joined as starter (Jungle)",
+          "17:48 ✅ Elena joined as starter (Mid)",
+          "18:02 🏆 David locked in (Top) — 5/5 Lobby READY!",
+          "18:10 🛡️ Sarah joined Bench Substitute #1 (Support)"
+        ],
+        "session_matches": [
+          {
+            "match_id": "NA1_510012",
+            "result": "WIN",
+            "mode": "Ranked Flex",
+            "mvp": "João"
+          },
+          {
+            "match_id": "NA1_510011",
+            "result": "WIN",
+            "mode": "Ranked Flex",
+            "mvp": "Elena"
+          }
+        ]
+      },
+      {
+        "session_id": "sess-tue-flex",
+        "created_at": "2026-11-10T12:00:00",
+        "scheduled_time": "Tonight 8:30 PM PST",
+        "scheduled_iso": "2026-11-10T20:30:00-08:00",
+        "mode": "Ranked Flex (Fallback)",
+        "is_ranked_5s": false,
+        "creator": "Elena",
+        "creator_id": "4",
+        "status": "POLLING",
+        "confirmed_players": [
+          {
+            "name": "Elena",
+            "role_pref": "Mid"
+          },
+          {
+            "name": "Alex",
+            "role_pref": "Jungle"
+          },
+          {
+            "name": "Chloe",
+            "role_pref": "Bot"
+          }
+        ],
+        "bench_substitutes": [],
+        "declined": [
+          "David"
+        ],
+        "reminder_sent": false,
+        "activity_log": [
+          "12:01 ✅ Elena created session for Tonight 8:30 PM PST",
+          "12:15 ✅ Alex joined as starter (Jungle)",
+          "12:40 ✅ Chloe joined as starter (Bot) — 3/5 Trio viable!"
+        ],
+        "session_matches": []
+      },
+      {
+        "session_id": "sess-sun-clash",
+        "created_at": "2026-11-08T18:00:00",
+        "scheduled_time": "Sunday 7:00 PM PST",
+        "scheduled_iso": "2026-11-08T19:00:00-08:00",
+        "mode": "Ranked 5s (Weekend Queue)",
+        "is_ranked_5s": true,
+        "creator": "Marcus",
+        "creator_id": "3",
+        "status": "COMPLETED",
+        "confirmed_players": [
+          {
+            "name": "David",
+            "role_pref": "Top"
+          },
+          {
+            "name": "Marcus",
+            "role_pref": "Jungle"
+          },
+          {
+            "name": "Elena",
+            "role_pref": "Mid"
+          },
+          {
+            "name": "João",
+            "role_pref": "Bot"
+          },
+          {
+            "name": "Melanie",
+            "role_pref": "Support"
+          }
+        ],
+        "bench_substitutes": [
+          {
+            "name": "Sam",
+            "role_pref": "Top"
+          }
+        ],
+        "declined": [],
+        "reminder_sent": true,
+        "activity_log": [
+          "18:50 ⏰ 15-minute reminder sent to 5 starters",
+          "19:00 🔥 Session transitioned to IN_PROGRESS",
+          "22:15 🏁 Session completed with 3W - 1L record"
+        ],
+        "session_matches": [
+          {
+            "match_id": "NA1_510010",
+            "result": "WIN",
+            "mode": "Ranked 5s",
+            "mvp": "Marcus"
+          },
+          {
+            "match_id": "NA1_510009",
+            "result": "LOSS",
+            "mode": "Ranked 5s",
+            "mvp": "João"
+          },
+          {
+            "match_id": "NA1_510008",
+            "result": "WIN",
+            "mode": "Ranked 5s",
+            "mvp": "Melanie"
+          },
+          {
+            "match_id": "NA1_510007",
+            "result": "WIN",
+            "mode": "Ranked 5s",
+            "mvp": "David"
+          }
+        ]
+      }
+    ],
+    "matches": [
+      {
+        "match_id": "NA1_510012",
+        "date": "2026-11-10 21:40",
+        "mode": "Ranked 5s",
+        "queue_id": 440,
+        "result": "WIN",
+        "duration_min": 31.5,
+        "lineup": {
+          "Top": {
+            "player": "David",
+            "is_squad": true,
+            "champion": "Ornn",
+            "kills": 3,
+            "deaths": 1,
+            "assists": 16,
+            "damage": 18400,
+            "cs": 212,
+            "vision": 28,
+            "damage_taken": 34500,
+            "damage_mitigated": 46200,
+            "turret_damage": 4200,
+            "turret_takedowns": 2,
+            "cc_score": 48,
+            "immobilize_and_kill_with_ally": 7,
+            "rating": 89.0,
+            "grade": "S+",
+            "archetype": "tank",
+            "highlight": "Unkillable Frontline",
+            "pillars": {
+              "combat": 93.7,
+              "damage": 93.0,
+              "objective": 70.3,
+              "frontline": 95.8,
+              "utility": 73.7,
+              "macro_vision": 79.9
+            }
+          },
+          "Jungle": {
+            "player": "Marcus",
+            "is_squad": true,
+            "champion": "Vi",
+            "kills": 8,
+            "deaths": 2,
+            "assists": 14,
+            "damage": 22100,
+            "cs": 188,
+            "vision": 36,
+            "damage_taken": 28900,
+            "damage_mitigated": 24100,
+            "objective_damage": 31200,
+            "dragon_takedowns": 3,
+            "baron_takedowns": 1,
+            "rift_herald_takedowns": 1,
+            "void_monster_kills": 5,
+            "cc_score": 32,
+            "pick_kill_with_ally": 6,
+            "rating": 84.3,
+            "grade": "S",
+            "archetype": "bruiser",
+            "highlight": "Objective Commander",
+            "pillars": {
+              "combat": 96.5,
+              "damage": 81.5,
+              "objective": 72.0,
+              "frontline": 82.0,
+              "utility": 72.6,
+              "macro_vision": 80.0
+            }
+          },
+          "Mid": {
+            "player": "Elena",
+            "is_squad": true,
+            "champion": "Ahri",
+            "kills": 9,
+            "deaths": 1,
+            "assists": 12,
+            "damage": 28600,
+            "cs": 234,
+            "vision": 31,
+            "damage_taken": 14200,
+            "turret_damage": 5100,
+            "solo_kills": 2,
+            "cc_score": 26,
+            "pick_kill_with_ally": 5,
+            "rating": 83.4,
+            "grade": "S",
+            "archetype": "assassin",
+            "highlight": "Hypercarry DPS",
+            "pillars": {
+              "combat": 100.0,
+              "damage": 84.9,
+              "objective": 47.0,
+              "frontline": 45.2,
+              "utility": 67.0,
+              "macro_vision": 82.8
+            }
+          },
+          "Bot": {
+            "player": "João",
+            "is_squad": true,
+            "champion": "Jinx",
+            "kills": 14,
+            "deaths": 2,
+            "assists": 9,
+            "damage": 38900,
+            "cs": 258,
+            "vision": 26,
+            "damage_taken": 15800,
+            "turret_damage": 9400,
+            "turret_takedowns": 4,
+            "solo_kills": 1,
+            "rating": 88.3,
+            "grade": "S+",
+            "archetype": "marksman",
+            "highlight": "Splitpush Titan",
+            "pillars": {
+              "combat": 100.0,
+              "damage": 95.0,
+              "objective": 55.0,
+              "frontline": 39.5,
+              "utility": 65.8,
+              "macro_vision": 83.5
+            }
+          },
+          "Support": {
+            "player": "Melanie",
+            "is_squad": true,
+            "champion": "Lulu",
+            "kills": 1,
+            "deaths": 1,
+            "assists": 26,
+            "damage": 6800,
+            "cs": 34,
+            "vision": 74,
+            "effective_heal_shield": 11400,
+            "cc_score": 29,
+            "save_ally_from_death": 3,
+            "wards_killed": 11,
+            "control_wards_placed": 6,
+            "rating": 88.9,
+            "grade": "S+",
+            "archetype": "enchanter",
+            "highlight": "Peel & Enchanter Carry",
+            "pillars": {
+              "combat": 97.0,
+              "damage": 60.6,
+              "utility": 86.3,
+              "macro_vision": 84.2
+            }
+          }
+        },
+        "mvp": "David",
+        "mvp_rating": 89.0
+      },
+      {
+        "match_id": "NA1_510011",
+        "date": "2026-11-10 20:55",
+        "mode": "Ranked 5s",
+        "queue_id": 440,
+        "result": "WIN",
+        "duration_min": 28.0,
+        "lineup": {
+          "Top": {
+            "player": "David",
+            "is_squad": true,
+            "champion": "Aatrox",
+            "kills": 7,
+            "deaths": 2,
+            "assists": 8,
+            "damage": 24500,
+            "cs": 198,
+            "vision": 22,
+            "damage_taken": 29400,
+            "damage_mitigated": 27800,
+            "turret_damage": 5600,
+            "solo_kills": 2,
+            "rating": 86.1,
+            "grade": "S",
+            "archetype": "bruiser",
+            "highlight": "Unkillable Frontline",
+            "pillars": {
+              "combat": 97.5,
+              "damage": 89.6,
+              "objective": 63.7,
+              "frontline": 91.1,
+              "utility": 56.6,
+              "macro_vision": 79.8
+            }
+          },
+          "Jungle": {
+            "player": "Marcus",
+            "is_squad": true,
+            "champion": "Jarvan IV",
+            "kills": 5,
+            "deaths": 2,
+            "assists": 18,
+            "damage": 16800,
+            "cs": 162,
+            "vision": 34,
+            "damage_taken": 26100,
+            "damage_mitigated": 25300,
+            "objective_damage": 26800,
+            "dragon_takedowns": 3,
+            "baron_takedowns": 1,
+            "void_monster_kills": 4,
+            "immobilize_and_kill_with_ally": 8,
+            "rating": 81.0,
+            "grade": "S",
+            "archetype": "bruiser",
+            "highlight": "Objective Commander",
+            "pillars": {
+              "combat": 95.4,
+              "damage": 72.3,
+              "objective": 72.0,
+              "frontline": 90.1,
+              "utility": 45.9,
+              "macro_vision": 79.9
+            }
+          },
+          "Mid": {
+            "player": "Elena",
+            "is_squad": true,
+            "champion": "Orianna",
+            "kills": 11,
+            "deaths": 1,
+            "assists": 13,
+            "damage": 31200,
+            "cs": 226,
+            "vision": 29,
+            "effective_heal_shield": 4200,
+            "cc_score": 31,
+            "solo_kills": 2,
+            "rating": 91.0,
+            "grade": "S+",
+            "archetype": "mage",
+            "highlight": "Hypercarry DPS",
+            "pillars": {
+              "combat": 100.0,
+              "damage": 89.8,
+              "utility": 64.7,
+              "macro_vision": 86.4
+            }
+          },
+          "Bot": {
+            "player": "João",
+            "is_squad": true,
+            "champion": "Kai'Sa",
+            "kills": 10,
+            "deaths": 2,
+            "assists": 8,
+            "damage": 27400,
+            "cs": 218,
+            "vision": 23,
+            "turret_damage": 6200,
+            "rating": 83.5,
+            "grade": "S",
+            "archetype": "marksman",
+            "highlight": "Hypercarry DPS",
+            "pillars": {
+              "combat": 97.2,
+              "damage": 83.6,
+              "objective": 50.5,
+              "utility": 60.7,
+              "macro_vision": 81.7
+            }
+          },
+          "Support": {
+            "player": "Melanie",
+            "is_squad": true,
+            "champion": "Nami",
+            "kills": 2,
+            "deaths": 2,
+            "assists": 22,
+            "damage": 8100,
+            "cs": 28,
+            "vision": 66,
+            "effective_heal_shield": 9800,
+            "cc_score": 34,
+            "save_ally_from_death": 2,
+            "rating": 86.7,
+            "grade": "S",
+            "archetype": "enchanter",
+            "highlight": "Peel & Enchanter Carry",
+            "pillars": {
+              "combat": 93.3,
+              "damage": 74.1,
+              "utility": 84.0,
+              "macro_vision": 79.6
+            }
+          }
+        },
+        "mvp": "Elena",
+        "mvp_rating": 91.0
+      },
+      {
+        "match_id": "NA1_510010",
+        "date": "2026-11-08 21:30",
+        "mode": "Ranked 5s",
+        "queue_id": 440,
+        "result": "WIN",
+        "duration_min": 34.2,
+        "lineup": {
+          "Top": {
+            "player": "Sam",
+            "is_squad": true,
+            "champion": "Gnar",
+            "kills": 5,
+            "deaths": 3,
+            "assists": 11,
+            "damage": 21900,
+            "cs": 228,
+            "vision": 26,
+            "damage_taken": 28400,
+            "damage_mitigated": 26100,
+            "turret_damage": 6800,
+            "cc_score": 36,
+            "rating": 80.5,
+            "grade": "S",
+            "archetype": "bruiser",
+            "highlight": "Unkillable Frontline",
+            "pillars": {
+              "combat": 88.9,
+              "damage": 79.4,
+              "objective": 68.7,
+              "frontline": 84.2,
+              "utility": 47.4,
+              "macro_vision": 77.2
+            }
+          },
+          "Jungle": {
+            "player": "Marcus",
+            "is_squad": true,
+            "champion": "Sejuani",
+            "kills": 4,
+            "deaths": 1,
+            "assists": 21,
+            "damage": 17200,
+            "cs": 184,
+            "vision": 42,
+            "damage_taken": 38200,
+            "damage_mitigated": 44900,
+            "objective_damage": 29500,
+            "dragon_takedowns": 4,
+            "baron_takedowns": 1,
+            "cc_score": 52,
+            "immobilize_and_kill_with_ally": 10,
+            "rating": 87.9,
+            "grade": "S",
+            "archetype": "tank",
+            "highlight": "Objective Commander",
+            "pillars": {
+              "combat": 98.1,
+              "damage": 87.8,
+              "objective": 72.0,
+              "frontline": 94.6,
+              "utility": 78.9,
+              "macro_vision": 76.7
+            }
+          },
+          "Mid": {
+            "player": "Chloe",
+            "is_squad": true,
+            "champion": "Viktor",
+            "kills": 9,
+            "deaths": 2,
+            "assists": 10,
+            "damage": 33800,
+            "cs": 254,
+            "vision": 28,
+            "turret_damage": 4800,
+            "rating": 83.1,
+            "grade": "S",
+            "archetype": "mage",
+            "highlight": "Hypercarry DPS",
+            "pillars": {
+              "combat": 97.5,
+              "damage": 86.9,
+              "objective": 46.1,
+              "utility": 61.2,
+              "macro_vision": 80.1
+            }
+          },
+          "Bot": {
+            "player": "Leo",
+            "is_squad": true,
+            "champion": "Ezreal",
+            "kills": 11,
+            "deaths": 1,
+            "assists": 9,
+            "damage": 35400,
+            "cs": 248,
+            "vision": 25,
+            "turret_damage": 5900,
+            "rating": 85.3,
+            "grade": "S",
+            "archetype": "marksman",
+            "highlight": "Hypercarry DPS",
+            "pillars": {
+              "combat": 100.0,
+              "damage": 88.2,
+              "objective": 49.6,
+              "utility": 62.8,
+              "macro_vision": 77.5
+            }
+          },
+          "Support": {
+            "player": "Sarah",
+            "is_squad": true,
+            "champion": "Thresh",
+            "kills": 2,
+            "deaths": 2,
+            "assists": 23,
+            "damage": 7400,
+            "cs": 35,
+            "vision": 78,
+            "cc_score": 49,
+            "pick_kill_with_ally": 8,
+            "save_ally_from_death": 3,
+            "rating": 83.5,
+            "grade": "S",
+            "archetype": "catcher",
+            "highlight": "Map Omnipresence",
+            "pillars": {
+              "combat": 97.2,
+              "damage": 53.7,
+              "utility": 78.1,
+              "macro_vision": 78.8
+            }
+          }
+        },
+        "mvp": "Marcus",
+        "mvp_rating": 87.9
+      },
+      {
+        "match_id": "NA1_510009",
+        "date": "2026-11-08 20:40",
+        "mode": "Ranked 5s",
+        "queue_id": 440,
+        "result": "LOSS",
+        "duration_min": 36.8,
+        "lineup": {
+          "Top": {
+            "player": "David",
+            "is_squad": true,
+            "champion": "Ornn",
+            "kills": 2,
+            "deaths": 5,
+            "assists": 10,
+            "damage": 16500,
+            "cs": 219,
+            "vision": 27,
+            "damage_taken": 41200,
+            "damage_mitigated": 48900,
+            "cc_score": 41,
+            "rating": 77.0,
+            "grade": "A+",
+            "archetype": "tank",
+            "highlight": "Unkillable Frontline",
+            "pillars": {
+              "combat": 74.2,
+              "damage": 87.2,
+              "frontline": 94.1,
+              "utility": 46.4,
+              "macro_vision": 71.3
+            }
+          },
+          "Jungle": {
+            "player": "Alex",
+            "is_squad": true,
+            "champion": "Zac",
+            "kills": 3,
+            "deaths": 6,
+            "assists": 12,
+            "damage": 15900,
+            "cs": 176,
+            "vision": 35,
+            "damage_taken": 39400,
+            "damage_mitigated": 36200,
+            "dragon_takedowns": 1,
+            "cc_score": 44,
+            "rating": 58.2,
+            "grade": "B",
+            "archetype": "tank",
+            "highlight": "Unkillable Frontline",
+            "pillars": {
+              "combat": 75.2,
+              "damage": 86.0,
+              "objective": 10.9,
+              "frontline": 86.6,
+              "utility": 49.3,
+              "macro_vision": 66.7
+            }
+          },
+          "Mid": {
+            "player": "Elena",
+            "is_squad": true,
+            "champion": "Syndra",
+            "kills": 6,
+            "deaths": 4,
+            "assists": 7,
+            "damage": 26800,
+            "cs": 242,
+            "vision": 28,
+            "solo_kills": 1,
+            "rating": 75.6,
+            "grade": "A+",
+            "archetype": "mage",
+            "highlight": "Mage Specialist",
+            "pillars": {
+              "combat": 91.1,
+              "damage": 78.0,
+              "utility": 50.8,
+              "macro_vision": 73.6
+            }
+          },
+          "Bot": {
+            "player": "João",
+            "is_squad": true,
+            "champion": "Jinx",
+            "kills": 9,
+            "deaths": 3,
+            "assists": 6,
+            "damage": 34200,
+            "cs": 278,
+            "vision": 29,
+            "turret_damage": 5400,
+            "rating": 80.8,
+            "grade": "S",
+            "archetype": "marksman",
+            "highlight": "Hypercarry DPS",
+            "pillars": {
+              "combat": 99.4,
+              "damage": 88.1,
+              "objective": 48.0,
+              "utility": 53.4,
+              "macro_vision": 80.1
+            }
+          },
+          "Support": {
+            "player": "Melanie",
+            "is_squad": true,
+            "champion": "Lulu",
+            "kills": 0,
+            "deaths": 4,
+            "assists": 16,
+            "damage": 5200,
+            "cs": 31,
+            "vision": 68,
+            "effective_heal_shield": 10200,
+            "save_ally_from_death": 2,
+            "rating": 66.2,
+            "grade": "A",
+            "archetype": "enchanter",
+            "highlight": "Peel & Enchanter Carry",
+            "pillars": {
+              "combat": 87.4,
+              "damage": 44.0,
+              "utility": 61.1,
+              "macro_vision": 66.6
+            }
+          }
+        },
+        "mvp": "João",
+        "mvp_rating": 80.8
+      },
+      {
+        "match_id": "NA1_510008",
+        "date": "2026-11-08 19:50",
+        "mode": "Ranked Flex",
+        "queue_id": 440,
+        "result": "WIN",
+        "duration_min": 29.4,
+        "lineup": {
+          "Top": {
+            "player": "David",
+            "is_squad": true,
+            "champion": "Shen",
+            "kills": 4,
+            "deaths": 1,
+            "assists": 19,
+            "damage": 15200,
+            "cs": 182,
+            "vision": 28,
+            "damage_taken": 27500,
+            "damage_mitigated": 33400,
+            "effective_heal_shield": 6400,
+            "save_ally_from_death": 4,
+            "rating": 88.0,
+            "grade": "S+",
+            "archetype": "tank",
+            "highlight": "Peel & Enchanter Carry",
+            "pillars": {
+              "combat": 97.6,
+              "damage": 88.6,
+              "frontline": 92.7,
+              "utility": 52.1,
+              "macro_vision": 77.1
+            }
+          },
+          "Jungle": {
+            "player": "Marcus",
+            "is_squad": true,
+            "champion": "Vi",
+            "kills": 9,
+            "deaths": 2,
+            "assists": 12,
+            "damage": 21800,
+            "cs": 179,
+            "vision": 33,
+            "objective_damage": 28400,
+            "dragon_takedowns": 3,
+            "baron_takedowns": 1,
+            "rift_herald_takedowns": 1,
+            "rating": 84.9,
+            "grade": "S",
+            "archetype": "bruiser",
+            "highlight": "Objective Commander",
+            "pillars": {
+              "combat": 96.1,
+              "damage": 84.5,
+              "objective": 72.0,
+              "utility": 73.9,
+              "macro_vision": 80.4
+            }
+          },
+          "Mid": {
+            "player": "Elena",
+            "is_squad": true,
+            "champion": "Ahri",
+            "kills": 8,
+            "deaths": 1,
+            "assists": 14,
+            "damage": 25900,
+            "cs": 215,
+            "vision": 30,
+            "solo_kills": 2,
+            "pick_kill_with_ally": 6,
+            "rating": 87.3,
+            "grade": "S",
+            "archetype": "assassin",
+            "highlight": "Hypercarry DPS",
+            "pillars": {
+              "combat": 100.0,
+              "damage": 84.5,
+              "utility": 41.0,
+              "macro_vision": 82.9
+            }
+          },
+          "Bot": {
+            "player": "João",
+            "is_squad": true,
+            "champion": "Jhin",
+            "kills": 12,
+            "deaths": 1,
+            "assists": 11,
+            "damage": 29800,
+            "cs": 224,
+            "vision": 27,
+            "turret_damage": 7800,
+            "turret_takedowns": 3,
+            "rating": 87.1,
+            "grade": "S",
+            "archetype": "marksman",
+            "highlight": "Hypercarry DPS",
+            "pillars": {
+              "combat": 100.0,
+              "damage": 86.9,
+              "objective": 55.0,
+              "utility": 75.8,
+              "macro_vision": 82.7
+            }
+          },
+          "Support": {
+            "player": "Melanie",
+            "is_squad": true,
+            "champion": "Leona",
+            "kills": 2,
+            "deaths": 2,
+            "assists": 23,
+            "damage": 8900,
+            "cs": 32,
+            "vision": 71,
+            "damage_taken": 24800,
+            "damage_mitigated": 31200,
+            "cc_score": 56,
+            "immobilize_and_kill_with_ally": 11,
+            "rating": 88.0,
+            "grade": "S+",
+            "archetype": "catcher",
+            "highlight": "Unkillable Frontline",
+            "pillars": {
+              "combat": 94.3,
+              "damage": 74.3,
+              "frontline": 91.9,
+              "utility": 82.3,
+              "macro_vision": 81.2
+            }
+          }
+        },
+        "mvp": "David",
+        "mvp_rating": 88.0
+      },
+      {
+        "match_id": "NA1_510007",
+        "date": "2026-11-06 22:15",
+        "mode": "Ranked Flex",
+        "queue_id": 440,
+        "result": "WIN",
+        "duration_min": 32.0,
+        "lineup": {
+          "Top": {
+            "player": "Sam",
+            "is_squad": true,
+            "champion": "Jax",
+            "kills": 8,
+            "deaths": 2,
+            "assists": 6,
+            "damage": 26400,
+            "cs": 244,
+            "vision": 24,
+            "damage_taken": 29100,
+            "damage_mitigated": 28400,
+            "turret_damage": 11800,
+            "turret_takedowns": 5,
+            "solo_kills": 3,
+            "rating": 87.7,
+            "grade": "S",
+            "archetype": "splitpusher",
+            "highlight": "Splitpush Titan",
+            "pillars": {
+              "combat": 100.0,
+              "damage": 87.9,
+              "objective": 72.0,
+              "frontline": 97.9,
+              "utility": 48.5,
+              "macro_vision": 81.7
+            }
+          },
+          "Jungle": {
+            "player": "Alex",
+            "is_squad": true,
+            "champion": "Amumu",
+            "kills": 4,
+            "deaths": 2,
+            "assists": 19,
+            "damage": 16400,
+            "cs": 172,
+            "vision": 37,
+            "damage_taken": 31200,
+            "damage_mitigated": 35800,
+            "dragon_takedowns": 3,
+            "baron_takedowns": 1,
+            "cc_score": 49,
+            "rating": 78.8,
+            "grade": "A+",
+            "archetype": "tank",
+            "highlight": "Objective Commander",
+            "pillars": {
+              "combat": 96.7,
+              "damage": 88.3,
+              "objective": 48.4,
+              "frontline": 91.6,
+              "utility": 60.2,
+              "macro_vision": 75.8
+            }
+          },
+          "Mid": {
+            "player": "Chloe",
+            "is_squad": true,
+            "champion": "Hwei",
+            "kills": 7,
+            "deaths": 2,
+            "assists": 15,
+            "damage": 31500,
+            "cs": 230,
+            "vision": 31,
+            "cc_score": 33,
+            "rating": 87.1,
+            "grade": "S",
+            "archetype": "mage",
+            "highlight": "Hypercarry DPS",
+            "pillars": {
+              "combat": 100.0,
+              "damage": 86.4,
+              "utility": 52.7,
+              "macro_vision": 81.5
+            }
+          },
+          "Bot": {
+            "player": "Leo",
+            "is_squad": true,
+            "champion": "Ashe",
+            "kills": 9,
+            "deaths": 2,
+            "assists": 14,
+            "damage": 28100,
+            "cs": 238,
+            "vision": 32,
+            "cc_score": 38,
+            "pick_kill_with_ally": 5,
+            "rating": 89.5,
+            "grade": "S+",
+            "archetype": "marksman",
+            "highlight": "Map Omnipresence",
+            "pillars": {
+              "combat": 100.0,
+              "damage": 81.3,
+              "utility": 73.2,
+              "macro_vision": 83.3
+            }
+          },
+          "Support": {
+            "player": "Sarah",
+            "is_squad": true,
+            "champion": "Nautilus",
+            "kills": 1,
+            "deaths": 3,
+            "assists": 21,
+            "damage": 7800,
+            "cs": 30,
+            "vision": 69,
+            "damage_taken": 26400,
+            "damage_mitigated": 29500,
+            "cc_score": 54,
+            "immobilize_and_kill_with_ally": 9,
+            "rating": 84.3,
+            "grade": "S",
+            "archetype": "catcher",
+            "highlight": "Unkillable Frontline",
+            "pillars": {
+              "combat": 93.4,
+              "damage": 60.1,
+              "frontline": 90.1,
+              "utility": 79.4,
+              "macro_vision": 76.2
+            }
+          }
+        },
+        "mvp": "Leo",
+        "mvp_rating": 89.5
+      },
+      {
+        "match_id": "NA1_510006",
+        "date": "2026-11-05 21:05",
+        "mode": "Normal Draft",
+        "queue_id": 400,
+        "result": "WIN",
+        "duration_min": 26.5,
+        "lineup": {
+          "Top": {
+            "player": "David",
+            "is_squad": true,
+            "champion": "Ornn",
+            "kills": 3,
+            "deaths": 1,
+            "assists": 14,
+            "damage": 15800,
+            "cs": 179,
+            "vision": 23,
+            "damage_taken": 26800,
+            "damage_mitigated": 34100,
+            "cc_score": 39,
+            "rating": 88.4,
+            "grade": "S+",
+            "archetype": "tank",
+            "highlight": "Unkillable Frontline",
+            "pillars": {
+              "combat": 92.1,
+              "damage": 92.5,
+              "frontline": 94.4,
+              "utility": 54.0,
+              "macro_vision": 79.7
+            }
+          },
+          "Jungle": {
+            "player": "Marcus",
+            "is_squad": true,
+            "champion": "Vi",
+            "kills": 10,
+            "deaths": 2,
+            "assists": 11,
+            "damage": 23400,
+            "cs": 168,
+            "vision": 29,
+            "objective_damage": 25900,
+            "dragon_takedowns": 3,
+            "rift_herald_takedowns": 1,
+            "solo_kills": 2,
+            "rating": 87.4,
+            "grade": "S",
+            "archetype": "bruiser",
+            "highlight": "Objective Commander",
+            "pillars": {
+              "combat": 100.0,
+              "damage": 89.8,
+              "objective": 72.0,
+              "utility": 75.2,
+              "macro_vision": 81.4
+            }
+          },
+          "Mid": {
+            "player": "Elena",
+            "is_squad": true,
+            "champion": "Ahri",
+            "kills": 7,
+            "deaths": 1,
+            "assists": 13,
+            "damage": 24100,
+            "cs": 204,
+            "vision": 27,
+            "pick_kill_with_ally": 6,
+            "rating": 85.5,
+            "grade": "S",
+            "archetype": "assassin",
+            "highlight": "Hypercarry DPS",
+            "pillars": {
+              "combat": 95.7,
+              "damage": 83.6,
+              "utility": 40.5,
+              "macro_vision": 84.5
+            }
+          },
+          "Bot": {
+            "player": "João",
+            "is_squad": true,
+            "champion": "Jinx",
+            "kills": 13,
+            "deaths": 1,
+            "assists": 8,
+            "damage": 33600,
+            "cs": 219,
+            "vision": 24,
+            "turret_damage": 8900,
+            "turret_takedowns": 4,
+            "rating": 90.1,
+            "grade": "S+",
+            "archetype": "marksman",
+            "highlight": "Splitpush Titan",
+            "pillars": {
+              "combat": 100.0,
+              "damage": 95.1,
+              "objective": 55.0,
+              "utility": 66.2,
+              "macro_vision": 85.1
+            }
+          },
+          "Support": {
+            "player": "Melanie",
+            "is_squad": true,
+            "champion": "Lulu",
+            "kills": 1,
+            "deaths": 1,
+            "assists": 23,
+            "damage": 6100,
+            "cs": 26,
+            "vision": 62,
+            "effective_heal_shield": 9600,
+            "save_ally_from_death": 2,
+            "rating": 80.8,
+            "grade": "S",
+            "archetype": "enchanter",
+            "highlight": "Peel & Enchanter Carry",
+            "pillars": {
+              "combat": 95.0,
+              "damage": 63.4,
+              "utility": 70.2,
+              "macro_vision": 79.1
+            }
+          }
+        },
+        "mvp": "João",
+        "mvp_rating": 90.1
+      },
+      {
+        "match_id": "NA1_510005",
+        "date": "2026-11-04 20:20",
+        "mode": "Ranked Flex",
+        "queue_id": 440,
+        "result": "LOSS",
+        "duration_min": 33.5,
+        "lineup": {
+          "Top": {
+            "player": "Sam",
+            "is_squad": true,
+            "champion": "Malphite",
+            "kills": 2,
+            "deaths": 5,
+            "assists": 9,
+            "damage": 14800,
+            "cs": 195,
+            "vision": 21,
+            "damage_taken": 33400,
+            "damage_mitigated": 39800,
+            "cc_score": 31,
+            "rating": 72.7,
+            "grade": "A",
+            "archetype": "tank",
+            "highlight": "Unkillable Frontline",
+            "pillars": {
+              "combat": 68.2,
+              "damage": 86.9,
+              "frontline": 90.2,
+              "utility": 39.6,
+              "macro_vision": 66.2
+            }
+          },
+          "Jungle": {
+            "player": "Alex",
+            "is_squad": true,
+            "champion": "Xin Zhao",
+            "kills": 5,
+            "deaths": 6,
+            "assists": 7,
+            "damage": 17900,
+            "cs": 164,
+            "vision": 28,
+            "damage_taken": 31800,
+            "dragon_takedowns": 1,
+            "rating": 46.4,
+            "grade": "C",
+            "archetype": "bruiser",
+            "highlight": "Bruiser Specialist",
+            "pillars": {
+              "combat": 67.4,
+              "damage": 72.9,
+              "objective": 10.9,
+              "frontline": 38.1,
+              "utility": 49.2,
+              "macro_vision": 64.4
+            }
+          },
+          "Mid": {
+            "player": "Chloe",
+            "is_squad": true,
+            "champion": "Sylas",
+            "kills": 8,
+            "deaths": 5,
+            "assists": 6,
+            "damage": 26400,
+            "cs": 212,
+            "vision": 24,
+            "solo_kills": 2,
+            "rating": 78.7,
+            "grade": "A+",
+            "archetype": "assassin",
+            "highlight": "Assassin Specialist",
+            "pillars": {
+              "combat": 89.8,
+              "damage": 84.1,
+              "utility": 49.1,
+              "macro_vision": 70.3
+            }
+          },
+          "Bot": {
+            "player": "Leo",
+            "is_squad": true,
+            "champion": "Varus",
+            "kills": 6,
+            "deaths": 4,
+            "assists": 7,
+            "damage": 25800,
+            "cs": 229,
+            "vision": 25,
+            "rating": 78.9,
+            "grade": "A+",
+            "archetype": "marksman",
+            "highlight": "Marksman Specialist",
+            "pillars": {
+              "combat": 88.6,
+              "damage": 80.1,
+              "utility": 54.8,
+              "macro_vision": 75.4
+            }
+          },
+          "Support": {
+            "player": "Sarah",
+            "is_squad": true,
+            "champion": "Rakan",
+            "kills": 1,
+            "deaths": 5,
+            "assists": 14,
+            "damage": 5900,
+            "cs": 28,
+            "vision": 64,
+            "effective_heal_shield": 5400,
+            "cc_score": 35,
+            "rating": 65.9,
+            "grade": "A",
+            "archetype": "catcher",
+            "highlight": "Map Omnipresence",
+            "pillars": {
+              "combat": 79.0,
+              "damage": 47.7,
+              "utility": 63.2,
+              "macro_vision": 68.5
+            }
+          }
+        },
+        "mvp": "Leo",
+        "mvp_rating": 78.9
+      }
+    ],
+    "players": [
+      {
+        "id": "1",
+        "name": "João",
+        "discord_tag": "Joao#1234",
+        "primary_role": "Bot",
+        "secondary_role": "Mid",
+        "fav_champs": [
+          "Jinx",
+          "Kai'Sa",
+          "Jhin"
+        ],
+        "accounts": [
+          {
+            "puuid": "puuid-joao-1",
+            "riot_id": "JoaoADC#NA1",
+            "linked_at": "2026-10-01T19:00:00"
+          },
+          {
+            "puuid": "puuid-joao-2",
+            "riot_id": "JinxOnFire#NA1",
+            "linked_at": "2026-10-01T19:00:00"
+          }
+        ],
+        "games": 5,
+        "wins": 4,
+        "losses": 1,
+        "win_rate": 80.0,
+        "kda": 11.11,
+        "avg_rating": 86.0,
+        "grade": "S",
+        "mvps": 2,
+        "main_role": "Bot",
+        "kills": 58,
+        "deaths": 9,
+        "assists": 42,
+        "roles_played": {
+          "Bot": 5
+        },
+        "recent_matches": [
+          {
+            "match_id": "NA1_510012",
+            "date": "2026-11-10 21:40",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Bot",
+            "champion": "Jinx",
+            "kills": 14,
+            "deaths": 2,
+            "assists": 9,
+            "rating": 88.3,
+            "grade": "S+",
+            "highlight": "Splitpush Titan",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510011",
+            "date": "2026-11-10 20:55",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Bot",
+            "champion": "Kai'Sa",
+            "kills": 10,
+            "deaths": 2,
+            "assists": 8,
+            "rating": 83.5,
+            "grade": "S",
+            "highlight": "Hypercarry DPS",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510009",
+            "date": "2026-11-08 20:40",
+            "mode": "Ranked 5s",
+            "result": "LOSS",
+            "role": "Bot",
+            "champion": "Jinx",
+            "kills": 9,
+            "deaths": 3,
+            "assists": 6,
+            "rating": 80.8,
+            "grade": "S",
+            "highlight": "Hypercarry DPS",
+            "is_mvp": true
+          },
+          {
+            "match_id": "NA1_510008",
+            "date": "2026-11-08 19:50",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "role": "Bot",
+            "champion": "Jhin",
+            "kills": 12,
+            "deaths": 1,
+            "assists": 11,
+            "rating": 87.1,
+            "grade": "S",
+            "highlight": "Hypercarry DPS",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510006",
+            "date": "2026-11-05 21:05",
+            "mode": "Normal Draft",
+            "result": "WIN",
+            "role": "Bot",
+            "champion": "Jinx",
+            "kills": 13,
+            "deaths": 1,
+            "assists": 8,
+            "rating": 90.1,
+            "grade": "S+",
+            "highlight": "Splitpush Titan",
+            "is_mvp": true
+          }
+        ],
+        "pillars_avg": {
+          "combat": 99.3,
+          "damage": 89.7,
+          "objective": 52.7,
+          "frontline": 39.5,
+          "utility": 64.4,
+          "macro_vision": 82.6
+        },
+        "champion_pool": [
+          {
+            "champion": "Jinx",
+            "archetype": "marksman",
+            "games": 3,
+            "wins": 2,
+            "losses": 1,
+            "win_rate": 66.7,
+            "kda": 9.83,
+            "avg_kills": 12.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 7.7,
+            "avg_rating": 86.4,
+            "primary_role": "Bot"
+          },
+          {
+            "champion": "Jhin",
+            "archetype": "marksman",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 23.0,
+            "avg_kills": 12.0,
+            "avg_deaths": 1.0,
+            "avg_assists": 11.0,
+            "avg_rating": 87.1,
+            "primary_role": "Bot"
+          },
+          {
+            "champion": "Kai'Sa",
+            "archetype": "marksman",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 9.0,
+            "avg_kills": 10.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 8.0,
+            "avg_rating": 83.5,
+            "primary_role": "Bot"
+          }
+        ]
+      },
+      {
+        "id": "5",
+        "name": "David",
+        "discord_tag": "David#7890",
+        "primary_role": "Top",
+        "secondary_role": "Jungle",
+        "fav_champs": [
+          "Ornn",
+          "Aatrox",
+          "Shen"
+        ],
+        "accounts": [
+          {
+            "puuid": "puuid-david-1",
+            "riot_id": "OrnnHub#NA1",
+            "linked_at": "2026-10-01T19:00:00"
+          }
+        ],
+        "games": 5,
+        "wins": 4,
+        "losses": 1,
+        "win_rate": 80.0,
+        "kda": 8.6,
+        "avg_rating": 85.7,
+        "grade": "S",
+        "mvps": 2,
+        "main_role": "Top",
+        "kills": 19,
+        "deaths": 10,
+        "assists": 67,
+        "roles_played": {
+          "Top": 5
+        },
+        "recent_matches": [
+          {
+            "match_id": "NA1_510012",
+            "date": "2026-11-10 21:40",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Top",
+            "champion": "Ornn",
+            "kills": 3,
+            "deaths": 1,
+            "assists": 16,
+            "rating": 89.0,
+            "grade": "S+",
+            "highlight": "Unkillable Frontline",
+            "is_mvp": true
+          },
+          {
+            "match_id": "NA1_510011",
+            "date": "2026-11-10 20:55",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Top",
+            "champion": "Aatrox",
+            "kills": 7,
+            "deaths": 2,
+            "assists": 8,
+            "rating": 86.1,
+            "grade": "S",
+            "highlight": "Unkillable Frontline",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510009",
+            "date": "2026-11-08 20:40",
+            "mode": "Ranked 5s",
+            "result": "LOSS",
+            "role": "Top",
+            "champion": "Ornn",
+            "kills": 2,
+            "deaths": 5,
+            "assists": 10,
+            "rating": 77.0,
+            "grade": "A+",
+            "highlight": "Unkillable Frontline",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510008",
+            "date": "2026-11-08 19:50",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "role": "Top",
+            "champion": "Shen",
+            "kills": 4,
+            "deaths": 1,
+            "assists": 19,
+            "rating": 88.0,
+            "grade": "S+",
+            "highlight": "Peel & Enchanter Carry",
+            "is_mvp": true
+          },
+          {
+            "match_id": "NA1_510006",
+            "date": "2026-11-05 21:05",
+            "mode": "Normal Draft",
+            "result": "WIN",
+            "role": "Top",
+            "champion": "Ornn",
+            "kills": 3,
+            "deaths": 1,
+            "assists": 14,
+            "rating": 88.4,
+            "grade": "S+",
+            "highlight": "Unkillable Frontline",
+            "is_mvp": false
+          }
+        ],
+        "pillars_avg": {
+          "combat": 91.0,
+          "damage": 90.2,
+          "objective": 67.0,
+          "frontline": 93.6,
+          "utility": 56.6,
+          "macro_vision": 77.6
+        },
+        "champion_pool": [
+          {
+            "champion": "Ornn",
+            "archetype": "tank",
+            "games": 3,
+            "wins": 2,
+            "losses": 1,
+            "win_rate": 66.7,
+            "kda": 6.86,
+            "avg_kills": 2.7,
+            "avg_deaths": 2.3,
+            "avg_assists": 13.3,
+            "avg_rating": 84.8,
+            "primary_role": "Top"
+          },
+          {
+            "champion": "Shen",
+            "archetype": "tank",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 23.0,
+            "avg_kills": 4.0,
+            "avg_deaths": 1.0,
+            "avg_assists": 19.0,
+            "avg_rating": 88.0,
+            "primary_role": "Top"
+          },
+          {
+            "champion": "Aatrox",
+            "archetype": "bruiser",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 7.5,
+            "avg_kills": 7.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 8.0,
+            "avg_rating": 86.1,
+            "primary_role": "Top"
+          }
+        ]
+      },
+      {
+        "id": "3",
+        "name": "Marcus",
+        "discord_tag": "Marcus#9012",
+        "primary_role": "Jungle",
+        "secondary_role": "Top",
+        "fav_champs": [
+          "Vi",
+          "Jarvan IV",
+          "Sejuani"
+        ],
+        "accounts": [
+          {
+            "puuid": "puuid-marcus-1",
+            "riot_id": "MarcusJNG#NA1",
+            "linked_at": "2026-10-01T19:00:00"
+          }
+        ],
+        "games": 5,
+        "wins": 5,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 12.44,
+        "avg_rating": 85.1,
+        "grade": "S",
+        "mvps": 1,
+        "main_role": "Jungle",
+        "kills": 36,
+        "deaths": 9,
+        "assists": 76,
+        "roles_played": {
+          "Jungle": 5
+        },
+        "recent_matches": [
+          {
+            "match_id": "NA1_510012",
+            "date": "2026-11-10 21:40",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Jungle",
+            "champion": "Vi",
+            "kills": 8,
+            "deaths": 2,
+            "assists": 14,
+            "rating": 84.3,
+            "grade": "S",
+            "highlight": "Objective Commander",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510011",
+            "date": "2026-11-10 20:55",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Jungle",
+            "champion": "Jarvan IV",
+            "kills": 5,
+            "deaths": 2,
+            "assists": 18,
+            "rating": 81.0,
+            "grade": "S",
+            "highlight": "Objective Commander",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510010",
+            "date": "2026-11-08 21:30",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Jungle",
+            "champion": "Sejuani",
+            "kills": 4,
+            "deaths": 1,
+            "assists": 21,
+            "rating": 87.9,
+            "grade": "S",
+            "highlight": "Objective Commander",
+            "is_mvp": true
+          },
+          {
+            "match_id": "NA1_510008",
+            "date": "2026-11-08 19:50",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "role": "Jungle",
+            "champion": "Vi",
+            "kills": 9,
+            "deaths": 2,
+            "assists": 12,
+            "rating": 84.9,
+            "grade": "S",
+            "highlight": "Objective Commander",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510006",
+            "date": "2026-11-05 21:05",
+            "mode": "Normal Draft",
+            "result": "WIN",
+            "role": "Jungle",
+            "champion": "Vi",
+            "kills": 10,
+            "deaths": 2,
+            "assists": 11,
+            "rating": 87.4,
+            "grade": "S",
+            "highlight": "Objective Commander",
+            "is_mvp": false
+          }
+        ],
+        "pillars_avg": {
+          "combat": 97.2,
+          "damage": 83.2,
+          "objective": 72.0,
+          "frontline": 88.9,
+          "utility": 69.3,
+          "macro_vision": 79.7
+        },
+        "champion_pool": [
+          {
+            "champion": "Vi",
+            "archetype": "bruiser",
+            "games": 3,
+            "wins": 3,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 10.67,
+            "avg_kills": 9.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 12.3,
+            "avg_rating": 85.5,
+            "primary_role": "Jungle"
+          },
+          {
+            "champion": "Sejuani",
+            "archetype": "tank",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 25.0,
+            "avg_kills": 4.0,
+            "avg_deaths": 1.0,
+            "avg_assists": 21.0,
+            "avg_rating": 87.9,
+            "primary_role": "Jungle"
+          },
+          {
+            "champion": "Jarvan IV",
+            "archetype": "bruiser",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 11.5,
+            "avg_kills": 5.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 18.0,
+            "avg_rating": 81.0,
+            "primary_role": "Jungle"
+          }
+        ]
+      },
+      {
+        "id": "4",
+        "name": "Elena",
+        "discord_tag": "Elena#3456",
+        "primary_role": "Mid",
+        "secondary_role": "Support",
+        "fav_champs": [
+          "Ahri",
+          "Orianna",
+          "Syndra"
+        ],
+        "accounts": [
+          {
+            "puuid": "puuid-elena-1",
+            "riot_id": "ElenaMid#NA1",
+            "linked_at": "2026-10-01T19:00:00"
+          }
+        ],
+        "games": 5,
+        "wins": 4,
+        "losses": 1,
+        "win_rate": 80.0,
+        "kda": 12.5,
+        "avg_rating": 84.6,
+        "grade": "S",
+        "mvps": 1,
+        "main_role": "Mid",
+        "kills": 41,
+        "deaths": 8,
+        "assists": 59,
+        "roles_played": {
+          "Mid": 5
+        },
+        "recent_matches": [
+          {
+            "match_id": "NA1_510012",
+            "date": "2026-11-10 21:40",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Mid",
+            "champion": "Ahri",
+            "kills": 9,
+            "deaths": 1,
+            "assists": 12,
+            "rating": 83.4,
+            "grade": "S",
+            "highlight": "Hypercarry DPS",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510011",
+            "date": "2026-11-10 20:55",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Mid",
+            "champion": "Orianna",
+            "kills": 11,
+            "deaths": 1,
+            "assists": 13,
+            "rating": 91.0,
+            "grade": "S+",
+            "highlight": "Hypercarry DPS",
+            "is_mvp": true
+          },
+          {
+            "match_id": "NA1_510009",
+            "date": "2026-11-08 20:40",
+            "mode": "Ranked 5s",
+            "result": "LOSS",
+            "role": "Mid",
+            "champion": "Syndra",
+            "kills": 6,
+            "deaths": 4,
+            "assists": 7,
+            "rating": 75.6,
+            "grade": "A+",
+            "highlight": "Mage Specialist",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510008",
+            "date": "2026-11-08 19:50",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "role": "Mid",
+            "champion": "Ahri",
+            "kills": 8,
+            "deaths": 1,
+            "assists": 14,
+            "rating": 87.3,
+            "grade": "S",
+            "highlight": "Hypercarry DPS",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510006",
+            "date": "2026-11-05 21:05",
+            "mode": "Normal Draft",
+            "result": "WIN",
+            "role": "Mid",
+            "champion": "Ahri",
+            "kills": 7,
+            "deaths": 1,
+            "assists": 13,
+            "rating": 85.5,
+            "grade": "S",
+            "highlight": "Hypercarry DPS",
+            "is_mvp": false
+          }
+        ],
+        "pillars_avg": {
+          "combat": 97.4,
+          "damage": 84.2,
+          "objective": 47.0,
+          "frontline": 45.2,
+          "utility": 52.8,
+          "macro_vision": 82.0
+        },
+        "champion_pool": [
+          {
+            "champion": "Ahri",
+            "archetype": "assassin",
+            "games": 3,
+            "wins": 3,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 21.0,
+            "avg_kills": 8.0,
+            "avg_deaths": 1.0,
+            "avg_assists": 13.0,
+            "avg_rating": 85.4,
+            "primary_role": "Mid"
+          },
+          {
+            "champion": "Orianna",
+            "archetype": "mage",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 24.0,
+            "avg_kills": 11.0,
+            "avg_deaths": 1.0,
+            "avg_assists": 13.0,
+            "avg_rating": 91.0,
+            "primary_role": "Mid"
+          },
+          {
+            "champion": "Syndra",
+            "archetype": "mage",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 3.25,
+            "avg_kills": 6.0,
+            "avg_deaths": 4.0,
+            "avg_assists": 7.0,
+            "avg_rating": 75.6,
+            "primary_role": "Mid"
+          }
+        ]
+      },
+      {
+        "id": "7",
+        "name": "Leo",
+        "discord_tag": "Leo#6789",
+        "primary_role": "Bot",
+        "secondary_role": "Top",
+        "fav_champs": [
+          "Ezreal",
+          "Ashe",
+          "Varus"
+        ],
+        "accounts": [
+          {
+            "puuid": "puuid-leo-1",
+            "riot_id": "EzrealMuseum#NA1",
+            "linked_at": "2026-10-01T19:00:00"
+          }
+        ],
+        "games": 3,
+        "wins": 2,
+        "losses": 1,
+        "win_rate": 66.7,
+        "kda": 8.0,
+        "avg_rating": 84.6,
+        "grade": "S",
+        "mvps": 2,
+        "main_role": "Bot",
+        "kills": 26,
+        "deaths": 7,
+        "assists": 30,
+        "roles_played": {
+          "Bot": 3
+        },
+        "recent_matches": [
+          {
+            "match_id": "NA1_510010",
+            "date": "2026-11-08 21:30",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Bot",
+            "champion": "Ezreal",
+            "kills": 11,
+            "deaths": 1,
+            "assists": 9,
+            "rating": 85.3,
+            "grade": "S",
+            "highlight": "Hypercarry DPS",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510007",
+            "date": "2026-11-06 22:15",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "role": "Bot",
+            "champion": "Ashe",
+            "kills": 9,
+            "deaths": 2,
+            "assists": 14,
+            "rating": 89.5,
+            "grade": "S+",
+            "highlight": "Map Omnipresence",
+            "is_mvp": true
+          },
+          {
+            "match_id": "NA1_510005",
+            "date": "2026-11-04 20:20",
+            "mode": "Ranked Flex",
+            "result": "LOSS",
+            "role": "Bot",
+            "champion": "Varus",
+            "kills": 6,
+            "deaths": 4,
+            "assists": 7,
+            "rating": 78.9,
+            "grade": "A+",
+            "highlight": "Marksman Specialist",
+            "is_mvp": true
+          }
+        ],
+        "pillars_avg": {
+          "combat": 96.2,
+          "damage": 83.2,
+          "objective": 49.6,
+          "frontline": 0.0,
+          "utility": 63.6,
+          "macro_vision": 78.7
+        },
+        "champion_pool": [
+          {
+            "champion": "Ashe",
+            "archetype": "marksman",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 11.5,
+            "avg_kills": 9.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 14.0,
+            "avg_rating": 89.5,
+            "primary_role": "Bot"
+          },
+          {
+            "champion": "Ezreal",
+            "archetype": "marksman",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 20.0,
+            "avg_kills": 11.0,
+            "avg_deaths": 1.0,
+            "avg_assists": 9.0,
+            "avg_rating": 85.3,
+            "primary_role": "Bot"
+          },
+          {
+            "champion": "Varus",
+            "archetype": "marksman",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 3.25,
+            "avg_kills": 6.0,
+            "avg_deaths": 4.0,
+            "avg_assists": 7.0,
+            "avg_rating": 78.9,
+            "primary_role": "Bot"
+          }
+        ]
+      },
+      {
+        "id": "8",
+        "name": "Chloe",
+        "discord_tag": "Chloe#0123",
+        "primary_role": "Mid",
+        "secondary_role": "Bot",
+        "fav_champs": [
+          "Viktor",
+          "Sylas",
+          "Hwei"
+        ],
+        "accounts": [
+          {
+            "puuid": "puuid-chloe-1",
+            "riot_id": "HweiArtist#NA1",
+            "linked_at": "2026-10-01T19:00:00"
+          }
+        ],
+        "games": 3,
+        "wins": 2,
+        "losses": 1,
+        "win_rate": 66.7,
+        "kda": 6.11,
+        "avg_rating": 83.0,
+        "grade": "S",
+        "mvps": 0,
+        "main_role": "Mid",
+        "kills": 24,
+        "deaths": 9,
+        "assists": 31,
+        "roles_played": {
+          "Mid": 3
+        },
+        "recent_matches": [
+          {
+            "match_id": "NA1_510010",
+            "date": "2026-11-08 21:30",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Mid",
+            "champion": "Viktor",
+            "kills": 9,
+            "deaths": 2,
+            "assists": 10,
+            "rating": 83.1,
+            "grade": "S",
+            "highlight": "Hypercarry DPS",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510007",
+            "date": "2026-11-06 22:15",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "role": "Mid",
+            "champion": "Hwei",
+            "kills": 7,
+            "deaths": 2,
+            "assists": 15,
+            "rating": 87.1,
+            "grade": "S",
+            "highlight": "Hypercarry DPS",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510005",
+            "date": "2026-11-04 20:20",
+            "mode": "Ranked Flex",
+            "result": "LOSS",
+            "role": "Mid",
+            "champion": "Sylas",
+            "kills": 8,
+            "deaths": 5,
+            "assists": 6,
+            "rating": 78.7,
+            "grade": "A+",
+            "highlight": "Assassin Specialist",
+            "is_mvp": false
+          }
+        ],
+        "pillars_avg": {
+          "combat": 95.8,
+          "damage": 85.8,
+          "objective": 46.1,
+          "frontline": 0.0,
+          "utility": 54.3,
+          "macro_vision": 77.3
+        },
+        "champion_pool": [
+          {
+            "champion": "Hwei",
+            "archetype": "mage",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 11.0,
+            "avg_kills": 7.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 15.0,
+            "avg_rating": 87.1,
+            "primary_role": "Mid"
+          },
+          {
+            "champion": "Viktor",
+            "archetype": "mage",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 9.5,
+            "avg_kills": 9.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 10.0,
+            "avg_rating": 83.1,
+            "primary_role": "Mid"
+          },
+          {
+            "champion": "Sylas",
+            "archetype": "assassin",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 2.8,
+            "avg_kills": 8.0,
+            "avg_deaths": 5.0,
+            "avg_assists": 6.0,
+            "avg_rating": 78.7,
+            "primary_role": "Mid"
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "name": "Melanie",
+        "discord_tag": "Melanie#5678",
+        "primary_role": "Support",
+        "secondary_role": "Top",
+        "fav_champs": [
+          "Nami",
+          "Leona",
+          "Lulu"
+        ],
+        "accounts": [
+          {
+            "puuid": "puuid-mel-1",
+            "riot_id": "MelEnchanter#NA1",
+            "linked_at": "2026-10-01T19:00:00"
+          }
+        ],
+        "games": 5,
+        "wins": 4,
+        "losses": 1,
+        "win_rate": 80.0,
+        "kda": 11.6,
+        "avg_rating": 82.1,
+        "grade": "S",
+        "mvps": 0,
+        "main_role": "Support",
+        "kills": 6,
+        "deaths": 10,
+        "assists": 110,
+        "roles_played": {
+          "Support": 5
+        },
+        "recent_matches": [
+          {
+            "match_id": "NA1_510012",
+            "date": "2026-11-10 21:40",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Support",
+            "champion": "Lulu",
+            "kills": 1,
+            "deaths": 1,
+            "assists": 26,
+            "rating": 88.9,
+            "grade": "S+",
+            "highlight": "Peel & Enchanter Carry",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510011",
+            "date": "2026-11-10 20:55",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Support",
+            "champion": "Nami",
+            "kills": 2,
+            "deaths": 2,
+            "assists": 22,
+            "rating": 86.7,
+            "grade": "S",
+            "highlight": "Peel & Enchanter Carry",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510009",
+            "date": "2026-11-08 20:40",
+            "mode": "Ranked 5s",
+            "result": "LOSS",
+            "role": "Support",
+            "champion": "Lulu",
+            "kills": 0,
+            "deaths": 4,
+            "assists": 16,
+            "rating": 66.2,
+            "grade": "A",
+            "highlight": "Peel & Enchanter Carry",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510008",
+            "date": "2026-11-08 19:50",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "role": "Support",
+            "champion": "Leona",
+            "kills": 2,
+            "deaths": 2,
+            "assists": 23,
+            "rating": 88.0,
+            "grade": "S+",
+            "highlight": "Unkillable Frontline",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510006",
+            "date": "2026-11-05 21:05",
+            "mode": "Normal Draft",
+            "result": "WIN",
+            "role": "Support",
+            "champion": "Lulu",
+            "kills": 1,
+            "deaths": 1,
+            "assists": 23,
+            "rating": 80.8,
+            "grade": "S",
+            "highlight": "Peel & Enchanter Carry",
+            "is_mvp": false
+          }
+        ],
+        "pillars_avg": {
+          "combat": 93.4,
+          "damage": 63.3,
+          "objective": 0.0,
+          "frontline": 91.9,
+          "utility": 76.8,
+          "macro_vision": 78.1
+        },
+        "champion_pool": [
+          {
+            "champion": "Lulu",
+            "archetype": "enchanter",
+            "games": 3,
+            "wins": 2,
+            "losses": 1,
+            "win_rate": 66.7,
+            "kda": 11.17,
+            "avg_kills": 0.7,
+            "avg_deaths": 2.0,
+            "avg_assists": 21.7,
+            "avg_rating": 78.6,
+            "primary_role": "Support"
+          },
+          {
+            "champion": "Leona",
+            "archetype": "catcher",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 12.5,
+            "avg_kills": 2.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 23.0,
+            "avg_rating": 88.0,
+            "primary_role": "Support"
+          },
+          {
+            "champion": "Nami",
+            "archetype": "enchanter",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 12.0,
+            "avg_kills": 2.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 22.0,
+            "avg_rating": 86.7,
+            "primary_role": "Support"
+          }
+        ]
+      },
+      {
+        "id": "10",
+        "name": "Sam",
+        "discord_tag": "Sam#8901",
+        "primary_role": "Top",
+        "secondary_role": "Mid",
+        "fav_champs": [
+          "Gnar",
+          "Jax",
+          "Malphite"
+        ],
+        "accounts": [
+          {
+            "puuid": "puuid-sam-1",
+            "riot_id": "MegaGnar#NA1",
+            "linked_at": "2026-10-01T19:00:00"
+          }
+        ],
+        "games": 3,
+        "wins": 2,
+        "losses": 1,
+        "win_rate": 66.7,
+        "kda": 4.1,
+        "avg_rating": 80.3,
+        "grade": "S",
+        "mvps": 0,
+        "main_role": "Top",
+        "kills": 15,
+        "deaths": 10,
+        "assists": 26,
+        "roles_played": {
+          "Top": 3
+        },
+        "recent_matches": [
+          {
+            "match_id": "NA1_510010",
+            "date": "2026-11-08 21:30",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Top",
+            "champion": "Gnar",
+            "kills": 5,
+            "deaths": 3,
+            "assists": 11,
+            "rating": 80.5,
+            "grade": "S",
+            "highlight": "Unkillable Frontline",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510007",
+            "date": "2026-11-06 22:15",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "role": "Top",
+            "champion": "Jax",
+            "kills": 8,
+            "deaths": 2,
+            "assists": 6,
+            "rating": 87.7,
+            "grade": "S",
+            "highlight": "Splitpush Titan",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510005",
+            "date": "2026-11-04 20:20",
+            "mode": "Ranked Flex",
+            "result": "LOSS",
+            "role": "Top",
+            "champion": "Malphite",
+            "kills": 2,
+            "deaths": 5,
+            "assists": 9,
+            "rating": 72.7,
+            "grade": "A",
+            "highlight": "Unkillable Frontline",
+            "is_mvp": false
+          }
+        ],
+        "pillars_avg": {
+          "combat": 85.7,
+          "damage": 84.7,
+          "objective": 70.3,
+          "frontline": 90.8,
+          "utility": 45.2,
+          "macro_vision": 75.0
+        },
+        "champion_pool": [
+          {
+            "champion": "Jax",
+            "archetype": "splitpusher",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 7.0,
+            "avg_kills": 8.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 6.0,
+            "avg_rating": 87.7,
+            "primary_role": "Top"
+          },
+          {
+            "champion": "Gnar",
+            "archetype": "bruiser",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 5.33,
+            "avg_kills": 5.0,
+            "avg_deaths": 3.0,
+            "avg_assists": 11.0,
+            "avg_rating": 80.5,
+            "primary_role": "Top"
+          },
+          {
+            "champion": "Malphite",
+            "archetype": "tank",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 2.2,
+            "avg_kills": 2.0,
+            "avg_deaths": 5.0,
+            "avg_assists": 9.0,
+            "avg_rating": 72.7,
+            "primary_role": "Top"
+          }
+        ]
+      },
+      {
+        "id": "6",
+        "name": "Sarah",
+        "discord_tag": "Sarah#2345",
+        "primary_role": "Support",
+        "secondary_role": "Mid",
+        "fav_champs": [
+          "Thresh",
+          "Nautilus",
+          "Rakan"
+        ],
+        "accounts": [
+          {
+            "puuid": "puuid-sarah-1",
+            "riot_id": "HookCity#NA1",
+            "linked_at": "2026-10-01T19:00:00"
+          }
+        ],
+        "games": 3,
+        "wins": 2,
+        "losses": 1,
+        "win_rate": 66.7,
+        "kda": 6.2,
+        "avg_rating": 77.9,
+        "grade": "A+",
+        "mvps": 0,
+        "main_role": "Support",
+        "kills": 4,
+        "deaths": 10,
+        "assists": 58,
+        "roles_played": {
+          "Support": 3
+        },
+        "recent_matches": [
+          {
+            "match_id": "NA1_510010",
+            "date": "2026-11-08 21:30",
+            "mode": "Ranked 5s",
+            "result": "WIN",
+            "role": "Support",
+            "champion": "Thresh",
+            "kills": 2,
+            "deaths": 2,
+            "assists": 23,
+            "rating": 83.5,
+            "grade": "S",
+            "highlight": "Map Omnipresence",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510007",
+            "date": "2026-11-06 22:15",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "role": "Support",
+            "champion": "Nautilus",
+            "kills": 1,
+            "deaths": 3,
+            "assists": 21,
+            "rating": 84.3,
+            "grade": "S",
+            "highlight": "Unkillable Frontline",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510005",
+            "date": "2026-11-04 20:20",
+            "mode": "Ranked Flex",
+            "result": "LOSS",
+            "role": "Support",
+            "champion": "Rakan",
+            "kills": 1,
+            "deaths": 5,
+            "assists": 14,
+            "rating": 65.9,
+            "grade": "A",
+            "highlight": "Map Omnipresence",
+            "is_mvp": false
+          }
+        ],
+        "pillars_avg": {
+          "combat": 89.9,
+          "damage": 53.8,
+          "objective": 0.0,
+          "frontline": 90.1,
+          "utility": 73.6,
+          "macro_vision": 74.5
+        },
+        "champion_pool": [
+          {
+            "champion": "Nautilus",
+            "archetype": "catcher",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 7.33,
+            "avg_kills": 1.0,
+            "avg_deaths": 3.0,
+            "avg_assists": 21.0,
+            "avg_rating": 84.3,
+            "primary_role": "Support"
+          },
+          {
+            "champion": "Thresh",
+            "archetype": "catcher",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 12.5,
+            "avg_kills": 2.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 23.0,
+            "avg_rating": 83.5,
+            "primary_role": "Support"
+          },
+          {
+            "champion": "Rakan",
+            "archetype": "catcher",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 3.0,
+            "avg_kills": 1.0,
+            "avg_deaths": 5.0,
+            "avg_assists": 14.0,
+            "avg_rating": 65.9,
+            "primary_role": "Support"
+          }
+        ]
+      },
+      {
+        "id": "9",
+        "name": "Alex",
+        "discord_tag": "Alex#4567",
+        "primary_role": "Jungle",
+        "secondary_role": "Support",
+        "fav_champs": [
+          "Xin Zhao",
+          "Amumu",
+          "Zac"
+        ],
+        "accounts": [
+          {
+            "puuid": "puuid-alex-1",
+            "riot_id": "ZacBounce#NA1",
+            "linked_at": "2026-10-01T19:00:00"
+          }
+        ],
+        "games": 3,
+        "wins": 1,
+        "losses": 2,
+        "win_rate": 33.3,
+        "kda": 3.57,
+        "avg_rating": 61.1,
+        "grade": "B",
+        "mvps": 0,
+        "main_role": "Jungle",
+        "kills": 12,
+        "deaths": 14,
+        "assists": 38,
+        "roles_played": {
+          "Jungle": 3
+        },
+        "recent_matches": [
+          {
+            "match_id": "NA1_510009",
+            "date": "2026-11-08 20:40",
+            "mode": "Ranked 5s",
+            "result": "LOSS",
+            "role": "Jungle",
+            "champion": "Zac",
+            "kills": 3,
+            "deaths": 6,
+            "assists": 12,
+            "rating": 58.2,
+            "grade": "B",
+            "highlight": "Unkillable Frontline",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510007",
+            "date": "2026-11-06 22:15",
+            "mode": "Ranked Flex",
+            "result": "WIN",
+            "role": "Jungle",
+            "champion": "Amumu",
+            "kills": 4,
+            "deaths": 2,
+            "assists": 19,
+            "rating": 78.8,
+            "grade": "A+",
+            "highlight": "Objective Commander",
+            "is_mvp": false
+          },
+          {
+            "match_id": "NA1_510005",
+            "date": "2026-11-04 20:20",
+            "mode": "Ranked Flex",
+            "result": "LOSS",
+            "role": "Jungle",
+            "champion": "Xin Zhao",
+            "kills": 5,
+            "deaths": 6,
+            "assists": 7,
+            "rating": 46.4,
+            "grade": "C",
+            "highlight": "Bruiser Specialist",
+            "is_mvp": false
+          }
+        ],
+        "pillars_avg": {
+          "combat": 79.8,
+          "damage": 82.4,
+          "objective": 23.4,
+          "frontline": 72.1,
+          "utility": 52.9,
+          "macro_vision": 69.0
+        },
+        "champion_pool": [
+          {
+            "champion": "Amumu",
+            "archetype": "tank",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 11.5,
+            "avg_kills": 4.0,
+            "avg_deaths": 2.0,
+            "avg_assists": 19.0,
+            "avg_rating": 78.8,
+            "primary_role": "Jungle"
+          },
+          {
+            "champion": "Zac",
+            "archetype": "tank",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 2.5,
+            "avg_kills": 3.0,
+            "avg_deaths": 6.0,
+            "avg_assists": 12.0,
+            "avg_rating": 58.2,
+            "primary_role": "Jungle"
+          },
+          {
+            "champion": "Xin Zhao",
+            "archetype": "bruiser",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 2.0,
+            "avg_kills": 5.0,
+            "avg_deaths": 6.0,
+            "avg_assists": 7.0,
+            "avg_rating": 46.4,
+            "primary_role": "Jungle"
+          }
+        ]
+      }
+    ],
+    "synergies": {
+      "botlane": [
+        {
+          "pair": "João (ADC) & Melanie (SUP)",
+          "player_a": "João",
+          "player_b": "Melanie",
+          "games": 5,
+          "wins": 4,
+          "losses": 1,
+          "win_rate": 80.0,
+          "combined_kda": 11.37,
+          "synergy_score": 86.7,
+          "tier": "S Tier",
+          "tag": "2v8 Bot Kingdom",
+          "avg_duo_rating": 84.0,
+          "coordination_score": 92.3,
+          "favorite_combo": "Jinx + Lulu",
+          "adc": "João",
+          "support": "Melanie"
+        },
+        {
+          "pair": "Leo (ADC) & Sarah (SUP)",
+          "player_a": "Leo",
+          "player_b": "Sarah",
+          "games": 3,
+          "wins": 2,
+          "losses": 1,
+          "win_rate": 66.7,
+          "combined_kda": 6.94,
+          "synergy_score": 76.9,
+          "tier": "A Tier",
+          "tag": "2v8 Bot Kingdom",
+          "avg_duo_rating": 81.2,
+          "coordination_score": 87.3,
+          "favorite_combo": "Varus + Rakan",
+          "adc": "Leo",
+          "support": "Sarah"
+        }
+      ],
+      "mid_jungle": [
+        {
+          "pair": "Elena (MID) & Marcus (JNG)",
+          "player_a": "Elena",
+          "player_b": "Marcus",
+          "games": 4,
+          "wins": 4,
+          "losses": 0,
+          "win_rate": 100.0,
+          "combined_kda": 14.5,
+          "synergy_score": 90.3,
+          "tier": "S Tier",
+          "tag": "Map Terror 2v2",
+          "avg_duo_rating": 85.6,
+          "coordination_score": 85.3,
+          "favorite_combo": "Ahri + Vi"
+        },
+        {
+          "pair": "Chloe (MID) & Marcus (JNG)",
+          "player_a": "Chloe",
+          "player_b": "Marcus",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "win_rate": 100.0,
+          "combined_kda": 14.67,
+          "synergy_score": 72.1,
+          "tier": "A Tier",
+          "tag": "Map Terror 2v2",
+          "avg_duo_rating": 85.5,
+          "coordination_score": 93.2,
+          "favorite_combo": "Viktor + Sejuani"
+        },
+        {
+          "pair": "Chloe (MID) & Alex (JNG)",
+          "player_a": "Chloe",
+          "player_b": "Alex",
+          "games": 2,
+          "wins": 1,
+          "losses": 1,
+          "win_rate": 50.0,
+          "combined_kda": 4.73,
+          "synergy_score": 64.3,
+          "tier": "B Tier",
+          "tag": "Lethal Core",
+          "avg_duo_rating": 72.8,
+          "coordination_score": 85.7,
+          "favorite_combo": "Hwei + Amumu"
+        },
+        {
+          "pair": "Elena (MID) & Alex (JNG)",
+          "player_a": "Elena",
+          "player_b": "Alex",
+          "games": 1,
+          "wins": 0,
+          "losses": 1,
+          "win_rate": 0.0,
+          "combined_kda": 2.8,
+          "synergy_score": 50.9,
+          "tier": "B Tier",
+          "tag": "Objective Anchors",
+          "avg_duo_rating": 66.9,
+          "coordination_score": 79.0,
+          "favorite_combo": "Syndra + Zac"
+        }
+      ],
+      "top_jungle": [
+        {
+          "pair": "David (TOP) & Marcus (JNG)",
+          "player_a": "David",
+          "player_b": "Marcus",
+          "games": 4,
+          "wins": 4,
+          "losses": 0,
+          "win_rate": 100.0,
+          "combined_kda": 12.38,
+          "synergy_score": 89.4,
+          "tier": "S Tier",
+          "tag": "Topside Raidbosses",
+          "avg_duo_rating": 86.1,
+          "coordination_score": 78.1,
+          "favorite_combo": "Ornn + Vi"
+        },
+        {
+          "pair": "Sam (TOP) & Marcus (JNG)",
+          "player_a": "Sam",
+          "player_b": "Marcus",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "win_rate": 100.0,
+          "combined_kda": 10.25,
+          "synergy_score": 71.8,
+          "tier": "A Tier",
+          "tag": "Topside Raidbosses",
+          "avg_duo_rating": 84.2,
+          "coordination_score": 88.9,
+          "favorite_combo": "Gnar + Sejuani"
+        },
+        {
+          "pair": "Sam (TOP) & Alex (JNG)",
+          "player_a": "Sam",
+          "player_b": "Alex",
+          "games": 2,
+          "wins": 1,
+          "losses": 1,
+          "win_rate": 50.0,
+          "combined_kda": 4.0,
+          "synergy_score": 61.6,
+          "tier": "B Tier",
+          "tag": "Lethal Core",
+          "avg_duo_rating": 71.4,
+          "coordination_score": 85.3,
+          "favorite_combo": "Malphite + Xin Zhao"
+        },
+        {
+          "pair": "David (TOP) & Alex (JNG)",
+          "player_a": "David",
+          "player_b": "Alex",
+          "games": 1,
+          "wins": 0,
+          "losses": 1,
+          "win_rate": 0.0,
+          "combined_kda": 2.45,
+          "synergy_score": 50.4,
+          "tier": "B Tier",
+          "tag": "Objective Anchors",
+          "avg_duo_rating": 67.6,
+          "coordination_score": 92.6,
+          "favorite_combo": "Ornn + Zac"
+        }
+      ],
+      "support_jungle": [
+        {
+          "pair": "Melanie (SUP) & Marcus (JNG)",
+          "player_a": "Melanie",
+          "player_b": "Marcus",
+          "games": 4,
+          "wins": 4,
+          "losses": 0,
+          "win_rate": 100.0,
+          "combined_kda": 13.36,
+          "synergy_score": 90.4,
+          "tier": "S Tier",
+          "tag": "Vision & Roam Lords",
+          "avg_duo_rating": 85.2,
+          "coordination_score": 86.9,
+          "favorite_combo": "Lulu + Vi"
+        },
+        {
+          "pair": "Sarah (SUP) & Marcus (JNG)",
+          "player_a": "Sarah",
+          "player_b": "Marcus",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "win_rate": 100.0,
+          "combined_kda": 16.67,
+          "synergy_score": 72.2,
+          "tier": "A Tier",
+          "tag": "Vision & Roam Lords",
+          "avg_duo_rating": 85.7,
+          "coordination_score": 94.9,
+          "favorite_combo": "Thresh + Sejuani"
+        },
+        {
+          "pair": "Sarah (SUP) & Alex (JNG)",
+          "player_a": "Sarah",
+          "player_b": "Alex",
+          "games": 2,
+          "wins": 1,
+          "losses": 1,
+          "win_rate": 50.0,
+          "combined_kda": 4.5,
+          "synergy_score": 62.9,
+          "tier": "B Tier",
+          "tag": "Lethal Core",
+          "avg_duo_rating": 68.8,
+          "coordination_score": 85.9,
+          "favorite_combo": "Nautilus + Amumu"
+        },
+        {
+          "pair": "Melanie (SUP) & Alex (JNG)",
+          "player_a": "Melanie",
+          "player_b": "Alex",
+          "games": 1,
+          "wins": 0,
+          "losses": 1,
+          "win_rate": 0.0,
+          "combined_kda": 3.1,
+          "synergy_score": 52.1,
+          "tier": "B Tier",
+          "tag": "Objective Anchors",
+          "avg_duo_rating": 62.2,
+          "coordination_score": 91.2,
+          "favorite_combo": "Lulu + Zac"
+        }
+      ]
+    },
+    "champions": [
+      {
+        "champion": "Vi",
+        "archetype": "bruiser",
+        "picks": 3,
+        "wins": 3,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 10.67,
+        "avg_kills": 9.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 12.3,
+        "dpm": 770.0,
+        "cspm": 6.1,
+        "vspm": 1.12,
+        "avg_rating": 85.5,
+        "grade": "S",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 3
+        },
+        "top_pilot": "Marcus",
+        "pilots": {
+          "Marcus": 3
+        }
+      },
+      {
+        "champion": "Ahri",
+        "archetype": "assassin",
+        "picks": 3,
+        "wins": 3,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 21.0,
+        "avg_kills": 8.0,
+        "avg_deaths": 1.0,
+        "avg_assists": 13.0,
+        "dpm": 899.0,
+        "cspm": 7.5,
+        "vspm": 1.01,
+        "avg_rating": 85.4,
+        "grade": "S",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 3
+        },
+        "top_pilot": "Elena",
+        "pilots": {
+          "Elena": 3
+        }
+      },
+      {
+        "champion": "Jinx",
+        "archetype": "marksman",
+        "picks": 3,
+        "wins": 2,
+        "losses": 1,
+        "win_rate": 66.7,
+        "kda": 9.83,
+        "avg_kills": 12.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 7.7,
+        "dpm": 1126.0,
+        "cspm": 8.0,
+        "vspm": 0.83,
+        "avg_rating": 86.4,
+        "grade": "S",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 3
+        },
+        "top_pilot": "João",
+        "pilots": {
+          "João": 3
+        }
+      },
+      {
+        "champion": "Ornn",
+        "archetype": "tank",
+        "picks": 3,
+        "wins": 2,
+        "losses": 1,
+        "win_rate": 66.7,
+        "kda": 6.86,
+        "avg_kills": 2.7,
+        "avg_deaths": 2.3,
+        "avg_assists": 13.3,
+        "dpm": 535.0,
+        "cspm": 6.4,
+        "vspm": 0.82,
+        "avg_rating": 84.8,
+        "grade": "S",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 3
+        },
+        "top_pilot": "David",
+        "pilots": {
+          "David": 3
+        }
+      },
+      {
+        "champion": "Lulu",
+        "archetype": "enchanter",
+        "picks": 3,
+        "wins": 2,
+        "losses": 1,
+        "win_rate": 66.7,
+        "kda": 11.17,
+        "avg_kills": 0.7,
+        "avg_deaths": 2.0,
+        "avg_assists": 21.7,
+        "dpm": 191.0,
+        "cspm": 1.0,
+        "vspm": 2.15,
+        "avg_rating": 78.6,
+        "grade": "A+",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 3
+        },
+        "top_pilot": "Melanie",
+        "pilots": {
+          "Melanie": 3
+        }
+      },
+      {
+        "champion": "Orianna",
+        "archetype": "mage",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 24.0,
+        "avg_kills": 11.0,
+        "avg_deaths": 1.0,
+        "avg_assists": 13.0,
+        "dpm": 1114.0,
+        "cspm": 8.1,
+        "vspm": 1.04,
+        "avg_rating": 91.0,
+        "grade": "S+",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 1
+        },
+        "top_pilot": "Elena",
+        "pilots": {
+          "Elena": 1
+        }
+      },
+      {
+        "champion": "Ashe",
+        "archetype": "marksman",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 11.5,
+        "avg_kills": 9.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 14.0,
+        "dpm": 878.0,
+        "cspm": 7.4,
+        "vspm": 1.0,
+        "avg_rating": 89.5,
+        "grade": "S+",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 1
+        },
+        "top_pilot": "Leo",
+        "pilots": {
+          "Leo": 1
+        }
+      },
+      {
+        "champion": "Shen",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 23.0,
+        "avg_kills": 4.0,
+        "avg_deaths": 1.0,
+        "avg_assists": 19.0,
+        "dpm": 517.0,
+        "cspm": 6.2,
+        "vspm": 0.95,
+        "avg_rating": 88.0,
+        "grade": "S+",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "David",
+        "pilots": {
+          "David": 1
+        }
+      },
+      {
+        "champion": "Leona",
+        "archetype": "catcher",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 12.5,
+        "avg_kills": 2.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 23.0,
+        "dpm": 303.0,
+        "cspm": 1.1,
+        "vspm": 2.41,
+        "avg_rating": 88.0,
+        "grade": "S+",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 1
+        },
+        "top_pilot": "Melanie",
+        "pilots": {
+          "Melanie": 1
+        }
+      },
+      {
+        "champion": "Sejuani",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 25.0,
+        "avg_kills": 4.0,
+        "avg_deaths": 1.0,
+        "avg_assists": 21.0,
+        "dpm": 503.0,
+        "cspm": 5.4,
+        "vspm": 1.23,
+        "avg_rating": 87.9,
+        "grade": "S",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 1
+        },
+        "top_pilot": "Marcus",
+        "pilots": {
+          "Marcus": 1
+        }
+      },
+      {
+        "champion": "Jax",
+        "archetype": "splitpusher",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 7.0,
+        "avg_kills": 8.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 6.0,
+        "dpm": 825.0,
+        "cspm": 7.6,
+        "vspm": 0.75,
+        "avg_rating": 87.7,
+        "grade": "S",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "Sam",
+        "pilots": {
+          "Sam": 1
+        }
+      },
+      {
+        "champion": "Jhin",
+        "archetype": "marksman",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 23.0,
+        "avg_kills": 12.0,
+        "avg_deaths": 1.0,
+        "avg_assists": 11.0,
+        "dpm": 1014.0,
+        "cspm": 7.6,
+        "vspm": 0.92,
+        "avg_rating": 87.1,
+        "grade": "S",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 1
+        },
+        "top_pilot": "João",
+        "pilots": {
+          "João": 1
+        }
+      },
+      {
+        "champion": "Hwei",
+        "archetype": "mage",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 11.0,
+        "avg_kills": 7.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 15.0,
+        "dpm": 984.0,
+        "cspm": 7.2,
+        "vspm": 0.97,
+        "avg_rating": 87.1,
+        "grade": "S",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 1
+        },
+        "top_pilot": "Chloe",
+        "pilots": {
+          "Chloe": 1
+        }
+      },
+      {
+        "champion": "Nami",
+        "archetype": "enchanter",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 12.0,
+        "avg_kills": 2.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 22.0,
+        "dpm": 289.0,
+        "cspm": 1.0,
+        "vspm": 2.36,
+        "avg_rating": 86.7,
+        "grade": "S",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 1
+        },
+        "top_pilot": "Melanie",
+        "pilots": {
+          "Melanie": 1
+        }
+      },
+      {
+        "champion": "Aatrox",
+        "archetype": "bruiser",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 7.5,
+        "avg_kills": 7.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 8.0,
+        "dpm": 875.0,
+        "cspm": 7.1,
+        "vspm": 0.79,
+        "avg_rating": 86.1,
+        "grade": "S",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "David",
+        "pilots": {
+          "David": 1
+        }
+      },
+      {
+        "champion": "Ezreal",
+        "archetype": "marksman",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 20.0,
+        "avg_kills": 11.0,
+        "avg_deaths": 1.0,
+        "avg_assists": 9.0,
+        "dpm": 1035.0,
+        "cspm": 7.3,
+        "vspm": 0.73,
+        "avg_rating": 85.3,
+        "grade": "S",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 1
+        },
+        "top_pilot": "Leo",
+        "pilots": {
+          "Leo": 1
+        }
+      },
+      {
+        "champion": "Nautilus",
+        "archetype": "catcher",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 7.33,
+        "avg_kills": 1.0,
+        "avg_deaths": 3.0,
+        "avg_assists": 21.0,
+        "dpm": 244.0,
+        "cspm": 0.9,
+        "vspm": 2.16,
+        "avg_rating": 84.3,
+        "grade": "S",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 1
+        },
+        "top_pilot": "Sarah",
+        "pilots": {
+          "Sarah": 1
+        }
+      },
+      {
+        "champion": "Kai'Sa",
+        "archetype": "marksman",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 9.0,
+        "avg_kills": 10.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 8.0,
+        "dpm": 979.0,
+        "cspm": 7.8,
+        "vspm": 0.82,
+        "avg_rating": 83.5,
+        "grade": "S",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 1
+        },
+        "top_pilot": "João",
+        "pilots": {
+          "João": 1
+        }
+      },
+      {
+        "champion": "Thresh",
+        "archetype": "catcher",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 12.5,
+        "avg_kills": 2.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 23.0,
+        "dpm": 216.0,
+        "cspm": 1.0,
+        "vspm": 2.28,
+        "avg_rating": 83.5,
+        "grade": "S",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 1
+        },
+        "top_pilot": "Sarah",
+        "pilots": {
+          "Sarah": 1
+        }
+      },
+      {
+        "champion": "Viktor",
+        "archetype": "mage",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 9.5,
+        "avg_kills": 9.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 10.0,
+        "dpm": 988.0,
+        "cspm": 7.4,
+        "vspm": 0.82,
+        "avg_rating": 83.1,
+        "grade": "S",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 1
+        },
+        "top_pilot": "Chloe",
+        "pilots": {
+          "Chloe": 1
+        }
+      },
+      {
+        "champion": "Jarvan IV",
+        "archetype": "bruiser",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 11.5,
+        "avg_kills": 5.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 18.0,
+        "dpm": 600.0,
+        "cspm": 5.8,
+        "vspm": 1.21,
+        "avg_rating": 81.0,
+        "grade": "S",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 1
+        },
+        "top_pilot": "Marcus",
+        "pilots": {
+          "Marcus": 1
+        }
+      },
+      {
+        "champion": "Gnar",
+        "archetype": "bruiser",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 5.33,
+        "avg_kills": 5.0,
+        "avg_deaths": 3.0,
+        "avg_assists": 11.0,
+        "dpm": 640.0,
+        "cspm": 6.7,
+        "vspm": 0.76,
+        "avg_rating": 80.5,
+        "grade": "S",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "Sam",
+        "pilots": {
+          "Sam": 1
+        }
+      },
+      {
+        "champion": "Amumu",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 11.5,
+        "avg_kills": 4.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 19.0,
+        "dpm": 512.0,
+        "cspm": 5.4,
+        "vspm": 1.16,
+        "avg_rating": 78.8,
+        "grade": "A+",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 1
+        },
+        "top_pilot": "Alex",
+        "pilots": {
+          "Alex": 1
+        }
+      },
+      {
+        "champion": "Varus",
+        "archetype": "marksman",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 3.25,
+        "avg_kills": 6.0,
+        "avg_deaths": 4.0,
+        "avg_assists": 7.0,
+        "dpm": 770.0,
+        "cspm": 6.8,
+        "vspm": 0.75,
+        "avg_rating": 78.9,
+        "grade": "A+",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 1
+        },
+        "top_pilot": "Leo",
+        "pilots": {
+          "Leo": 1
+        }
+      },
+      {
+        "champion": "Sylas",
+        "archetype": "assassin",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 2.8,
+        "avg_kills": 8.0,
+        "avg_deaths": 5.0,
+        "avg_assists": 6.0,
+        "dpm": 788.0,
+        "cspm": 6.3,
+        "vspm": 0.72,
+        "avg_rating": 78.7,
+        "grade": "A+",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 1
+        },
+        "top_pilot": "Chloe",
+        "pilots": {
+          "Chloe": 1
+        }
+      },
+      {
+        "champion": "Syndra",
+        "archetype": "mage",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 3.25,
+        "avg_kills": 6.0,
+        "avg_deaths": 4.0,
+        "avg_assists": 7.0,
+        "dpm": 728.0,
+        "cspm": 6.6,
+        "vspm": 0.76,
+        "avg_rating": 75.6,
+        "grade": "A+",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 1
+        },
+        "top_pilot": "Elena",
+        "pilots": {
+          "Elena": 1
+        }
+      },
+      {
+        "champion": "Malphite",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 2.2,
+        "avg_kills": 2.0,
+        "avg_deaths": 5.0,
+        "avg_assists": 9.0,
+        "dpm": 442.0,
+        "cspm": 5.8,
+        "vspm": 0.63,
+        "avg_rating": 72.7,
+        "grade": "A",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "Sam",
+        "pilots": {
+          "Sam": 1
+        }
+      },
+      {
+        "champion": "Rakan",
+        "archetype": "catcher",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 3.0,
+        "avg_kills": 1.0,
+        "avg_deaths": 5.0,
+        "avg_assists": 14.0,
+        "dpm": 176.0,
+        "cspm": 0.8,
+        "vspm": 1.91,
+        "avg_rating": 65.9,
+        "grade": "A",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 1
+        },
+        "top_pilot": "Sarah",
+        "pilots": {
+          "Sarah": 1
+        }
+      },
+      {
+        "champion": "Zac",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 2.5,
+        "avg_kills": 3.0,
+        "avg_deaths": 6.0,
+        "avg_assists": 12.0,
+        "dpm": 432.0,
+        "cspm": 4.8,
+        "vspm": 0.95,
+        "avg_rating": 58.2,
+        "grade": "B",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 1
+        },
+        "top_pilot": "Alex",
+        "pilots": {
+          "Alex": 1
+        }
+      },
+      {
+        "champion": "Xin Zhao",
+        "archetype": "bruiser",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 2.0,
+        "avg_kills": 5.0,
+        "avg_deaths": 6.0,
+        "avg_assists": 7.0,
+        "dpm": 534.0,
+        "cspm": 4.9,
+        "vspm": 0.84,
+        "avg_rating": 46.4,
+        "grade": "C",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 1
+        },
+        "top_pilot": "Alex",
+        "pilots": {
+          "Alex": 1
+        }
+      }
+    ],
+    "archetypes": [
+      {
+        "archetype": "tank",
+        "picks": 8,
+        "wins": 5,
+        "win_rate": 62.5,
+        "avg_rating": 80.0
+      },
+      {
+        "archetype": "marksman",
+        "picks": 8,
+        "wins": 6,
+        "win_rate": 75.0,
+        "avg_rating": 85.4
+      },
+      {
+        "archetype": "bruiser",
+        "picks": 7,
+        "wins": 6,
+        "win_rate": 85.7,
+        "avg_rating": 78.7
+      },
+      {
+        "archetype": "assassin",
+        "picks": 4,
+        "wins": 3,
+        "win_rate": 75.0,
+        "avg_rating": 83.7
+      },
+      {
+        "archetype": "enchanter",
+        "picks": 4,
+        "wins": 3,
+        "win_rate": 75.0,
+        "avg_rating": 80.7
+      },
+      {
+        "archetype": "mage",
+        "picks": 4,
+        "wins": 3,
+        "win_rate": 75.0,
+        "avg_rating": 84.2
+      },
+      {
+        "archetype": "catcher",
+        "picks": 4,
+        "wins": 3,
+        "win_rate": 75.0,
+        "avg_rating": 80.4
+      },
+      {
+        "archetype": "splitpusher",
+        "picks": 1,
+        "wins": 1,
+        "win_rate": 100.0,
+        "avg_rating": 87.7
+      }
+    ],
+    "role_distribution": {
+      "Top": {
+        "games": 8,
+        "wins": 6
+      },
+      "Jungle": {
+        "games": 8,
+        "wins": 6
+      },
+      "Mid": {
+        "games": 8,
+        "wins": 6
+      },
+      "Bot": {
+        "games": 8,
+        "wins": 6
+      },
+      "Support": {
+        "games": 8,
+        "wins": 6
+      }
+    }
+  }
+}
