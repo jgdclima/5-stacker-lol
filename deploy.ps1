@@ -82,31 +82,30 @@ if ($unpushed) {
 }
 
 # 2. Execute git pull & container refresh on the NAS
-$remoteCommands = @()
-$remoteCommands += "cd '$RemoteDir'"
-$remoteCommands += "git pull origin main"
+$dockerCmd = if ($Rebuild) { "docker compose up -d --build" } else { "docker compose restart || docker compose up -d" }
 
-if ($Rebuild) {
-    Write-Host ">>> Pulling changes and rebuilding Docker image on NAS..." -ForegroundColor Yellow
-    $remoteCommands += "docker compose up -d --build"
-} else {
-    Write-Host ">>> Pulling changes and restarting container on NAS..." -ForegroundColor Cyan
-    # If Dockerfile or requirements.txt changed, rebuild automatically; otherwise restart
-    $remoteCommands += "docker compose restart || docker compose up -d"
-}
+$scriptBlock = @"
+export PATH=`$PATH:/usr/local/bin:/usr/bin:/bin
+cd '$RemoteDir' || exit 1
+echo '--- [1/3] Git Status on NAS ---'
+git pull origin main
+echo '--- [2/3] Restarting Container ---'
+$dockerCmd
+echo '--- [3/3] Container Status ---'
+docker ps --filter name=$ContainerName --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+"@
 
-$combinedCommand = $remoteCommands -join " && "
-
-ssh -o BatchMode=no "${NasUser}@${NasHost}" "$combinedCommand"
+Write-Host ">>> Executing update on NAS..." -ForegroundColor Cyan
+ssh -o BatchMode=no "${NasUser}@${NasHost}" "$scriptBlock"
 if ($LASTEXITCODE -ne 0) {
-    Write-Error "SSH command execution failed on NAS. Check connection and permissions."
+    Write-Error "SSH command execution failed on NAS. Check connection, permissions, or Docker daemon."
     exit 1
 }
 
 # 3. Stream recent container logs to verify startup
 Write-Host "`n>>> Verifying container status and checking startup logs..." -ForegroundColor Green
 Start-Sleep -Seconds 2
-ssh "${NasUser}@${NasHost}" "docker logs --tail 25 $ContainerName"
+ssh "${NasUser}@${NasHost}" "export PATH=`$PATH:/usr/local/bin:/usr/bin:/bin; docker logs --tail 25 $ContainerName"
 
 Write-Host "`n Deployment complete!" -ForegroundColor Green
 
