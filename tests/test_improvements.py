@@ -707,6 +707,56 @@ class TestAppImprovements(unittest.TestCase):
             if os.path.exists(out_html.name):
                 os.remove(out_html.name)
 
+    def test_dashboard_excludes_demo_data_outside_demo_preview(self):
+        import json
+        from export_dashboard import build_dashboard_payload, generate_dashboard
+
+        # 1. Fresh StatsManager starts in live mode with empty players and no demo group name
+        fresh_payload = build_dashboard_payload(stats_mgr=self.stats_mgr)
+        self.assertFalse(fresh_payload["has_live_matches"])
+        self.assertEqual(fresh_payload["live"]["group_name"], "5 Stackers")
+        self.assertEqual(fresh_payload["live"]["players"], [])
+        self.assertEqual(fresh_payload["live"]["matches"], [])
+        self.assertEqual(fresh_payload["live"]["sessions"], [])
+
+        # Demo payload remains populated for Demo Preview
+        self.assertEqual(fresh_payload["demo"]["group_name"], "The Summoner's Ten")
+        self.assertEqual(len(fresh_payload["demo"]["players"]), 10)
+        self.assertGreater(len(fresh_payload["demo"]["matches"]), 0)
+
+        # 2. Legacy persisted JSON with unlinked demo seed members strips them from live data
+        legacy_file = tempfile.NamedTemporaryFile(delete=False, suffix=".json", mode="w", encoding="utf-8")
+        json.dump({
+            "group_name": "The Summoner's Ten",
+            "members": [
+                {"id": "1", "name": "João", "discord_tag": "Joao#1234", "primary_role": "Bot", "secondary_role": "Mid", "fav_champs": ["Jinx"]},
+                {"id": "2", "name": "Melanie", "discord_tag": "Melanie#5678", "primary_role": "Support", "secondary_role": "Top", "fav_champs": ["Nami"]},
+                {"id": "11", "name": "RealPlayer", "discord_id": "999999", "discord_tag": "RealPlayer", "riot_id": "Real#NA1", "puuid": "p-real", "primary_role": "Flex", "secondary_role": "Flex", "fav_champs": []},
+            ],
+            "active_sessions": {},
+            "match_history": [],
+        }, legacy_file)
+        legacy_file.close()
+
+        out_html = tempfile.NamedTemporaryFile(delete=False, suffix=".html")
+        out_html.close()
+        try:
+            legacy_mgr = StatsManager(filepath=legacy_file.name)
+            live_payload = build_dashboard_payload(stats_mgr=legacy_mgr)["live"]
+            self.assertEqual(live_payload["group_name"], "5 Stackers")
+            self.assertEqual([p["name"] for p in live_payload["players"]], ["RealPlayer"])
+
+            generate_dashboard(stats_mgr=legacy_mgr, output_path=out_html.name)
+            with open(out_html.name, "r", encoding="utf-8") as f:
+                html_text = f.read()
+            self.assertIn("let datasetMode = 'live';", html_text)
+            self.assertNotIn("let datasetMode = RAW_BUNDLE.has_live_matches", html_text)
+        finally:
+            if os.path.exists(legacy_file.name):
+                os.remove(legacy_file.name)
+            if os.path.exists(out_html.name):
+                os.remove(out_html.name)
+
 
 if __name__ == "__main__":
     unittest.main()

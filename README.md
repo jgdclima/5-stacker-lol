@@ -1,6 +1,8 @@
 # 🎮 League of Legends 5-Stack Coordinator Discord Bot
 
-A dedicated Discord bot designed to organize League of Legends 5-man premade sessions for your friend group, automatically manage 5-player quorums, detect Riot's official Ranked 5s weekend windows with seamless Ranked Flex fallback, and track in-depth chemistry stats like Botlane Synergy.
+Playing League of Legends as an organized five-player team is an entirely different game compared to Solo/Duo queue. The vast majority of players would agree that the most fun to way to play League of Legends is with friends as opposed to strangers. However, it can be challenging to coordinate sessions where 5 friends are available at the same time, or how to manage role preferences or what to do when more than 5 friends are available to play. Additionally, there are limited tools available to allow for a team to analyze their own games without including data from "randos".
+
+This is where 5 Stacker Lol comes in. The app has 2 main interfaces. One is the discord bot that helps to coordinate joint game sessions and display match data in Discord. The other is a web dashboard that displays the players stats and deeper analytics and trends over time. 
 
 ---
 
@@ -48,6 +50,12 @@ A dedicated Discord bot designed to organize League of Legends 5-man premade ses
 * **Interactive Multi-Select Discord UI**:
   - Persistent buttons that survive bot reboots without failing.
   - Native **Multi-Select Role Dropdown**: Players can select 1 to 5 role preferences (e.g. `Mid` + `Bot`).
+
+* **Interactive Hextech Web Dashboard (`web/index.html`)**:
+  - Auto-generated, standalone, responsive web dashboard themed with League's Hextech & Piltover aesthetic.
+  - Automatically regenerates on bot startup and every time match data or session status updates (`StatsManager.save()`).
+  - View live & scheduled sessions, roster profiles with multiple linked Riot accounts, 4 pairwise synergy leaderboards, match histories with letter grades & badges, interactive rating formula calculators, FAQ, and a GitHub feedback builder.
+  - Works offline over `file://`, can be hosted via Synology Web Station / Nginx / GitHub Pages, or previewed locally via `python export_dashboard.py --serve`.
 
 ---
 
@@ -117,6 +125,47 @@ $$\text{Synergy Score} = 0.42 \times \text{Bayesian WR} + 0.24 \times \text{Damp
 * **Strict Eligibility Rules**:
   - **Both** players in the pair must be `@LOLers` members (`is_squad=True`).
   - A pair must have played **at least 3 games together** (`MIN_SYNERGY_GAMES = 3`) in that specific role combination to appear on the chemistry leaderboards.
+
+---
+
+## 🌐 Interactive Hextech Web Dashboard
+
+The project includes an interactive, zero-dependency static web dashboard located at [`web/index.html`](web/index.html). It embeds the entire squad state (`data/league_stats.json`) and rating engine metadata into a responsive, single-file Hextech interface.
+
+### ✨ Dashboard Features
+
+* **Live Sessions & Quorum Tracking**: Real-time inspection of active and upcoming sessions, confirmed starters with selected roles, bench substitutes, and session activity logs.
+* **Squad Roster & Multi-Account Profiles**: Member directory showing primary and secondary linked Riot IDs (`GameName#TagLine`), match counts, overall win rates, and preferred positions.
+* **4 Living Synergy Leaderboards**: Filterable chemistry leaderboards for **Botlane**, **Mid + Jungle**, **Top + Jungle**, and **Support + Jungle** with Bayesian win rates, duo KDAs, and chemistry tags.
+* **Match History & Performance Breakdown**: Complete post-game breakdowns displaying match MVP, team outcome, participant letter grades (`S+` to `C`), damage/vision/objective shares, and standout performance badges.
+* **Interactive Rating Engine & Formula Visualizer**: Built-in interactive calculators that demonstrate the 6 Performance Pillars, dynamic 55% Role / 45% Champion Kit archetype weights, and Bayesian synergy formulas with live sliders.
+* **Hextech Audio & Ambient Sounds**: Optional authentic Hextech sound effects (button clicks, tab navigation, modal opens) powered by Web Audio API synthesizers (no external sound files required).
+* **Demo Data Mode**: Built-in toggle to preview the dashboard with a full demonstration dataset ("The Summoner's Ten") even before live matches are recorded.
+* **Integrated Feedback & Ticket Builder**: Create pre-formatted GitHub issues for bug reports, feature requests, or rating balance proposals directly from the browser.
+
+---
+
+### 🚀 Generating and Serving the Dashboard
+
+The dashboard is generated automatically whenever the bot runs or saves new stats, but you can also generate or serve it manually:
+
+#### 1. Preview with Built-in HTTP Server
+Run the generator with `--serve` to generate `web/index.html` and launch a local web server:
+```bash
+python export_dashboard.py --serve 8080
+```
+Open **`http://localhost:8080`** in your browser.
+
+#### 2. Manual Export
+Generate or refresh the HTML file from custom paths without running a server:
+```bash
+python export_dashboard.py --data data/league_stats.json --output web/index.html
+```
+
+#### 3. Hosting Options
+* **Direct File Access**: Double-click `web/index.html` to open it locally in any browser (`file://` protocol supported).
+* **Synology NAS / Web Station**: Point Synology Web Station or an Nginx container to the `web/` folder for seamless 24/7 LAN or remote access alongside your containerized bot.
+* **GitHub Pages**: Deploy the `web/` folder to GitHub Pages for free public or community hosting.
 
 ---
 

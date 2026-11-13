@@ -16,7 +16,12 @@ import socketserver
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-from data_manager import DEFAULT_DATA_PATH, StatsManager
+from data_manager import (
+    DEFAULT_DATA_PATH,
+    DEFAULT_GROUP_NAME,
+    LEGACY_DEMO_GROUP_NAME,
+    StatsManager,
+)
 from rating_engine import (
     ARCHETYPE_DPM_BENCHMARK,
     ARCHETYPE_PILLAR_WEIGHTS,
@@ -41,6 +46,20 @@ def _build_demo_dataset() -> Dict[str, Any]:
     temp_mgr = StatsManager(filepath=":memory_demo:")
     # Prevent writing to disk for demo state
     temp_mgr.save = lambda: None  # type: ignore
+
+    temp_mgr.data["group_name"] = LEGACY_DEMO_GROUP_NAME
+    temp_mgr.data["members"] = [
+        {"id": "1", "name": "João", "discord_tag": "Joao#1234", "primary_role": "Bot", "secondary_role": "Mid", "fav_champs": ["Jinx", "Kai'Sa", "Jhin"]},
+        {"id": "2", "name": "Melanie", "discord_tag": "Melanie#5678", "primary_role": "Support", "secondary_role": "Top", "fav_champs": ["Nami", "Leona", "Lulu"]},
+        {"id": "3", "name": "Marcus", "discord_tag": "Marcus#9012", "primary_role": "Jungle", "secondary_role": "Top", "fav_champs": ["Vi", "Jarvan IV", "Sejuani"]},
+        {"id": "4", "name": "Elena", "discord_tag": "Elena#3456", "primary_role": "Mid", "secondary_role": "Support", "fav_champs": ["Ahri", "Orianna", "Syndra"]},
+        {"id": "5", "name": "David", "discord_tag": "David#7890", "primary_role": "Top", "secondary_role": "Jungle", "fav_champs": ["Ornn", "Aatrox", "Shen"]},
+        {"id": "6", "name": "Sarah", "discord_tag": "Sarah#2345", "primary_role": "Support", "secondary_role": "Mid", "fav_champs": ["Thresh", "Nautilus", "Rakan"]},
+        {"id": "7", "name": "Leo", "discord_tag": "Leo#6789", "primary_role": "Bot", "secondary_role": "Top", "fav_champs": ["Ezreal", "Ashe", "Varus"]},
+        {"id": "8", "name": "Chloe", "discord_tag": "Chloe#0123", "primary_role": "Mid", "secondary_role": "Bot", "fav_champs": ["Viktor", "Sylas", "Hwei"]},
+        {"id": "9", "name": "Alex", "discord_tag": "Alex#4567", "primary_role": "Jungle", "secondary_role": "Support", "fav_champs": ["Xin Zhao", "Amumu", "Zac"]},
+        {"id": "10", "name": "Sam", "discord_tag": "Sam#8901", "primary_role": "Top", "secondary_role": "Mid", "fav_champs": ["Gnar", "Jax", "Malphite"]},
+    ]
 
     # Link sample Riot accounts for roster members
     demo_riot_links = {
@@ -329,10 +348,10 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
     # Player leaderboard & detailed player profiles
     leaderboard = stats_mgr.get_player_leaderboard()
     leaderboard_by_name = {p["name"]: p for p in leaderboard}
+    ref_names = None if is_demo else stats_mgr.get_referenced_player_names()
 
-    player_profiles: Dict[str, Dict[str, Any]] = {}
-    for member in members:
-        name = member["name"]
+    def _make_player_profile(name: str, source: Optional[dict] = None) -> Dict[str, Any]:
+        src = source or {}
         lb = leaderboard_by_name.get(name, {
             "name": name,
             "games": 0,
@@ -343,17 +362,16 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
             "avg_rating": 0.0,
             "grade": "N/A",
             "mvps": 0,
-            "main_role": member.get("primary_role", "Flex"),
+            "main_role": src.get("primary_role", "Flex"),
         })
-        accounts = StatsManager._extract_accounts(member)
-        player_profiles[name] = {
-            "id": member.get("id", ""),
+        return {
+            "id": src.get("id", src.get("discord_id", "")),
             "name": name,
-            "discord_tag": member.get("discord_tag", ""),
-            "primary_role": member.get("primary_role", "Flex"),
-            "secondary_role": member.get("secondary_role", "Fill"),
-            "fav_champs": member.get("fav_champs", []),
-            "accounts": accounts,
+            "discord_tag": src.get("discord_tag", src.get("discord_name", "")),
+            "primary_role": src.get("primary_role", lb.get("main_role", "Flex")),
+            "secondary_role": src.get("secondary_role", "Fill"),
+            "fav_champs": src.get("fav_champs", []),
+            "accounts": StatsManager._extract_accounts(src),
             "games": lb["games"],
             "wins": lb["wins"],
             "losses": lb["losses"],
@@ -372,6 +390,25 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
             "champions": {},
             "recent_matches": [],
         }
+
+    player_profiles: Dict[str, Dict[str, Any]] = {}
+    for member in members:
+        if not is_demo and stats_mgr.is_unlinked_legacy_demo_member(member, ref_names):
+            continue
+        name = member["name"]
+        player_profiles[name] = _make_player_profile(name, member)
+
+    for linked in raw_data.get("linked_players", {}).values():
+        if not isinstance(linked, dict):
+            continue
+        name = (linked.get("name") or linked.get("discord_name") or "").strip()
+        if name and name not in player_profiles:
+            player_profiles[name] = _make_player_profile(name, linked)
+
+    for lb_entry in leaderboard:
+        name = lb_entry["name"]
+        if lb_entry.get("games", 0) > 0 and name not in player_profiles:
+            player_profiles[name] = _make_player_profile(name)
 
     # Aggregate champion trends, role stats, archetype stats, and per-player details
     champ_stats: Dict[str, Dict[str, Any]] = {}
@@ -604,9 +641,13 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
         else:
             break
 
+    group_name = raw_data.get("group_name") or DEFAULT_GROUP_NAME
+    if not is_demo and group_name == LEGACY_DEMO_GROUP_NAME:
+        group_name = DEFAULT_GROUP_NAME
+
     return {
         "is_demo": is_demo,
-        "group_name": raw_data.get("group_name", "The Summoner's Ten"),
+        "group_name": group_name,
         "kpis": {
             "total_matches": total_matches,
             "wins": total_wins,
@@ -661,7 +702,7 @@ DASHBOARD_HTML_TEMPLATE = r"""<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>5-Stack Coordinator — Hextech Command Center</title>
+  <title>5-Stack Coordinator Hub</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
     :root {
@@ -1529,9 +1570,9 @@ DASHBOARD_HTML_TEMPLATE = r"""<!DOCTYPE html>
       <div class="brand">
         <div class="brand-crest">5S</div>
         <div>
-          <div class="brand-title" id="header-group-name">The Summoner's Ten</div>
+          <div class="brand-title" id="header-group-name">5 Stackers</div>
           <div class="brand-subtitle">
-            <span>5-Stack Coordinator Command Center</span>
+            <span>5-Stack Coordinator Hub</span>
             <span>•</span>
             <span id="header-updated-at">Updated</span>
           </div>
@@ -1928,7 +1969,7 @@ DASHBOARD_HTML_TEMPLATE = r"""<!DOCTYPE html>
             </div>
             <div class="form-field">
               <label for="fb-reporter">Your Name / Discord Tag (Optional)</label>
-              <input type="text" id="fb-reporter" placeholder="e.g., Joao#1234" oninput="updateFeedbackPreview()" />
+              <input type="text" id="fb-reporter" placeholder="e.g., YourName#1234" oninput="updateFeedbackPreview()" />
             </div>
             <div class="form-field">
               <label for="fb-desc">Detailed Description</label>
@@ -1975,7 +2016,7 @@ DASHBOARD_HTML_TEMPLATE = r"""<!DOCTYPE html>
     const RAW_BUNDLE = JSON.parse(document.getElementById('dashboard-data').textContent);
 
     // State
-    let datasetMode = RAW_BUNDLE.has_live_matches ? 'live' : 'demo';
+    let datasetMode = 'live';
     let currentTab = 'overview';
     let filters = {
       role: 'ALL',
@@ -2061,6 +2102,7 @@ DASHBOARD_HTML_TEMPLATE = r"""<!DOCTYPE html>
 
     function setDatasetMode(mode) {
       datasetMode = mode;
+      closePlayerModal();
       document.getElementById('btn-mode-live').classList.toggle('active', mode === 'live');
       document.getElementById('btn-mode-demo').classList.toggle('active', mode === 'demo');
 
@@ -2085,7 +2127,7 @@ DASHBOARD_HTML_TEMPLATE = r"""<!DOCTYPE html>
       }
 
       const data = getActiveData();
-      document.getElementById('header-group-name').textContent = data.group_name || "The Summoner's Ten";
+      document.getElementById('header-group-name').textContent = data.group_name || "5 Stackers";
 
       // Populate Player Filter Dropdown
       const playerSelect = document.getElementById('filter-player');
@@ -2259,7 +2301,7 @@ DASHBOARD_HTML_TEMPLATE = r"""<!DOCTYPE html>
       const wr = total > 0 ? ((wins / total) * 100).toFixed(1) : '0.0';
 
       // MVP Leader
-      const sortedPlayers = [...(data.players || [])].sort((a, b) => (b.mvps - a.mvps) || (b.avg_rating - a.avg_rating));
+      const sortedPlayers = [...(data.players || [])].filter(p => p.games > 0).sort((a, b) => (b.mvps - a.mvps) || (b.avg_rating - a.avg_rating));
       const topMvp = sortedPlayers[0] || { name: 'N/A', mvps: 0, avg_rating: 0 };
 
       // Top Duo

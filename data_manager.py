@@ -16,13 +16,31 @@ from rating_engine import (
 )
 
 DEFAULT_DATA_PATH = "data/league_stats.json"
+DEFAULT_GROUP_NAME = "5 Stackers"
+LEGACY_DEMO_GROUP_NAME = "The Summoner's Ten"
+LEGACY_DEMO_MEMBER_SIGNATURES = frozenset({
+    ("João", "Joao#1234"),
+    ("Melanie", "Melanie#5678"),
+    ("Marcus", "Marcus#9012"),
+    ("Elena", "Elena#3456"),
+    ("David", "David#7890"),
+    ("Sarah", "Sarah#2345"),
+    ("Leo", "Leo#6789"),
+    ("Chloe", "Chloe#0123"),
+    ("Alex", "Alex#4567"),
+    ("Sam", "Sam#8901"),
+})
+
 
 class StatsManager:
     def __init__(self, filepath: str = DEFAULT_DATA_PATH):
         self.filepath = filepath
         self._ensure_dir()
         self.data = self._load()
-        if self.reconcile_linked_players_in_history():
+        dirty = self.reconcile_linked_players_in_history()
+        if self._strip_legacy_demo_seeds():
+            dirty = True
+        if dirty:
             self.save()
 
     def _ensure_dir(self):
@@ -91,24 +109,74 @@ class StatsManager:
 
     def _default_initial_state(self) -> dict:
         return {
-            "group_name": "The Summoner's Ten",
-            "members": [
-                {"id": "1", "name": "João", "discord_tag": "Joao#1234", "primary_role": "Bot", "secondary_role": "Mid", "fav_champs": ["Jinx", "Kai'Sa", "Jhin"]},
-                {"id": "2", "name": "Melanie", "discord_tag": "Melanie#5678", "primary_role": "Support", "secondary_role": "Top", "fav_champs": ["Nami", "Leona", "Lulu"]},
-                {"id": "3", "name": "Marcus", "discord_tag": "Marcus#9012", "primary_role": "Jungle", "secondary_role": "Top", "fav_champs": ["Vi", "Jarvan IV", "Sejuani"]},
-                {"id": "4", "name": "Elena", "discord_tag": "Elena#3456", "primary_role": "Mid", "secondary_role": "Support", "fav_champs": ["Ahri", "Orianna", "Syndra"]},
-                {"id": "5", "name": "David", "discord_tag": "David#7890", "primary_role": "Top", "secondary_role": "Jungle", "fav_champs": ["Ornn", "Aatrox", "Shen"]},
-                {"id": "6", "name": "Sarah", "discord_tag": "Sarah#2345", "primary_role": "Support", "secondary_role": "Mid", "fav_champs": ["Thresh", "Nautilus", "Rakan"]},
-                {"id": "7", "name": "Leo", "discord_tag": "Leo#6789", "primary_role": "Bot", "secondary_role": "Top", "fav_champs": ["Ezreal", "Ashe", "Varus"]},
-                {"id": "8", "name": "Chloe", "discord_tag": "Chloe#0123", "primary_role": "Mid", "secondary_role": "Bot", "fav_champs": ["Viktor", "Sylas", "Hwei"]},
-                {"id": "9", "name": "Alex", "discord_tag": "Alex#4567", "primary_role": "Jungle", "secondary_role": "Support", "fav_champs": ["Xin Zhao", "Amumu", "Zac"]},
-                {"id": "10", "name": "Sam", "discord_tag": "Sam#8901", "primary_role": "Top", "secondary_role": "Mid", "fav_champs": ["Gnar", "Jax", "Malphite"]}
-            ],
+            "group_name": DEFAULT_GROUP_NAME,
+            "members": [],
             "active_sessions": {},
             "match_history": [],
             "synergy_threads": {},
             "feedback_history": []
         }
+
+    def get_referenced_player_names(self) -> set:
+        """Returns lowercase names of players referenced in linked accounts, sessions, roster, or match history."""
+        names = set()
+        for n in self.data.get("lolers_roster", []):
+            if isinstance(n, str) and n.strip():
+                names.add(n.strip().lower())
+        for info in self.data.get("linked_players", {}).values():
+            if isinstance(info, dict):
+                for k in ("name", "discord_name"):
+                    val = (info.get(k) or "").strip()
+                    if val:
+                        names.add(val.lower())
+        for sess in self.data.get("active_sessions", {}).values():
+            if not isinstance(sess, dict):
+                continue
+            creator = (sess.get("creator") or "").strip()
+            if creator:
+                names.add(creator.lower())
+            for entry in sess.get("confirmed_players", []) + sess.get("bench_substitutes", []):
+                if isinstance(entry, dict) and (entry.get("name") or "").strip():
+                    names.add(entry["name"].strip().lower())
+            for dec in sess.get("declined", []):
+                if isinstance(dec, str) and dec.strip():
+                    names.add(dec.strip().lower())
+        for match in self.data.get("match_history", []):
+            if not isinstance(match, dict):
+                continue
+            for pdata in match.get("lineup", {}).values():
+                if isinstance(pdata, dict) and (pdata.get("player") or "").strip():
+                    names.add(pdata["player"].strip().lower())
+        return names
+
+    def is_unlinked_legacy_demo_member(self, member: dict, referenced_names: Optional[set] = None) -> bool:
+        """Returns True only if a member entry is an unlinked legacy demo seed placeholder."""
+        if not isinstance(member, dict):
+            return False
+        sig = (member.get("name"), member.get("discord_tag"))
+        if sig not in LEGACY_DEMO_MEMBER_SIGNATURES:
+            return False
+        if member.get("discord_id") or self._extract_accounts(member):
+            return False
+        ref = referenced_names if referenced_names is not None else self.get_referenced_player_names()
+        return (member.get("name") or "").strip().lower() not in ref
+
+    def _strip_legacy_demo_seeds(self) -> bool:
+        """Removes unlinked legacy demo seed members and group name from persisted live data."""
+        if self.filepath == ":memory_demo:":
+            return False
+        changed = False
+        if self.data.get("group_name") == LEGACY_DEMO_GROUP_NAME:
+            self.data["group_name"] = DEFAULT_GROUP_NAME
+            changed = True
+        members = self.data.get("members", [])
+        if members:
+            ref_names = self.get_referenced_player_names()
+            filtered = [m for m in members if not self.is_unlinked_legacy_demo_member(m, ref_names)]
+            if len(filtered) != len(members):
+                self.data["members"] = filtered
+                changed = True
+        return changed
 
     def save(self):
         if self.filepath == ":memory_demo:":
