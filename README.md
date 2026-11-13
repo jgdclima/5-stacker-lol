@@ -51,11 +51,11 @@ This is where 5 Stacker Lol comes in. The app has 2 main interfaces. One is the 
   - Persistent buttons that survive bot reboots without failing.
   - Native **Multi-Select Role Dropdown**: Players can select 1 to 5 role preferences (e.g. `Mid` + `Bot`).
 
-* **Interactive Hextech Web Dashboard (`web/index.html`)**:
-  - Auto-generated, standalone, responsive web dashboard themed with League's Hextech & Piltover aesthetic.
-  - Automatically regenerates on bot startup and every time match data or session status updates (`StatsManager.save()`).
-  - View live & scheduled sessions, roster profiles with multiple linked Riot accounts, 4 pairwise synergy leaderboards, match histories with letter grades & badges, interactive rating formula calculators, FAQ, and a GitHub feedback builder.
-  - Works offline over `file://`, can be hosted via Synology Web Station / Nginx / GitHub Pages, or previewed locally via `python export_dashboard.py --serve`.
+* **Interactive Modular Hextech Web Dashboard & Portfolio Case Study (`web/`)**:
+  - Modular Vanilla ES frontend (`web/index.html`, `web/case-study.html`, `web/css/styles.css`, `web/js/*.js`) paired with decoupled, privacy-sanitized JSON payloads (`web/data/live_payload.json`, `web/data/demo_payload.json`) and a zero-CORS `file://` fallback bundle (`web/data/dashboard_bundle.js`).
+  - Automatically exports local payloads on bot startup and whenever stats save (`StatsManager.save()`), and pushes sanitized live match data to GitHub Pages (`gh-pages` branch) whenever new matches are logged or synced.
+  - Features a **5-Stack Lineup & Role Optimizer (`🧠 Squad Builder`)** evaluating all `5! = 120` lane permutations, interactive **6-Pillar Radar Charts** with head-to-head player comparisons, **Automated Executive Insights**, **Demo Preview** default (`?mode=demo`) with one-click **Live Data** toggle (`?mode=live`), and a dedicated **Product & Analytics Case Study (`web/case-study.html`)**.
+  - Works offline over `file://`, on Synology NAS / Nginx, or live on GitHub Pages (`jgdclima.github.io/5-stacker-lol/`), or previewed locally via `python export_dashboard.py --serve`.
 
 ---
 
@@ -128,44 +128,45 @@ $$\text{Synergy Score} = 0.42 \times \text{Bayesian WR} + 0.24 \times \text{Damp
 
 ---
 
-## 🌐 Interactive Hextech Web Dashboard
+## 🌐 Interactive Modular Web Dashboard & Portfolio Case Study
 
-The project includes an interactive, zero-dependency static web dashboard located at [`web/index.html`](web/index.html). It embeds the entire squad state (`data/league_stats.json`) and rating engine metadata into a responsive, single-file Hextech interface.
+The project includes a modular, zero-build Vanilla ES web application in [`web/`](web/) paired with a dedicated Product Design & Data Analytics Case Study at [`web/case-study.html`](web/case-study.html). `export_dashboard.py` compiles squad stats into decoupled, privacy-sanitized JSON payloads (`web/data/live_payload.json` and `web/data/demo_payload.json`) without overwriting authored HTML/CSS/JS source files.
 
 ### ✨ Dashboard Features
 
+* **Portfolio Case Study (`web/case-study.html`)**: Explains the behavioral UX state machine, anti-noise Living Card + Thread architecture, 55% Role / 45% Kit Rating Engine, Empirical Bayes synergy dampening, and hybrid NAS-to-GitHub Pages deployment.
+* **5-Stack Lineup & Role Optimizer (`🧠 Squad Builder`)**: Select any 5 available squad members to evaluate all `5! = 120` role assignments (`Top`, `Jungle`, `Mid`, `Bot`, `Support`), optimizing individual role proficiency + all 4 pairwise duo synergy scores.
+* **Interactive 6-Pillar Radar & Head-to-Head Comparison**: Click any player card or row to inspect their 6-Pillar Radar Chart compared against the squad average or head-to-head against another squad member.
+* **Automated Executive Insights**: Surfaces role bottlenecks, champion kit archetype win-rate lift, top map partnerships, and 6-pillar standout specialists dynamically.
 * **Live Sessions & Quorum Tracking**: Real-time inspection of active and upcoming sessions, confirmed starters with selected roles, bench substitutes, and session activity logs.
-* **Squad Roster & Multi-Account Profiles**: Member directory showing primary and secondary linked Riot IDs (`GameName#TagLine`), match counts, overall win rates, and preferred positions.
 * **4 Living Synergy Leaderboards**: Filterable chemistry leaderboards for **Botlane**, **Mid + Jungle**, **Top + Jungle**, and **Support + Jungle** with Bayesian win rates, duo KDAs, and chemistry tags.
-* **Match History & Performance Breakdown**: Complete post-game breakdowns displaying match MVP, team outcome, participant letter grades (`S+` to `C`), damage/vision/objective shares, and standout performance badges.
-* **Interactive Rating Engine & Formula Visualizer**: Built-in interactive calculators that demonstrate the 6 Performance Pillars, dynamic 55% Role / 45% Champion Kit archetype weights, and Bayesian synergy formulas with live sliders.
-* **Hextech Audio & Ambient Sounds**: Optional authentic Hextech sound effects (button clicks, tab navigation, modal opens) powered by Web Audio API synthesizers (no external sound files required).
-* **Demo Data Mode**: Built-in toggle to preview the dashboard with a full demonstration dataset ("The Summoner's Ten") even before live matches are recorded.
+* **Demo-First Portfolio Mode (`?mode=demo` / `?mode=live`)**: Defaults to the rich **"The Summoner's Ten"** demonstration dataset for portfolio visitors while allowing instant switching (or `?mode=live` deep-linking) to inspect live NAS-synced squad records.
 * **Integrated Feedback & Ticket Builder**: Create pre-formatted GitHub issues for bug reports, feature requests, or rating balance proposals directly from the browser.
 
 ---
 
-### 🚀 Generating and Serving the Dashboard
+### 🚀 Generating, Syncing, and Serving the Dashboard
 
-The dashboard is generated automatically whenever the bot runs or saves new stats, but you can also generate or serve it manually:
+The data payloads are exported automatically whenever the bot runs or saves stats, and sanitized live match updates are automatically pushed to the `gh-pages` branch whenever new matches are logged or synced (when `GITHUB_TOKEN` is configured). You can also run these manually:
 
 #### 1. Preview with Built-in HTTP Server
-Run the generator with `--serve` to generate `web/index.html` and launch a local web server:
+Run the exporter with `--serve` to refresh `web/data/` payloads and launch a local web server:
 ```bash
 python export_dashboard.py --serve 8080
 ```
-Open **`http://localhost:8080`** in your browser.
+Open **`http://localhost:8080`** for the dashboard or **`http://localhost:8080/case-study.html`** for the portfolio case study.
 
-#### 2. Manual Export
-Generate or refresh the HTML file from custom paths without running a server:
+#### 2. Manual Export & GitHub Pages Live Sync
+Export `web/data/live_payload.json`, `web/data/demo_payload.json`, and `web/data/dashboard_bundle.js` (and optionally push sanitized live match data to `gh-pages`):
 ```bash
-python export_dashboard.py --data data/league_stats.json --output web/index.html
+python export_dashboard.py --data data/league_stats.json
+python export_dashboard.py --data data/league_stats.json --push-gh-pages
 ```
 
-#### 3. Hosting Options
-* **Direct File Access**: Double-click `web/index.html` to open it locally in any browser (`file://` protocol supported).
-* **Synology NAS / Web Station**: Point Synology Web Station or an Nginx container to the `web/` folder for seamless 24/7 LAN or remote access alongside your containerized bot.
-* **GitHub Pages**: Deploy the `web/` folder to GitHub Pages for free public or community hosting.
+#### 3. Hosting & Privacy Architecture
+* **GitHub Pages (`gh-pages` branch)**: `.github/workflows/deploy-pages.yml` automatically deploys `web/` whenever frontend/analytics code changes on `main`, while preserving the live `data/live_payload.json` pushed by the NAS bot.
+* **Privacy Sanitization**: Before writing or pushing `live_payload.json`, `export_dashboard.py` strips raw Discord snowflake IDs (`id`, `creator_id`, `channel_id`, `message_id`, `thread_id`) and immutable Riot `puuid` strings while preserving player display names, Riot GameNames, match telemetry, and session history.
+* **Direct File Access (`file://`)**: Double-click `web/index.html` or `web/case-study.html` locally — `web/js/data-loader.js` seamlessly falls back to `web/data/dashboard_bundle.js` when `fetch()` is restricted over `file://`.
 
 ---
 
