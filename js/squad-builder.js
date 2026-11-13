@@ -4,7 +4,7 @@
  * optimizing individual role proficiency + all 4 pairwise duo synergy channels.
  */
 
-import { escapeHtml, gradeClass, ROLES_ORDER } from './utils.js';
+import { buildRoleMatchIndex, escapeHtml, gradeClass, resolvePlayerRoles, ROLES_ORDER } from './utils.js';
 
 const SYNERGY_CHANNELS = [
   { key: 'botlane', roleA: 'Bot', roleB: 'Support', label: '🏹🛡️ Bot + Support' },
@@ -32,32 +32,6 @@ function getPermutations(arr) {
   return result;
 }
 
-function buildRoleMatchIndex(matches) {
-  const index = {};
-  (matches || []).forEach(m => {
-    const isWin = m.result === 'WIN';
-    Object.entries(m.lineup || {}).forEach(([role, pdata]) => {
-      if (!pdata || !pdata.player) return;
-      const pname = pdata.player;
-      if (!index[pname]) index[pname] = {};
-      if (!index[pname][role]) {
-        index[pname][role] = { games: 0, wins: 0, ratingSum: 0, champs: {} };
-      }
-      const rEntry = index[pname][role];
-      rEntry.games += 1;
-      if (isWin) rEntry.wins += 1;
-      rEntry.ratingSum += parseFloat(pdata.rating || 65);
-
-      const champ = pdata.champion || 'Flex';
-      if (!rEntry.champs[champ]) rEntry.champs[champ] = { games: 0, wins: 0, ratingSum: 0 };
-      rEntry.champs[champ].games += 1;
-      if (isWin) rEntry.champs[champ].wins += 1;
-      rEntry.champs[champ].ratingSum += parseFloat(pdata.rating || 65);
-    });
-  });
-  return index;
-}
-
 function scorePlayerRoleFit(player, role, roleIndex) {
   const baseRating = player.games > 0 ? parseFloat(player.avg_rating || 65) : 62.0;
   const rStat = roleIndex[player.name]?.[role];
@@ -70,15 +44,17 @@ function scorePlayerRoleFit(player, role, roleIndex) {
     perfScore = w * rAvg + (1 - w) * baseRating;
   }
 
+  const { primary_role, secondary_role } = resolvePlayerRoles(player, roleIndex[player.name]);
+
   let bonus = 0;
   let fitLabel = 'Proven Off-Role';
   let fitClass = 'badge-completed';
 
-  if (player.primary_role === role) {
+  if (primary_role === role) {
     bonus = 8.5;
     fitLabel = 'Primary Main';
     fitClass = 'badge-win';
-  } else if (player.secondary_role === role) {
+  } else if (secondary_role === role) {
     bonus = 3.5;
     fitLabel = 'Secondary Flex';
     fitClass = 'badge-progress';
@@ -114,10 +90,10 @@ function scorePlayerRoleFit(player, role, roleIndex) {
   };
 }
 
-export function evaluateOptimalLineups(chosenPlayers, data) {
+export function evaluateOptimalLineups(chosenPlayers, data, roleIndexOpt = null) {
   if (!chosenPlayers || chosenPlayers.length !== 5) return [];
 
-  const roleIndex = buildRoleMatchIndex(data.matches || []);
+  const roleIndex = roleIndexOpt || buildRoleMatchIndex(data.matches || []);
   const synLookup = {};
   SYNERGY_CHANNELS.forEach(ch => {
     synLookup[ch.key] = {};
@@ -287,14 +263,16 @@ export function renderSquadBuilderTab(data) {
     return;
   }
 
+  const roleIndex = buildRoleMatchIndex(data?.matches || []);
   const chosenPlayers = players.filter(p => selectedPlayerNames.includes(p.name));
   const playerButtonsHtml = players.map(p => {
     const isSelected = selectedPlayerNames.includes(p.name);
+    const { primary_role, secondary_role } = resolvePlayerRoles(p, roleIndex[p.name]);
     return `
       <button class="builder-player-btn ${isSelected ? 'selected' : ''}" onclick="toggleBuilderPlayer('${escapeHtml(p.name)}')">
         <div>
           <div style="font-weight: 700; color: var(--gold-bright);">${isSelected ? '✅ ' : ''}${escapeHtml(p.name)}</div>
-          <div style="font-size: 0.72rem; color: var(--text-muted);">${escapeHtml(p.primary_role)} / ${escapeHtml(p.secondary_role)}</div>
+          <div style="font-size: 0.72rem; color: var(--text-muted);">${escapeHtml(primary_role)} / ${escapeHtml(secondary_role)}</div>
         </div>
         <div style="text-align: right;">
           <span class="grade-badge ${gradeClass(p.grade)}">${escapeHtml(p.grade)}</span>
@@ -312,7 +290,7 @@ export function renderSquadBuilderTab(data) {
       </div>
     `;
   } else {
-    const ranked = evaluateOptimalLineups(chosenPlayers, data);
+    const ranked = evaluateOptimalLineups(chosenPlayers, data, roleIndex);
     const best = ranked[0];
     const runnersUp = ranked.slice(1, 4);
 
