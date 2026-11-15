@@ -1239,6 +1239,16 @@ class TestAppImprovements(unittest.TestCase):
                 self.stats_mgr.get_match_recap_messages("NA1_HIST_2"),
                 [{"channel_id": 55502, "message_id": 77702}],
             )
+
+            # Re-running with only_if_changed=True when embeds are already up to date skips editing
+            msg1.embeds = [msg1.edited_embeds[-1]]
+            msg2.embeds = [msg2.edited_embeds[-1]]
+            summary2 = asyncio.run(
+                bot_mod.update_historical_match_recaps(FakeGuild(), reconciled, only_if_changed=True)
+            )
+            self.assertEqual(summary2["recaps_edited"], 0)
+            self.assertEqual(len(msg1.edited_embeds), 1)
+            self.assertEqual(len(msg2.edited_embeds), 1)
         finally:
             bot_mod.stats_mgr = orig_mgr
 

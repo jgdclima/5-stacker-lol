@@ -1533,25 +1533,48 @@ def _extract_auto_recap_match_id(message: Any, target_ids: set) -> Optional[str]
     return None
 
 
+def _embeds_match_recap_content(existing: Any, updated: discord.Embed) -> bool:
+    """Returns True if an existing Discord recap embed already matches `updated` content."""
+    if not existing:
+        return False
+    if (getattr(existing, "title", None) or "") != (updated.title or ""):
+        return False
+    if (getattr(existing, "description", None) or "") != (updated.description or ""):
+        return False
+    cur_fields = [(f.name, f.value) for f in (getattr(existing, "fields", None) or [])]
+    exp_fields = [(f.name, f.value) for f in updated.fields]
+    return cur_fields == exp_fields
+
+
 async def _edit_recap_message(
     channel_or_thread: Any,
     message: Any,
     record: dict,
-) -> bool:
-    """Edits a historical Match Recap embed in-place, temporarily unarchiving threads if needed."""
+    only_if_changed: bool = False,
+) -> Tuple[bool, bool]:
+    """
+    Edits a historical Match Recap embed in-place, temporarily unarchiving threads if needed.
+    Returns (ok_or_matched, actually_edited).
+    """
+    new_embed = build_match_recap_embed(record)
+    if only_if_changed:
+        existing_embeds = getattr(message, "embeds", None) or []
+        if existing_embeds and _embeds_match_recap_content(existing_embeds[0], new_embed):
+            return True, False
+
     was_archived = bool(getattr(channel_or_thread, "archived", False)) and hasattr(channel_or_thread, "edit")
     if was_archived:
         try:
             await channel_or_thread.edit(archived=False)
         except Exception as e:
             print(f"[RecapUpdate] Could not unarchive thread {channel_or_thread.id}: {e}")
-            return False
+            return False, False
     try:
-        await message.edit(embed=build_match_recap_embed(record))
-        return True
+        await message.edit(embed=new_embed)
+        return True, True
     except Exception as e:
         print(f"[RecapUpdate] Could not edit recap message {getattr(message, 'id', '?')}: {e}")
-        return False
+        return False, False
     finally:
         if was_archived:
             try:
@@ -1563,6 +1586,7 @@ async def _edit_recap_message(
 async def update_historical_match_recaps(
     guild: Optional[discord.Guild],
     match_ids: List[str],
+    only_if_changed: bool = False,
 ) -> Dict[str, int]:
     """
     Updates previously posted Discord Match Recap embeds (and linked Session Cards)
@@ -1611,10 +1635,12 @@ async def update_historical_match_recaps(
             except Exception as e:
                 print(f"[RecapUpdate] Could not fetch tracked message {msg_id} in {cid}: {e}")
                 continue
-            if await _edit_recap_message(target_ch, msg, rec):
+            ok, was_edited = await _edit_recap_message(target_ch, msg, rec, only_if_changed=only_if_changed)
+            if ok:
                 edited_message_keys.add((cid, msg_id))
                 matched_ids_with_edits.add(mid)
-                summary["recaps_edited"] += 1
+                if was_edited:
+                    summary["recaps_edited"] += 1
 
     # 2. Fallback discovery for historical embeds posted before message-ID tracking
     remaining_ids = set(records_by_id.keys()) - matched_ids_with_edits
@@ -1640,6 +1666,8 @@ async def update_historical_match_recaps(
                 _add_container(th)
 
         if coord_channel:
+            # Scan #5-stackers right after matching session threads, before unrelated threads
+            _add_container(coord_channel)
             for th in getattr(coord_channel, "threads", []) or []:
                 _add_container(th)
             if hasattr(coord_channel, "archived_threads"):
@@ -1648,7 +1676,6 @@ async def update_historical_match_recaps(
                         _add_container(th)
                 except Exception as e:
                     print(f"[RecapUpdate] Could not list archived threads: {e}")
-            _add_container(coord_channel)
 
         bot_user_id = getattr(getattr(bot, "user", None), "id", None)
         for container in candidate_containers:
@@ -1666,30 +1693,35 @@ async def update_historical_match_recaps(
                     msg_id = getattr(msg, "id", None)
                     if cid and msg_id and (cid, msg_id) in edited_message_keys:
                         continue
-                    if await _edit_recap_message(container, msg, records_by_id[mid]):
+                    ok, was_edited = await _edit_recap_message(
+                        container, msg, records_by_id[mid], only_if_changed=only_if_changed
+                    )
+                    if ok:
                         if cid and msg_id:
                             edited_message_keys.add((cid, msg_id))
                             stats_mgr.record_match_recap_message(mid, cid, msg_id)
-                        summary["recaps_edited"] += 1
+                        if was_edited:
+                            summary["recaps_edited"] += 1
                         remaining_ids.discard(mid)
             except Exception as e:
                 print(f"[RecapUpdate] Error scanning history for container {cid}: {e}")
 
     # 3. Also refresh any Session Cards whose Session Match Log references a reconciled match
-    for sess in stats_mgr.data.get("active_sessions", {}).values():
-        sess_mids = {sm.get("match_id") for sm in sess.get("session_matches", [])}
-        if not (sess_mids & target_ids):
-            continue
-        card_msg = await fetch_session_message(sess, guild)
-        if not card_msg:
-            continue
-        try:
-            is_done = sess.get("status") in ("COMPLETED", "CANCELLED")
-            view = None if is_done else SessionRSVPView(sess["session_id"])
-            await card_msg.edit(embed=build_session_embed(sess, guild), view=view)
-            summary["cards_edited"] += 1
-        except Exception as e:
-            print(f"[RecapUpdate] Error updating session card {sess.get('session_id')}: {e}")
+    if not only_if_changed or summary["recaps_edited"] > 0:
+        for sess in stats_mgr.data.get("active_sessions", {}).values():
+            sess_mids = {sm.get("match_id") for sm in sess.get("session_matches", [])}
+            if not (sess_mids & target_ids):
+                continue
+            card_msg = await fetch_session_message(sess, guild)
+            if not card_msg:
+                continue
+            try:
+                is_done = sess.get("status") in ("COMPLETED", "CANCELLED")
+                view = None if is_done else SessionRSVPView(sess["session_id"])
+                await card_msg.edit(embed=build_session_embed(sess, guild), view=view)
+                summary["cards_edited"] += 1
+            except Exception as e:
+                print(f"[RecapUpdate] Error updating session card {sess.get('session_id')}: {e}")
 
     return summary
 
@@ -1798,7 +1830,34 @@ async def link_riot_cmd(interaction: discord.Interaction, riot_id: str, public: 
 
     recap_update_summary = {"matches": 0, "recaps_edited": 0, "cards_edited": 0}
     if reconciled_match_ids:
-        recap_update_summary = await update_historical_match_recaps(interaction.guild, reconciled_match_ids)
+        recap_update_summary = await update_historical_match_recaps(
+            interaction.guild, reconciled_match_ids, only_if_changed=True
+        )
+    else:
+        # Even if already linked/reconciled earlier, verify recent matches for this player so
+        # any stale Discord recap embeds (e.g. from pre-tracking runs) are brought up to date.
+        user_lower = interaction.user.display_name.strip().lower()
+        recent_player_mids = [
+            m.get("match_id")
+            for m in sorted(
+                stats_mgr.data.get("match_history", []),
+                key=lambda x: x.get("date", ""),
+                reverse=True,
+            )[:25]
+            if m.get("match_id")
+            and (
+                any(p.lower() == user_lower for p in m.get("squad_players", []) if isinstance(p, str))
+                or any(
+                    (pdata.get("player") or "").strip().lower() == user_lower
+                    for pdata in (m.get("lineup") or {}).values()
+                    if isinstance(pdata, dict)
+                )
+            )
+        ]
+        if recent_player_mids:
+            recap_update_summary = await update_historical_match_recaps(
+                interaction.guild, recent_player_mids, only_if_changed=True
+            )
 
     all_accounts = stats_mgr.get_user_riot_accounts(
         discord_id=str(interaction.user.id),
@@ -1813,9 +1872,10 @@ async def link_riot_cmd(interaction: discord.Interaction, riot_id: str, public: 
     ]
     if len(all_riot_ids) > 1:
         msg_lines.append(f"📋 **All Linked Riot IDs ({len(all_riot_ids)})**: {all_linked_str}")
-    if reconciled_match_ids:
+    if reconciled_match_ids or recap_update_summary["recaps_edited"] > 0:
+        matched_count = len(reconciled_match_ids) or recap_update_summary["recaps_edited"]
         msg_lines.append(
-            f"🔄 Retroactively updated **{len(reconciled_match_ids)}** prior squad match(es) & MVPs "
+            f"🔄 Retroactively updated **{matched_count}** prior squad match(es) & MVPs "
             f"(refreshed **{recap_update_summary['recaps_edited']}** Discord recap embed(s))."
         )
     if failed_ids:
@@ -1824,7 +1884,7 @@ async def link_riot_cmd(interaction: discord.Interaction, riot_id: str, public: 
 
     await interaction.followup.send("\n".join(msg_lines), ephemeral=not public)
     await sync_living_synergy_threads(interaction.guild)
-    if reconciled_match_ids:
+    if reconciled_match_ids or recap_update_summary["recaps_edited"] > 0:
         await trigger_match_dashboard_sync()
 
 
