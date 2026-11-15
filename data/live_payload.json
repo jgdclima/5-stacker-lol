@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-15 07:41:39",
+  "generated_at": "2026-11-15 07:46:09",
   "github_repo": "jgdclima/5-stacker-lol",
   "has_live_matches": true,
   "rating_formulas": {
@@ -25867,8 +25867,8 @@
         "id": "",
         "name": "Aurelion Swole",
         "discord_tag": "Aurelion Swole",
-        "primary_role": "Flex",
-        "secondary_role": "Flex",
+        "primary_role": "Support",
+        "secondary_role": "Bot",
         "fav_champs": [],
         "accounts": [
           {
@@ -25966,6 +25966,7 @@
         "champion_pool": [
           {
             "champion": "Taric",
+            "role": "Support",
             "archetype": "enchanter",
             "games": 2,
             "wins": 1,
@@ -25980,6 +25981,7 @@
           },
           {
             "champion": "KogMaw",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -25994,6 +25996,7 @@
           },
           {
             "champion": "Lillia",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 1,
             "wins": 0,
@@ -26012,8 +26015,8 @@
         "id": "",
         "name": "(Ry) Zor raak",
         "discord_tag": "(Ry) Zor raak",
-        "primary_role": "Flex",
-        "secondary_role": "Flex",
+        "primary_role": "Support",
+        "secondary_role": "Top",
         "fav_champs": [],
         "accounts": [
           {
@@ -26232,6 +26235,7 @@
         "champion_pool": [
           {
             "champion": "Seraphine",
+            "role": "Support",
             "archetype": "enchanter",
             "games": 2,
             "wins": 2,
@@ -26246,6 +26250,7 @@
           },
           {
             "champion": "Jhin",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -26260,6 +26265,7 @@
           },
           {
             "champion": "Soraka",
+            "role": "Support",
             "archetype": "enchanter",
             "games": 1,
             "wins": 1,
@@ -26274,6 +26280,7 @@
           },
           {
             "champion": "Alistar",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 1,
@@ -26288,6 +26295,7 @@
           },
           {
             "champion": "Ezreal",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -26302,6 +26310,7 @@
           },
           {
             "champion": "Naafiri",
+            "role": "Jungle",
             "archetype": "assassin",
             "games": 1,
             "wins": 1,
@@ -26316,6 +26325,7 @@
           },
           {
             "champion": "Anivia",
+            "role": "Top",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -26330,6 +26340,7 @@
           },
           {
             "champion": "Renekton",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 1,
@@ -26344,6 +26355,7 @@
           },
           {
             "champion": "Rumble",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 0,
@@ -26358,6 +26370,7 @@
           },
           {
             "champion": "Ornn",
+            "role": "Top",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -26372,6 +26385,7 @@
           },
           {
             "champion": "Nautilus",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 0,
@@ -26390,13 +26404,13 @@
         "id": "",
         "name": "Froatsy",
         "discord_tag": "Froatsy",
-        "primary_role": "Flex",
-        "secondary_role": "Flex",
+        "primary_role": "Mid",
+        "secondary_role": "Bot",
         "fav_champs": [],
         "accounts": [
           {
             "riot_id": "Froatsy#BGS",
-            "linked_at": "2026-11-15T07:41:39.277516"
+            "linked_at": "2026-11-15T07:46:09.552095"
           }
         ],
         "games": 16,
@@ -26671,48 +26685,22 @@
         "champion_pool": [
           {
             "champion": "Sion",
+            "role": "Mid",
             "archetype": "tank",
-            "games": 5,
+            "games": 4,
             "wins": 0,
-            "losses": 5,
+            "losses": 4,
             "win_rate": 0.0,
-            "kda": 1.88,
-            "avg_kills": 6.6,
-            "avg_deaths": 6.6,
-            "avg_assists": 5.8,
-            "avg_rating": 84.8,
+            "kda": 1.92,
+            "avg_kills": 6.5,
+            "avg_deaths": 6.5,
+            "avg_assists": 6.0,
+            "avg_rating": 84.6,
             "primary_role": "Mid"
           },
           {
-            "champion": "Zac",
-            "archetype": "tank",
-            "games": 2,
-            "wins": 2,
-            "losses": 0,
-            "win_rate": 100.0,
-            "kda": 34.0,
-            "avg_kills": 8.5,
-            "avg_deaths": 0.5,
-            "avg_assists": 8.5,
-            "avg_rating": 97.2,
-            "primary_role": "Top"
-          },
-          {
-            "champion": "TahmKench",
-            "archetype": "tank",
-            "games": 2,
-            "wins": 1,
-            "losses": 1,
-            "win_rate": 50.0,
-            "kda": 4.0,
-            "avg_kills": 4.0,
-            "avg_deaths": 2.0,
-            "avg_assists": 4.0,
-            "avg_rating": 69.0,
-            "primary_role": "Top"
-          },
-          {
             "champion": "Draven",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 2,
             "wins": 1,
@@ -26726,7 +26714,23 @@
             "primary_role": "Bot"
           },
           {
+            "champion": "Zac",
+            "role": "Top",
+            "archetype": "tank",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 20.0,
+            "avg_kills": 11.0,
+            "avg_deaths": 1.0,
+            "avg_assists": 9.0,
+            "avg_rating": 98.9,
+            "primary_role": "Top"
+          },
+          {
             "champion": "Jinx",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -26740,7 +26744,23 @@
             "primary_role": "Bot"
           },
           {
+            "champion": "Zac",
+            "role": "Jungle",
+            "archetype": "tank",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 14.0,
+            "avg_kills": 6.0,
+            "avg_deaths": 0.0,
+            "avg_assists": 8.0,
+            "avg_rating": 95.5,
+            "primary_role": "Jungle"
+          },
+          {
             "champion": "Darius",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 0,
@@ -26754,7 +26774,38 @@
             "primary_role": "Top"
           },
           {
+            "champion": "Sion",
+            "role": "Top",
+            "archetype": "tank",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 1.71,
+            "avg_kills": 7.0,
+            "avg_deaths": 7.0,
+            "avg_assists": 5.0,
+            "avg_rating": 85.9,
+            "primary_role": "Top"
+          },
+          {
+            "champion": "TahmKench",
+            "role": "Support",
+            "archetype": "tank",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 15.0,
+            "avg_kills": 7.0,
+            "avg_deaths": 1.0,
+            "avg_assists": 8.0,
+            "avg_rating": 85.7,
+            "primary_role": "Support"
+          },
+          {
             "champion": "Jhin",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 0,
@@ -26769,6 +26820,7 @@
           },
           {
             "champion": "Shaco",
+            "role": "Jungle",
             "archetype": "assassin",
             "games": 1,
             "wins": 0,
@@ -26782,7 +26834,23 @@
             "primary_role": "Jungle"
           },
           {
+            "champion": "TahmKench",
+            "role": "Top",
+            "archetype": "tank",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 0.33,
+            "avg_kills": 1.0,
+            "avg_deaths": 3.0,
+            "avg_assists": 0.0,
+            "avg_rating": 52.3,
+            "primary_role": "Top"
+          },
+          {
             "champion": "Vladimir",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -26801,13 +26869,13 @@
         "id": "",
         "name": "Julian",
         "discord_tag": "Julian",
-        "primary_role": "Flex",
-        "secondary_role": "Flex",
+        "primary_role": "Top",
+        "secondary_role": "Support",
         "fav_champs": [],
         "accounts": [
           {
             "riot_id": "Mycroft Holmes#NA1",
-            "linked_at": "2026-11-15T07:41:39.277467"
+            "linked_at": "2026-11-15T07:46:09.552050"
           }
         ],
         "games": 49,
@@ -27577,34 +27645,52 @@
         "champion_pool": [
           {
             "champion": "Thresh",
+            "role": "Top",
             "archetype": "catcher",
-            "games": 17,
-            "wins": 9,
-            "losses": 8,
-            "win_rate": 52.9,
-            "kda": 2.35,
-            "avg_kills": 3.3,
-            "avg_deaths": 5.4,
-            "avg_assists": 9.4,
-            "avg_rating": 73.1,
+            "games": 12,
+            "wins": 5,
+            "losses": 7,
+            "win_rate": 41.7,
+            "kda": 1.71,
+            "avg_kills": 3.0,
+            "avg_deaths": 5.7,
+            "avg_assists": 6.7,
+            "avg_rating": 69.8,
             "primary_role": "Top"
           },
           {
             "champion": "Leblanc",
+            "role": "Mid",
             "archetype": "assassin",
-            "games": 12,
+            "games": 8,
             "wins": 3,
-            "losses": 9,
-            "win_rate": 25.0,
-            "kda": 2.5,
-            "avg_kills": 10.5,
-            "avg_deaths": 7.5,
-            "avg_assists": 8.2,
-            "avg_rating": 69.6,
+            "losses": 5,
+            "win_rate": 37.5,
+            "kda": 3.28,
+            "avg_kills": 13.2,
+            "avg_deaths": 6.8,
+            "avg_assists": 8.9,
+            "avg_rating": 77.5,
             "primary_role": "Mid"
           },
           {
+            "champion": "Thresh",
+            "role": "Support",
+            "archetype": "catcher",
+            "games": 5,
+            "wins": 4,
+            "losses": 1,
+            "win_rate": 80.0,
+            "kda": 4.17,
+            "avg_kills": 4.0,
+            "avg_deaths": 4.8,
+            "avg_assists": 16.0,
+            "avg_rating": 81.2,
+            "primary_role": "Support"
+          },
+          {
             "champion": "Tristana",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 5,
             "wins": 2,
@@ -27619,6 +27705,7 @@
           },
           {
             "champion": "Leona",
+            "role": "Support",
             "archetype": "catcher",
             "games": 3,
             "wins": 3,
@@ -27632,21 +27719,8 @@
             "primary_role": "Support"
           },
           {
-            "champion": "Lissandra",
-            "archetype": "mage",
-            "games": 3,
-            "wins": 2,
-            "losses": 1,
-            "win_rate": 66.7,
-            "kda": 2.59,
-            "avg_kills": 5.0,
-            "avg_deaths": 7.3,
-            "avg_assists": 14.0,
-            "avg_rating": 74.4,
-            "primary_role": "Mid"
-          },
-          {
             "champion": "JarvanIV",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 3,
             "wins": 1,
@@ -27660,7 +27734,38 @@
             "primary_role": "Jungle"
           },
           {
+            "champion": "Leblanc",
+            "role": "Support",
+            "archetype": "assassin",
+            "games": 3,
+            "wins": 0,
+            "losses": 3,
+            "win_rate": 0.0,
+            "kda": 1.36,
+            "avg_kills": 5.0,
+            "avg_deaths": 8.3,
+            "avg_assists": 6.3,
+            "avg_rating": 54.8,
+            "primary_role": "Support"
+          },
+          {
+            "champion": "Lissandra",
+            "role": "Mid",
+            "archetype": "mage",
+            "games": 2,
+            "wins": 2,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 3.69,
+            "avg_kills": 7.0,
+            "avg_deaths": 6.5,
+            "avg_assists": 17.0,
+            "avg_rating": 82.3,
+            "primary_role": "Mid"
+          },
+          {
             "champion": "Garen",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 1,
@@ -27675,6 +27780,7 @@
           },
           {
             "champion": "Xayah",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -27689,6 +27795,7 @@
           },
           {
             "champion": "Malphite",
+            "role": "Top",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -27703,6 +27810,7 @@
           },
           {
             "champion": "Braum",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 0,
@@ -27717,6 +27825,7 @@
           },
           {
             "champion": "Olaf",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 1,
@@ -27730,7 +27839,23 @@
             "primary_role": "Top"
           },
           {
+            "champion": "Lissandra",
+            "role": "Top",
+            "archetype": "mage",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 1.0,
+            "avg_kills": 1.0,
+            "avg_deaths": 9.0,
+            "avg_assists": 8.0,
+            "avg_rating": 58.6,
+            "primary_role": "Top"
+          },
+          {
             "champion": "Shen",
+            "role": "Top",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -27742,6 +27867,21 @@
             "avg_assists": 5.0,
             "avg_rating": 51.7,
             "primary_role": "Top"
+          },
+          {
+            "champion": "Leblanc",
+            "role": "Top",
+            "archetype": "assassin",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 1.27,
+            "avg_kills": 5.0,
+            "avg_deaths": 11.0,
+            "avg_assists": 9.0,
+            "avg_rating": 51.1,
+            "primary_role": "Top"
           }
         ]
       },
@@ -27749,13 +27889,13 @@
         "id": "",
         "name": "Ryan",
         "discord_tag": "Ryan",
-        "primary_role": "Flex",
-        "secondary_role": "Flex",
+        "primary_role": "Jungle",
+        "secondary_role": "Top",
         "fav_champs": [],
         "accounts": [
           {
             "riot_id": "Cotterly#02020",
-            "linked_at": "2026-11-15T07:41:39.277481"
+            "linked_at": "2026-11-15T07:46:09.552061"
           }
         ],
         "games": 60,
@@ -28687,6 +28827,7 @@
         "champion_pool": [
           {
             "champion": "Sejuani",
+            "role": "Jungle",
             "archetype": "tank",
             "games": 16,
             "wins": 9,
@@ -28701,6 +28842,7 @@
           },
           {
             "champion": "Taliyah",
+            "role": "Jungle",
             "archetype": "mage",
             "games": 15,
             "wins": 7,
@@ -28715,6 +28857,7 @@
           },
           {
             "champion": "MonkeyKing",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 7,
             "wins": 5,
@@ -28729,6 +28872,7 @@
           },
           {
             "champion": "JarvanIV",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 7,
             "wins": 1,
@@ -28743,6 +28887,7 @@
           },
           {
             "champion": "Trundle",
+            "role": "Jungle",
             "archetype": "splitpusher",
             "games": 4,
             "wins": 3,
@@ -28757,6 +28902,7 @@
           },
           {
             "champion": "Shyvana",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 3,
             "wins": 1,
@@ -28771,6 +28917,7 @@
           },
           {
             "champion": "Skarner",
+            "role": "Jungle",
             "archetype": "tank",
             "games": 2,
             "wins": 1,
@@ -28785,6 +28932,7 @@
           },
           {
             "champion": "Vi",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 2,
             "wins": 0,
@@ -28799,6 +28947,7 @@
           },
           {
             "champion": "Diana",
+            "role": "Jungle",
             "archetype": "assassin",
             "games": 1,
             "wins": 0,
@@ -28813,6 +28962,7 @@
           },
           {
             "champion": "Ornn",
+            "role": "Top",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -28827,6 +28977,7 @@
           },
           {
             "champion": "Nocturne",
+            "role": "Jungle",
             "archetype": "assassin",
             "games": 1,
             "wins": 0,
@@ -28841,6 +28992,7 @@
           },
           {
             "champion": "Amumu",
+            "role": "Jungle",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -28859,13 +29011,13 @@
         "id": "",
         "name": "neetarius",
         "discord_tag": "neetarius",
-        "primary_role": "Flex",
-        "secondary_role": "Flex",
+        "primary_role": "Mid",
+        "secondary_role": "Top",
         "fav_champs": [],
         "accounts": [
           {
             "riot_id": "Dominital#NA1",
-            "linked_at": "2026-11-15T07:41:39.277504"
+            "linked_at": "2026-11-15T07:46:09.552084"
           }
         ],
         "games": 35,
@@ -29423,6 +29575,7 @@
         "champion_pool": [
           {
             "champion": "Locke",
+            "role": "Mid",
             "archetype": "assassin",
             "games": 15,
             "wins": 7,
@@ -29437,6 +29590,7 @@
           },
           {
             "champion": "Ekko",
+            "role": "Mid",
             "archetype": "assassin",
             "games": 3,
             "wins": 3,
@@ -29451,6 +29605,7 @@
           },
           {
             "champion": "Lissandra",
+            "role": "Mid",
             "archetype": "mage",
             "games": 3,
             "wins": 3,
@@ -29465,6 +29620,7 @@
           },
           {
             "champion": "Yone",
+            "role": "Mid",
             "archetype": "assassin",
             "games": 3,
             "wins": 1,
@@ -29479,6 +29635,7 @@
           },
           {
             "champion": "Aurora",
+            "role": "Mid",
             "archetype": "assassin",
             "games": 2,
             "wins": 0,
@@ -29493,6 +29650,7 @@
           },
           {
             "champion": "Zaahen",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 1,
             "wins": 1,
@@ -29507,6 +29665,7 @@
           },
           {
             "champion": "Galio",
+            "role": "Mid",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -29521,6 +29680,7 @@
           },
           {
             "champion": "Swain",
+            "role": "Top",
             "archetype": "mage",
             "games": 1,
             "wins": 1,
@@ -29535,6 +29695,7 @@
           },
           {
             "champion": "Sylas",
+            "role": "Mid",
             "archetype": "assassin",
             "games": 1,
             "wins": 1,
@@ -29549,6 +29710,7 @@
           },
           {
             "champion": "Katarina",
+            "role": "Mid",
             "archetype": "assassin",
             "games": 1,
             "wins": 1,
@@ -29563,6 +29725,7 @@
           },
           {
             "champion": "AurelionSol",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -29577,6 +29740,7 @@
           },
           {
             "champion": "Volibear",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 1,
@@ -29591,6 +29755,7 @@
           },
           {
             "champion": "Morgana",
+            "role": "Support",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -29605,6 +29770,7 @@
           },
           {
             "champion": "Mordekaiser",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 0,
@@ -29623,13 +29789,13 @@
         "id": "",
         "name": "Joao/Brazil",
         "discord_tag": "Joao/Brazil",
-        "primary_role": "Flex",
-        "secondary_role": "Flex",
+        "primary_role": "Support",
+        "secondary_role": "Top",
         "fav_champs": [],
         "accounts": [
           {
             "riot_id": "onelima#NA1",
-            "linked_at": "2026-11-15T07:41:39.277431"
+            "linked_at": "2026-11-15T07:46:09.552015"
           }
         ],
         "games": 77,
@@ -30819,6 +30985,7 @@
         "champion_pool": [
           {
             "champion": "Volibear",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 3,
             "wins": 2,
@@ -30833,6 +31000,7 @@
           },
           {
             "champion": "Blitzcrank",
+            "role": "Support",
             "archetype": "catcher",
             "games": 3,
             "wins": 2,
@@ -30846,21 +31014,8 @@
             "primary_role": "Support"
           },
           {
-            "champion": "Renekton",
-            "archetype": "bruiser",
-            "games": 3,
-            "wins": 2,
-            "losses": 1,
-            "win_rate": 66.7,
-            "kda": 1.47,
-            "avg_kills": 4.7,
-            "avg_deaths": 6.3,
-            "avg_assists": 4.7,
-            "avg_rating": 71.3,
-            "primary_role": "Mid"
-          },
-          {
             "champion": "Jax",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 2,
             "wins": 1,
@@ -30875,6 +31030,7 @@
           },
           {
             "champion": "Soraka",
+            "role": "Support",
             "archetype": "enchanter",
             "games": 2,
             "wins": 1,
@@ -30889,6 +31045,7 @@
           },
           {
             "champion": "Braum",
+            "role": "Support",
             "archetype": "catcher",
             "games": 2,
             "wins": 1,
@@ -30903,6 +31060,7 @@
           },
           {
             "champion": "Yorick",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 2,
             "wins": 1,
@@ -30917,6 +31075,7 @@
           },
           {
             "champion": "Ahri",
+            "role": "Mid",
             "archetype": "assassin",
             "games": 2,
             "wins": 1,
@@ -30931,6 +31090,7 @@
           },
           {
             "champion": "Nautilus",
+            "role": "Support",
             "archetype": "catcher",
             "games": 2,
             "wins": 1,
@@ -30945,6 +31105,7 @@
           },
           {
             "champion": "Senna",
+            "role": "Support",
             "archetype": "marksman",
             "games": 2,
             "wins": 1,
@@ -30959,6 +31120,7 @@
           },
           {
             "champion": "XinZhao",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 2,
             "wins": 1,
@@ -30972,21 +31134,8 @@
             "primary_role": "Jungle"
           },
           {
-            "champion": "Smolder",
-            "archetype": "marksman",
-            "games": 2,
-            "wins": 0,
-            "losses": 2,
-            "win_rate": 0.0,
-            "kda": 0.87,
-            "avg_kills": 4.5,
-            "avg_deaths": 7.5,
-            "avg_assists": 2.0,
-            "avg_rating": 66.5,
-            "primary_role": "Mid"
-          },
-          {
             "champion": "Leona",
+            "role": "Support",
             "archetype": "catcher",
             "games": 2,
             "wins": 1,
@@ -31000,7 +31149,23 @@
             "primary_role": "Support"
           },
           {
+            "champion": "Renekton",
+            "role": "Mid",
+            "archetype": "bruiser",
+            "games": 2,
+            "wins": 1,
+            "losses": 1,
+            "win_rate": 50.0,
+            "kda": 1.43,
+            "avg_kills": 3.0,
+            "avg_deaths": 3.5,
+            "avg_assists": 2.0,
+            "avg_rating": 65.7,
+            "primary_role": "Mid"
+          },
+          {
             "champion": "Thresh",
+            "role": "Support",
             "archetype": "catcher",
             "games": 2,
             "wins": 1,
@@ -31014,21 +31179,8 @@
             "primary_role": "Support"
           },
           {
-            "champion": "Locke",
-            "archetype": "assassin",
-            "games": 2,
-            "wins": 1,
-            "losses": 1,
-            "win_rate": 50.0,
-            "kda": 1.54,
-            "avg_kills": 7.5,
-            "avg_deaths": 6.5,
-            "avg_assists": 2.5,
-            "avg_rating": 62.2,
-            "primary_role": "Jungle"
-          },
-          {
             "champion": "Trundle",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 2,
             "wins": 1,
@@ -31042,21 +31194,8 @@
             "primary_role": "Top"
           },
           {
-            "champion": "AurelionSol",
-            "archetype": "mage",
-            "games": 2,
-            "wins": 1,
-            "losses": 1,
-            "win_rate": 50.0,
-            "kda": 1.8,
-            "avg_kills": 3.5,
-            "avg_deaths": 5.0,
-            "avg_assists": 5.5,
-            "avg_rating": 56.8,
-            "primary_role": "Mid"
-          },
-          {
             "champion": "Mordekaiser",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 2,
             "wins": 0,
@@ -31071,6 +31210,7 @@
           },
           {
             "champion": "Urgot",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 1,
@@ -31085,6 +31225,7 @@
           },
           {
             "champion": "Teemo",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 1,
             "wins": 1,
@@ -31099,6 +31240,7 @@
           },
           {
             "champion": "Sett",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 1,
@@ -31113,6 +31255,7 @@
           },
           {
             "champion": "Jhin",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -31127,6 +31270,7 @@
           },
           {
             "champion": "Chogath",
+            "role": "Jungle",
             "archetype": "tank",
             "games": 1,
             "wins": 1,
@@ -31141,6 +31285,7 @@
           },
           {
             "champion": "Poppy",
+            "role": "Support",
             "archetype": "tank",
             "games": 1,
             "wins": 1,
@@ -31155,6 +31300,7 @@
           },
           {
             "champion": "Mel",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 1,
@@ -31168,7 +31314,23 @@
             "primary_role": "Mid"
           },
           {
+            "champion": "AurelionSol",
+            "role": "Mid",
+            "archetype": "mage",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 4.5,
+            "avg_kills": 7.0,
+            "avg_deaths": 4.0,
+            "avg_assists": 11.0,
+            "avg_rating": 88.7,
+            "primary_role": "Mid"
+          },
+          {
             "champion": "Quinn",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 1,
             "wins": 1,
@@ -31183,6 +31345,7 @@
           },
           {
             "champion": "Nami",
+            "role": "Support",
             "archetype": "enchanter",
             "games": 1,
             "wins": 0,
@@ -31197,6 +31360,7 @@
           },
           {
             "champion": "Malphite",
+            "role": "Top",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -31211,6 +31375,7 @@
           },
           {
             "champion": "Alistar",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 1,
@@ -31225,6 +31390,7 @@
           },
           {
             "champion": "Corki",
+            "role": "Top",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -31238,7 +31404,23 @@
             "primary_role": "Top"
           },
           {
+            "champion": "Renekton",
+            "role": "Top",
+            "archetype": "bruiser",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 1.5,
+            "avg_kills": 8.0,
+            "avg_deaths": 12.0,
+            "avg_assists": 10.0,
+            "avg_rating": 82.6,
+            "primary_role": "Top"
+          },
+          {
             "champion": "TahmKench",
+            "role": "Support",
             "archetype": "tank",
             "games": 1,
             "wins": 1,
@@ -31253,6 +31435,7 @@
           },
           {
             "champion": "KSante",
+            "role": "Top",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -31267,6 +31450,7 @@
           },
           {
             "champion": "Ornn",
+            "role": "Top",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -31281,6 +31465,7 @@
           },
           {
             "champion": "Swain",
+            "role": "Support",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -31294,7 +31479,23 @@
             "primary_role": "Support"
           },
           {
+            "champion": "Smolder",
+            "role": "Mid",
+            "archetype": "marksman",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 0.88,
+            "avg_kills": 4.0,
+            "avg_deaths": 8.0,
+            "avg_assists": 3.0,
+            "avg_rating": 72.2,
+            "primary_role": "Mid"
+          },
+          {
             "champion": "Lux",
+            "role": "Support",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -31308,7 +31509,23 @@
             "primary_role": "Support"
           },
           {
+            "champion": "Locke",
+            "role": "Jungle",
+            "archetype": "assassin",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 2.0,
+            "avg_kills": 8.0,
+            "avg_deaths": 6.0,
+            "avg_assists": 4.0,
+            "avg_rating": 71.4,
+            "primary_role": "Jungle"
+          },
+          {
             "champion": "Amumu",
+            "role": "Jungle",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -31323,6 +31540,7 @@
           },
           {
             "champion": "Aurora",
+            "role": "Mid",
             "archetype": "assassin",
             "games": 1,
             "wins": 0,
@@ -31337,6 +31555,7 @@
           },
           {
             "champion": "Syndra",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 1,
@@ -31351,6 +31570,7 @@
           },
           {
             "champion": "Bard",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 0,
@@ -31365,6 +31585,7 @@
           },
           {
             "champion": "Briar",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 1,
@@ -31379,6 +31600,7 @@
           },
           {
             "champion": "Cassiopeia",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -31393,6 +31615,7 @@
           },
           {
             "champion": "Viktor",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -31407,6 +31630,7 @@
           },
           {
             "champion": "Kaisa",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -31421,6 +31645,7 @@
           },
           {
             "champion": "Belveth",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 1,
             "wins": 0,
@@ -31434,7 +31659,23 @@
             "primary_role": "Jungle"
           },
           {
+            "champion": "Smolder",
+            "role": "Bot",
+            "archetype": "marksman",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 0.86,
+            "avg_kills": 5.0,
+            "avg_deaths": 7.0,
+            "avg_assists": 1.0,
+            "avg_rating": 60.8,
+            "primary_role": "Bot"
+          },
+          {
             "champion": "Pantheon",
+            "role": "Support",
             "archetype": "assassin",
             "games": 1,
             "wins": 0,
@@ -31449,6 +31690,7 @@
           },
           {
             "champion": "Nunu",
+            "role": "Jungle",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -31463,6 +31705,7 @@
           },
           {
             "champion": "Camille",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 1,
             "wins": 1,
@@ -31477,6 +31720,7 @@
           },
           {
             "champion": "Caitlyn",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 0,
@@ -31490,7 +31734,23 @@
             "primary_role": "Bot"
           },
           {
+            "champion": "Locke",
+            "role": "Mid",
+            "archetype": "assassin",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 1.14,
+            "avg_kills": 7.0,
+            "avg_deaths": 7.0,
+            "avg_assists": 1.0,
+            "avg_rating": 53.1,
+            "primary_role": "Mid"
+          },
+          {
             "champion": "Shen",
+            "role": "Jungle",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -31505,6 +31765,7 @@
           },
           {
             "champion": "Pyke",
+            "role": "Support",
             "archetype": "assassin",
             "games": 1,
             "wins": 0,
@@ -31519,6 +31780,7 @@
           },
           {
             "champion": "Sona",
+            "role": "Support",
             "archetype": "enchanter",
             "games": 1,
             "wins": 0,
@@ -31533,6 +31795,7 @@
           },
           {
             "champion": "Ryze",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -31547,6 +31810,7 @@
           },
           {
             "champion": "Lulu",
+            "role": "Support",
             "archetype": "enchanter",
             "games": 1,
             "wins": 0,
@@ -31561,6 +31825,7 @@
           },
           {
             "champion": "Kled",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 0,
@@ -31575,6 +31840,7 @@
           },
           {
             "champion": "Neeko",
+            "role": "Support",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -31588,7 +31854,23 @@
             "primary_role": "Support"
           },
           {
+            "champion": "AurelionSol",
+            "role": "Bot",
+            "archetype": "mage",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 0.0,
+            "avg_kills": 0.0,
+            "avg_deaths": 6.0,
+            "avg_assists": 0.0,
+            "avg_rating": 24.8,
+            "primary_role": "Bot"
+          },
+          {
             "champion": "Gnar",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 0,
@@ -31607,13 +31889,13 @@
         "id": "",
         "name": "enkryptos",
         "discord_tag": "enkryptos",
-        "primary_role": "Flex",
-        "secondary_role": "Flex",
+        "primary_role": "Bot",
+        "secondary_role": "Top",
         "fav_champs": [],
         "accounts": [
           {
             "riot_id": "enkryptos#NA1",
-            "linked_at": "2026-11-15T07:41:39.277492"
+            "linked_at": "2026-11-15T07:46:09.552073"
           }
         ],
         "games": 51,
@@ -32413,6 +32695,7 @@
         "champion_pool": [
           {
             "champion": "Kaisa",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 5,
             "wins": 3,
@@ -32427,6 +32710,7 @@
           },
           {
             "champion": "Sylas",
+            "role": "Mid",
             "archetype": "assassin",
             "games": 4,
             "wins": 2,
@@ -32441,6 +32725,7 @@
           },
           {
             "champion": "Thresh",
+            "role": "Support",
             "archetype": "catcher",
             "games": 4,
             "wins": 2,
@@ -32455,6 +32740,7 @@
           },
           {
             "champion": "Warwick",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 4,
             "wins": 2,
@@ -32468,21 +32754,8 @@
             "primary_role": "Jungle"
           },
           {
-            "champion": "Yone",
-            "archetype": "assassin",
-            "games": 4,
-            "wins": 1,
-            "losses": 3,
-            "win_rate": 25.0,
-            "kda": 1.11,
-            "avg_kills": 7.2,
-            "avg_deaths": 9.2,
-            "avg_assists": 3.0,
-            "avg_rating": 61.4,
-            "primary_role": "Top"
-          },
-          {
             "champion": "Ambessa",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 3,
             "wins": 3,
@@ -32496,7 +32769,23 @@
             "primary_role": "Top"
           },
           {
+            "champion": "Yone",
+            "role": "Top",
+            "archetype": "assassin",
+            "games": 3,
+            "wins": 0,
+            "losses": 3,
+            "win_rate": 0.0,
+            "kda": 0.56,
+            "avg_kills": 4.3,
+            "avg_deaths": 11.3,
+            "avg_assists": 2.0,
+            "avg_rating": 49.2,
+            "primary_role": "Top"
+          },
+          {
             "champion": "Xayah",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 2,
             "wins": 2,
@@ -32511,6 +32800,7 @@
           },
           {
             "champion": "Ekko",
+            "role": "Jungle",
             "archetype": "assassin",
             "games": 2,
             "wins": 1,
@@ -32525,6 +32815,7 @@
           },
           {
             "champion": "Ashe",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 2,
             "wins": 0,
@@ -32538,7 +32829,23 @@
             "primary_role": "Bot"
           },
           {
+            "champion": "Yone",
+            "role": "Mid",
+            "archetype": "assassin",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 7.33,
+            "avg_kills": 16.0,
+            "avg_deaths": 3.0,
+            "avg_assists": 6.0,
+            "avg_rating": 98.0,
+            "primary_role": "Mid"
+          },
+          {
             "champion": "Malphite",
+            "role": "Jungle",
             "archetype": "tank",
             "games": 1,
             "wins": 1,
@@ -32553,6 +32860,7 @@
           },
           {
             "champion": "Shyvana",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 1,
             "wins": 1,
@@ -32567,6 +32875,7 @@
           },
           {
             "champion": "Galio",
+            "role": "Mid",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -32581,6 +32890,7 @@
           },
           {
             "champion": "Yunara",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -32595,6 +32905,7 @@
           },
           {
             "champion": "Tryndamere",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 1,
             "wins": 0,
@@ -32609,6 +32920,7 @@
           },
           {
             "champion": "Leona",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 1,
@@ -32623,6 +32935,7 @@
           },
           {
             "champion": "Volibear",
+            "role": "Mid",
             "archetype": "bruiser",
             "games": 1,
             "wins": 0,
@@ -32637,6 +32950,7 @@
           },
           {
             "champion": "Sivir",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -32651,6 +32965,7 @@
           },
           {
             "champion": "Illaoi",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 1,
             "wins": 0,
@@ -32665,6 +32980,7 @@
           },
           {
             "champion": "Lux",
+            "role": "Support",
             "archetype": "mage",
             "games": 1,
             "wins": 1,
@@ -32679,6 +32995,7 @@
           },
           {
             "champion": "Braum",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 0,
@@ -32693,6 +33010,7 @@
           },
           {
             "champion": "Poppy",
+            "role": "Top",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -32707,6 +33025,7 @@
           },
           {
             "champion": "Shen",
+            "role": "Top",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -32721,6 +33040,7 @@
           },
           {
             "champion": "Diana",
+            "role": "Jungle",
             "archetype": "assassin",
             "games": 1,
             "wins": 1,
@@ -32735,6 +33055,7 @@
           },
           {
             "champion": "Ahri",
+            "role": "Mid",
             "archetype": "assassin",
             "games": 1,
             "wins": 0,
@@ -32749,6 +33070,7 @@
           },
           {
             "champion": "Darius",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 0,
@@ -32763,6 +33085,7 @@
           },
           {
             "champion": "Lucian",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 0,
@@ -32777,6 +33100,7 @@
           },
           {
             "champion": "Nautilus",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 0,
@@ -32791,6 +33115,7 @@
           },
           {
             "champion": "Ornn",
+            "role": "Top",
             "archetype": "tank",
             "games": 1,
             "wins": 0,
@@ -32805,6 +33130,7 @@
           },
           {
             "champion": "Hecarim",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 1,
             "wins": 0,
@@ -32819,6 +33145,7 @@
           },
           {
             "champion": "Syndra",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -32837,13 +33164,13 @@
         "id": "",
         "name": "T-Rexa",
         "discord_tag": "T-Rexa",
-        "primary_role": "Flex",
-        "secondary_role": "Flex",
+        "primary_role": "Support",
+        "secondary_role": "Fill",
         "fav_champs": [],
         "accounts": [
           {
             "riot_id": "Lexyg33#8183",
-            "linked_at": "2026-11-15T07:41:39.277527"
+            "linked_at": "2026-11-15T07:46:09.552108"
           }
         ],
         "games": 7,
@@ -32979,6 +33306,7 @@
         "champion_pool": [
           {
             "champion": "Nami",
+            "role": "Support",
             "archetype": "enchanter",
             "games": 2,
             "wins": 0,
@@ -32993,6 +33321,7 @@
           },
           {
             "champion": "Soraka",
+            "role": "Support",
             "archetype": "enchanter",
             "games": 1,
             "wins": 1,
@@ -33007,6 +33336,7 @@
           },
           {
             "champion": "Janna",
+            "role": "Support",
             "archetype": "enchanter",
             "games": 1,
             "wins": 1,
@@ -33021,6 +33351,7 @@
           },
           {
             "champion": "Morgana",
+            "role": "Support",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -33035,6 +33366,7 @@
           },
           {
             "champion": "Leona",
+            "role": "Support",
             "archetype": "catcher",
             "games": 1,
             "wins": 1,
@@ -33049,6 +33381,7 @@
           },
           {
             "champion": "Zyra",
+            "role": "Support",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -33067,13 +33400,13 @@
         "id": "",
         "name": "Aditya",
         "discord_tag": "Aditya",
-        "primary_role": "Flex",
-        "secondary_role": "Flex",
+        "primary_role": "Bot",
+        "secondary_role": "Top",
         "fav_champs": [],
         "accounts": [
           {
             "riot_id": "Ace112358#NA1",
-            "linked_at": "2026-11-15T07:41:39.277454"
+            "linked_at": "2026-11-15T07:46:09.552037"
           }
         ],
         "games": 45,
@@ -33782,6 +34115,7 @@
         "champion_pool": [
           {
             "champion": "Caitlyn",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 9,
             "wins": 2,
@@ -33796,6 +34130,7 @@
           },
           {
             "champion": "Yunara",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 5,
             "wins": 2,
@@ -33810,6 +34145,7 @@
           },
           {
             "champion": "Irelia",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 4,
             "wins": 3,
@@ -33824,6 +34160,7 @@
           },
           {
             "champion": "Sivir",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 4,
             "wins": 2,
@@ -33838,6 +34175,7 @@
           },
           {
             "champion": "DrMundo",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 3,
             "wins": 1,
@@ -33852,6 +34190,7 @@
           },
           {
             "champion": "Syndra",
+            "role": "Mid",
             "archetype": "mage",
             "games": 2,
             "wins": 2,
@@ -33866,6 +34205,7 @@
           },
           {
             "champion": "Ashe",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 2,
             "wins": 0,
@@ -33880,6 +34220,7 @@
           },
           {
             "champion": "Lucian",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 2,
             "wins": 1,
@@ -33894,6 +34235,7 @@
           },
           {
             "champion": "Draven",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 2,
             "wins": 1,
@@ -33908,6 +34250,7 @@
           },
           {
             "champion": "Garen",
+            "role": "Top",
             "archetype": "bruiser",
             "games": 1,
             "wins": 1,
@@ -33922,6 +34265,7 @@
           },
           {
             "champion": "Jinx",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -33936,6 +34280,7 @@
           },
           {
             "champion": "MissFortune",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 0,
@@ -33950,6 +34295,7 @@
           },
           {
             "champion": "Fiora",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 1,
             "wins": 0,
@@ -33964,6 +34310,7 @@
           },
           {
             "champion": "Ezreal",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 0,
@@ -33978,6 +34325,7 @@
           },
           {
             "champion": "Smolder",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 1,
@@ -33992,6 +34340,7 @@
           },
           {
             "champion": "Galio",
+            "role": "Mid",
             "archetype": "tank",
             "games": 1,
             "wins": 1,
@@ -34006,6 +34355,7 @@
           },
           {
             "champion": "Kaisa",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 0,
@@ -34020,6 +34370,7 @@
           },
           {
             "champion": "Ryze",
+            "role": "Mid",
             "archetype": "mage",
             "games": 1,
             "wins": 0,
@@ -34034,6 +34385,7 @@
           },
           {
             "champion": "Kalista",
+            "role": "Bot",
             "archetype": "marksman",
             "games": 1,
             "wins": 0,
@@ -34048,6 +34400,7 @@
           },
           {
             "champion": "Jax",
+            "role": "Top",
             "archetype": "splitpusher",
             "games": 1,
             "wins": 0,
@@ -34062,6 +34415,7 @@
           },
           {
             "champion": "Vi",
+            "role": "Jungle",
             "archetype": "bruiser",
             "games": 1,
             "wins": 0,
@@ -34093,7 +34447,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 74.2,
           "coordination_score": 77.4,
-          "favorite_combo": "Draven + Thresh",
+          "favorite_combo": "Sivir + Leona",
           "adc": "Aditya",
           "support": "enkryptos"
         },
@@ -34129,7 +34483,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 62.6,
           "coordination_score": 65.7,
-          "favorite_combo": "Jhin + Soraka",
+          "favorite_combo": "Kaisa + Leona",
           "adc": "Joao/Brazil",
           "support": "T-Rexa"
         },
@@ -34165,7 +34519,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 60.8,
           "coordination_score": 67.2,
-          "favorite_combo": "Lucian + Thresh",
+          "favorite_combo": "Caitlyn + Leblanc",
           "adc": "Aditya",
           "support": "Julian"
         },
@@ -34183,7 +34537,7 @@
           "tag": "2v8 Bot Kingdom",
           "avg_duo_rating": 84.7,
           "coordination_score": 88.1,
-          "favorite_combo": "Jinx + Braum",
+          "favorite_combo": "Draven + Leona",
           "adc": "Froatsy",
           "support": "Joao/Brazil"
         },
@@ -34255,7 +34609,7 @@
           "tag": "2v8 Bot Kingdom",
           "avg_duo_rating": 83.7,
           "coordination_score": 80.8,
-          "favorite_combo": "Yunara + Alistar",
+          "favorite_combo": "Jinx + Soraka",
           "adc": "Aditya",
           "support": "(Ry) Zor raak"
         },
@@ -34453,7 +34807,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 69.0,
           "coordination_score": 76.2,
-          "favorite_combo": "Locke + Sejuani"
+          "favorite_combo": "Locke + Taliyah"
         },
         {
           "pair": "Joao/Brazil (MID) & Ryan (JNG)",
@@ -34469,7 +34823,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 71.9,
           "coordination_score": 75.9,
-          "favorite_combo": "Viktor + Vi"
+          "favorite_combo": "Locke + JarvanIV"
         },
         {
           "pair": "Julian (MID) & Joao/Brazil (JNG)",
@@ -34517,7 +34871,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 60.5,
           "coordination_score": 66.8,
-          "favorite_combo": "Vladimir + Taliyah"
+          "favorite_combo": "Sion + Vi"
         },
         {
           "pair": "neetarius (MID) & enkryptos (JNG)",
@@ -34533,7 +34887,7 @@
           "tag": "Map Terror 2v2",
           "avg_duo_rating": 85.2,
           "coordination_score": 87.9,
-          "favorite_combo": "Lissandra + Malphite"
+          "favorite_combo": "Sylas + Warwick"
         },
         {
           "pair": "Julian (MID) & Froatsy (JNG)",
@@ -34581,7 +34935,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 66.7,
           "coordination_score": 78.4,
-          "favorite_combo": "Lissandra + Locke"
+          "favorite_combo": "Locke + Belveth"
         },
         {
           "pair": "Aditya (MID) & enkryptos (JNG)",
@@ -34711,7 +35065,7 @@
           "tag": "Topside Raidbosses",
           "avg_duo_rating": 78.5,
           "coordination_score": 75.0,
-          "favorite_combo": "Swain + Taliyah"
+          "favorite_combo": "Volibear + MonkeyKing"
         },
         {
           "pair": "Joao/Brazil (TOP) & Ryan (JNG)",
@@ -34743,7 +35097,7 @@
           "tag": "High-Impact Duo",
           "avg_duo_rating": 74.2,
           "coordination_score": 73.7,
-          "favorite_combo": "Fiora + JarvanIV"
+          "favorite_combo": "Irelia + Sejuani"
         },
         {
           "pair": "(Ry) Zor raak (TOP) & Ryan (JNG)",
@@ -34759,7 +35113,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 66.2,
           "coordination_score": 60.7,
-          "favorite_combo": "Renekton + Taliyah"
+          "favorite_combo": "Ornn + Taliyah"
         },
         {
           "pair": "Julian (TOP) & Ryan (JNG)",
@@ -34791,7 +35145,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 61.4,
           "coordination_score": 79.3,
-          "favorite_combo": "Renekton + Ekko"
+          "favorite_combo": "KSante + Ekko"
         },
         {
           "pair": "Froatsy (TOP) & Ryan (JNG)",
@@ -34823,7 +35177,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 52.9,
           "coordination_score": 66.5,
-          "favorite_combo": "Yone + Amumu"
+          "favorite_combo": "Ambessa + XinZhao"
         },
         {
           "pair": "enkryptos (TOP) & Ryan (JNG)",
@@ -34839,7 +35193,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 60.2,
           "coordination_score": 70.7,
-          "favorite_combo": "Darius + Trundle"
+          "favorite_combo": "Shen + Taliyah"
         },
         {
           "pair": "enkryptos (TOP) & Froatsy (JNG)",
@@ -35049,7 +35403,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 71.9,
           "coordination_score": 76.9,
-          "favorite_combo": "Thresh + MonkeyKing"
+          "favorite_combo": "Braum + Diana"
         },
         {
           "pair": "Julian (SUP) & Ryan (JNG)",
@@ -35081,7 +35435,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 68.0,
           "coordination_score": 78.5,
-          "favorite_combo": "Blitzcrank + MonkeyKing"
+          "favorite_combo": "Leona + Taliyah"
         },
         {
           "pair": "T-Rexa (SUP) & enkryptos (JNG)",
@@ -35097,7 +35451,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 63.1,
           "coordination_score": 75.3,
-          "favorite_combo": "Soraka + Warwick"
+          "favorite_combo": "Leona + Warwick"
         },
         {
           "pair": "Julian (SUP) & Joao/Brazil (JNG)",
@@ -35113,7 +35467,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 63.8,
           "coordination_score": 79.1,
-          "favorite_combo": "Leblanc + Mordekaiser"
+          "favorite_combo": "Thresh + XinZhao"
         },
         {
           "pair": "(Ry) Zor raak (SUP) & Froatsy (JNG)",
@@ -35295,94 +35649,8 @@
     },
     "champions": [
       {
-        "champion": "Thresh",
-        "archetype": "catcher",
-        "picks": 24,
-        "wins": 12,
-        "losses": 12,
-        "win_rate": 50.0,
-        "kda": 2.41,
-        "avg_kills": 3.1,
-        "avg_deaths": 5.8,
-        "avg_assists": 10.8,
-        "dpm": 474.0,
-        "cspm": 3.8,
-        "vspm": 1.32,
-        "avg_rating": 72.2,
-        "grade": "A",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 12,
-          "Top": 12
-        },
-        "top_pilot": "Julian",
-        "pilots": {
-          "enkryptos": 4,
-          "Julian": 17,
-          "Joao/Brazil": 2,
-          "MonkerzBonkerz#NA1": 1
-        }
-      },
-      {
-        "champion": "Locke",
-        "archetype": "assassin",
-        "picks": 18,
-        "wins": 8,
-        "losses": 10,
-        "win_rate": 44.4,
-        "kda": 2.03,
-        "avg_kills": 8.7,
-        "avg_deaths": 6.4,
-        "avg_assists": 4.3,
-        "dpm": 694.0,
-        "cspm": 5.7,
-        "vspm": 0.7,
-        "avg_rating": 63.8,
-        "grade": "B",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 17,
-          "Jungle": 1
-        },
-        "top_pilot": "neetarius",
-        "pilots": {
-          "neetarius": 15,
-          "Joao/Brazil": 2,
-          "DeumVelle#7405": 1
-        }
-      },
-      {
-        "champion": "JarvanIV",
-        "archetype": "bruiser",
-        "picks": 17,
-        "wins": 8,
-        "losses": 9,
-        "win_rate": 47.1,
-        "kda": 3.96,
-        "avg_kills": 5.1,
-        "avg_deaths": 4.6,
-        "avg_assists": 13.1,
-        "dpm": 599.0,
-        "cspm": 6.1,
-        "vspm": 0.78,
-        "avg_rating": 73.5,
-        "grade": "A+",
-        "primary_role": "Jungle",
-        "roles": {
-          "Jungle": 17
-        },
-        "top_pilot": "Ryan",
-        "pilots": {
-          "bongman#6969": 4,
-          "Julian": 3,
-          "Ryan": 7,
-          "encircle#GGS": 1,
-          "Sacxhache#6934": 1,
-          "Flipping Dragon#5229": 1
-        }
-      },
-      {
         "champion": "Sejuani",
+        "role": "Jungle",
         "archetype": "tank",
         "picks": 16,
         "wins": 9,
@@ -35407,241 +35675,224 @@
         }
       },
       {
-        "champion": "Taliyah",
-        "archetype": "mage",
+        "champion": "Locke",
+        "role": "Mid",
+        "archetype": "assassin",
         "picks": 16,
         "wins": 7,
         "losses": 9,
         "win_rate": 43.8,
-        "kda": 3.04,
-        "avg_kills": 6.2,
-        "avg_deaths": 4.7,
+        "kda": 2.09,
+        "avg_kills": 8.9,
+        "avg_deaths": 6.4,
+        "avg_assists": 4.4,
+        "dpm": 720.0,
+        "cspm": 5.7,
+        "vspm": 0.71,
+        "avg_rating": 64.2,
+        "grade": "B",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 16
+        },
+        "top_pilot": "neetarius",
+        "pilots": {
+          "neetarius": 15,
+          "Joao/Brazil": 1
+        }
+      },
+      {
+        "champion": "Taliyah",
+        "role": "Jungle",
+        "archetype": "mage",
+        "picks": 15,
+        "wins": 7,
+        "losses": 8,
+        "win_rate": 46.7,
+        "kda": 3.09,
+        "avg_kills": 5.9,
+        "avg_deaths": 4.5,
         "avg_assists": 8.1,
-        "dpm": 795.0,
-        "cspm": 6.5,
-        "vspm": 0.78,
-        "avg_rating": 66.1,
-        "grade": "A",
+        "dpm": 765.0,
+        "cspm": 6.4,
+        "vspm": 0.81,
+        "avg_rating": 64.7,
+        "grade": "B",
         "primary_role": "Jungle",
         "roles": {
-          "Mid": 1,
           "Jungle": 15
         },
         "top_pilot": "Ryan",
         "pilots": {
-          "N0K0H#NA1": 1,
           "Ryan": 15
         }
       },
       {
+        "champion": "Thresh",
+        "role": "Top",
+        "archetype": "catcher",
+        "picks": 12,
+        "wins": 5,
+        "losses": 7,
+        "win_rate": 41.7,
+        "kda": 1.71,
+        "avg_kills": 3.0,
+        "avg_deaths": 5.7,
+        "avg_assists": 6.7,
+        "dpm": 564.0,
+        "cspm": 6.5,
+        "vspm": 0.61,
+        "avg_rating": 69.8,
+        "grade": "A",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 12
+        },
+        "top_pilot": "Julian",
+        "pilots": {
+          "Julian": 12
+        }
+      },
+      {
+        "champion": "Thresh",
+        "role": "Support",
+        "archetype": "catcher",
+        "picks": 11,
+        "wins": 7,
+        "losses": 4,
+        "win_rate": 63.6,
+        "kda": 3.32,
+        "avg_kills": 3.4,
+        "avg_deaths": 5.4,
+        "avg_assists": 14.5,
+        "dpm": 374.0,
+        "cspm": 1.0,
+        "vspm": 1.98,
+        "avg_rating": 75.2,
+        "grade": "A+",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 11
+        },
+        "top_pilot": "Julian",
+        "pilots": {
+          "enkryptos": 4,
+          "Joao/Brazil": 2,
+          "Julian": 5
+        }
+      },
+      {
+        "champion": "JarvanIV",
+        "role": "Jungle",
+        "archetype": "bruiser",
+        "picks": 10,
+        "wins": 2,
+        "losses": 8,
+        "win_rate": 20.0,
+        "kda": 3.02,
+        "avg_kills": 3.9,
+        "avg_deaths": 5.1,
+        "avg_assists": 11.5,
+        "dpm": 519.0,
+        "cspm": 5.3,
+        "vspm": 0.77,
+        "avg_rating": 64.4,
+        "grade": "B",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 10
+        },
+        "top_pilot": "Ryan",
+        "pilots": {
+          "Julian": 3,
+          "Ryan": 7
+        }
+      },
+      {
         "champion": "Caitlyn",
+        "role": "Bot",
         "archetype": "marksman",
-        "picks": 16,
-        "wins": 6,
-        "losses": 10,
-        "win_rate": 37.5,
-        "kda": 1.68,
-        "avg_kills": 5.2,
-        "avg_deaths": 6.6,
-        "avg_assists": 5.9,
-        "dpm": 746.0,
-        "cspm": 7.2,
-        "vspm": 0.55,
-        "avg_rating": 62.2,
+        "picks": 10,
+        "wins": 2,
+        "losses": 8,
+        "win_rate": 20.0,
+        "kda": 1.43,
+        "avg_kills": 5.3,
+        "avg_deaths": 6.5,
+        "avg_assists": 4.0,
+        "dpm": 601.0,
+        "cspm": 6.8,
+        "vspm": 0.43,
+        "avg_rating": 56.7,
         "grade": "B",
         "primary_role": "Bot",
         "roles": {
-          "Bot": 16
+          "Bot": 10
         },
         "top_pilot": "Aditya",
         "pilots": {
-          "cream#onpie": 1,
-          "LemonLulu#NA1": 1,
           "Aditya": 9,
-          "Joao/Brazil": 1,
-          "Améthyśt#09873": 1,
-          "Talazhar#2319": 1,
-          "AveChristusRex33#33AD": 1,
-          "Aunt Ben#NA1": 1
+          "Joao/Brazil": 1
         }
       },
       {
         "champion": "Leblanc",
+        "role": "Mid",
         "archetype": "assassin",
-        "picks": 13,
-        "wins": 4,
-        "losses": 9,
-        "win_rate": 30.8,
-        "kda": 2.55,
-        "avg_kills": 10.2,
-        "avg_deaths": 7.1,
-        "avg_assists": 7.9,
-        "dpm": 839.0,
-        "cspm": 4.0,
-        "vspm": 1.17,
-        "avg_rating": 70.5,
-        "grade": "A",
+        "picks": 8,
+        "wins": 3,
+        "losses": 5,
+        "win_rate": 37.5,
+        "kda": 3.28,
+        "avg_kills": 13.2,
+        "avg_deaths": 6.8,
+        "avg_assists": 8.9,
+        "dpm": 960.0,
+        "cspm": 4.6,
+        "vspm": 0.85,
+        "avg_rating": 77.5,
+        "grade": "A+",
         "primary_role": "Mid",
         "roles": {
-          "Mid": 9,
-          "Top": 1,
-          "Support": 3
+          "Mid": 8
         },
         "top_pilot": "Julian",
         "pilots": {
-          "Julian": 12,
-          "dragondude524#NA1": 1
-        }
-      },
-      {
-        "champion": "Lux",
-        "archetype": "mage",
-        "picks": 9,
-        "wins": 4,
-        "losses": 5,
-        "win_rate": 44.4,
-        "kda": 2.22,
-        "avg_kills": 4.1,
-        "avg_deaths": 7.6,
-        "avg_assists": 12.7,
-        "dpm": 662.0,
-        "cspm": 1.8,
-        "vspm": 2.42,
-        "avg_rating": 69.0,
-        "grade": "A",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 9
-        },
-        "top_pilot": "enkryptos",
-        "pilots": {
-          "enkryptos": 1,
-          "Mr Legiit#NA1": 1,
-          "LilacGhost#6453": 1,
-          "Joao/Brazil": 1,
-          "DrBragLion#NA1": 1,
-          "kolindubs#NA1": 1,
-          "BearyJerry#NA1": 1,
-          "anpanto#owo": 1,
-          "StdGenghisKhan#NA1": 1
+          "Julian": 8
         }
       },
       {
         "champion": "Leona",
+        "role": "Support",
         "archetype": "catcher",
-        "picks": 8,
+        "picks": 7,
         "wins": 6,
-        "losses": 2,
-        "win_rate": 75.0,
-        "kda": 3.36,
-        "avg_kills": 2.5,
-        "avg_deaths": 4.1,
-        "avg_assists": 11.4,
-        "dpm": 348.0,
+        "losses": 1,
+        "win_rate": 85.7,
+        "kda": 3.64,
+        "avg_kills": 2.7,
+        "avg_deaths": 4.0,
+        "avg_assists": 11.9,
+        "dpm": 369.0,
         "cspm": 1.1,
-        "vspm": 1.84,
-        "avg_rating": 74.2,
+        "vspm": 1.71,
+        "avg_rating": 74.0,
         "grade": "A+",
         "primary_role": "Support",
         "roles": {
-          "Support": 8
+          "Support": 7
         },
         "top_pilot": "Julian",
         "pilots": {
           "Julian": 3,
-          "Saphrubem#NA1": 1,
           "T-Rexa": 1,
           "Joao/Brazil": 2,
           "enkryptos": 1
         }
       },
       {
-        "champion": "Kaisa",
-        "archetype": "marksman",
-        "picks": 8,
-        "wins": 4,
-        "losses": 4,
-        "win_rate": 50.0,
-        "kda": 2.16,
-        "avg_kills": 7.2,
-        "avg_deaths": 6.2,
-        "avg_assists": 6.2,
-        "dpm": 716.0,
-        "cspm": 7.1,
-        "vspm": 0.52,
-        "avg_rating": 62.0,
-        "grade": "B",
-        "primary_role": "Bot",
-        "roles": {
-          "Bot": 8
-        },
-        "top_pilot": "enkryptos",
-        "pilots": {
-          "enkryptos": 5,
-          "Joao/Brazil": 1,
-          "JinJangJohn#NA1": 1,
-          "Aditya": 1
-        }
-      },
-      {
-        "champion": "Yunara",
-        "archetype": "marksman",
-        "picks": 8,
-        "wins": 3,
-        "losses": 5,
-        "win_rate": 37.5,
-        "kda": 2.3,
-        "avg_kills": 8.0,
-        "avg_deaths": 7.0,
-        "avg_assists": 8.1,
-        "dpm": 865.0,
-        "cspm": 7.5,
-        "vspm": 0.66,
-        "avg_rating": 65.4,
-        "grade": "A",
-        "primary_role": "Bot",
-        "roles": {
-          "Bot": 8
-        },
-        "top_pilot": "Aditya",
-        "pilots": {
-          "Aditya": 5,
-          "1V9TURBOGAPPER#chall": 1,
-          "Lelouch#Crown": 1,
-          "enkryptos": 1
-        }
-      },
-      {
-        "champion": "Ashe",
-        "archetype": "marksman",
-        "picks": 8,
-        "wins": 2,
-        "losses": 6,
-        "win_rate": 25.0,
-        "kda": 1.75,
-        "avg_kills": 7.8,
-        "avg_deaths": 8.0,
-        "avg_assists": 6.2,
-        "dpm": 870.0,
-        "cspm": 7.0,
-        "vspm": 0.65,
-        "avg_rating": 67.5,
-        "grade": "A",
-        "primary_role": "Bot",
-        "roles": {
-          "Bot": 8
-        },
-        "top_pilot": "enkryptos",
-        "pilots": {
-          "enkryptos": 2,
-          "zzzzzzzzzzzzzzzz#1111": 1,
-          "bongman#6969": 2,
-          "Aditya": 2,
-          "notAndros#4450": 1
-        }
-      },
-      {
         "champion": "MonkeyKing",
+        "role": "Jungle",
         "archetype": "bruiser",
         "picks": 7,
         "wins": 5,
@@ -35666,546 +35917,144 @@
         }
       },
       {
-        "champion": "Jhin",
+        "champion": "Kaisa",
+        "role": "Bot",
         "archetype": "marksman",
         "picks": 7,
         "wins": 4,
         "losses": 3,
         "win_rate": 57.1,
-        "kda": 3.14,
-        "avg_kills": 9.6,
-        "avg_deaths": 6.3,
-        "avg_assists": 10.1,
-        "dpm": 980.0,
-        "cspm": 6.6,
-        "vspm": 0.59,
-        "avg_rating": 75.3,
-        "grade": "A+",
+        "kda": 2.67,
+        "avg_kills": 6.9,
+        "avg_deaths": 4.7,
+        "avg_assists": 5.7,
+        "dpm": 716.0,
+        "cspm": 7.3,
+        "vspm": 0.43,
+        "avg_rating": 64.2,
+        "grade": "B",
         "primary_role": "Bot",
         "roles": {
           "Bot": 7
         },
-        "top_pilot": "balantol53#NA1",
+        "top_pilot": "enkryptos",
         "pilots": {
-          "balantol53#NA1": 1,
-          "nipnops420#NA1": 1,
-          "bongman#6969": 1,
+          "enkryptos": 5,
           "Joao/Brazil": 1,
-          "AlchemyMaster#777": 1,
-          "Froatsy": 1,
-          "(Ry) Zor raak": 1
+          "Aditya": 1
         }
       },
       {
-        "champion": "Sivir",
+        "champion": "Yunara",
+        "role": "Bot",
         "archetype": "marksman",
-        "picks": 7,
+        "picks": 6,
         "wins": 3,
-        "losses": 4,
-        "win_rate": 42.9,
-        "kda": 1.81,
-        "avg_kills": 4.0,
-        "avg_deaths": 6.0,
-        "avg_assists": 6.9,
-        "dpm": 730.0,
+        "losses": 3,
+        "win_rate": 50.0,
+        "kda": 2.79,
+        "avg_kills": 9.8,
+        "avg_deaths": 7.0,
+        "avg_assists": 9.7,
+        "dpm": 994.0,
         "cspm": 7.5,
-        "vspm": 0.54,
-        "avg_rating": 64.7,
-        "grade": "B",
-        "primary_role": "Bot",
-        "roles": {
-          "Bot": 7
-        },
-        "top_pilot": "Aditya",
-        "pilots": {
-          "enkryptos": 1,
-          "Zeno#Vert": 1,
-          "Aditya": 4,
-          "HoffieK#NA1": 1
-        }
-      },
-      {
-        "champion": "Yone",
-        "archetype": "assassin",
-        "picks": 7,
-        "wins": 2,
-        "losses": 5,
-        "win_rate": 28.6,
-        "kda": 1.4,
-        "avg_kills": 7.3,
-        "avg_deaths": 7.1,
-        "avg_assists": 2.7,
-        "dpm": 811.0,
-        "cspm": 7.1,
-        "vspm": 0.58,
-        "avg_rating": 64.0,
-        "grade": "B",
-        "primary_role": "Mid",
-        "roles": {
-          "Top": 3,
-          "Mid": 4
-        },
-        "top_pilot": "enkryptos",
-        "pilots": {
-          "enkryptos": 4,
-          "neetarius": 3
-        }
-      },
-      {
-        "champion": "Seraphine",
-        "archetype": "enchanter",
-        "picks": 6,
-        "wins": 5,
-        "losses": 1,
-        "win_rate": 83.3,
-        "kda": 3.83,
-        "avg_kills": 3.3,
-        "avg_deaths": 5.0,
-        "avg_assists": 15.8,
-        "dpm": 533.0,
-        "cspm": 2.0,
-        "vspm": 2.26,
-        "avg_rating": 82.8,
-        "grade": "S",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 5,
-          "Bot": 1
-        },
-        "top_pilot": "(Ry) Zor raak",
-        "pilots": {
-          "bongman#6969": 1,
-          "(Ry) Zor raak": 2,
-          "Mamo Was Here#NA1": 1,
-          "Saavey#NA1": 1,
-          "acemanblue#911": 1
-        }
-      },
-      {
-        "champion": "Ekko",
-        "archetype": "assassin",
-        "picks": 6,
-        "wins": 5,
-        "losses": 1,
-        "win_rate": 83.3,
-        "kda": 2.52,
-        "avg_kills": 6.8,
-        "avg_deaths": 4.2,
-        "avg_assists": 3.7,
-        "dpm": 747.0,
-        "cspm": 6.1,
-        "vspm": 0.94,
-        "avg_rating": 74.9,
-        "grade": "A+",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 4,
-          "Jungle": 2
-        },
-        "top_pilot": "neetarius",
-        "pilots": {
-          "neetarius": 3,
-          "enkryptos": 2,
-          "GiuseppeRabano#NA1": 1
-        }
-      },
-      {
-        "champion": "Lissandra",
-        "archetype": "mage",
-        "picks": 6,
-        "wins": 5,
-        "losses": 1,
-        "win_rate": 83.3,
-        "kda": 2.66,
-        "avg_kills": 5.7,
-        "avg_deaths": 6.3,
-        "avg_assists": 11.2,
-        "dpm": 705.0,
-        "cspm": 6.5,
         "vspm": 0.68,
-        "avg_rating": 74.4,
+        "avg_rating": 75.6,
         "grade": "A+",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 5,
-          "Top": 1
-        },
-        "top_pilot": "neetarius",
-        "pilots": {
-          "neetarius": 3,
-          "Julian": 3
-        }
-      },
-      {
-        "champion": "Trundle",
-        "archetype": "splitpusher",
-        "picks": 6,
-        "wins": 4,
-        "losses": 2,
-        "win_rate": 66.7,
-        "kda": 3.46,
-        "avg_kills": 6.3,
-        "avg_deaths": 4.3,
-        "avg_assists": 8.7,
-        "dpm": 733.0,
-        "cspm": 5.6,
-        "vspm": 0.68,
-        "avg_rating": 67.8,
-        "grade": "A",
-        "primary_role": "Jungle",
-        "roles": {
-          "Top": 2,
-          "Jungle": 4
-        },
-        "top_pilot": "Ryan",
-        "pilots": {
-          "Joao/Brazil": 2,
-          "Ryan": 4
-        }
-      },
-      {
-        "champion": "Syndra",
-        "archetype": "mage",
-        "picks": 6,
-        "wins": 4,
-        "losses": 2,
-        "win_rate": 66.7,
-        "kda": 1.69,
-        "avg_kills": 7.3,
-        "avg_deaths": 7.0,
-        "avg_assists": 4.5,
-        "dpm": 712.0,
-        "cspm": 6.3,
-        "vspm": 0.73,
-        "avg_rating": 57.5,
-        "grade": "B",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 6
-        },
-        "top_pilot": "Aditya",
-        "pilots": {
-          "Joao/Brazil": 1,
-          "Aditya": 2,
-          "enkryptos": 1,
-          "Yeets4days#NA1": 1,
-          "Ctrain#Ahri": 1
-        }
-      },
-      {
-        "champion": "Sylas",
-        "archetype": "assassin",
-        "picks": 6,
-        "wins": 3,
-        "losses": 3,
-        "win_rate": 50.0,
-        "kda": 2.66,
-        "avg_kills": 14.7,
-        "avg_deaths": 8.3,
-        "avg_assists": 7.5,
-        "dpm": 1037.0,
-        "cspm": 4.5,
-        "vspm": 0.79,
-        "avg_rating": 78.1,
-        "grade": "A+",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 6
-        },
-        "top_pilot": "enkryptos",
-        "pilots": {
-          "glohmy#NA1": 1,
-          "enkryptos": 4,
-          "neetarius": 1
-        }
-      },
-      {
-        "champion": "Ezreal",
-        "archetype": "marksman",
-        "picks": 6,
-        "wins": 3,
-        "losses": 3,
-        "win_rate": 50.0,
-        "kda": 2.06,
-        "avg_kills": 7.7,
-        "avg_deaths": 8.3,
-        "avg_assists": 9.5,
-        "dpm": 1044.0,
-        "cspm": 6.5,
-        "vspm": 0.53,
-        "avg_rating": 71.6,
-        "grade": "A",
-        "primary_role": "Bot",
-        "roles": {
-          "Bot": 6
-        },
-        "top_pilot": "(Ry) Zor raak",
-        "pilots": {
-          "(Ry) Zor raak": 1,
-          "Aditya": 1,
-          "DAV1D#David": 1,
-          "Xallow#NA1": 1,
-          "Pado#jshe": 1,
-          "Forlorn#911": 1
-        }
-      },
-      {
-        "champion": "Draven",
-        "archetype": "marksman",
-        "picks": 6,
-        "wins": 3,
-        "losses": 3,
-        "win_rate": 50.0,
-        "kda": 1.78,
-        "avg_kills": 6.7,
-        "avg_deaths": 8.5,
-        "avg_assists": 8.5,
-        "dpm": 711.0,
-        "cspm": 6.5,
-        "vspm": 0.52,
-        "avg_rating": 55.4,
-        "grade": "B",
         "primary_role": "Bot",
         "roles": {
           "Bot": 6
         },
         "top_pilot": "Aditya",
         "pilots": {
-          "Aditya": 2,
-          "Froatsy": 2,
-          "Niccolazzy#NICCO": 1,
-          "MP Migtitans#NA1": 1
-        }
-      },
-      {
-        "champion": "Sion",
-        "archetype": "tank",
-        "picks": 6,
-        "wins": 0,
-        "losses": 6,
-        "win_rate": 0.0,
-        "kda": 1.79,
-        "avg_kills": 6.5,
-        "avg_deaths": 7.0,
-        "avg_assists": 6.0,
-        "dpm": 1039.0,
-        "cspm": 8.6,
-        "vspm": 0.65,
-        "avg_rating": 83.9,
-        "grade": "S",
-        "primary_role": "Mid",
-        "roles": {
-          "Top": 2,
-          "Mid": 4
-        },
-        "top_pilot": "Froatsy",
-        "pilots": {
-          "YetAnotherLima#NA1": 1,
-          "Froatsy": 5
-        }
-      },
-      {
-        "champion": "Yasuo",
-        "archetype": "assassin",
-        "picks": 5,
-        "wins": 5,
-        "losses": 0,
-        "win_rate": 100.0,
-        "kda": 2.08,
-        "avg_kills": 10.6,
-        "avg_deaths": 7.8,
-        "avg_assists": 5.6,
-        "dpm": 1025.0,
-        "cspm": 7.1,
-        "vspm": 0.67,
-        "avg_rating": 69.1,
-        "grade": "A",
-        "primary_role": "Mid",
-        "roles": {
-          "Bot": 2,
-          "Mid": 3
-        },
-        "top_pilot": "LudicrousMoose#NA1",
-        "pilots": {
-          "LudicrousMoose#NA1": 1,
-          "DobryMuzrzyn#dude": 1,
-          "Damb#0000": 1,
-          "Diggity Dan#2901": 1,
-          "JayZVan#5796": 1
-        }
-      },
-      {
-        "champion": "Volibear",
-        "archetype": "bruiser",
-        "picks": 5,
-        "wins": 3,
-        "losses": 2,
-        "win_rate": 60.0,
-        "kda": 1.82,
-        "avg_kills": 7.6,
-        "avg_deaths": 6.8,
-        "avg_assists": 4.8,
-        "dpm": 984.0,
-        "cspm": 7.6,
-        "vspm": 0.75,
-        "avg_rating": 79.7,
-        "grade": "A+",
-        "primary_role": "Top",
-        "roles": {
-          "Top": 4,
-          "Mid": 1
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "Joao/Brazil": 3,
-          "enkryptos": 1,
-          "neetarius": 1
-        }
-      },
-      {
-        "champion": "Soraka",
-        "archetype": "enchanter",
-        "picks": 5,
-        "wins": 3,
-        "losses": 2,
-        "win_rate": 60.0,
-        "kda": 3.71,
-        "avg_kills": 1.0,
-        "avg_deaths": 5.6,
-        "avg_assists": 19.8,
-        "dpm": 238.0,
-        "cspm": 0.8,
-        "vspm": 1.94,
-        "avg_rating": 78.0,
-        "grade": "A+",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 5
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "Suav#0115": 1,
-          "T-Rexa": 1,
-          "(Ry) Zor raak": 1,
-          "Joao/Brazil": 2
-        }
-      },
-      {
-        "champion": "Garen",
-        "archetype": "bruiser",
-        "picks": 5,
-        "wins": 3,
-        "losses": 2,
-        "win_rate": 60.0,
-        "kda": 1.93,
-        "avg_kills": 6.0,
-        "avg_deaths": 5.6,
-        "avg_assists": 4.8,
-        "dpm": 706.0,
-        "cspm": 7.4,
-        "vspm": 0.67,
-        "avg_rating": 74.9,
-        "grade": "A+",
-        "primary_role": "Top",
-        "roles": {
-          "Top": 5
-        },
-        "top_pilot": "bongman#6969",
-        "pilots": {
-          "Aditya": 1,
-          "soophitta#6969": 1,
-          "bongman#6969": 2,
-          "Julian": 1
-        }
-      },
-      {
-        "champion": "Renekton",
-        "archetype": "bruiser",
-        "picks": 5,
-        "wins": 3,
-        "losses": 2,
-        "win_rate": 60.0,
-        "kda": 1.45,
-        "avg_kills": 4.8,
-        "avg_deaths": 5.8,
-        "avg_assists": 3.6,
-        "dpm": 809.0,
-        "cspm": 6.9,
-        "vspm": 0.63,
-        "avg_rating": 74.1,
-        "grade": "A+",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 3,
-          "Top": 2
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "YetAnotherLima#NA1": 1,
-          "Joao/Brazil": 3,
-          "(Ry) Zor raak": 1
-        }
-      },
-      {
-        "champion": "Blitzcrank",
-        "archetype": "catcher",
-        "picks": 5,
-        "wins": 3,
-        "losses": 2,
-        "win_rate": 60.0,
-        "kda": 3.31,
-        "avg_kills": 4.2,
-        "avg_deaths": 7.0,
-        "avg_assists": 19.0,
-        "dpm": 406.0,
-        "cspm": 1.8,
-        "vspm": 1.85,
-        "avg_rating": 72.9,
-        "grade": "A",
-        "primary_role": "Support",
-        "roles": {
-          "Bot": 1,
-          "Support": 4
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "WarriorD2#213": 1,
-          "TPengu#NA1": 1,
-          "Joao/Brazil": 3
-        }
-      },
-      {
-        "champion": "Galio",
-        "archetype": "tank",
-        "picks": 5,
-        "wins": 2,
-        "losses": 3,
-        "win_rate": 40.0,
-        "kda": 2.03,
-        "avg_kills": 3.2,
-        "avg_deaths": 6.2,
-        "avg_assists": 9.4,
-        "dpm": 555.0,
-        "cspm": 5.5,
-        "vspm": 0.65,
-        "avg_rating": 69.6,
-        "grade": "A",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 4,
-          "Support": 1
-        },
-        "top_pilot": "bongman#6969",
-        "pilots": {
-          "bongman#6969": 1,
-          "Aditya": 1,
-          "neetarius": 1,
-          "wasdwasdwasdwasd#786": 1,
+          "Aditya": 5,
           "enkryptos": 1
         }
       },
       {
+        "champion": "Lissandra",
+        "role": "Mid",
+        "archetype": "mage",
+        "picks": 5,
+        "wins": 5,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 3.17,
+        "avg_kills": 6.6,
+        "avg_deaths": 5.8,
+        "avg_assists": 11.8,
+        "dpm": 721.0,
+        "cspm": 6.6,
+        "vspm": 0.69,
+        "avg_rating": 77.5,
+        "grade": "A+",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 5
+        },
+        "top_pilot": "neetarius",
+        "pilots": {
+          "neetarius": 3,
+          "Julian": 2
+        }
+      },
+      {
+        "champion": "Sylas",
+        "role": "Mid",
+        "archetype": "assassin",
+        "picks": 5,
+        "wins": 3,
+        "losses": 2,
+        "win_rate": 60.0,
+        "kda": 2.86,
+        "avg_kills": 15.8,
+        "avg_deaths": 8.4,
+        "avg_assists": 8.2,
+        "dpm": 1121.0,
+        "cspm": 4.6,
+        "vspm": 0.75,
+        "avg_rating": 79.7,
+        "grade": "A+",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 5
+        },
+        "top_pilot": "enkryptos",
+        "pilots": {
+          "enkryptos": 4,
+          "neetarius": 1
+        }
+      },
+      {
+        "champion": "Sivir",
+        "role": "Bot",
+        "archetype": "marksman",
+        "picks": 5,
+        "wins": 3,
+        "losses": 2,
+        "win_rate": 60.0,
+        "kda": 2.45,
+        "avg_kills": 5.2,
+        "avg_deaths": 5.8,
+        "avg_assists": 9.0,
+        "dpm": 765.0,
+        "cspm": 7.4,
+        "vspm": 0.5,
+        "avg_rating": 71.5,
+        "grade": "A",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 5
+        },
+        "top_pilot": "Aditya",
+        "pilots": {
+          "enkryptos": 1,
+          "Aditya": 4
+        }
+      },
+      {
         "champion": "Tristana",
+        "role": "Bot",
         "archetype": "marksman",
         "picks": 5,
         "wins": 2,
@@ -36230,64 +36079,8 @@
         }
       },
       {
-        "champion": "Morgana",
-        "archetype": "mage",
-        "picks": 5,
-        "wins": 2,
-        "losses": 3,
-        "win_rate": 40.0,
-        "kda": 3.0,
-        "avg_kills": 1.6,
-        "avg_deaths": 2.8,
-        "avg_assists": 6.8,
-        "dpm": 336.0,
-        "cspm": 1.6,
-        "vspm": 2.0,
-        "avg_rating": 55.9,
-        "grade": "B",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 5
-        },
-        "top_pilot": "nespresso#vrtuo",
-        "pilots": {
-          "nespresso#vrtuo": 1,
-          "T-Rexa": 1,
-          "Drover15#1123": 1,
-          "Yuki#0319": 1,
-          "neetarius": 1
-        }
-      },
-      {
-        "champion": "Braum",
-        "archetype": "catcher",
-        "picks": 5,
-        "wins": 1,
-        "losses": 4,
-        "win_rate": 20.0,
-        "kda": 2.4,
-        "avg_kills": 1.2,
-        "avg_deaths": 8.0,
-        "avg_assists": 18.0,
-        "dpm": 275.0,
-        "cspm": 0.8,
-        "vspm": 2.33,
-        "avg_rating": 73.0,
-        "grade": "A+",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 5
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "Big Tony#777": 1,
-          "Joao/Brazil": 2,
-          "enkryptos": 1,
-          "Julian": 1
-        }
-      },
-      {
         "champion": "Irelia",
+        "role": "Top",
         "archetype": "splitpusher",
         "picks": 4,
         "wins": 3,
@@ -36312,93 +36105,144 @@
         }
       },
       {
-        "champion": "Diana",
-        "archetype": "assassin",
+        "champion": "Soraka",
+        "role": "Support",
+        "archetype": "enchanter",
         "picks": 4,
         "wins": 3,
         "losses": 1,
         "win_rate": 75.0,
-        "kda": 2.04,
-        "avg_kills": 6.2,
-        "avg_deaths": 6.0,
-        "avg_assists": 6.0,
-        "dpm": 588.0,
-        "cspm": 6.0,
-        "vspm": 1.09,
-        "avg_rating": 71.2,
-        "grade": "A",
-        "primary_role": "Jungle",
-        "roles": {
-          "Jungle": 3,
-          "Mid": 1
-        },
-        "top_pilot": "LCT Tommy#Num 1",
-        "pilots": {
-          "LCT Tommy#Num 1": 1,
-          "enkryptos": 1,
-          "Holydefish#EUNE": 1,
-          "Ryan": 1
-        }
-      },
-      {
-        "champion": "Swain",
-        "archetype": "mage",
-        "picks": 4,
-        "wins": 2,
-        "losses": 2,
-        "win_rate": 50.0,
-        "kda": 4.29,
-        "avg_kills": 9.5,
-        "avg_deaths": 4.2,
-        "avg_assists": 8.8,
-        "dpm": 807.0,
-        "cspm": 6.0,
-        "vspm": 0.72,
-        "avg_rating": 81.3,
-        "grade": "S",
-        "primary_role": "Bot",
-        "roles": {
-          "Bot": 2,
-          "Support": 1,
-          "Top": 1
-        },
-        "top_pilot": "bongman#6969",
-        "pilots": {
-          "bongman#6969": 2,
-          "Joao/Brazil": 1,
-          "neetarius": 1
-        }
-      },
-      {
-        "champion": "Alistar",
-        "archetype": "catcher",
-        "picks": 4,
-        "wins": 2,
-        "losses": 2,
-        "win_rate": 50.0,
-        "kda": 2.82,
-        "avg_kills": 1.2,
-        "avg_deaths": 7.0,
-        "avg_assists": 18.5,
-        "dpm": 255.0,
+        "kda": 4.94,
+        "avg_kills": 1.0,
+        "avg_deaths": 4.5,
+        "avg_assists": 21.2,
+        "dpm": 256.0,
         "cspm": 0.9,
-        "vspm": 2.7,
-        "avg_rating": 81.3,
+        "vspm": 2.16,
+        "avg_rating": 83.7,
         "grade": "S",
         "primary_role": "Support",
         "roles": {
           "Support": 4
         },
-        "top_pilot": "(Ry) Zor raak",
+        "top_pilot": "Joao/Brazil",
         "pilots": {
+          "T-Rexa": 1,
           "(Ry) Zor raak": 1,
+          "Joao/Brazil": 2
+        }
+      },
+      {
+        "champion": "Volibear",
+        "role": "Top",
+        "archetype": "bruiser",
+        "picks": 4,
+        "wins": 3,
+        "losses": 1,
+        "win_rate": 75.0,
+        "kda": 2.22,
+        "avg_kills": 7.8,
+        "avg_deaths": 5.8,
+        "avg_assists": 5.0,
+        "dpm": 953.0,
+        "cspm": 7.6,
+        "vspm": 0.72,
+        "avg_rating": 81.1,
+        "grade": "S",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 4
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 3,
+          "neetarius": 1
+        }
+      },
+      {
+        "champion": "Trundle",
+        "role": "Jungle",
+        "archetype": "splitpusher",
+        "picks": 4,
+        "wins": 3,
+        "losses": 1,
+        "win_rate": 75.0,
+        "kda": 4.5,
+        "avg_kills": 7.0,
+        "avg_deaths": 4.0,
+        "avg_assists": 11.0,
+        "dpm": 691.0,
+        "cspm": 5.4,
+        "vspm": 0.76,
+        "avg_rating": 71.0,
+        "grade": "A",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 4
+        },
+        "top_pilot": "Ryan",
+        "pilots": {
+          "Ryan": 4
+        }
+      },
+      {
+        "champion": "Syndra",
+        "role": "Mid",
+        "archetype": "mage",
+        "picks": 4,
+        "wins": 3,
+        "losses": 1,
+        "win_rate": 75.0,
+        "kda": 1.08,
+        "avg_kills": 4.8,
+        "avg_deaths": 9.5,
+        "avg_assists": 5.5,
+        "dpm": 608.0,
+        "cspm": 6.0,
+        "vspm": 0.71,
+        "avg_rating": 51.9,
+        "grade": "C",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 4
+        },
+        "top_pilot": "Aditya",
+        "pilots": {
           "Joao/Brazil": 1,
-          "warriorbaxismeok#2322": 1,
-          "cream#onpie": 1
+          "Aditya": 2,
+          "enkryptos": 1
+        }
+      },
+      {
+        "champion": "Yone",
+        "role": "Mid",
+        "archetype": "assassin",
+        "picks": 4,
+        "wins": 2,
+        "losses": 2,
+        "win_rate": 50.0,
+        "kda": 3.19,
+        "avg_kills": 9.5,
+        "avg_deaths": 4.0,
+        "avg_assists": 3.2,
+        "dpm": 831.0,
+        "cspm": 7.5,
+        "vspm": 0.65,
+        "avg_rating": 75.1,
+        "grade": "A+",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 4
+        },
+        "top_pilot": "neetarius",
+        "pilots": {
+          "neetarius": 3,
+          "enkryptos": 1
         }
       },
       {
         "champion": "Shyvana",
+        "role": "Jungle",
         "archetype": "bruiser",
         "picks": 4,
         "wins": 2,
@@ -36424,34 +36268,8 @@
         }
       },
       {
-        "champion": "Ahri",
-        "archetype": "assassin",
-        "picks": 4,
-        "wins": 2,
-        "losses": 2,
-        "win_rate": 50.0,
-        "kda": 2.94,
-        "avg_kills": 7.0,
-        "avg_deaths": 4.0,
-        "avg_assists": 4.8,
-        "dpm": 726.0,
-        "cspm": 7.7,
-        "vspm": 0.65,
-        "avg_rating": 72.6,
-        "grade": "A",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 4
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "Joao/Brazil": 2,
-          "whale#house": 1,
-          "enkryptos": 1
-        }
-      },
-      {
         "champion": "Warwick",
+        "role": "Jungle",
         "archetype": "bruiser",
         "picks": 4,
         "wins": 2,
@@ -36476,106 +36294,22 @@
         }
       },
       {
-        "champion": "TahmKench",
-        "archetype": "tank",
+        "champion": "Draven",
+        "role": "Bot",
+        "archetype": "marksman",
         "picks": 4,
         "wins": 2,
         "losses": 2,
         "win_rate": 50.0,
-        "kda": 2.83,
-        "avg_kills": 2.2,
-        "avg_deaths": 3.0,
-        "avg_assists": 6.2,
-        "dpm": 517.0,
-        "cspm": 2.1,
-        "vspm": 1.65,
-        "avg_rating": 58.2,
-        "grade": "B",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 3,
-          "Top": 1
-        },
-        "top_pilot": "Froatsy",
-        "pilots": {
-          "Joao/Brazil": 1,
-          "Froatsy": 2,
-          "ChubbyChaser#MMMM": 1
-        }
-      },
-      {
-        "champion": "Smolder",
-        "archetype": "marksman",
-        "picks": 4,
-        "wins": 1,
-        "losses": 3,
-        "win_rate": 25.0,
-        "kda": 1.67,
-        "avg_kills": 4.2,
-        "avg_deaths": 6.8,
-        "avg_assists": 7.0,
-        "dpm": 1017.0,
-        "cspm": 7.0,
-        "vspm": 0.45,
-        "avg_rating": 67.2,
-        "grade": "A",
-        "primary_role": "Bot",
-        "roles": {
-          "Mid": 1,
-          "Bot": 3
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "Joao/Brazil": 2,
-          "Mayday Maymay#NA1": 1,
-          "Aditya": 1
-        }
-      },
-      {
-        "champion": "Shen",
-        "archetype": "tank",
-        "picks": 4,
-        "wins": 1,
-        "losses": 3,
-        "win_rate": 25.0,
-        "kda": 2.44,
-        "avg_kills": 3.2,
-        "avg_deaths": 4.0,
+        "kda": 1.77,
+        "avg_kills": 6.8,
+        "avg_deaths": 7.5,
         "avg_assists": 6.5,
-        "dpm": 376.0,
-        "cspm": 5.7,
-        "vspm": 0.53,
-        "avg_rating": 61.9,
-        "grade": "B",
-        "primary_role": "Top",
-        "roles": {
-          "Top": 3,
-          "Jungle": 1
-        },
-        "top_pilot": "YetAnotherLima#NA1",
-        "pilots": {
-          "YetAnotherLima#NA1": 1,
-          "enkryptos": 1,
-          "Joao/Brazil": 1,
-          "Julian": 1
-        }
-      },
-      {
-        "champion": "Lucian",
-        "archetype": "marksman",
-        "picks": 4,
-        "wins": 1,
-        "losses": 3,
-        "win_rate": 25.0,
-        "kda": 1.5,
-        "avg_kills": 3.5,
-        "avg_deaths": 4.0,
-        "avg_assists": 2.5,
-        "dpm": 575.0,
-        "cspm": 7.0,
-        "vspm": 0.47,
-        "avg_rating": 57.5,
-        "grade": "B",
+        "dpm": 684.0,
+        "cspm": 6.7,
+        "vspm": 0.41,
+        "avg_rating": 52.6,
+        "grade": "C",
         "primary_role": "Bot",
         "roles": {
           "Bot": 4
@@ -36583,12 +36317,40 @@
         "top_pilot": "Aditya",
         "pilots": {
           "Aditya": 2,
-          "ToastySpaceWorm#NA1": 1,
-          "enkryptos": 1
+          "Froatsy": 2
+        }
+      },
+      {
+        "champion": "Braum",
+        "role": "Support",
+        "archetype": "catcher",
+        "picks": 4,
+        "wins": 1,
+        "losses": 3,
+        "win_rate": 25.0,
+        "kda": 2.53,
+        "avg_kills": 1.5,
+        "avg_deaths": 8.0,
+        "avg_assists": 18.8,
+        "dpm": 284.0,
+        "cspm": 0.8,
+        "vspm": 2.23,
+        "avg_rating": 72.0,
+        "grade": "A",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 4
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 2,
+          "enkryptos": 1,
+          "Julian": 1
         }
       },
       {
         "champion": "Nautilus",
+        "role": "Support",
         "archetype": "catcher",
         "picks": 4,
         "wins": 1,
@@ -36615,62 +36377,61 @@
         }
       },
       {
-        "champion": "AurelionSol",
-        "archetype": "mage",
-        "picks": 4,
-        "wins": 1,
-        "losses": 3,
-        "win_rate": 25.0,
-        "kda": 1.72,
-        "avg_kills": 3.2,
-        "avg_deaths": 4.5,
-        "avg_assists": 4.5,
-        "dpm": 889.0,
-        "cspm": 7.2,
-        "vspm": 0.45,
-        "avg_rating": 54.2,
-        "grade": "C",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 3,
-          "Bot": 1
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "neetarius": 1,
-          "Joao/Brazil": 2,
-          "f8jole#6969": 1
-        }
-      },
-      {
-        "champion": "Nami",
-        "archetype": "enchanter",
+        "champion": "Sion",
+        "role": "Mid",
+        "archetype": "tank",
         "picks": 4,
         "wins": 0,
         "losses": 4,
         "win_rate": 0.0,
-        "kda": 2.95,
-        "avg_kills": 0.8,
-        "avg_deaths": 5.5,
-        "avg_assists": 15.5,
-        "dpm": 294.0,
-        "cspm": 0.8,
-        "vspm": 2.12,
-        "avg_rating": 69.9,
-        "grade": "A",
-        "primary_role": "Support",
+        "kda": 1.92,
+        "avg_kills": 6.5,
+        "avg_deaths": 6.5,
+        "avg_assists": 6.0,
+        "dpm": 1094.0,
+        "cspm": 9.1,
+        "vspm": 0.66,
+        "avg_rating": 84.6,
+        "grade": "S",
+        "primary_role": "Mid",
         "roles": {
-          "Support": 4
+          "Mid": 4
         },
-        "top_pilot": "T-Rexa",
+        "top_pilot": "Froatsy",
         "pilots": {
-          "Joao/Brazil": 1,
-          "T-Rexa": 2,
-          "보아 핸콕#777": 1
+          "Froatsy": 4
+        }
+      },
+      {
+        "champion": "Ashe",
+        "role": "Bot",
+        "archetype": "marksman",
+        "picks": 4,
+        "wins": 0,
+        "losses": 4,
+        "win_rate": 0.0,
+        "kda": 1.35,
+        "avg_kills": 6.8,
+        "avg_deaths": 8.5,
+        "avg_assists": 4.8,
+        "dpm": 755.0,
+        "cspm": 7.0,
+        "vspm": 0.62,
+        "avg_rating": 58.2,
+        "grade": "B",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 4
+        },
+        "top_pilot": "enkryptos",
+        "pilots": {
+          "enkryptos": 2,
+          "Aditya": 2
         }
       },
       {
         "champion": "Ornn",
+        "role": "Top",
         "archetype": "tank",
         "picks": 4,
         "wins": 0,
@@ -36698,34 +36459,8 @@
         }
       },
       {
-        "champion": "Vi",
-        "archetype": "bruiser",
-        "picks": 4,
-        "wins": 0,
-        "losses": 4,
-        "win_rate": 0.0,
-        "kda": 1.15,
-        "avg_kills": 3.5,
-        "avg_deaths": 6.8,
-        "avg_assists": 4.2,
-        "dpm": 481.0,
-        "cspm": 5.0,
-        "vspm": 0.63,
-        "avg_rating": 49.0,
-        "grade": "C",
-        "primary_role": "Jungle",
-        "roles": {
-          "Jungle": 4
-        },
-        "top_pilot": "Ryan",
-        "pilots": {
-          "bongman#6969": 1,
-          "Aditya": 1,
-          "Ryan": 2
-        }
-      },
-      {
         "champion": "Xayah",
+        "role": "Bot",
         "archetype": "marksman",
         "picks": 3,
         "wins": 3,
@@ -36751,7 +36486,34 @@
         }
       },
       {
+        "champion": "Ekko",
+        "role": "Mid",
+        "archetype": "assassin",
+        "picks": 3,
+        "wins": 3,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 4.4,
+        "avg_kills": 4.7,
+        "avg_deaths": 1.7,
+        "avg_assists": 2.7,
+        "dpm": 605.0,
+        "cspm": 7.1,
+        "vspm": 0.75,
+        "avg_rating": 77.3,
+        "grade": "A+",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 3
+        },
+        "top_pilot": "neetarius",
+        "pilots": {
+          "neetarius": 3
+        }
+      },
+      {
         "champion": "Ambessa",
+        "role": "Top",
         "archetype": "bruiser",
         "picks": 3,
         "wins": 3,
@@ -36776,117 +36538,90 @@
         }
       },
       {
-        "champion": "Sett",
-        "archetype": "bruiser",
-        "picks": 3,
-        "wins": 2,
-        "losses": 1,
-        "win_rate": 66.7,
-        "kda": 1.85,
-        "avg_kills": 8.0,
-        "avg_deaths": 6.7,
-        "avg_assists": 4.3,
-        "dpm": 1003.0,
-        "cspm": 7.9,
-        "vspm": 0.77,
-        "avg_rating": 88.7,
-        "grade": "S+",
-        "primary_role": "Top",
-        "roles": {
-          "Top": 3
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "Joao/Brazil": 1,
-          "OMGTHEREISNOHOPE#NA1": 1,
-          "Canadian Toast#5767": 1
-        }
-      },
-      {
-        "champion": "MissFortune",
+        "champion": "Jhin",
+        "role": "Bot",
         "archetype": "marksman",
         "picks": 3,
         "wins": 2,
         "losses": 1,
         "win_rate": 66.7,
-        "kda": 3.62,
-        "avg_kills": 16.3,
-        "avg_deaths": 7.0,
-        "avg_assists": 9.0,
-        "dpm": 1090.0,
-        "cspm": 5.7,
+        "kda": 4.56,
+        "avg_kills": 14.3,
+        "avg_deaths": 5.3,
+        "avg_assists": 10.0,
+        "dpm": 1419.0,
+        "cspm": 7.0,
         "vspm": 0.55,
-        "avg_rating": 80.3,
+        "avg_rating": 87.7,
         "grade": "S",
         "primary_role": "Bot",
         "roles": {
           "Bot": 3
         },
-        "top_pilot": "fakekimchie#5384",
+        "top_pilot": "Joao/Brazil",
         "pilots": {
-          "fakekimchie#5384": 1,
-          "The Law#NA2": 1,
-          "Aditya": 1
+          "Joao/Brazil": 1,
+          "Froatsy": 1,
+          "(Ry) Zor raak": 1
         }
       },
       {
-        "champion": "Hwei",
-        "archetype": "mage",
+        "champion": "Blitzcrank",
+        "role": "Support",
+        "archetype": "catcher",
         "picks": 3,
         "wins": 2,
         "losses": 1,
         "win_rate": 66.7,
-        "kda": 1.67,
-        "avg_kills": 5.7,
-        "avg_deaths": 8.0,
-        "avg_assists": 7.7,
-        "dpm": 966.0,
-        "cspm": 6.0,
-        "vspm": 0.49,
-        "avg_rating": 55.2,
-        "grade": "B",
-        "primary_role": "Mid",
+        "kda": 2.86,
+        "avg_kills": 5.3,
+        "avg_deaths": 9.3,
+        "avg_assists": 21.3,
+        "dpm": 444.0,
+        "cspm": 1.1,
+        "vspm": 2.14,
+        "avg_rating": 74.7,
+        "grade": "A+",
+        "primary_role": "Support",
         "roles": {
-          "Bot": 1,
-          "Mid": 2
+          "Support": 3
         },
-        "top_pilot": "LibrarianOfStars#NA1",
+        "top_pilot": "Joao/Brazil",
         "pilots": {
-          "LibrarianOfStars#NA1": 1,
-          "BobaMilk#Milk": 1,
-          "JohnMonkeys#NA1": 1
+          "Joao/Brazil": 3
         }
       },
       {
-        "champion": "Malphite",
+        "champion": "Galio",
+        "role": "Mid",
         "archetype": "tank",
         "picks": 3,
         "wins": 1,
         "losses": 2,
         "win_rate": 33.3,
-        "kda": 4.82,
-        "avg_kills": 8.0,
-        "avg_deaths": 3.7,
-        "avg_assists": 9.7,
-        "dpm": 890.0,
-        "cspm": 6.9,
-        "vspm": 0.76,
-        "avg_rating": 85.8,
-        "grade": "S",
-        "primary_role": "Top",
+        "kda": 2.73,
+        "avg_kills": 4.3,
+        "avg_deaths": 5.0,
+        "avg_assists": 9.3,
+        "dpm": 662.0,
+        "cspm": 6.7,
+        "vspm": 0.7,
+        "avg_rating": 76.9,
+        "grade": "A+",
+        "primary_role": "Mid",
         "roles": {
-          "Jungle": 1,
-          "Top": 2
+          "Mid": 3
         },
-        "top_pilot": "enkryptos",
+        "top_pilot": "Aditya",
         "pilots": {
-          "enkryptos": 1,
-          "Julian": 1,
-          "Joao/Brazil": 1
+          "Aditya": 1,
+          "neetarius": 1,
+          "enkryptos": 1
         }
       },
       {
         "champion": "Jax",
+        "role": "Top",
         "archetype": "splitpusher",
         "picks": 3,
         "wins": 1,
@@ -36913,6 +36648,7 @@
       },
       {
         "champion": "DrMundo",
+        "role": "Top",
         "archetype": "bruiser",
         "picks": 3,
         "wins": 1,
@@ -36937,115 +36673,62 @@
         }
       },
       {
-        "champion": "Yorick",
-        "archetype": "splitpusher",
-        "picks": 3,
-        "wins": 1,
-        "losses": 2,
-        "win_rate": 33.3,
-        "kda": 1.67,
-        "avg_kills": 4.3,
-        "avg_deaths": 4.0,
-        "avg_assists": 2.3,
-        "dpm": 838.0,
-        "cspm": 7.3,
-        "vspm": 0.61,
-        "avg_rating": 71.0,
-        "grade": "A",
-        "primary_role": "Top",
-        "roles": {
-          "Top": 3
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "Joao/Brazil": 2,
-          "captbluejay#1313": 1
-        }
-      },
-      {
-        "champion": "Katarina",
+        "champion": "Ahri",
+        "role": "Mid",
         "archetype": "assassin",
         "picks": 3,
         "wins": 1,
         "losses": 2,
         "win_rate": 33.3,
-        "kda": 2.64,
-        "avg_kills": 12.3,
-        "avg_deaths": 7.3,
-        "avg_assists": 7.0,
-        "dpm": 1246.0,
-        "cspm": 4.7,
-        "vspm": 1.14,
-        "avg_rating": 70.8,
-        "grade": "A",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 2,
-          "Support": 1
-        },
-        "top_pilot": "neetarius",
-        "pilots": {
-          "neetarius": 1,
-          "Red Croc Monk#CROC": 1,
-          "katarina coupe#gawk": 1
-        }
-      },
-      {
-        "champion": "Ryze",
-        "archetype": "mage",
-        "picks": 3,
-        "wins": 1,
-        "losses": 2,
-        "win_rate": 33.3,
-        "kda": 0.86,
-        "avg_kills": 2.3,
+        "kda": 1.93,
+        "avg_kills": 5.7,
         "avg_deaths": 4.7,
-        "avg_assists": 1.7,
-        "dpm": 646.0,
-        "cspm": 7.8,
-        "vspm": 0.62,
-        "avg_rating": 52.0,
-        "grade": "C",
+        "avg_assists": 3.3,
+        "dpm": 627.0,
+        "cspm": 7.1,
+        "vspm": 0.56,
+        "avg_rating": 65.8,
+        "grade": "A",
         "primary_role": "Mid",
         "roles": {
           "Mid": 3
         },
         "top_pilot": "Joao/Brazil",
         "pilots": {
-          "Joao/Brazil": 1,
-          "Aditya": 1,
-          "Astraeuhs#NA1": 1
+          "Joao/Brazil": 2,
+          "enkryptos": 1
         }
       },
       {
-        "champion": "Darius",
-        "archetype": "bruiser",
+        "champion": "Lucian",
+        "role": "Bot",
+        "archetype": "marksman",
         "picks": 3,
-        "wins": 0,
-        "losses": 3,
-        "win_rate": 0.0,
-        "kda": 1.19,
-        "avg_kills": 8.0,
-        "avg_deaths": 9.0,
-        "avg_assists": 2.7,
-        "dpm": 759.0,
-        "cspm": 6.5,
-        "vspm": 0.69,
-        "avg_rating": 69.4,
-        "grade": "A",
-        "primary_role": "Top",
+        "wins": 1,
+        "losses": 2,
+        "win_rate": 33.3,
+        "kda": 1.44,
+        "avg_kills": 2.0,
+        "avg_deaths": 3.0,
+        "avg_assists": 2.3,
+        "dpm": 417.0,
+        "cspm": 7.0,
+        "vspm": 0.32,
+        "avg_rating": 52.9,
+        "grade": "C",
+        "primary_role": "Bot",
         "roles": {
-          "Top": 3
+          "Bot": 3
         },
-        "top_pilot": "enkryptos",
+        "top_pilot": "Aditya",
         "pilots": {
-          "enkryptos": 1,
-          "Froatsy": 1,
-          "RuinKakarot#7455": 1
+          "Aditya": 2,
+          "enkryptos": 1
         }
       },
       {
         "champion": "Aurora",
+        "role": "Mid",
         "archetype": "assassin",
         "picks": 3,
         "wins": 0,
@@ -37071,223 +36754,194 @@
         }
       },
       {
-        "champion": "Pantheon",
+        "champion": "Nami",
+        "role": "Support",
+        "archetype": "enchanter",
+        "picks": 3,
+        "wins": 0,
+        "losses": 3,
+        "win_rate": 0.0,
+        "kda": 3.0,
+        "avg_kills": 1.0,
+        "avg_deaths": 4.3,
+        "avg_assists": 12.0,
+        "dpm": 295.0,
+        "cspm": 0.9,
+        "vspm": 1.97,
+        "avg_rating": 66.0,
+        "grade": "A",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 3
+        },
+        "top_pilot": "T-Rexa",
+        "pilots": {
+          "Joao/Brazil": 1,
+          "T-Rexa": 2
+        }
+      },
+      {
+        "champion": "Leblanc",
+        "role": "Support",
         "archetype": "assassin",
         "picks": 3,
         "wins": 0,
         "losses": 3,
         "win_rate": 0.0,
-        "kda": 1.76,
-        "avg_kills": 10.0,
+        "kda": 1.36,
+        "avg_kills": 5.0,
         "avg_deaths": 8.3,
-        "avg_assists": 4.7,
-        "dpm": 927.0,
-        "cspm": 3.7,
-        "vspm": 1.33,
-        "avg_rating": 66.1,
-        "grade": "A",
+        "avg_assists": 6.3,
+        "dpm": 517.0,
+        "cspm": 1.0,
+        "vspm": 2.56,
+        "avg_rating": 54.8,
+        "grade": "C",
         "primary_role": "Support",
         "roles": {
-          "Support": 2,
-          "Top": 1
+          "Support": 3
         },
-        "top_pilot": "Joao/Brazil",
+        "top_pilot": "Julian",
         "pilots": {
-          "Joao/Brazil": 1,
-          "soophitta#6969": 1,
-          "Miso#Bunny": 1
+          "Julian": 3
         }
       },
       {
-        "champion": "Viktor",
-        "archetype": "mage",
+        "champion": "Yone",
+        "role": "Top",
+        "archetype": "assassin",
         "picks": 3,
         "wins": 0,
         "losses": 3,
         "win_rate": 0.0,
-        "kda": 1.12,
-        "avg_kills": 2.7,
-        "avg_deaths": 5.3,
-        "avg_assists": 3.3,
-        "dpm": 628.0,
-        "cspm": 7.6,
-        "vspm": 0.6,
-        "avg_rating": 63.3,
-        "grade": "B",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 2,
-          "Bot": 1
-        },
-        "top_pilot": "bongman#6969",
-        "pilots": {
-          "bongman#6969": 1,
-          "Joao/Brazil": 1,
-          "MUÐAMUDAMUDAMUDA#NA1": 1
-        }
-      },
-      {
-        "champion": "LeeSin",
-        "archetype": "bruiser",
-        "picks": 3,
-        "wins": 0,
-        "losses": 3,
-        "win_rate": 0.0,
-        "kda": 1.58,
-        "avg_kills": 5.3,
-        "avg_deaths": 6.3,
-        "avg_assists": 4.7,
-        "dpm": 478.0,
-        "cspm": 4.1,
-        "vspm": 1.6,
-        "avg_rating": 59.9,
-        "grade": "B",
-        "primary_role": "Jungle",
-        "roles": {
-          "Jungle": 2,
-          "Support": 1
-        },
-        "top_pilot": "cream#onpie",
-        "pilots": {
-          "cream#onpie": 1,
-          "MorganaOvulating#1333": 1,
-          "the drink#spank": 1
-        }
-      },
-      {
-        "champion": "Fiora",
-        "archetype": "splitpusher",
-        "picks": 3,
-        "wins": 0,
-        "losses": 3,
-        "win_rate": 0.0,
-        "kda": 0.48,
-        "avg_kills": 0.7,
-        "avg_deaths": 7.7,
-        "avg_assists": 3.0,
-        "dpm": 436.0,
-        "cspm": 6.0,
-        "vspm": 0.89,
-        "avg_rating": 47.0,
+        "kda": 0.56,
+        "avg_kills": 4.3,
+        "avg_deaths": 11.3,
+        "avg_assists": 2.0,
+        "dpm": 787.0,
+        "cspm": 6.5,
+        "vspm": 0.48,
+        "avg_rating": 49.2,
         "grade": "C",
         "primary_role": "Top",
         "roles": {
           "Top": 3
         },
-        "top_pilot": "AkshanFatCh0de12#0123",
+        "top_pilot": "enkryptos",
         "pilots": {
-          "AkshanFatCh0de12#0123": 1,
-          "Aditya": 1,
-          "captbluejay#1313": 1
+          "enkryptos": 3
         }
       },
       {
-        "champion": "Mordekaiser",
+        "champion": "Vi",
+        "role": "Jungle",
         "archetype": "bruiser",
         "picks": 3,
         "wins": 0,
         "losses": 3,
         "win_rate": 0.0,
-        "kda": 0.38,
-        "avg_kills": 2.0,
-        "avg_deaths": 11.3,
-        "avg_assists": 2.3,
-        "dpm": 469.0,
-        "cspm": 5.9,
-        "vspm": 0.5,
-        "avg_rating": 46.0,
+        "kda": 1.23,
+        "avg_kills": 4.0,
+        "avg_deaths": 7.3,
+        "avg_assists": 5.0,
+        "dpm": 496.0,
+        "cspm": 4.5,
+        "vspm": 0.7,
+        "avg_rating": 48.0,
         "grade": "C",
         "primary_role": "Jungle",
         "roles": {
-          "Jungle": 2,
-          "Top": 1
+          "Jungle": 3
         },
-        "top_pilot": "Joao/Brazil",
+        "top_pilot": "Ryan",
         "pilots": {
-          "Joao/Brazil": 2,
-          "neetarius": 1
+          "Aditya": 1,
+          "Ryan": 2
         }
       },
       {
-        "champion": "Zac",
-        "archetype": "tank",
+        "champion": "Seraphine",
+        "role": "Support",
+        "archetype": "enchanter",
         "picks": 2,
         "wins": 2,
         "losses": 0,
         "win_rate": 100.0,
-        "kda": 34.0,
-        "avg_kills": 8.5,
-        "avg_deaths": 0.5,
-        "avg_assists": 8.5,
-        "dpm": 997.0,
-        "cspm": 8.5,
-        "vspm": 0.94,
-        "avg_rating": 97.2,
+        "kda": 8.6,
+        "avg_kills": 4.5,
+        "avg_deaths": 2.5,
+        "avg_assists": 17.0,
+        "dpm": 499.0,
+        "cspm": 1.0,
+        "vspm": 2.38,
+        "avg_rating": 93.8,
         "grade": "S+",
-        "primary_role": "Top",
+        "primary_role": "Support",
         "roles": {
-          "Top": 1,
-          "Jungle": 1
+          "Support": 2
         },
-        "top_pilot": "Froatsy",
+        "top_pilot": "(Ry) Zor raak",
         "pilots": {
-          "Froatsy": 2
+          "(Ry) Zor raak": 2
         }
       },
       {
-        "champion": "Zaahen",
-        "archetype": "splitpusher",
+        "champion": "Garen",
+        "role": "Top",
+        "archetype": "bruiser",
         "picks": 2,
         "wins": 2,
         "losses": 0,
         "win_rate": 100.0,
-        "kda": 13.5,
-        "avg_kills": 8.5,
-        "avg_deaths": 1.0,
-        "avg_assists": 5.0,
-        "dpm": 1110.0,
-        "cspm": 6.9,
-        "vspm": 0.69,
-        "avg_rating": 96.8,
+        "kda": 2.33,
+        "avg_kills": 10.0,
+        "avg_deaths": 7.5,
+        "avg_assists": 7.5,
+        "dpm": 932.0,
+        "cspm": 7.5,
+        "vspm": 0.71,
+        "avg_rating": 90.0,
         "grade": "S+",
         "primary_role": "Top",
         "roles": {
           "Top": 2
         },
-        "top_pilot": "neetarius",
+        "top_pilot": "Aditya",
         "pilots": {
-          "neetarius": 1,
-          "ESG IV#420": 1
+          "Aditya": 1,
+          "Julian": 1
         }
       },
       {
-        "champion": "Teemo",
-        "archetype": "splitpusher",
+        "champion": "Alistar",
+        "role": "Support",
+        "archetype": "catcher",
         "picks": 2,
         "wins": 2,
         "losses": 0,
         "win_rate": 100.0,
-        "kda": 2.19,
-        "avg_kills": 11.0,
+        "kda": 2.81,
+        "avg_kills": 1.0,
         "avg_deaths": 8.0,
-        "avg_assists": 6.5,
-        "dpm": 1586.0,
-        "cspm": 7.6,
-        "vspm": 1.02,
-        "avg_rating": 89.6,
-        "grade": "S+",
-        "primary_role": "Top",
+        "avg_assists": 21.5,
+        "dpm": 244.0,
+        "cspm": 0.7,
+        "vspm": 2.79,
+        "avg_rating": 87.2,
+        "grade": "S",
+        "primary_role": "Support",
         "roles": {
-          "Top": 2
+          "Support": 2
         },
-        "top_pilot": "League of Trolls#NA1",
+        "top_pilot": "(Ry) Zor raak",
         "pilots": {
-          "League of Trolls#NA1": 1,
+          "(Ry) Zor raak": 1,
           "Joao/Brazil": 1
         }
       },
       {
         "champion": "Jinx",
+        "role": "Bot",
         "archetype": "marksman",
         "picks": 2,
         "wins": 2,
@@ -37313,86 +36967,62 @@
         }
       },
       {
-        "champion": "Akali",
-        "archetype": "assassin",
+        "champion": "TahmKench",
+        "role": "Support",
+        "archetype": "tank",
         "picks": 2,
         "wins": 2,
         "losses": 0,
         "win_rate": 100.0,
-        "kda": 2.47,
-        "avg_kills": 11.5,
-        "avg_deaths": 7.5,
-        "avg_assists": 7.0,
-        "dpm": 1178.0,
-        "cspm": 4.8,
-        "vspm": 0.67,
-        "avg_rating": 79.0,
-        "grade": "A+",
-        "primary_role": "Top",
+        "kda": 3.67,
+        "avg_kills": 4.0,
+        "avg_deaths": 4.5,
+        "avg_assists": 12.5,
+        "dpm": 512.0,
+        "cspm": 1.1,
+        "vspm": 2.05,
+        "avg_rating": 82.8,
+        "grade": "S",
+        "primary_role": "Support",
         "roles": {
-          "Top": 1,
-          "Mid": 1
+          "Support": 2
         },
-        "top_pilot": "UUUUUUUUU#1239",
+        "top_pilot": "Joao/Brazil",
         "pilots": {
-          "UUUUUUUUU#1239": 1,
-          "JuneTyphon#777": 1
+          "Joao/Brazil": 1,
+          "Froatsy": 1
         }
       },
       {
-        "champion": "Gwen",
-        "archetype": "splitpusher",
+        "champion": "Renekton",
+        "role": "Top",
+        "archetype": "bruiser",
         "picks": 2,
         "wins": 2,
         "losses": 0,
         "win_rate": 100.0,
-        "kda": 2.38,
-        "avg_kills": 7.0,
-        "avg_deaths": 4.0,
-        "avg_assists": 2.5,
-        "dpm": 798.0,
-        "cspm": 6.7,
-        "vspm": 0.68,
-        "avg_rating": 61.8,
-        "grade": "B",
+        "kda": 1.92,
+        "avg_kills": 5.5,
+        "avg_deaths": 6.0,
+        "avg_assists": 6.0,
+        "dpm": 787.0,
+        "cspm": 6.0,
+        "vspm": 0.69,
+        "avg_rating": 78.7,
+        "grade": "A+",
         "primary_role": "Top",
         "roles": {
           "Top": 2
         },
-        "top_pilot": "cream#onpie",
+        "top_pilot": "Joao/Brazil",
         "pilots": {
-          "cream#onpie": 1,
-          "Garden Avenue#NA1": 1
-        }
-      },
-      {
-        "champion": "Chogath",
-        "archetype": "tank",
-        "picks": 2,
-        "wins": 1,
-        "losses": 1,
-        "win_rate": 50.0,
-        "kda": 3.4,
-        "avg_kills": 10.5,
-        "avg_deaths": 7.5,
-        "avg_assists": 15.0,
-        "dpm": 737.0,
-        "cspm": 6.1,
-        "vspm": 0.46,
-        "avg_rating": 88.1,
-        "grade": "S+",
-        "primary_role": "Jungle",
-        "roles": {
-          "Jungle": 2
-        },
-        "top_pilot": "bongman#6969",
-        "pilots": {
-          "bongman#6969": 1,
-          "Joao/Brazil": 1
+          "Joao/Brazil": 1,
+          "(Ry) Zor raak": 1
         }
       },
       {
         "champion": "Taric",
+        "role": "Support",
         "archetype": "enchanter",
         "picks": 2,
         "wins": 1,
@@ -37417,60 +37047,35 @@
         }
       },
       {
-        "champion": "KSante",
-        "archetype": "tank",
+        "champion": "AurelionSol",
+        "role": "Mid",
+        "archetype": "mage",
         "picks": 2,
         "wins": 1,
         "losses": 1,
         "win_rate": 50.0,
-        "kda": 1.4,
-        "avg_kills": 3.5,
-        "avg_deaths": 7.5,
-        "avg_assists": 7.0,
-        "dpm": 698.0,
-        "cspm": 6.1,
-        "vspm": 0.65,
-        "avg_rating": 81.7,
+        "kda": 2.58,
+        "avg_kills": 6.5,
+        "avg_deaths": 6.0,
+        "avg_assists": 9.0,
+        "dpm": 1117.0,
+        "cspm": 7.3,
+        "vspm": 0.5,
+        "avg_rating": 82.5,
         "grade": "S",
-        "primary_role": "Top",
+        "primary_role": "Mid",
         "roles": {
-          "Top": 2
+          "Mid": 2
         },
-        "top_pilot": "cream#onpie",
+        "top_pilot": "neetarius",
         "pilots": {
-          "cream#onpie": 1,
+          "neetarius": 1,
           "Joao/Brazil": 1
         }
       },
       {
-        "champion": "Naafiri",
-        "archetype": "assassin",
-        "picks": 2,
-        "wins": 1,
-        "losses": 1,
-        "win_rate": 50.0,
-        "kda": 3.2,
-        "avg_kills": 10.0,
-        "avg_deaths": 5.0,
-        "avg_assists": 6.0,
-        "dpm": 770.0,
-        "cspm": 6.3,
-        "vspm": 0.79,
-        "avg_rating": 80.8,
-        "grade": "S",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 1,
-          "Jungle": 1
-        },
-        "top_pilot": "00919#NA1",
-        "pilots": {
-          "00919#NA1": 1,
-          "(Ry) Zor raak": 1
-        }
-      },
-      {
         "champion": "Skarner",
+        "role": "Jungle",
         "archetype": "tank",
         "picks": 2,
         "wins": 1,
@@ -37495,87 +37100,87 @@
         }
       },
       {
-        "champion": "Nasus",
+        "champion": "Yorick",
+        "role": "Top",
         "archetype": "splitpusher",
         "picks": 2,
         "wins": 1,
         "losses": 1,
         "win_rate": 50.0,
-        "kda": 2.89,
-        "avg_kills": 8.0,
+        "kda": 2.11,
+        "avg_kills": 6.0,
         "avg_deaths": 4.5,
-        "avg_assists": 5.0,
-        "dpm": 832.0,
-        "cspm": 7.5,
+        "avg_assists": 3.5,
+        "dpm": 880.0,
+        "cspm": 7.9,
         "vspm": 0.63,
-        "avg_rating": 79.5,
+        "avg_rating": 77.2,
         "grade": "A+",
         "primary_role": "Top",
         "roles": {
           "Top": 2
         },
-        "top_pilot": "x35792#NA1",
+        "top_pilot": "Joao/Brazil",
         "pilots": {
-          "x35792#NA1": 1,
-          "Lengthy Anecdote#NA1": 1
+          "Joao/Brazil": 2
         }
       },
       {
-        "champion": "Anivia",
-        "archetype": "mage",
+        "champion": "Ekko",
+        "role": "Jungle",
+        "archetype": "assassin",
         "picks": 2,
         "wins": 1,
         "losses": 1,
         "win_rate": 50.0,
-        "kda": 4.43,
-        "avg_kills": 4.0,
-        "avg_deaths": 3.5,
-        "avg_assists": 11.5,
-        "dpm": 669.0,
-        "cspm": 7.4,
-        "vspm": 1.16,
-        "avg_rating": 79.0,
+        "kda": 1.9,
+        "avg_kills": 12.0,
+        "avg_deaths": 10.0,
+        "avg_assists": 7.0,
+        "dpm": 885.0,
+        "cspm": 5.1,
+        "vspm": 1.18,
+        "avg_rating": 77.0,
         "grade": "A+",
-        "primary_role": "Top",
+        "primary_role": "Jungle",
         "roles": {
-          "Top": 1,
-          "Mid": 1
+          "Jungle": 2
+        },
+        "top_pilot": "enkryptos",
+        "pilots": {
+          "enkryptos": 2
+        }
+      },
+      {
+        "champion": "Ezreal",
+        "role": "Bot",
+        "archetype": "marksman",
+        "picks": 2,
+        "wins": 1,
+        "losses": 1,
+        "win_rate": 50.0,
+        "kda": 2.73,
+        "avg_kills": 7.5,
+        "avg_deaths": 5.5,
+        "avg_assists": 7.5,
+        "dpm": 721.0,
+        "cspm": 7.0,
+        "vspm": 0.45,
+        "avg_rating": 74.2,
+        "grade": "A+",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 2
         },
         "top_pilot": "(Ry) Zor raak",
         "pilots": {
           "(Ry) Zor raak": 1,
-          "Fata1Gl0ly#NA1": 1
-        }
-      },
-      {
-        "champion": "Poppy",
-        "archetype": "tank",
-        "picks": 2,
-        "wins": 1,
-        "losses": 1,
-        "win_rate": 50.0,
-        "kda": 2.38,
-        "avg_kills": 1.5,
-        "avg_deaths": 4.0,
-        "avg_assists": 8.0,
-        "dpm": 582.0,
-        "cspm": 3.1,
-        "vspm": 1.83,
-        "avg_rating": 72.2,
-        "grade": "A",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 1,
-          "Top": 1
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "Joao/Brazil": 1,
-          "enkryptos": 1
+          "Aditya": 1
         }
       },
       {
         "champion": "Senna",
+        "role": "Support",
         "archetype": "marksman",
         "picks": 2,
         "wins": 1,
@@ -37601,6 +37206,7 @@
       },
       {
         "champion": "XinZhao",
+        "role": "Jungle",
         "archetype": "bruiser",
         "picks": 2,
         "wins": 1,
@@ -37625,73 +37231,181 @@
         }
       },
       {
-        "champion": "KogMaw",
-        "archetype": "marksman",
+        "champion": "Lux",
+        "role": "Support",
+        "archetype": "mage",
         "picks": 2,
         "wins": 1,
         "losses": 1,
         "win_rate": 50.0,
-        "kda": 2.82,
-        "avg_kills": 8.0,
-        "avg_deaths": 5.5,
-        "avg_assists": 7.5,
-        "dpm": 1216.0,
-        "cspm": 8.2,
-        "vspm": 0.63,
-        "avg_rating": 69.0,
-        "grade": "A",
-        "primary_role": "Bot",
-        "roles": {
-          "Bot": 1,
-          "Mid": 1
-        },
-        "top_pilot": "Aurelion Swole",
-        "pilots": {
-          "Aurelion Swole": 1,
-          "Romygeli#NA1": 1
-        }
-      },
-      {
-        "champion": "Lulu",
-        "archetype": "enchanter",
-        "picks": 2,
-        "wins": 1,
-        "losses": 1,
-        "win_rate": 50.0,
-        "kda": 3.4,
-        "avg_kills": 0.5,
-        "avg_deaths": 5.0,
-        "avg_assists": 16.5,
-        "dpm": 258.0,
-        "cspm": 0.8,
-        "vspm": 2.86,
-        "avg_rating": 67.7,
+        "kda": 1.25,
+        "avg_kills": 1.0,
+        "avg_deaths": 10.0,
+        "avg_assists": 11.5,
+        "dpm": 627.0,
+        "cspm": 1.8,
+        "vspm": 2.36,
+        "avg_rating": 68.8,
         "grade": "A",
         "primary_role": "Support",
         "roles": {
           "Support": 2
         },
-        "top_pilot": "Twin Turbo#jinx",
+        "top_pilot": "enkryptos",
         "pilots": {
-          "Twin Turbo#jinx": 1,
+          "enkryptos": 1,
           "Joao/Brazil": 1
         }
       },
       {
-        "champion": "Illaoi",
+        "champion": "Diana",
+        "role": "Jungle",
+        "archetype": "assassin",
+        "picks": 2,
+        "wins": 1,
+        "losses": 1,
+        "win_rate": 50.0,
+        "kda": 2.08,
+        "avg_kills": 6.0,
+        "avg_deaths": 6.0,
+        "avg_assists": 6.5,
+        "dpm": 464.0,
+        "cspm": 6.0,
+        "vspm": 1.18,
+        "avg_rating": 67.3,
+        "grade": "A",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 2
+        },
+        "top_pilot": "enkryptos",
+        "pilots": {
+          "enkryptos": 1,
+          "Ryan": 1
+        }
+      },
+      {
+        "champion": "Renekton",
+        "role": "Mid",
+        "archetype": "bruiser",
+        "picks": 2,
+        "wins": 1,
+        "losses": 1,
+        "win_rate": 50.0,
+        "kda": 1.43,
+        "avg_kills": 3.0,
+        "avg_deaths": 3.5,
+        "avg_assists": 2.0,
+        "dpm": 663.0,
+        "cspm": 8.2,
+        "vspm": 0.53,
+        "avg_rating": 65.7,
+        "grade": "A",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 2
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 2
+        }
+      },
+      {
+        "champion": "Trundle",
+        "role": "Top",
         "archetype": "splitpusher",
         "picks": 2,
         "wins": 1,
         "losses": 1,
         "win_rate": 50.0,
-        "kda": 0.92,
+        "kda": 1.8,
+        "avg_kills": 5.0,
+        "avg_deaths": 5.0,
+        "avg_assists": 4.0,
+        "dpm": 830.0,
+        "cspm": 6.0,
+        "vspm": 0.51,
+        "avg_rating": 61.4,
+        "grade": "B",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 2
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 2
+        }
+      },
+      {
+        "champion": "Smolder",
+        "role": "Bot",
+        "archetype": "marksman",
+        "picks": 2,
+        "wins": 1,
+        "losses": 1,
+        "win_rate": 50.0,
+        "kda": 1.67,
         "avg_kills": 3.0,
-        "avg_deaths": 6.0,
-        "avg_assists": 2.5,
-        "dpm": 746.0,
-        "cspm": 7.2,
-        "vspm": 0.74,
-        "avg_rating": 66.4,
+        "avg_deaths": 4.5,
+        "avg_assists": 4.5,
+        "dpm": 663.0,
+        "cspm": 7.0,
+        "vspm": 0.28,
+        "avg_rating": 61.0,
+        "grade": "B",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 2
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1,
+          "Aditya": 1
+        }
+      },
+      {
+        "champion": "Malphite",
+        "role": "Top",
+        "archetype": "tank",
+        "picks": 2,
+        "wins": 0,
+        "losses": 2,
+        "win_rate": 0.0,
+        "kda": 2.8,
+        "avg_kills": 6.0,
+        "avg_deaths": 5.0,
+        "avg_assists": 8.0,
+        "dpm": 925.0,
+        "cspm": 6.9,
+        "vspm": 0.34,
+        "avg_rating": 81.8,
+        "grade": "S",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 2
+        },
+        "top_pilot": "Julian",
+        "pilots": {
+          "Julian": 1,
+          "Joao/Brazil": 1
+        }
+      },
+      {
+        "champion": "Darius",
+        "role": "Top",
+        "archetype": "bruiser",
+        "picks": 2,
+        "wins": 0,
+        "losses": 2,
+        "win_rate": 0.0,
+        "kda": 1.44,
+        "avg_kills": 9.5,
+        "avg_deaths": 9.0,
+        "avg_assists": 3.5,
+        "dpm": 919.0,
+        "cspm": 6.1,
+        "vspm": 0.61,
+        "avg_rating": 69.5,
         "grade": "A",
         "primary_role": "Top",
         "roles": {
@@ -37700,168 +37414,39 @@
         "top_pilot": "enkryptos",
         "pilots": {
           "enkryptos": 1,
-          "Sunraku#8147": 1
+          "Froatsy": 1
         }
       },
       {
-        "champion": "Kled",
-        "archetype": "bruiser",
-        "picks": 2,
-        "wins": 1,
-        "losses": 1,
-        "win_rate": 50.0,
-        "kda": 1.88,
-        "avg_kills": 3.5,
-        "avg_deaths": 4.0,
-        "avg_assists": 4.0,
-        "dpm": 674.0,
-        "cspm": 6.8,
-        "vspm": 0.44,
-        "avg_rating": 63.7,
-        "grade": "B",
-        "primary_role": "Top",
-        "roles": {
-          "Top": 2
-        },
-        "top_pilot": "YetAnotherLima#NA1",
-        "pilots": {
-          "YetAnotherLima#NA1": 1,
-          "Joao/Brazil": 1
-        }
-      },
-      {
-        "champion": "Rakan",
-        "archetype": "catcher",
-        "picks": 2,
-        "wins": 1,
-        "losses": 1,
-        "win_rate": 50.0,
-        "kda": 1.67,
-        "avg_kills": 0.5,
-        "avg_deaths": 6.0,
-        "avg_assists": 9.5,
-        "dpm": 186.0,
-        "cspm": 1.0,
-        "vspm": 1.81,
-        "avg_rating": 60.8,
-        "grade": "B",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 2
-        },
-        "top_pilot": "ForgottenBard848#1223",
-        "pilots": {
-          "ForgottenBard848#1223": 1,
-          "JaPerry#NA1": 1
-        }
-      },
-      {
-        "champion": "Brand",
-        "archetype": "mage",
-        "picks": 2,
-        "wins": 1,
-        "losses": 1,
-        "win_rate": 50.0,
-        "kda": 1.27,
-        "avg_kills": 4.5,
-        "avg_deaths": 11.0,
-        "avg_assists": 9.5,
-        "dpm": 578.0,
-        "cspm": 1.8,
-        "vspm": 1.89,
-        "avg_rating": 50.1,
-        "grade": "C",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 2
-        },
-        "top_pilot": "Ididagood#4254",
-        "pilots": {
-          "Ididagood#4254": 1,
-          "fuicheese#rectm": 1
-        }
-      },
-      {
-        "champion": "Samira",
-        "archetype": "marksman",
-        "picks": 2,
-        "wins": 0,
-        "losses": 2,
-        "win_rate": 0.0,
-        "kda": 1.5,
-        "avg_kills": 5.0,
-        "avg_deaths": 4.0,
-        "avg_assists": 1.0,
-        "dpm": 589.0,
-        "cspm": 7.2,
-        "vspm": 0.7,
-        "avg_rating": 63.2,
-        "grade": "B",
-        "primary_role": "Bot",
-        "roles": {
-          "Bot": 2
-        },
-        "top_pilot": "caramel brulée#NA1",
-        "pilots": {
-          "caramel brulée#NA1": 1,
-          "WillDaBeastBB4E#NA1": 1
-        }
-      },
-      {
-        "champion": "Zyra",
+        "champion": "Morgana",
+        "role": "Support",
         "archetype": "mage",
         "picks": 2,
         "wins": 0,
         "losses": 2,
         "win_rate": 0.0,
-        "kda": 1.18,
-        "avg_kills": 1.5,
-        "avg_deaths": 5.5,
-        "avg_assists": 5.0,
-        "dpm": 537.0,
-        "cspm": 2.4,
-        "vspm": 2.26,
-        "avg_rating": 56.8,
+        "kda": 2.71,
+        "avg_kills": 2.5,
+        "avg_deaths": 3.5,
+        "avg_assists": 7.0,
+        "dpm": 425.0,
+        "cspm": 1.5,
+        "vspm": 1.77,
+        "avg_rating": 63.4,
         "grade": "B",
         "primary_role": "Support",
         "roles": {
           "Support": 2
         },
-        "top_pilot": "VeradPhoenix#NA1",
+        "top_pilot": "T-Rexa",
         "pilots": {
-          "VeradPhoenix#NA1": 1,
-          "T-Rexa": 1
-        }
-      },
-      {
-        "champion": "Velkoz",
-        "archetype": "mage",
-        "picks": 2,
-        "wins": 0,
-        "losses": 2,
-        "win_rate": 0.0,
-        "kda": 1.11,
-        "avg_kills": 1.0,
-        "avg_deaths": 4.5,
-        "avg_assists": 4.0,
-        "dpm": 542.0,
-        "cspm": 3.9,
-        "vspm": 1.49,
-        "avg_rating": 56.5,
-        "grade": "B",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 1,
-          "Mid": 1
-        },
-        "top_pilot": "BananaGnar#NA1",
-        "pilots": {
-          "BananaGnar#NA1": 1,
-          "RyomenSukuna#3041": 1
+          "T-Rexa": 1,
+          "neetarius": 1
         }
       },
       {
         "champion": "Amumu",
+        "role": "Jungle",
         "archetype": "tank",
         "picks": 2,
         "wins": 0,
@@ -37887,113 +37472,166 @@
         }
       },
       {
-        "champion": "Viego",
-        "archetype": "assassin",
+        "champion": "Shen",
+        "role": "Top",
+        "archetype": "tank",
         "picks": 2,
         "wins": 0,
         "losses": 2,
         "win_rate": 0.0,
-        "kda": 1.19,
-        "avg_kills": 8.0,
-        "avg_deaths": 13.5,
-        "avg_assists": 8.0,
-        "dpm": 775.0,
-        "cspm": 5.3,
-        "vspm": 0.35,
-        "avg_rating": 53.4,
+        "kda": 1.6,
+        "avg_kills": 0.5,
+        "avg_deaths": 2.5,
+        "avg_assists": 3.5,
+        "dpm": 167.0,
+        "cspm": 6.0,
+        "vspm": 0.25,
+        "avg_rating": 51.2,
+        "grade": "C",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 2
+        },
+        "top_pilot": "enkryptos",
+        "pilots": {
+          "enkryptos": 1,
+          "Julian": 1
+        }
+      },
+      {
+        "champion": "Ryze",
+        "role": "Mid",
+        "archetype": "mage",
+        "picks": 2,
+        "wins": 0,
+        "losses": 2,
+        "win_rate": 0.0,
+        "kda": 0.4,
+        "avg_kills": 0.5,
+        "avg_deaths": 5.0,
+        "avg_assists": 1.5,
+        "dpm": 591.0,
+        "cspm": 7.4,
+        "vspm": 0.38,
+        "avg_rating": 48.6,
         "grade": "C",
         "primary_role": "Mid",
         "roles": {
-          "Mid": 1,
-          "Jungle": 1
+          "Mid": 2
         },
-        "top_pilot": "hytellus#eater",
+        "top_pilot": "Joao/Brazil",
         "pilots": {
-          "hytellus#eater": 1,
-          "PinnacleNick#NA1": 1
+          "Joao/Brazil": 1,
+          "Aditya": 1
         }
       },
       {
-        "champion": "Pyke",
-        "archetype": "assassin",
-        "picks": 2,
-        "wins": 0,
-        "losses": 2,
-        "win_rate": 0.0,
-        "kda": 0.86,
-        "avg_kills": 5.5,
-        "avg_deaths": 10.5,
-        "avg_assists": 3.5,
-        "dpm": 418.0,
-        "cspm": 0.9,
-        "vspm": 2.23,
-        "avg_rating": 43.8,
-        "grade": "F",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 2
-        },
-        "top_pilot": "Dominantgirl#6969",
-        "pilots": {
-          "Dominantgirl#6969": 1,
-          "Joao/Brazil": 1
-        }
-      },
-      {
-        "champion": "Gnar",
+        "champion": "Mordekaiser",
+        "role": "Jungle",
         "archetype": "bruiser",
         "picks": 2,
         "wins": 0,
         "losses": 2,
         "win_rate": 0.0,
-        "kda": 0.6,
-        "avg_kills": 1.0,
-        "avg_deaths": 5.0,
-        "avg_assists": 2.0,
-        "dpm": 346.0,
-        "cspm": 4.8,
-        "vspm": 0.63,
-        "avg_rating": 33.2,
-        "grade": "F",
-        "primary_role": "Top",
+        "kda": 0.32,
+        "avg_kills": 2.0,
+        "avg_deaths": 11.0,
+        "avg_assists": 1.5,
+        "dpm": 442.0,
+        "cspm": 5.9,
+        "vspm": 0.51,
+        "avg_rating": 47.3,
+        "grade": "C",
+        "primary_role": "Jungle",
         "roles": {
-          "Top": 2
+          "Jungle": 2
         },
         "top_pilot": "Joao/Brazil",
         "pilots": {
-          "Joao/Brazil": 1,
-          "captbluejay#1313": 1
+          "Joao/Brazil": 2
         }
       },
       {
-        "champion": "Kayle",
-        "archetype": "splitpusher",
-        "picks": 2,
-        "wins": 0,
-        "losses": 2,
-        "win_rate": 0.0,
-        "kda": 0.2,
-        "avg_kills": 1.0,
-        "avg_deaths": 5.0,
-        "avg_assists": 0.0,
-        "dpm": 143.0,
-        "cspm": 3.6,
-        "vspm": 0.32,
-        "avg_rating": 26.7,
-        "grade": "F",
+        "champion": "KogMaw",
+        "role": "Bot",
+        "archetype": "marksman",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 4.29,
+        "avg_kills": 16.0,
+        "avg_deaths": 7.0,
+        "avg_assists": 14.0,
+        "dpm": 1531.0,
+        "cspm": 8.8,
+        "vspm": 0.81,
+        "avg_rating": 99.5,
+        "grade": "S+",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 1
+        },
+        "top_pilot": "Aurelion Swole",
+        "pilots": {
+          "Aurelion Swole": 1
+        }
+      },
+      {
+        "champion": "Zac",
+        "role": "Top",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 20.0,
+        "avg_kills": 11.0,
+        "avg_deaths": 1.0,
+        "avg_assists": 9.0,
+        "dpm": 1383.0,
+        "cspm": 8.5,
+        "vspm": 0.56,
+        "avg_rating": 98.9,
+        "grade": "S+",
         "primary_role": "Top",
         "roles": {
-          "Top": 1,
-          "Mid": 1
+          "Top": 1
         },
-        "top_pilot": "blood and ash#XIX",
+        "top_pilot": "Froatsy",
         "pilots": {
-          "blood and ash#XIX": 1,
-          "Dithix#7311": 1
+          "Froatsy": 1
+        }
+      },
+      {
+        "champion": "Zac",
+        "role": "Jungle",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 14.0,
+        "avg_kills": 6.0,
+        "avg_deaths": 0.0,
+        "avg_assists": 8.0,
+        "dpm": 600.0,
+        "cspm": 8.4,
+        "vspm": 1.34,
+        "avg_rating": 95.5,
+        "grade": "S+",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 1
+        },
+        "top_pilot": "Froatsy",
+        "pilots": {
+          "Froatsy": 1
         }
       },
       {
         "champion": "Urgot",
+        "role": "Top",
         "archetype": "bruiser",
         "picks": 1,
         "wins": 1,
@@ -38018,57 +37656,164 @@
         }
       },
       {
-        "champion": "Zed",
-        "archetype": "assassin",
+        "champion": "Teemo",
+        "role": "Top",
+        "archetype": "splitpusher",
         "picks": 1,
         "wins": 1,
         "losses": 0,
         "win_rate": 100.0,
-        "kda": 3.14,
-        "avg_kills": 14.0,
-        "avg_deaths": 7.0,
-        "avg_assists": 8.0,
-        "dpm": 1352.0,
-        "cspm": 6.7,
+        "kda": 3.0,
+        "avg_kills": 17.0,
+        "avg_deaths": 9.0,
+        "avg_assists": 10.0,
+        "dpm": 2022.0,
+        "cspm": 7.7,
         "vspm": 0.85,
-        "avg_rating": 94.1,
+        "avg_rating": 95.1,
         "grade": "S+",
-        "primary_role": "Mid",
+        "primary_role": "Top",
         "roles": {
-          "Mid": 1
+          "Top": 1
         },
-        "top_pilot": "ArkhamKnight4814#NA1",
+        "top_pilot": "Joao/Brazil",
         "pilots": {
-          "ArkhamKnight4814#NA1": 1
+          "Joao/Brazil": 1
         }
       },
       {
-        "champion": "Xerath",
-        "archetype": "mage",
+        "champion": "Zaahen",
+        "role": "Top",
+        "archetype": "splitpusher",
         "picks": 1,
         "wins": 1,
         "losses": 0,
         "win_rate": 100.0,
-        "kda": 8.33,
-        "avg_kills": 15.0,
-        "avg_deaths": 3.0,
-        "avg_assists": 10.0,
-        "dpm": 1465.0,
-        "cspm": 8.1,
-        "vspm": 0.55,
-        "avg_rating": 91.0,
+        "kda": 10.0,
+        "avg_kills": 7.0,
+        "avg_deaths": 0.0,
+        "avg_assists": 3.0,
+        "dpm": 796.0,
+        "cspm": 7.2,
+        "vspm": 0.7,
+        "avg_rating": 95.1,
         "grade": "S+",
-        "primary_role": "Mid",
+        "primary_role": "Top",
         "roles": {
-          "Mid": 1
+          "Top": 1
         },
-        "top_pilot": "DEN15 512#NA1",
+        "top_pilot": "neetarius",
         "pilots": {
-          "DEN15 512#NA1": 1
+          "neetarius": 1
+        }
+      },
+      {
+        "champion": "Sett",
+        "role": "Top",
+        "archetype": "bruiser",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 2.4,
+        "avg_kills": 9.0,
+        "avg_deaths": 5.0,
+        "avg_assists": 3.0,
+        "dpm": 1060.0,
+        "cspm": 7.0,
+        "vspm": 0.73,
+        "avg_rating": 94.3,
+        "grade": "S+",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
+      },
+      {
+        "champion": "Malphite",
+        "role": "Jungle",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 25.0,
+        "avg_kills": 12.0,
+        "avg_deaths": 1.0,
+        "avg_assists": 13.0,
+        "dpm": 842.0,
+        "cspm": 6.9,
+        "vspm": 1.34,
+        "avg_rating": 93.6,
+        "grade": "S+",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 1
+        },
+        "top_pilot": "enkryptos",
+        "pilots": {
+          "enkryptos": 1
+        }
+      },
+      {
+        "champion": "Chogath",
+        "role": "Jungle",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 5.75,
+        "avg_kills": 13.0,
+        "avg_deaths": 4.0,
+        "avg_assists": 10.0,
+        "dpm": 781.0,
+        "cspm": 7.4,
+        "vspm": 0.31,
+        "avg_rating": 90.8,
+        "grade": "S+",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
+      },
+      {
+        "champion": "Poppy",
+        "role": "Support",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 5.33,
+        "avg_kills": 3.0,
+        "avg_deaths": 3.0,
+        "avg_assists": 13.0,
+        "dpm": 598.0,
+        "cspm": 0.6,
+        "vspm": 2.52,
+        "avg_rating": 90.5,
+        "grade": "S+",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
         }
       },
       {
         "champion": "Mel",
+        "role": "Mid",
         "archetype": "mage",
         "picks": 1,
         "wins": 1,
@@ -38094,6 +37839,7 @@
       },
       {
         "champion": "Quinn",
+        "role": "Top",
         "archetype": "splitpusher",
         "picks": 1,
         "wins": 1,
@@ -38118,32 +37864,34 @@
         }
       },
       {
-        "champion": "Zilean",
-        "archetype": "enchanter",
+        "champion": "Naafiri",
+        "role": "Jungle",
+        "archetype": "assassin",
         "picks": 1,
         "wins": 1,
         "losses": 0,
         "win_rate": 100.0,
-        "kda": 12.0,
-        "avg_kills": 2.0,
+        "kda": 7.5,
+        "avg_kills": 9.0,
         "avg_deaths": 2.0,
-        "avg_assists": 22.0,
-        "dpm": 488.0,
-        "cspm": 2.5,
-        "vspm": 2.61,
-        "avg_rating": 84.7,
+        "avg_assists": 6.0,
+        "dpm": 572.0,
+        "cspm": 7.0,
+        "vspm": 0.82,
+        "avg_rating": 85.4,
         "grade": "S",
-        "primary_role": "Support",
+        "primary_role": "Jungle",
         "roles": {
-          "Support": 1
+          "Jungle": 1
         },
-        "top_pilot": "TopIsnub100#2231",
+        "top_pilot": "(Ry) Zor raak",
         "pilots": {
-          "TopIsnub100#2231": 1
+          "(Ry) Zor raak": 1
         }
       },
       {
         "champion": "Corki",
+        "role": "Top",
         "archetype": "marksman",
         "picks": 1,
         "wins": 1,
@@ -38169,6 +37917,7 @@
       },
       {
         "champion": "Janna",
+        "role": "Support",
         "archetype": "enchanter",
         "picks": 1,
         "wins": 1,
@@ -38193,82 +37942,86 @@
         }
       },
       {
-        "champion": "Aatrox",
-        "archetype": "bruiser",
+        "champion": "Swain",
+        "role": "Top",
+        "archetype": "mage",
         "picks": 1,
         "wins": 1,
         "losses": 0,
         "win_rate": 100.0,
-        "kda": 3.2,
-        "avg_kills": 7.0,
-        "avg_deaths": 5.0,
-        "avg_assists": 9.0,
-        "dpm": 646.0,
-        "cspm": 4.8,
-        "vspm": 0.46,
-        "avg_rating": 82.6,
+        "kda": 4.0,
+        "avg_kills": 5.0,
+        "avg_deaths": 2.0,
+        "avg_assists": 3.0,
+        "dpm": 631.0,
+        "cspm": 6.7,
+        "vspm": 0.66,
+        "avg_rating": 82.2,
         "grade": "S",
         "primary_role": "Top",
         "roles": {
           "Top": 1
         },
-        "top_pilot": "River Monsters#JWade",
+        "top_pilot": "neetarius",
         "pilots": {
-          "River Monsters#JWade": 1
+          "neetarius": 1
         }
       },
       {
-        "champion": "Karma",
-        "archetype": "enchanter",
+        "champion": "Katarina",
+        "role": "Mid",
+        "archetype": "assassin",
         "picks": 1,
         "wins": 1,
         "losses": 0,
         "win_rate": 100.0,
-        "kda": 6.5,
-        "avg_kills": 3.0,
-        "avg_deaths": 2.0,
-        "avg_assists": 10.0,
-        "dpm": 295.0,
-        "cspm": 1.1,
-        "vspm": 2.82,
-        "avg_rating": 81.2,
-        "grade": "S",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 1
-        },
-        "top_pilot": "dob#4073",
-        "pilots": {
-          "dob#4073": 1
-        }
-      },
-      {
-        "champion": "Yuumi",
-        "archetype": "enchanter",
-        "picks": 1,
-        "wins": 1,
-        "losses": 0,
-        "win_rate": 100.0,
-        "kda": 22.0,
-        "avg_kills": 4.0,
-        "avg_deaths": 0.0,
-        "avg_assists": 18.0,
-        "dpm": 304.0,
-        "cspm": 0.5,
-        "vspm": 1.53,
-        "avg_rating": 78.9,
+        "kda": 3.67,
+        "avg_kills": 5.0,
+        "avg_deaths": 3.0,
+        "avg_assists": 6.0,
+        "dpm": 861.0,
+        "cspm": 5.9,
+        "vspm": 0.95,
+        "avg_rating": 79.1,
         "grade": "A+",
-        "primary_role": "Support",
+        "primary_role": "Mid",
         "roles": {
-          "Support": 1
+          "Mid": 1
         },
-        "top_pilot": "Phrog Queen#NA1",
+        "top_pilot": "neetarius",
         "pilots": {
-          "Phrog Queen#NA1": 1
+          "neetarius": 1
+        }
+      },
+      {
+        "champion": "Locke",
+        "role": "Jungle",
+        "archetype": "assassin",
+        "picks": 1,
+        "wins": 1,
+        "losses": 0,
+        "win_rate": 100.0,
+        "kda": 2.0,
+        "avg_kills": 8.0,
+        "avg_deaths": 6.0,
+        "avg_assists": 4.0,
+        "dpm": 503.0,
+        "cspm": 5.9,
+        "vspm": 0.66,
+        "avg_rating": 71.4,
+        "grade": "A",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
         }
       },
       {
         "champion": "Briar",
+        "role": "Top",
         "archetype": "bruiser",
         "picks": 1,
         "wins": 1,
@@ -38293,32 +38046,8 @@
         }
       },
       {
-        "champion": "Riven",
-        "archetype": "splitpusher",
-        "picks": 1,
-        "wins": 1,
-        "losses": 0,
-        "win_rate": 100.0,
-        "kda": 4.0,
-        "avg_kills": 6.0,
-        "avg_deaths": 2.0,
-        "avg_assists": 2.0,
-        "dpm": 588.0,
-        "cspm": 4.5,
-        "vspm": 0.52,
-        "avg_rating": 66.6,
-        "grade": "A",
-        "primary_role": "Bot",
-        "roles": {
-          "Bot": 1
-        },
-        "top_pilot": "sanuJ#NA1",
-        "pilots": {
-          "sanuJ#NA1": 1
-        }
-      },
-      {
         "champion": "Olaf",
+        "role": "Top",
         "archetype": "bruiser",
         "picks": 1,
         "wins": 1,
@@ -38344,6 +38073,7 @@
       },
       {
         "champion": "Camille",
+        "role": "Top",
         "archetype": "splitpusher",
         "picks": 1,
         "wins": 1,
@@ -38368,7 +38098,60 @@
         }
       },
       {
+        "champion": "Sion",
+        "role": "Top",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 1.71,
+        "avg_kills": 7.0,
+        "avg_deaths": 7.0,
+        "avg_assists": 5.0,
+        "dpm": 981.0,
+        "cspm": 8.6,
+        "vspm": 0.36,
+        "avg_rating": 85.9,
+        "grade": "S",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "Froatsy",
+        "pilots": {
+          "Froatsy": 1
+        }
+      },
+      {
+        "champion": "Anivia",
+        "role": "Top",
+        "archetype": "mage",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 3.8,
+        "avg_kills": 5.0,
+        "avg_deaths": 5.0,
+        "avg_assists": 14.0,
+        "dpm": 762.0,
+        "cspm": 7.3,
+        "vspm": 1.06,
+        "avg_rating": 81.1,
+        "grade": "S",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "(Ry) Zor raak",
+        "pilots": {
+          "(Ry) Zor raak": 1
+        }
+      },
+      {
         "champion": "Lillia",
+        "role": "Jungle",
         "archetype": "bruiser",
         "picks": 1,
         "wins": 0,
@@ -38393,7 +38176,34 @@
         }
       },
       {
+        "champion": "KSante",
+        "role": "Top",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.9,
+        "avg_kills": 4.0,
+        "avg_deaths": 10.0,
+        "avg_assists": 5.0,
+        "dpm": 760.0,
+        "cspm": 5.5,
+        "vspm": 0.68,
+        "avg_rating": 78.1,
+        "grade": "A+",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
+      },
+      {
         "champion": "Tryndamere",
+        "role": "Top",
         "archetype": "splitpusher",
         "picks": 1,
         "wins": 0,
@@ -38418,7 +38228,60 @@
         }
       },
       {
+        "champion": "Volibear",
+        "role": "Mid",
+        "archetype": "bruiser",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 1.0,
+        "avg_kills": 7.0,
+        "avg_deaths": 11.0,
+        "avg_assists": 4.0,
+        "dpm": 1108.0,
+        "cspm": 7.4,
+        "vspm": 0.88,
+        "avg_rating": 73.8,
+        "grade": "A+",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 1
+        },
+        "top_pilot": "enkryptos",
+        "pilots": {
+          "enkryptos": 1
+        }
+      },
+      {
+        "champion": "Swain",
+        "role": "Support",
+        "archetype": "mage",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 3.88,
+        "avg_kills": 12.0,
+        "avg_deaths": 8.0,
+        "avg_assists": 19.0,
+        "dpm": 1124.0,
+        "cspm": 3.2,
+        "vspm": 0.65,
+        "avg_rating": 73.5,
+        "grade": "A+",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
+      },
+      {
         "champion": "Rumble",
+        "role": "Top",
         "archetype": "bruiser",
         "picks": 1,
         "wins": 0,
@@ -38443,7 +38306,60 @@
         }
       },
       {
+        "champion": "Smolder",
+        "role": "Mid",
+        "archetype": "marksman",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.88,
+        "avg_kills": 4.0,
+        "avg_deaths": 8.0,
+        "avg_assists": 3.0,
+        "dpm": 1104.0,
+        "cspm": 8.0,
+        "vspm": 0.56,
+        "avg_rating": 72.2,
+        "grade": "A",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
+      },
+      {
+        "champion": "MissFortune",
+        "role": "Bot",
+        "archetype": "marksman",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 1.5,
+        "avg_kills": 6.0,
+        "avg_deaths": 8.0,
+        "avg_assists": 6.0,
+        "dpm": 693.0,
+        "cspm": 7.1,
+        "vspm": 0.55,
+        "avg_rating": 71.5,
+        "grade": "A",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 1
+        },
+        "top_pilot": "Aditya",
+        "pilots": {
+          "Aditya": 1
+        }
+      },
+      {
         "champion": "Bard",
+        "role": "Support",
         "archetype": "catcher",
         "picks": 1,
         "wins": 0,
@@ -38468,7 +38384,34 @@
         }
       },
       {
+        "champion": "Illaoi",
+        "role": "Top",
+        "archetype": "splitpusher",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.5,
+        "avg_kills": 2.0,
+        "avg_deaths": 6.0,
+        "avg_assists": 1.0,
+        "dpm": 614.0,
+        "cspm": 6.1,
+        "vspm": 0.65,
+        "avg_rating": 66.8,
+        "grade": "A",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "enkryptos",
+        "pilots": {
+          "enkryptos": 1
+        }
+      },
+      {
         "champion": "Cassiopeia",
+        "role": "Mid",
         "archetype": "mage",
         "picks": 1,
         "wins": 0,
@@ -38493,7 +38436,60 @@
         }
       },
       {
+        "champion": "Viktor",
+        "role": "Mid",
+        "archetype": "mage",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.86,
+        "avg_kills": 2.0,
+        "avg_deaths": 7.0,
+        "avg_assists": 4.0,
+        "dpm": 781.0,
+        "cspm": 7.4,
+        "vspm": 0.29,
+        "avg_rating": 66.1,
+        "grade": "A",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
+      },
+      {
+        "champion": "Fiora",
+        "role": "Top",
+        "archetype": "splitpusher",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.83,
+        "avg_kills": 0.0,
+        "avg_deaths": 6.0,
+        "avg_assists": 5.0,
+        "dpm": 473.0,
+        "cspm": 7.4,
+        "vspm": 0.82,
+        "avg_rating": 65.9,
+        "grade": "A",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "Aditya",
+        "pilots": {
+          "Aditya": 1
+        }
+      },
+      {
         "champion": "Belveth",
+        "role": "Jungle",
         "archetype": "bruiser",
         "picks": 1,
         "wins": 0,
@@ -38518,7 +38514,34 @@
         }
       },
       {
+        "champion": "Lissandra",
+        "role": "Top",
+        "archetype": "mage",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 1.0,
+        "avg_kills": 1.0,
+        "avg_deaths": 9.0,
+        "avg_assists": 8.0,
+        "dpm": 618.0,
+        "cspm": 5.7,
+        "vspm": 0.65,
+        "avg_rating": 58.6,
+        "grade": "B",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "Julian",
+        "pilots": {
+          "Julian": 1
+        }
+      },
+      {
         "champion": "Shaco",
+        "role": "Jungle",
         "archetype": "assassin",
         "picks": 1,
         "wins": 0,
@@ -38543,7 +38566,34 @@
         }
       },
       {
+        "champion": "Pantheon",
+        "role": "Support",
+        "archetype": "assassin",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 1.14,
+        "avg_kills": 6.0,
+        "avg_deaths": 7.0,
+        "avg_assists": 2.0,
+        "dpm": 512.0,
+        "cspm": 1.8,
+        "vspm": 1.81,
+        "avg_rating": 55.8,
+        "grade": "B",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
+      },
+      {
         "champion": "Nunu",
+        "role": "Jungle",
         "archetype": "tank",
         "picks": 1,
         "wins": 0,
@@ -38568,7 +38618,138 @@
         }
       },
       {
+        "champion": "Poppy",
+        "role": "Top",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.6,
+        "avg_kills": 0.0,
+        "avg_deaths": 5.0,
+        "avg_assists": 3.0,
+        "dpm": 556.0,
+        "cspm": 7.3,
+        "vspm": 0.66,
+        "avg_rating": 54.0,
+        "grade": "C",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "enkryptos",
+        "pilots": {
+          "enkryptos": 1
+        }
+      },
+      {
+        "champion": "TahmKench",
+        "role": "Top",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.33,
+        "avg_kills": 1.0,
+        "avg_deaths": 3.0,
+        "avg_assists": 0.0,
+        "dpm": 581.0,
+        "cspm": 7.0,
+        "vspm": 0.0,
+        "avg_rating": 52.3,
+        "grade": "C",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "Froatsy",
+        "pilots": {
+          "Froatsy": 1
+        }
+      },
+      {
+        "champion": "Leblanc",
+        "role": "Top",
+        "archetype": "assassin",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 1.27,
+        "avg_kills": 5.0,
+        "avg_deaths": 11.0,
+        "avg_assists": 9.0,
+        "dpm": 691.0,
+        "cspm": 4.6,
+        "vspm": 0.54,
+        "avg_rating": 51.1,
+        "grade": "C",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "Julian",
+        "pilots": {
+          "Julian": 1
+        }
+      },
+      {
+        "champion": "Shen",
+        "role": "Jungle",
+        "archetype": "tank",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.5,
+        "avg_kills": 2.0,
+        "avg_deaths": 4.0,
+        "avg_assists": 0.0,
+        "dpm": 290.0,
+        "cspm": 6.6,
+        "vspm": 0.72,
+        "avg_rating": 50.7,
+        "grade": "C",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
+      },
+      {
+        "champion": "Pyke",
+        "role": "Support",
+        "archetype": "assassin",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 1.75,
+        "avg_kills": 9.0,
+        "avg_deaths": 8.0,
+        "avg_assists": 5.0,
+        "dpm": 555.0,
+        "cspm": 0.9,
+        "vspm": 1.23,
+        "avg_rating": 50.7,
+        "grade": "C",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
+      },
+      {
         "champion": "Sona",
+        "role": "Support",
         "archetype": "enchanter",
         "picks": 1,
         "wins": 0,
@@ -38593,7 +38774,34 @@
         }
       },
       {
+        "champion": "Zyra",
+        "role": "Support",
+        "archetype": "mage",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.33,
+        "avg_kills": 0.0,
+        "avg_deaths": 3.0,
+        "avg_assists": 1.0,
+        "dpm": 442.0,
+        "cspm": 3.1,
+        "vspm": 1.86,
+        "avg_rating": 48.9,
+        "grade": "C",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 1
+        },
+        "top_pilot": "T-Rexa",
+        "pilots": {
+          "T-Rexa": 1
+        }
+      },
+      {
         "champion": "Nocturne",
+        "role": "Jungle",
         "archetype": "assassin",
         "picks": 1,
         "wins": 0,
@@ -38619,6 +38827,7 @@
       },
       {
         "champion": "Kalista",
+        "role": "Bot",
         "archetype": "marksman",
         "picks": 1,
         "wins": 0,
@@ -38643,7 +38852,60 @@
         }
       },
       {
+        "champion": "Lulu",
+        "role": "Support",
+        "archetype": "enchanter",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.75,
+        "avg_kills": 1.0,
+        "avg_deaths": 4.0,
+        "avg_assists": 2.0,
+        "dpm": 197.0,
+        "cspm": 0.9,
+        "vspm": 1.44,
+        "avg_rating": 44.4,
+        "grade": "F",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
+      },
+      {
+        "champion": "Mordekaiser",
+        "role": "Top",
+        "archetype": "bruiser",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.5,
+        "avg_kills": 2.0,
+        "avg_deaths": 12.0,
+        "avg_assists": 4.0,
+        "dpm": 551.0,
+        "cspm": 5.6,
+        "vspm": 0.5,
+        "avg_rating": 43.3,
+        "grade": "F",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "neetarius",
+        "pilots": {
+          "neetarius": 1
+        }
+      },
+      {
         "champion": "Vladimir",
+        "role": "Mid",
         "archetype": "mage",
         "picks": 1,
         "wins": 0,
@@ -38668,7 +38930,34 @@
         }
       },
       {
+        "champion": "Kled",
+        "role": "Top",
+        "archetype": "bruiser",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.0,
+        "avg_kills": 0.0,
+        "avg_deaths": 7.0,
+        "avg_assists": 0.0,
+        "dpm": 404.0,
+        "cspm": 6.6,
+        "vspm": 0.25,
+        "avg_rating": 34.7,
+        "grade": "F",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
+      },
+      {
         "champion": "Neeko",
+        "role": "Support",
         "archetype": "mage",
         "picks": 1,
         "wins": 0,
@@ -38694,6 +38983,7 @@
       },
       {
         "champion": "Hecarim",
+        "role": "Jungle",
         "archetype": "bruiser",
         "picks": 1,
         "wins": 0,
@@ -38716,86 +39006,138 @@
         "pilots": {
           "enkryptos": 1
         }
+      },
+      {
+        "champion": "AurelionSol",
+        "role": "Bot",
+        "archetype": "mage",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.0,
+        "avg_kills": 0.0,
+        "avg_deaths": 6.0,
+        "avg_assists": 0.0,
+        "dpm": 264.0,
+        "cspm": 7.3,
+        "vspm": 0.35,
+        "avg_rating": 24.8,
+        "grade": "F",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
+      },
+      {
+        "champion": "Gnar",
+        "role": "Top",
+        "archetype": "bruiser",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 0.0,
+        "avg_kills": 0.0,
+        "avg_deaths": 0.0,
+        "avg_assists": 0.0,
+        "dpm": 46.0,
+        "cspm": 0.0,
+        "vspm": 0.0,
+        "avg_rating": 15.0,
+        "grade": "F",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 1
+        }
       }
     ],
     "archetypes": [
       {
         "archetype": "marksman",
-        "picks": 95,
-        "wins": 42,
-        "win_rate": 44.2,
-        "avg_rating": 66.3
+        "picks": 63,
+        "wins": 29,
+        "win_rate": 46.0,
+        "avg_rating": 66.8
       },
       {
         "archetype": "bruiser",
-        "picks": 83,
-        "wins": 38,
-        "win_rate": 45.8,
-        "avg_rating": 68.9
+        "picks": 62,
+        "wins": 28,
+        "win_rate": 45.2,
+        "avg_rating": 66.7
       },
       {
         "archetype": "assassin",
-        "picks": 83,
-        "wins": 37,
-        "win_rate": 44.6,
-        "avg_rating": 68.4
-      },
-      {
-        "archetype": "mage",
-        "picks": 72,
-        "wins": 32,
-        "win_rate": 44.4,
-        "avg_rating": 64.0
+        "picks": 60,
+        "wins": 24,
+        "win_rate": 40.0,
+        "avg_rating": 67.9
       },
       {
         "archetype": "tank",
-        "picks": 55,
-        "wins": 21,
-        "win_rate": 38.2,
-        "avg_rating": 74.8
+        "picks": 48,
+        "wins": 18,
+        "win_rate": 37.5,
+        "avg_rating": 75.8
       },
       {
         "archetype": "catcher",
-        "picks": 53,
-        "wins": 26,
-        "win_rate": 49.1,
-        "avg_rating": 71.7
+        "picks": 44,
+        "wins": 24,
+        "win_rate": 54.5,
+        "avg_rating": 71.9
+      },
+      {
+        "archetype": "mage",
+        "picks": 43,
+        "wins": 19,
+        "win_rate": 44.2,
+        "avg_rating": 64.1
       },
       {
         "archetype": "splitpusher",
-        "picks": 35,
-        "wins": 20,
-        "win_rate": 57.1,
-        "avg_rating": 70.2
+        "picks": 22,
+        "wins": 13,
+        "win_rate": 59.1,
+        "avg_rating": 76.0
       },
       {
         "archetype": "enchanter",
-        "picks": 24,
-        "wins": 14,
-        "win_rate": 58.3,
-        "avg_rating": 77.0
+        "picks": 14,
+        "wins": 7,
+        "win_rate": 50.0,
+        "avg_rating": 76.1
       }
     ],
     "role_distribution": {
       "Top": {
-        "games": 100,
-        "wins": 46
+        "games": 75,
+        "wins": 33
       },
       "Jungle": {
-        "games": 100,
-        "wins": 46
+        "games": 87,
+        "wins": 39
       },
       "Mid": {
-        "games": 100,
-        "wins": 46
+        "games": 71,
+        "wins": 32
       },
       "Bot": {
-        "games": 100,
-        "wins": 46
+        "games": 60,
+        "wins": 27
       },
       "Support": {
-        "games": 100,
-        "wins": 46
+        "games": 63,
+        "wins": 31
       }
     }
   }
