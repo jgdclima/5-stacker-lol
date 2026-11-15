@@ -11,7 +11,7 @@ import os
 import sys
 import json
 import hashlib
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Tuple
 import discord
 from discord import app_commands
 from discord.ext import commands, tasks
