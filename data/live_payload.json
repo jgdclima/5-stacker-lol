@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-15 22:28:40",
+  "generated_at": "2026-11-15 22:58:45",
   "github_repo": "jgdclima/5-stacker-lol",
   "has_live_matches": true,
   "rating_formulas": {
@@ -140,12 +140,12 @@
     "is_demo": false,
     "group_name": "5 Stackers",
     "kpis": {
-      "total_matches": 106,
-      "wins": 49,
+      "total_matches": 107,
+      "wins": 50,
       "losses": 57,
-      "win_rate": 46.2,
-      "streak_type": "LOSS",
-      "streak_count": 2,
+      "win_rate": 46.7,
+      "streak_type": "WIN",
+      "streak_count": 1,
       "active_sessions_count": 0,
       "total_sessions_count": 19
     },
@@ -1024,6 +1024,71 @@
       }
     ],
     "matches": [
+      {
+        "match_id": "NA1_5680511959",
+        "date": "2026-11-15 22:57",
+        "mode": "CHERRY",
+        "queue_id": 1750,
+        "result": "WIN",
+        "duration_min": 23.5,
+        "mvp": "enkryptos",
+        "squad_players": [
+          "enkryptos",
+          "Aurelion Swole"
+        ],
+        "lineup": {
+          "Flex": {
+            "player": "Morfiend#NA1",
+            "is_squad": false,
+            "champion": "Caitlyn",
+            "kills": 11,
+            "deaths": 6,
+            "assists": 7,
+            "damage": 34885,
+            "cs": 0,
+            "vision": 0,
+            "gold_earned": 13157,
+            "damage_taken": 25549,
+            "damage_mitigated": 25879,
+            "objective_damage": 0,
+            "turret_damage": 0,
+            "turret_takedowns": 0,
+            "turret_plates": 0,
+            "cc_score": 60,
+            "effective_heal_shield": 2376.7,
+            "wards_placed": 0,
+            "wards_killed": 0,
+            "control_wards_placed": 0,
+            "kill_participation": 0.222,
+            "team_damage_pct": 0.09,
+            "damage_taken_pct": 0.076,
+            "solo_kills": 0,
+            "outnumbered_kills": 1,
+            "dragon_takedowns": 0,
+            "baron_takedowns": 0,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 0,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 7,
+            "pick_kill_with_ally": 17,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 0.0,
+            "max_level_lead": 0,
+            "rating": 61.7,
+            "grade": "B",
+            "archetype": "marksman",
+            "highlight": "Marksman Specialist",
+            "pillars": {
+              "combat": 71.1,
+              "damage": 71.7,
+              "frontline": 75.4,
+              "utility": 97.1,
+              "macro_vision": 0.0
+            }
+          }
+        }
+      },
       {
         "match_id": "NA1_5680495148",
         "date": "2026-11-15 22:27",
@@ -28117,7 +28182,7 @@
         "accounts": [
           {
             "riot_id": "Froatsy#BGS",
-            "linked_at": "2026-11-15T22:28:40.890514"
+            "linked_at": "2026-11-15T22:58:45.102518"
           }
         ],
         "games": 16,
@@ -28582,7 +28647,7 @@
         "accounts": [
           {
             "riot_id": "Mycroft Holmes#NA1",
-            "linked_at": "2026-11-15T22:28:40.890471"
+            "linked_at": "2026-11-15T22:58:45.102467"
           }
         ],
         "games": 49,
@@ -31961,7 +32026,7 @@
         "accounts": [
           {
             "riot_id": "Cotterly#02020",
-            "linked_at": "2026-11-15T22:28:40.890483"
+            "linked_at": "2026-11-15T22:58:45.102481"
           }
         ],
         "games": 60,
@@ -33083,7 +33148,7 @@
         "accounts": [
           {
             "riot_id": "Dominital#NA1",
-            "linked_at": "2026-11-15T22:28:40.890504"
+            "linked_at": "2026-11-15T22:58:45.102506"
           }
         ],
         "games": 35,
@@ -33861,7 +33926,7 @@
         "accounts": [
           {
             "riot_id": "enkryptos#NA1",
-            "linked_at": "2026-11-15T22:28:40.890494"
+            "linked_at": "2026-11-15T22:58:45.102494"
           }
         ],
         "games": 57,
@@ -33871,7 +33936,7 @@
         "kda": 1.87,
         "avg_rating": 65.5,
         "grade": "A",
-        "mvps": 11,
+        "mvps": 12,
         "main_role": "Bot",
         "kills": 323,
         "deaths": 396,
@@ -35241,7 +35306,7 @@
         "accounts": [
           {
             "riot_id": "Ace112358#NA1",
-            "linked_at": "2026-11-15T22:28:40.890453"
+            "linked_at": "2026-11-15T22:58:45.102448"
           }
         ],
         "games": 48,
@@ -36335,7 +36400,7 @@
         "accounts": [
           {
             "riot_id": "Lexyg33#8183",
-            "linked_at": "2026-11-15T22:28:40.890524"
+            "linked_at": "2026-11-15T22:58:45.102528"
           }
         ],
         "games": 7,
