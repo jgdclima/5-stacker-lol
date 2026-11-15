@@ -235,6 +235,7 @@ class RiotAPIClient:
 
             lineup[role] = {
                 "player": player_display_name,
+                "puuid": puuid,
                 "is_squad": is_squad_member,
                 "champion": champ,
                 "kills": kills,

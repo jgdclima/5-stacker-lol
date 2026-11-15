@@ -37,6 +37,7 @@ class StatsManager:
         self.filepath = filepath
         self._ensure_dir()
         self.data = self._load()
+        self.last_reconciled_match_ids: List[str] = []
         dirty = self.reconcile_linked_players_in_history()
         if self._strip_legacy_demo_seeds():
             dirty = True
@@ -603,7 +604,7 @@ class StatsManager:
                 "fav_champs": []
             })
 
-        self.reconcile_linked_players_in_history()
+        self.last_reconciled_match_ids = self.reconcile_linked_players_with_details()
         self.save()
         return info
 
@@ -673,12 +674,14 @@ class StatsManager:
                 names.add(m["name"].lower())
         return names
 
-    def reconcile_linked_players_in_history(self) -> bool:
+    def reconcile_linked_players_with_details(self) -> List[str]:
         """
         Retroactively updates any match_history lineup entries where a linked @LOLers
         member was previously recorded by their raw Riot ID with `is_squad=False`
-        before they ran `/link-riot` (across all Riot IDs linked to each Discord user).
+        before they ran `/link-riot` (matching by PUUID, Riot ID, or display name).
+        Returns the list of match_ids that were reconciled and re-scored.
         """
+        puuid_map: Dict[str, str] = {}
         riot_id_map: Dict[str, str] = {}
         linked_names: set = set()
 
@@ -688,6 +691,9 @@ class StatsManager:
                 continue
             linked_names.add(name.lower())
             for acct in self._extract_accounts(info):
+                puuid = (acct.get("puuid") or "").strip()
+                if puuid:
+                    puuid_map[puuid] = name
                 rid = (acct.get("riot_id") or "").strip().lower()
                 if rid:
                     riot_id_map[rid] = name
@@ -698,14 +704,18 @@ class StatsManager:
                 continue
             linked_names.add(name.lower())
             for acct in self._extract_accounts(m):
+                puuid = (acct.get("puuid") or "").strip()
+                if puuid and puuid not in puuid_map:
+                    puuid_map[puuid] = name
                 rid = (acct.get("riot_id") or "").strip().lower()
                 if rid and rid not in riot_id_map:
                     riot_id_map[rid] = name
 
-        if not riot_id_map and not linked_names:
-            return False
+        if not puuid_map and not riot_id_map and not linked_names:
+            return []
 
-        updated = False
+        reconciled_ids: List[str] = []
+        updated_mvp_by_match: Dict[str, str] = {}
         for match in self.data.get("match_history", []):
             squad_list = match.setdefault("squad_players", [])
             lineup = match.get("lineup", {})
@@ -713,30 +723,72 @@ class StatsManager:
             for role, pdata in lineup.items():
                 if not isinstance(pdata, dict):
                     continue
+                raw_puuid = (pdata.get("puuid") or "").strip()
                 raw_player = (pdata.get("player") or "").strip()
                 raw_lower = raw_player.lower()
 
-                if raw_lower in riot_id_map:
+                canonical_name = None
+                if raw_puuid and raw_puuid in puuid_map:
+                    canonical_name = puuid_map[raw_puuid]
+                elif raw_lower in riot_id_map:
                     canonical_name = riot_id_map[raw_lower]
+
+                if canonical_name:
                     if pdata.get("player") != canonical_name or not pdata.get("is_squad"):
                         pdata["player"] = canonical_name
                         pdata["is_squad"] = True
-                        updated = True
                         match_reconciled = True
                     if canonical_name not in squad_list:
                         squad_list.append(canonical_name)
-                        updated = True
+                        match_reconciled = True
                 elif raw_lower in linked_names and pdata.get("is_squad") is False:
                     pdata["is_squad"] = True
                     if raw_player not in squad_list:
                         squad_list.append(raw_player)
-                    updated = True
                     match_reconciled = True
 
             if match_reconciled:
                 evaluate_match_lineup_and_mvp(match)
+                mid = match.get("match_id")
+                if mid:
+                    reconciled_ids.append(mid)
+                    updated_mvp_by_match[mid] = match.get("mvp", "N/A")
 
-        return updated
+        # Keep cached session_matches MVP strings in sync with reconciled match_history
+        if updated_mvp_by_match:
+            for sess in self.data.get("active_sessions", {}).values():
+                for sm_entry in sess.get("session_matches", []):
+                    mid = sm_entry.get("match_id")
+                    if mid in updated_mvp_by_match:
+                        sm_entry["mvp"] = updated_mvp_by_match[mid]
+
+        return reconciled_ids
+
+    def reconcile_linked_players_in_history(self) -> bool:
+        """
+        Retroactively updates any match_history lineup entries where a linked @LOLers
+        member was previously recorded by their raw Riot ID with `is_squad=False`
+        before they ran `/link-riot` (across all Riot IDs linked to each Discord user).
+        """
+        return bool(self.reconcile_linked_players_with_details())
+
+    def record_match_recap_message(self, match_id: Optional[str], channel_id: int, message_id: int) -> None:
+        """Stores the Discord channel/thread ID and message ID of a posted match recap embed."""
+        if not match_id or not channel_id or not message_id:
+            return
+        store = self.data.setdefault("match_recap_messages", {})
+        entries = store.setdefault(match_id, [])
+        cid = int(channel_id)
+        mid = int(message_id)
+        if not any(e.get("channel_id") == cid and e.get("message_id") == mid for e in entries):
+            entries.append({"channel_id": cid, "message_id": mid})
+            self.save()
+
+    def get_match_recap_messages(self, match_id: str) -> List[dict]:
+        """Returns tracked Discord message locations (`[{channel_id, message_id}]`) for a match_id."""
+        if not match_id:
+            return []
+        return list(self.data.get("match_recap_messages", {}).get(match_id, []))
 
     def is_lolers_member_entry(
         self,

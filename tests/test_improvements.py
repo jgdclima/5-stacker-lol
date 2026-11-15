@@ -1104,6 +1104,144 @@ class TestAppImprovements(unittest.TestCase):
         self.assertTrue(self.stats_mgr.delete_session("ghost_1"))
         self.assertIsNone(self.stats_mgr.get_session("ghost_1"))
 
+    def test_link_riot_reconciles_mvp_by_puuid_and_syncs_session_matches(self):
+        self.stats_mgr.link_riot_account("101", "ExistingMember", "puuid-101", "Existing#NA1")
+
+        self.stats_mgr.log_match({
+            "match_id": "NA1_RECON_1",
+            "date": "2026-11-10 21:00",
+            "mode": "Normal Draft",
+            "result": "WIN",
+            "duration_min": 26.0,
+            "squad_players": ["ExistingMember"],
+            "lineup": {
+                "Top": {"player": "ExistingMember", "puuid": "puuid-101", "is_squad": True, "champion": "Ornn", "kills": 1, "deaths": 4, "assists": 5, "damage": 9000, "cs": 140, "vision": 15},
+                "Mid": {"player": "OldRiotName#NA1", "puuid": "puuid-new-99", "is_squad": False, "champion": "Ahri", "kills": 14, "deaths": 0, "assists": 12, "damage": 38000, "cs": 240, "vision": 30},
+            },
+        })
+        sess = self.stats_mgr.create_session("s_recon", "Tonight 9:00 PM", "Normal Draft", False, "ExistingMember")
+        self.stats_mgr.attach_match_to_active_session(self.stats_mgr.data["match_history"][0])
+        self.assertEqual(self.stats_mgr.data["match_history"][0]["mvp"], "ExistingMember")
+        self.assertEqual(sess["session_matches"][0]["mvp"], "ExistingMember")
+
+        # Player joins @LOLers and links with a renamed Riot ID but same PUUID
+        self.stats_mgr.link_riot_account("999", "NewLolersMember", "puuid-new-99", "RenamedRiot#NA1")
+        self.assertEqual(self.stats_mgr.last_reconciled_match_ids, ["NA1_RECON_1"])
+        updated_match = self.stats_mgr.data["match_history"][0]
+        self.assertTrue(updated_match["lineup"]["Mid"]["is_squad"])
+        self.assertEqual(updated_match["lineup"]["Mid"]["player"], "NewLolersMember")
+        self.assertIn("NewLolersMember", updated_match["squad_players"])
+        self.assertEqual(updated_match["mvp"], "NewLolersMember")
+        self.assertEqual(sess["session_matches"][0]["mvp"], "NewLolersMember")
+
+    def test_update_historical_match_recaps_edits_tracked_and_archived_thread_embeds(self):
+        import asyncio
+        import discord
+        import bot as bot_mod
+
+        orig_mgr = bot_mod.stats_mgr
+        bot_mod.stats_mgr = self.stats_mgr
+        try:
+            self.stats_mgr.link_riot_account("101", "ExistingMember", "puuid-101", "Existing#NA1")
+            self.stats_mgr.log_match({
+                "match_id": "NA1_HIST_1",
+                "date": "2026-11-10 21:00",
+                "mode": "Normal Draft",
+                "result": "WIN",
+                "duration_min": 25.0,
+                "squad_players": ["ExistingMember"],
+                "lineup": {
+                    "Top": {"player": "ExistingMember", "puuid": "puuid-101", "is_squad": True, "champion": "Ornn", "kills": 2, "deaths": 3, "assists": 6, "damage": 11000, "cs": 150, "vision": 18},
+                    "Bot": {"player": "FutureBuddy#NA1", "puuid": "puuid-202", "is_squad": False, "champion": "Jinx", "kills": 15, "deaths": 1, "assists": 10, "damage": 41000, "cs": 250, "vision": 24},
+                },
+            })
+            _, hist_2 = self.stats_mgr.log_match({
+                "match_id": "NA1_HIST_2",
+                "date": "2026-11-10 21:40",
+                "mode": "Normal Draft",
+                "result": "WIN",
+                "duration_min": 27.0,
+                "squad_players": ["ExistingMember"],
+                "lineup": {
+                    "Top": {"player": "ExistingMember", "puuid": "puuid-101", "is_squad": True, "champion": "Ornn", "kills": 2, "deaths": 3, "assists": 6, "damage": 11000, "cs": 150, "vision": 18},
+                    "Bot": {"player": "FutureBuddy#NA1", "puuid": "puuid-202", "is_squad": False, "champion": "Caitlyn", "kills": 13, "deaths": 1, "assists": 9, "damage": 39000, "cs": 245, "vision": 25},
+                },
+            })
+
+            # Tracked message for NA1_HIST_1, untracked archived-thread message for NA1_HIST_2
+            self.stats_mgr.record_match_recap_message("NA1_HIST_1", 55501, 77701)
+            sess = self.stats_mgr.create_session("s_hist", "Nov 10 9:00 PM", "Normal Draft", False, "ExistingMember")
+            self.stats_mgr.set_session_thread("s_hist", 55502)
+            self.stats_mgr.attach_match_to_active_session(hist_2)
+            sess["status"] = "COMPLETED"
+
+            self.stats_mgr.link_riot_account("202", "FutureBuddy", "puuid-202", "FutureBuddy#NA1")
+            reconciled = list(self.stats_mgr.last_reconciled_match_ids)
+            self.assertEqual(set(reconciled), {"NA1_HIST_1", "NA1_HIST_2"})
+
+            class FakeMessage:
+                def __init__(self, msg_id, footer_mid):
+                    self.id = msg_id
+                    self.author = None
+                    emb = discord.Embed(title="Old")
+                    emb.set_footer(text=f"Match ID: {footer_mid} • Auto-tracked via Riot Games API")
+                    self.embeds = [emb]
+                    self.edited_embeds = []
+
+                async def edit(self, **kwargs):
+                    if "embed" in kwargs:
+                        self.edited_embeds.append(kwargs["embed"])
+
+            class FakeThread:
+                def __init__(self, tid, messages, archived=False):
+                    self.id = tid
+                    self.archived = archived
+                    self._messages = {m.id: m for m in messages}
+                    self.archive_transitions = []
+
+                async def fetch_message(self, msg_id):
+                    return self._messages[msg_id]
+
+                async def edit(self, **kwargs):
+                    if "archived" in kwargs:
+                        self.archived = kwargs["archived"]
+                        self.archive_transitions.append(kwargs["archived"])
+
+                async def history(self, limit=100):
+                    for m in self._messages.values():
+                        yield m
+
+            msg1 = FakeMessage(77701, "NA1_HIST_1")
+            msg2 = FakeMessage(77702, "NA1_HIST_2")
+            ch1 = FakeThread(55501, [msg1], archived=False)
+            ch2 = FakeThread(55502, [msg2], archived=True)
+
+            class FakeGuild:
+                def __init__(self):
+                    self.text_channels = []
+
+                def get_channel(self, cid):
+                    return {55501: ch1, 55502: ch2}.get(cid)
+
+                def get_thread(self, tid):
+                    return {55501: ch1, 55502: ch2}.get(tid)
+
+            summary = asyncio.run(bot_mod.update_historical_match_recaps(FakeGuild(), reconciled))
+            self.assertEqual(summary["matches"], 2)
+            self.assertEqual(summary["recaps_edited"], 2)
+            self.assertEqual(len(msg1.edited_embeds), 1)
+            self.assertIn("FutureBuddy", msg1.edited_embeds[0].description)
+            self.assertEqual(len(msg2.edited_embeds), 1)
+            self.assertIn("FutureBuddy", msg2.edited_embeds[0].description)
+            self.assertEqual(ch2.archive_transitions, [False, True])
+            # Discovery cached NA1_HIST_2 message location for future updates
+            self.assertEqual(
+                self.stats_mgr.get_match_recap_messages("NA1_HIST_2"),
+                [{"channel_id": 55502, "message_id": 77702}],
+            )
+        finally:
+            bot_mod.stats_mgr = orig_mgr
+
 
 if __name__ == "__main__":
     unittest.main()
