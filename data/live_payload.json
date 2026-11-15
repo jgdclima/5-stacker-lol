@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-14 08:21:38",
+  "generated_at": "2026-11-15 04:53:39",
   "github_repo": "jgdclima/5-stacker-lol",
   "has_live_matches": true,
   "rating_formulas": {
@@ -140,16 +140,74 @@
     "is_demo": false,
     "group_name": "5 Stackers",
     "kpis": {
-      "total_matches": 95,
+      "total_matches": 96,
       "wins": 44,
-      "losses": 51,
-      "win_rate": 46.3,
-      "streak_type": "WIN",
+      "losses": 52,
+      "win_rate": 45.8,
+      "streak_type": "LOSS",
       "streak_count": 1,
-      "active_sessions_count": 0,
-      "total_sessions_count": 18
+      "active_sessions_count": 2,
+      "total_sessions_count": 20
     },
     "sessions": [
+      {
+        "session_id": "95375cb9",
+        "created_at": "2026-11-15T01:26:41.717304",
+        "scheduled_time": "Saturday Nov 14 at 09:00 PM MST",
+        "scheduled_iso": "2026-11-14T21:00:00-07:00",
+        "mode": "Ranked 5s (Weekend Queue)",
+        "is_ranked_5s": true,
+        "creator": "Joao/Brazil",
+        "status": "IN_PROGRESS",
+        "confirmed_players": [
+          {
+            "name": "enkryptos",
+            "role_pref": "Fill"
+          },
+          {
+            "name": "Joao/Brazil",
+            "role_pref": "Fill"
+          },
+          {
+            "name": "Ryan",
+            "role_pref": "Jungle, Top"
+          }
+        ],
+        "bench_substitutes": [],
+        "declined": [],
+        "reminder_sent": true,
+        "activity_log": [
+          "<t:1794714334:t> ⏰ **15-minute countdown reminder sent**",
+          "<t:1794715233:t> ⚔️ **Session is now IN PROGRESS!**"
+        ],
+        "session_matches": []
+      },
+      {
+        "session_id": "816a8b32",
+        "created_at": "2026-11-15T01:25:51.924142",
+        "scheduled_time": "Saturday Nov 14 at 09:00 PM MST",
+        "scheduled_iso": "2026-11-14T21:00:00-07:00",
+        "mode": "Ranked 5s (Weekend Queue)",
+        "is_ranked_5s": true,
+        "creator": "Joao/Brazil",
+        "status": "IN_PROGRESS",
+        "confirmed_players": [],
+        "bench_substitutes": [],
+        "declined": [],
+        "reminder_sent": true,
+        "activity_log": [
+          "<t:1794714334:t> ⏰ **15-minute countdown reminder sent**",
+          "<t:1794718415:t> 🎮 Match recorded: **LOSS** (MVP: **Joao/Brazil**)"
+        ],
+        "session_matches": [
+          {
+            "match_id": "NA1_5680057338",
+            "result": "LOSS",
+            "mode": "Normal Draft",
+            "mvp": "Joao/Brazil"
+          }
+        ]
+      },
       {
         "session_id": "408930ea",
         "created_at": "2026-11-13T19:54:39.215715",
@@ -958,6 +1016,277 @@
       }
     ],
     "matches": [
+      {
+        "match_id": "NA1_5680057338",
+        "date": "2026-11-15 04:51",
+        "mode": "Normal Draft",
+        "queue_id": 400,
+        "result": "LOSS",
+        "duration_min": 38.2,
+        "mvp": "Joao/Brazil",
+        "squad_players": [
+          "Joao/Brazil",
+          "Ryan"
+        ],
+        "lineup": {
+          "Top": {
+            "player": "Joao/Brazil",
+            "is_squad": true,
+            "champion": "Trundle",
+            "kills": 9,
+            "deaths": 8,
+            "assists": 8,
+            "damage": 36139,
+            "cs": 235,
+            "vision": 23,
+            "gold_earned": 16952,
+            "damage_taken": 59631,
+            "damage_mitigated": 65914,
+            "objective_damage": 32012,
+            "turret_damage": 20862,
+            "turret_takedowns": 5,
+            "turret_plates": 23,
+            "cc_score": 33,
+            "effective_heal_shield": 0.0,
+            "wards_placed": 9,
+            "wards_killed": 5,
+            "control_wards_placed": 0,
+            "kill_participation": 0.607,
+            "team_damage_pct": 0.27,
+            "damage_taken_pct": 0.3,
+            "solo_kills": 3,
+            "outnumbered_kills": 0,
+            "dragon_takedowns": 1,
+            "baron_takedowns": 1,
+            "rift_herald_takedowns": 1,
+            "void_monster_kills": 3,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 4,
+            "pick_kill_with_ally": 11,
+            "laning_gold_xp_advantage": 1,
+            "max_cs_advantage": 36.0,
+            "max_level_lead": 3,
+            "rating": 89.8,
+            "grade": "S+",
+            "archetype": "splitpusher",
+            "highlight": "Splitpush Titan",
+            "pillars": {
+              "combat": 86.2,
+              "damage": 93.9,
+              "objective": 100.0,
+              "frontline": 94.5,
+              "utility": 79.8,
+              "macro_vision": 81.5
+            }
+          },
+          "Jungle": {
+            "player": "Ryan",
+            "is_squad": true,
+            "champion": "Sejuani",
+            "kills": 3,
+            "deaths": 4,
+            "assists": 11,
+            "damage": 15542,
+            "cs": 207,
+            "vision": 32,
+            "gold_earned": 13110,
+            "damage_taken": 43301,
+            "damage_mitigated": 81372,
+            "objective_damage": 29338,
+            "turret_damage": 445,
+            "turret_takedowns": 1,
+            "turret_plates": 6,
+            "cc_score": 36,
+            "effective_heal_shield": 477.6,
+            "wards_placed": 4,
+            "wards_killed": 2,
+            "control_wards_placed": 2,
+            "kill_participation": 0.5,
+            "team_damage_pct": 0.116,
+            "damage_taken_pct": 0.218,
+            "solo_kills": 0,
+            "outnumbered_kills": 0,
+            "dragon_takedowns": 1,
+            "baron_takedowns": 1,
+            "rift_herald_takedowns": 1,
+            "void_monster_kills": 4,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 13,
+            "pick_kill_with_ally": 12,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 4.0,
+            "max_level_lead": 1,
+            "rating": 81.7,
+            "grade": "S",
+            "archetype": "tank",
+            "highlight": "Unkillable Frontline",
+            "pillars": {
+              "combat": 76.6,
+              "damage": 76.8,
+              "objective": 96.7,
+              "frontline": 92.7,
+              "utility": 71.7,
+              "macro_vision": 68.8
+            }
+          },
+          "Mid": {
+            "player": "N0K0H#NA1",
+            "is_squad": false,
+            "champion": "Taliyah",
+            "kills": 11,
+            "deaths": 7,
+            "assists": 7,
+            "damage": 42175,
+            "cs": 305,
+            "vision": 18,
+            "gold_earned": 18571,
+            "damage_taken": 28149,
+            "damage_mitigated": 17358,
+            "objective_damage": 11228,
+            "turret_damage": 5673,
+            "turret_takedowns": 0,
+            "turret_plates": 8,
+            "cc_score": 61,
+            "effective_heal_shield": 451.5,
+            "wards_placed": 9,
+            "wards_killed": 0,
+            "control_wards_placed": 0,
+            "kill_participation": 0.643,
+            "team_damage_pct": 0.315,
+            "damage_taken_pct": 0.142,
+            "solo_kills": 2,
+            "outnumbered_kills": 1,
+            "dragon_takedowns": 1,
+            "baron_takedowns": 1,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 1,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 7,
+            "pick_kill_with_ally": 13,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 21.0,
+            "max_level_lead": 1,
+            "rating": 86.5,
+            "grade": "S",
+            "archetype": "mage",
+            "highlight": "Mage Specialist",
+            "pillars": {
+              "combat": 91.6,
+              "damage": 91.1,
+              "objective": 100.0,
+              "frontline": 68.5,
+              "utility": 86.5,
+              "macro_vision": 70.1
+            }
+          },
+          "Bot": {
+            "player": "zzzzzzzzzzzzzzzz#1111",
+            "is_squad": false,
+            "champion": "Ashe",
+            "kills": 5,
+            "deaths": 12,
+            "assists": 4,
+            "damage": 31063,
+            "cs": 268,
+            "vision": 28,
+            "gold_earned": 15078,
+            "damage_taken": 31257,
+            "damage_mitigated": 18538,
+            "objective_damage": 15399,
+            "turret_damage": 7166,
+            "turret_takedowns": 2,
+            "turret_plates": 9,
+            "cc_score": 65,
+            "effective_heal_shield": 0.0,
+            "wards_placed": 14,
+            "wards_killed": 0,
+            "control_wards_placed": 0,
+            "kill_participation": 0.321,
+            "team_damage_pct": 0.232,
+            "damage_taken_pct": 0.157,
+            "solo_kills": 1,
+            "outnumbered_kills": 0,
+            "dragon_takedowns": 0,
+            "baron_takedowns": 1,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 1,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 3,
+            "pick_kill_with_ally": 7,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 23.0,
+            "max_level_lead": 1,
+            "rating": 62.8,
+            "grade": "B",
+            "archetype": "marksman",
+            "highlight": "Marksman Specialist",
+            "pillars": {
+              "combat": 45.2,
+              "damage": 77.8,
+              "objective": 100.0,
+              "frontline": 65.2,
+              "utility": 76.9,
+              "macro_vision": 76.1
+            }
+          },
+          "Support": {
+            "player": "Big Tony#777",
+            "is_squad": false,
+            "champion": "Braum",
+            "kills": 0,
+            "deaths": 8,
+            "assists": 15,
+            "damage": 9157,
+            "cs": 32,
+            "vision": 103,
+            "gold_earned": 9872,
+            "damage_taken": 36218,
+            "damage_mitigated": 45492,
+            "objective_damage": 678,
+            "turret_damage": 0,
+            "turret_takedowns": 0,
+            "turret_plates": 3,
+            "cc_score": 60,
+            "effective_heal_shield": 6237.9,
+            "wards_placed": 32,
+            "wards_killed": 14,
+            "control_wards_placed": 5,
+            "kill_participation": 0.536,
+            "team_damage_pct": 0.068,
+            "damage_taken_pct": 0.182,
+            "solo_kills": 0,
+            "outnumbered_kills": 0,
+            "dragon_takedowns": 1,
+            "baron_takedowns": 1,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 1,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 9,
+            "pick_kill_with_ally": 14,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 11.0,
+            "max_level_lead": 2,
+            "rating": 76.9,
+            "grade": "A+",
+            "archetype": "catcher",
+            "highlight": "Peel & Enchanter Carry",
+            "pillars": {
+              "combat": 60.2,
+              "damage": 58.6,
+              "objective": 62.0,
+              "frontline": 83.0,
+              "utility": 93.7,
+              "macro_vision": 86.6
+            }
+          }
+        },
+        "mvp_rating": 89.8
+      },
       {
         "match_id": "NA1_5679558220",
         "date": "2026-11-14 08:20",
@@ -24805,7 +25134,7 @@
         "accounts": [
           {
             "riot_id": "Froatsy#BGS",
-            "linked_at": "2026-11-14T08:21:38.663100"
+            "linked_at": "2026-11-15T04:53:39.050946"
           }
         ],
         "games": 16,
@@ -25216,7 +25545,7 @@
         "accounts": [
           {
             "riot_id": "Mycroft Holmes#NA1",
-            "linked_at": "2026-11-14T08:21:38.663053"
+            "linked_at": "2026-11-15T04:53:39.050899"
           }
         ],
         "games": 49,
@@ -26164,7 +26493,7 @@
         "accounts": [
           {
             "riot_id": "Dominital#NA1",
-            "linked_at": "2026-11-14T08:21:38.663090"
+            "linked_at": "2026-11-15T04:53:39.050934"
           }
         ],
         "games": 32,
@@ -26869,26 +27198,41 @@
         "accounts": [
           {
             "riot_id": "Cotterly#02020",
-            "linked_at": "2026-11-14T08:21:38.663067"
+            "linked_at": "2026-11-15T04:53:39.050911"
           }
         ],
-        "games": 57,
+        "games": 58,
         "wins": 26,
-        "losses": 31,
-        "win_rate": 45.6,
+        "losses": 32,
+        "win_rate": 44.8,
         "kda": 3.34,
-        "avg_rating": 69.8,
+        "avg_rating": 70.1,
         "grade": "A",
         "mvps": 16,
         "main_role": "Jungle",
-        "kills": 279,
-        "deaths": 251,
-        "assists": 559,
+        "kills": 282,
+        "deaths": 255,
+        "assists": 570,
         "roles_played": {
-          "Jungle": 56,
+          "Jungle": 57,
           "Top": 1
         },
         "recent_matches": [
+          {
+            "match_id": "NA1_5680057338",
+            "date": "2026-11-15 04:51",
+            "mode": "Normal Draft",
+            "result": "LOSS",
+            "role": "Jungle",
+            "champion": "Sejuani",
+            "kills": 3,
+            "deaths": 4,
+            "assists": 11,
+            "rating": 81.7,
+            "grade": "S",
+            "highlight": "Unkillable Frontline",
+            "is_mvp": false
+          },
           {
             "match_id": "NA1_5679489025",
             "date": "2026-11-14 06:10",
@@ -27746,14 +28090,28 @@
           }
         ],
         "pillars_avg": {
-          "combat": 74.1,
-          "damage": 68.5,
-          "objective": 71.4,
-          "frontline": 72.0,
-          "utility": 66.9,
-          "macro_vision": 72.4
+          "combat": 74.2,
+          "damage": 68.6,
+          "objective": 71.9,
+          "frontline": 72.5,
+          "utility": 67.0,
+          "macro_vision": 72.3
         },
         "champion_pool": [
+          {
+            "champion": "Sejuani",
+            "archetype": "tank",
+            "games": 15,
+            "wins": 8,
+            "losses": 7,
+            "win_rate": 53.3,
+            "kda": 5.98,
+            "avg_kills": 4.2,
+            "avg_deaths": 2.9,
+            "avg_assists": 12.9,
+            "avg_rating": 79.9,
+            "primary_role": "Jungle"
+          },
           {
             "champion": "Taliyah",
             "archetype": "mage",
@@ -27766,20 +28124,6 @@
             "avg_deaths": 4.5,
             "avg_assists": 8.1,
             "avg_rating": 64.7,
-            "primary_role": "Jungle"
-          },
-          {
-            "champion": "Sejuani",
-            "archetype": "tank",
-            "games": 14,
-            "wins": 8,
-            "losses": 6,
-            "win_rate": 57.1,
-            "kda": 6.23,
-            "avg_kills": 4.3,
-            "avg_deaths": 2.8,
-            "avg_assists": 13.1,
-            "avg_rating": 79.8,
             "primary_role": "Jungle"
           },
           {
@@ -27920,29 +28264,44 @@
         "accounts": [
           {
             "riot_id": "onelima#NA1",
-            "linked_at": "2026-11-14T08:21:38.663016"
+            "linked_at": "2026-11-15T04:53:39.050860"
           }
         ],
-        "games": 76,
+        "games": 77,
         "wins": 34,
-        "losses": 42,
-        "win_rate": 44.7,
+        "losses": 43,
+        "win_rate": 44.2,
         "kda": 2.08,
-        "avg_rating": 69.5,
+        "avg_rating": 69.8,
         "grade": "A",
-        "mvps": 25,
+        "mvps": 26,
         "main_role": "Support",
-        "kills": 419,
-        "deaths": 509,
-        "assists": 638,
+        "kills": 428,
+        "deaths": 517,
+        "assists": 646,
         "roles_played": {
+          "Top": 22,
           "Mid": 13,
-          "Top": 21,
           "Jungle": 10,
           "Support": 27,
           "Bot": 5
         },
         "recent_matches": [
+          {
+            "match_id": "NA1_5680057338",
+            "date": "2026-11-15 04:51",
+            "mode": "Normal Draft",
+            "result": "LOSS",
+            "role": "Top",
+            "champion": "Trundle",
+            "kills": 9,
+            "deaths": 8,
+            "assists": 8,
+            "rating": 89.8,
+            "grade": "S+",
+            "highlight": "Splitpush Titan",
+            "is_mvp": true
+          },
           {
             "match_id": "NA1_5679558220",
             "date": "2026-11-14 08:20",
@@ -29085,12 +29444,12 @@
           }
         ],
         "pillars_avg": {
-          "combat": 65.2,
-          "damage": 79.2,
-          "objective": 78.3,
-          "frontline": 70.7,
-          "utility": 64.8,
-          "macro_vision": 67.9
+          "combat": 65.5,
+          "damage": 79.4,
+          "objective": 78.7,
+          "frontline": 71.1,
+          "utility": 65.0,
+          "macro_vision": 68.1
         },
         "champion_pool": [
           {
@@ -29302,6 +29661,20 @@
             "avg_assists": 2.5,
             "avg_rating": 62.2,
             "primary_role": "Jungle"
+          },
+          {
+            "champion": "Trundle",
+            "archetype": "splitpusher",
+            "games": 2,
+            "wins": 1,
+            "losses": 1,
+            "win_rate": 50.0,
+            "kda": 1.8,
+            "avg_kills": 5.0,
+            "avg_deaths": 5.0,
+            "avg_assists": 4.0,
+            "avg_rating": 61.4,
+            "primary_role": "Top"
           },
           {
             "champion": "AurelionSol",
@@ -29836,20 +30209,6 @@
             "primary_role": "Top"
           },
           {
-            "champion": "Trundle",
-            "archetype": "splitpusher",
-            "games": 1,
-            "wins": 1,
-            "losses": 0,
-            "win_rate": 100.0,
-            "kda": 0.5,
-            "avg_kills": 1.0,
-            "avg_deaths": 2.0,
-            "avg_assists": 0.0,
-            "avg_rating": 33.0,
-            "primary_role": "Top"
-          },
-          {
             "champion": "Neeko",
             "archetype": "mage",
             "games": 1,
@@ -29889,7 +30248,7 @@
         "accounts": [
           {
             "riot_id": "Lexyg33#8183",
-            "linked_at": "2026-11-14T08:21:38.663112"
+            "linked_at": "2026-11-15T04:53:39.050956"
           }
         ],
         "games": 7,
@@ -30119,7 +30478,7 @@
         "accounts": [
           {
             "riot_id": "enkryptos#NA1",
-            "linked_at": "2026-11-14T08:21:38.663078"
+            "linked_at": "2026-11-15T04:53:39.050923"
           }
         ],
         "games": 47,
@@ -31275,7 +31634,7 @@
         "accounts": [
           {
             "riot_id": "Ace112358#NA1",
-            "linked_at": "2026-11-14T08:21:38.663039"
+            "linked_at": "2026-11-15T04:53:39.050884"
           }
         ],
         "games": 44,
@@ -32886,16 +33245,16 @@
           "pair": "Joao/Brazil (TOP) & Ryan (JNG)",
           "player_a": "Joao/Brazil",
           "player_b": "Ryan",
-          "games": 9,
+          "games": 10,
           "wins": 6,
-          "losses": 3,
-          "win_rate": 66.7,
-          "combined_kda": 2.49,
-          "synergy_score": 64.0,
+          "losses": 4,
+          "win_rate": 60.0,
+          "combined_kda": 2.5,
+          "synergy_score": 61.8,
           "tier": "B Tier",
           "tag": "Objective Anchors",
-          "avg_duo_rating": 73.0,
-          "coordination_score": 72.8,
+          "avg_duo_rating": 74.2,
+          "coordination_score": 74.8,
           "favorite_combo": "Yorick + Sejuani"
         },
         {
@@ -33519,6 +33878,33 @@
         }
       },
       {
+        "champion": "Taliyah",
+        "archetype": "mage",
+        "picks": 16,
+        "wins": 7,
+        "losses": 9,
+        "win_rate": 43.8,
+        "kda": 3.04,
+        "avg_kills": 6.2,
+        "avg_deaths": 4.7,
+        "avg_assists": 8.1,
+        "dpm": 795.0,
+        "cspm": 6.5,
+        "vspm": 0.78,
+        "avg_rating": 66.1,
+        "grade": "A",
+        "primary_role": "Jungle",
+        "roles": {
+          "Mid": 1,
+          "Jungle": 15
+        },
+        "top_pilot": "Ryan",
+        "pilots": {
+          "N0K0H#NA1": 1,
+          "Ryan": 15
+        }
+      },
+      {
         "champion": "Caitlyn",
         "archetype": "marksman",
         "picks": 16,
@@ -33551,21 +33937,21 @@
         }
       },
       {
-        "champion": "Taliyah",
-        "archetype": "mage",
+        "champion": "Sejuani",
+        "archetype": "tank",
         "picks": 15,
-        "wins": 7,
-        "losses": 8,
-        "win_rate": 46.7,
-        "kda": 3.09,
-        "avg_kills": 5.9,
-        "avg_deaths": 4.5,
-        "avg_assists": 8.1,
-        "dpm": 765.0,
-        "cspm": 6.4,
-        "vspm": 0.81,
-        "avg_rating": 64.7,
-        "grade": "B",
+        "wins": 8,
+        "losses": 7,
+        "win_rate": 53.3,
+        "kda": 5.98,
+        "avg_kills": 4.2,
+        "avg_deaths": 2.9,
+        "avg_assists": 12.9,
+        "dpm": 579.0,
+        "cspm": 5.9,
+        "vspm": 0.94,
+        "avg_rating": 79.9,
+        "grade": "A+",
         "primary_role": "Jungle",
         "roles": {
           "Jungle": 15
@@ -33573,31 +33959,6 @@
         "top_pilot": "Ryan",
         "pilots": {
           "Ryan": 15
-        }
-      },
-      {
-        "champion": "Sejuani",
-        "archetype": "tank",
-        "picks": 14,
-        "wins": 8,
-        "losses": 6,
-        "win_rate": 57.1,
-        "kda": 6.23,
-        "avg_kills": 4.3,
-        "avg_deaths": 2.8,
-        "avg_assists": 13.1,
-        "dpm": 595.0,
-        "cspm": 5.9,
-        "vspm": 0.95,
-        "avg_rating": 79.8,
-        "grade": "A+",
-        "primary_role": "Jungle",
-        "roles": {
-          "Jungle": 14
-        },
-        "top_pilot": "Ryan",
-        "pilots": {
-          "Ryan": 14
         }
       },
       {
@@ -33803,6 +34164,35 @@
         }
       },
       {
+        "champion": "Ashe",
+        "archetype": "marksman",
+        "picks": 7,
+        "wins": 2,
+        "losses": 5,
+        "win_rate": 28.6,
+        "kda": 1.86,
+        "avg_kills": 8.6,
+        "avg_deaths": 8.1,
+        "avg_assists": 6.6,
+        "dpm": 928.0,
+        "cspm": 6.9,
+        "vspm": 0.6,
+        "avg_rating": 68.2,
+        "grade": "A",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 7
+        },
+        "top_pilot": "bongman#6969",
+        "pilots": {
+          "zzzzzzzzzzzzzzzz#1111": 1,
+          "bongman#6969": 2,
+          "Aditya": 2,
+          "notAndros#4450": 1,
+          "enkryptos": 1
+        }
+      },
+      {
         "champion": "Yone",
         "archetype": "assassin",
         "picks": 7,
@@ -33855,6 +34245,33 @@
           "neetarius": 3,
           "enkryptos": 2,
           "GiuseppeRabano#NA1": 1
+        }
+      },
+      {
+        "champion": "Trundle",
+        "archetype": "splitpusher",
+        "picks": 6,
+        "wins": 4,
+        "losses": 2,
+        "win_rate": 66.7,
+        "kda": 3.46,
+        "avg_kills": 6.3,
+        "avg_deaths": 4.3,
+        "avg_assists": 8.7,
+        "dpm": 733.0,
+        "cspm": 5.6,
+        "vspm": 0.68,
+        "avg_rating": 67.8,
+        "grade": "A",
+        "primary_role": "Jungle",
+        "roles": {
+          "Top": 2,
+          "Jungle": 4
+        },
+        "top_pilot": "Ryan",
+        "pilots": {
+          "Joao/Brazil": 2,
+          "Ryan": 4
         }
       },
       {
@@ -34000,34 +34417,6 @@
         }
       },
       {
-        "champion": "Ashe",
-        "archetype": "marksman",
-        "picks": 6,
-        "wins": 2,
-        "losses": 4,
-        "win_rate": 33.3,
-        "kda": 2.16,
-        "avg_kills": 9.2,
-        "avg_deaths": 7.5,
-        "avg_assists": 7.0,
-        "dpm": 956.0,
-        "cspm": 6.8,
-        "vspm": 0.56,
-        "avg_rating": 69.1,
-        "grade": "A",
-        "primary_role": "Bot",
-        "roles": {
-          "Bot": 6
-        },
-        "top_pilot": "bongman#6969",
-        "pilots": {
-          "bongman#6969": 2,
-          "Aditya": 2,
-          "notAndros#4450": 1,
-          "enkryptos": 1
-        }
-      },
-      {
         "champion": "Seraphine",
         "archetype": "enchanter",
         "picks": 5,
@@ -34111,33 +34500,6 @@
         "pilots": {
           "neetarius": 2,
           "Julian": 3
-        }
-      },
-      {
-        "champion": "Trundle",
-        "archetype": "splitpusher",
-        "picks": 5,
-        "wins": 4,
-        "losses": 1,
-        "win_rate": 80.0,
-        "kda": 4.06,
-        "avg_kills": 5.8,
-        "avg_deaths": 3.6,
-        "avg_assists": 8.8,
-        "dpm": 660.0,
-        "cspm": 5.4,
-        "vspm": 0.71,
-        "avg_rating": 63.4,
-        "grade": "B",
-        "primary_role": "Jungle",
-        "roles": {
-          "Jungle": 4,
-          "Top": 1
-        },
-        "top_pilot": "Ryan",
-        "pilots": {
-          "Ryan": 4,
-          "Joao/Brazil": 1
         }
       },
       {
@@ -34334,6 +34696,34 @@
           "Drover15#1123": 1,
           "Yuki#0319": 1,
           "neetarius": 1
+        }
+      },
+      {
+        "champion": "Braum",
+        "archetype": "catcher",
+        "picks": 5,
+        "wins": 1,
+        "losses": 4,
+        "win_rate": 20.0,
+        "kda": 2.4,
+        "avg_kills": 1.2,
+        "avg_deaths": 8.0,
+        "avg_assists": 18.0,
+        "dpm": 275.0,
+        "cspm": 0.8,
+        "vspm": 2.33,
+        "avg_rating": 73.0,
+        "grade": "A+",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 5
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Big Tony#777": 1,
+          "Joao/Brazil": 2,
+          "enkryptos": 1,
+          "Julian": 1
         }
       },
       {
@@ -34604,33 +34994,6 @@
           "Joao/Brazil": 1,
           "Froatsy": 2,
           "ChubbyChaser#MMMM": 1
-        }
-      },
-      {
-        "champion": "Braum",
-        "archetype": "catcher",
-        "picks": 4,
-        "wins": 1,
-        "losses": 3,
-        "win_rate": 25.0,
-        "kda": 2.53,
-        "avg_kills": 1.5,
-        "avg_deaths": 8.0,
-        "avg_assists": 18.8,
-        "dpm": 284.0,
-        "cspm": 0.8,
-        "vspm": 2.23,
-        "avg_rating": 72.0,
-        "grade": "A",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 4
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "Joao/Brazil": 2,
-          "enkryptos": 1,
-          "Julian": 1
         }
       },
       {
@@ -36792,10 +37155,10 @@
     "archetypes": [
       {
         "archetype": "marksman",
-        "picks": 90,
+        "picks": 91,
         "wins": 40,
-        "win_rate": 44.4,
-        "avg_rating": 65.9
+        "win_rate": 44.0,
+        "avg_rating": 65.8
       },
       {
         "archetype": "assassin",
@@ -36813,31 +37176,31 @@
       },
       {
         "archetype": "mage",
-        "picks": 70,
+        "picks": 71,
         "wins": 31,
-        "win_rate": 44.3,
-        "avg_rating": 63.5
+        "win_rate": 43.7,
+        "avg_rating": 63.9
       },
       {
         "archetype": "catcher",
-        "picks": 52,
+        "picks": 53,
         "wins": 26,
-        "win_rate": 50.0,
-        "avg_rating": 71.6
+        "win_rate": 49.1,
+        "avg_rating": 71.7
       },
       {
         "archetype": "tank",
-        "picks": 49,
+        "picks": 50,
         "wins": 18,
-        "win_rate": 36.7,
-        "avg_rating": 74.2
+        "win_rate": 36.0,
+        "avg_rating": 74.3
       },
       {
         "archetype": "splitpusher",
-        "picks": 34,
+        "picks": 35,
         "wins": 20,
-        "win_rate": 58.8,
-        "avg_rating": 69.6
+        "win_rate": 57.1,
+        "avg_rating": 70.2
       },
       {
         "archetype": "enchanter",
@@ -36849,23 +37212,23 @@
     ],
     "role_distribution": {
       "Top": {
-        "games": 95,
+        "games": 96,
         "wins": 44
       },
       "Jungle": {
-        "games": 95,
+        "games": 96,
         "wins": 44
       },
       "Mid": {
-        "games": 95,
+        "games": 96,
         "wins": 44
       },
       "Bot": {
-        "games": 95,
+        "games": 96,
         "wins": 44
       },
       "Support": {
-        "games": 95,
+        "games": 96,
         "wins": 44
       }
     }
