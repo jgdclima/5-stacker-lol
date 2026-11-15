@@ -327,16 +327,17 @@ async def notify_session(
     session_message: Optional[discord.Message] = None,
     remove_view: bool = False,
     archive_thread: bool = False,
-) -> None:
+) -> bool:
     """
     Hybrid Session Update:
     1. Records an entry in the session's in-place Activity Log.
     2. Ensures the session's attached thread exists (when sending a thread alert/recap).
     3. Edits the single canonical Session Card in #5-stackers in-place.
     4. Posts any ping or detailed Match Recap embed inside the session's thread.
+    Returns True if a Discord message or thread notification was delivered.
     """
     if not session:
-        return
+        return False
 
     s_id = session.get("session_id")
     if activity_entry and s_id:
@@ -349,17 +350,20 @@ async def notify_session(
     if thread_content or thread_embed or not archive_thread:
         thread = await ensure_session_thread(session, guild, msg)
 
+    delivered = False
     if msg:
         try:
             embed = build_session_embed(session, guild)
             new_view = None if remove_view else SessionRSVPView(s_id)
             await msg.edit(embed=embed, view=new_view)
+            delivered = True
         except Exception as e:
             print(f"[SessionUpdate] Error editing session card {s_id}: {e}")
 
     if (thread_content or thread_embed) and thread:
         try:
             await thread.send(content=thread_content, embed=thread_embed)
+            delivered = True
         except Exception as e:
             print(f"[SessionThread] Error sending notification to thread {thread.id}: {e}")
 
@@ -368,6 +372,8 @@ async def notify_session(
             await thread.edit(archived=True)
         except Exception as e:
             print(f"[SessionThread] Error archiving thread {thread.id}: {e}")
+
+    return delivered
 
 
 class RoleSelectView(discord.ui.View):
@@ -949,6 +955,8 @@ async def session_cmd(interaction: discord.Interaction, time_window: str):
         )
         return
 
+    await interaction.response.defer(ephemeral=True)
+
     target_dt, display_time, parsed_ok = scheduler.parse_target_time(time_window)
     eval_res = scheduler.evaluate_time(target_dt)
     session_id = str(uuid.uuid4())[:8]
@@ -969,8 +977,6 @@ async def session_cmd(interaction: discord.Interaction, time_window: str):
     role = discord.utils.find(lambda r: r.name.lower() == ROSTER_ROLE_NAME.lower(), interaction.guild.roles) if interaction.guild else None
     role_mention = role.mention if role else f"@{ROSTER_ROLE_NAME}"
 
-    await interaction.response.defer(ephemeral=True)
-
     target_channel = interaction.channel
     if isinstance(target_channel, discord.Thread) and target_channel.parent:
         target_channel = target_channel.parent
@@ -983,6 +989,7 @@ async def session_cmd(interaction: discord.Interaction, time_window: str):
             view=view
         )
     except discord.errors.Forbidden as e:
+        stats_mgr.delete_session(session_id)
         if e.code in [50001, 50013]:
             await interaction.followup.send(
                 f"❌ **Missing Channel Access in #{COORDINATION_CHANNEL}** (Discord error {e.code}):\n"
@@ -993,6 +1000,9 @@ async def session_cmd(interaction: discord.Interaction, time_window: str):
                 ephemeral=True
             )
             return
+        raise
+    except Exception:
+        stats_mgr.delete_session(session_id)
         raise
 
     stats_mgr.set_session_message(session_id, session_msg.channel.id, session_msg.id)
@@ -1749,15 +1759,16 @@ async def auto_match_tracker():
                 recap_header = f"🎮 **Match Auto-Recorded!** ({pings_str});\n **{m.get('result')}** ({m.get('mode')})"
 
                 matched_session = stats_mgr.attach_match_to_active_session(m)
+                delivered = False
                 if matched_session:
-                    await notify_session(
+                    delivered = await notify_session(
                         session=matched_session,
                         activity_entry=f"🎮 Match recorded: **{m.get('result')}** (MVP: **{m.get('mvp', 'N/A')}**)",
                         thread_content=recap_header,
                         thread_embed=embed,
                         guild=guild,
                     )
-                else:
+                if not delivered:
                     await channel.send(recap_header, embed=embed)
 
             await sync_living_synergy_threads(guild)

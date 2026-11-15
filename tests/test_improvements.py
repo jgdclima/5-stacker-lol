@@ -1083,6 +1083,27 @@ class TestAppImprovements(unittest.TestCase):
         total_arch_picks = sum(a["picks"] for a in live["archetypes"])
         self.assertEqual(total_arch_picks, 2)
 
+    def test_attach_match_prefers_session_with_discord_target_over_ghost(self):
+        ghost = self.stats_mgr.create_session("ghost_1", "Tonight 9:00 PM", "Ranked Flex", False, "Player1")
+        ghost["status"] = "IN_PROGRESS"
+
+        real = self.stats_mgr.create_session("real_1", "Tonight 9:00 PM", "Ranked Flex", False, "Player1")
+        real["status"] = "IN_PROGRESS"
+        self.stats_mgr.set_session_message("real_1", channel_id=12345, message_id=67890)
+        self.stats_mgr.set_session_thread("real_1", thread_id=67890)
+
+        matched = self.stats_mgr.attach_match_to_active_session({
+            "match_id": "NA1_TEST_GHOST_AVOID",
+            "result": "WIN",
+            "mode": "Normal Draft",
+            "mvp": "Player1",
+        })
+        self.assertIsNotNone(matched)
+        self.assertEqual(matched["session_id"], "real_1")
+        self.assertEqual(len(self.stats_mgr.get_session("ghost_1")["session_matches"]), 0)
+        self.assertTrue(self.stats_mgr.delete_session("ghost_1"))
+        self.assertIsNone(self.stats_mgr.get_session("ghost_1"))
+
 
 if __name__ == "__main__":
     unittest.main()

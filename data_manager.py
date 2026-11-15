@@ -256,16 +256,24 @@ class StatsManager:
 
     def attach_match_to_active_session(self, match_record: dict) -> Optional[dict]:
         """
-        Associates a newly logged match with the most relevant active session (preferring IN_PROGRESS,
-        then READY, then POLLING) so the session card can display a live W-L tally and route the
-        detailed match recap into the session's thread.
+        Associates a newly logged match with the most relevant active session (preferring sessions
+        that have a Discord message/thread over orphaned sessions, then IN_PROGRESS > READY > POLLING)
+        so the session card can display a live W-L tally and route the detailed match recap into the
+        session's thread.
         """
         active = self.get_active_sessions()
         if not active:
             return None
 
         priority = {"IN_PROGRESS": 0, "READY": 1, "POLLING": 2}
-        active_sorted = sorted(active, key=lambda s: priority.get(s.get("status", "POLLING"), 3))
+        active_sorted = sorted(
+            active,
+            key=lambda s: (
+                0 if (s.get("message_id") or s.get("thread_id")) else 1,
+                priority.get(s.get("status", "POLLING"), 3),
+                -len(s.get("confirmed_players", [])),
+            ),
+        )
         target = active_sorted[0]
 
         matches = target.setdefault("session_matches", [])
@@ -279,6 +287,14 @@ class StatsManager:
             })
             self.save()
         return target
+
+    def delete_session(self, session_id: str) -> bool:
+        """Removes a session from active_sessions (e.g. if initial announcement failed)."""
+        if session_id in self.data.get("active_sessions", {}):
+            del self.data["active_sessions"][session_id]
+            self.save()
+            return True
+        return False
 
     def get_session(self, session_id: str) -> Optional[dict]:
         """Fetches a session by ID."""

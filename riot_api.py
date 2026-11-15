@@ -109,7 +109,17 @@ class RiotAPIClient:
             async with session.get(url) as resp:
                 if resp.status == 200:
                     return await resp.json()
+                elif resp.status in (401, 403):
+                    print(f"[RiotAPI] Error {resp.status} in get_recent_match_ids: Riot API Key is invalid or expired.")
+                    return []
+                elif resp.status == 429:
+                    retry_after = int(resp.headers.get("Retry-After", "5"))
+                    print(f"[RiotAPI] Rate limit hit in get_recent_match_ids. Retrying after {retry_after}s...")
+                    await asyncio.sleep(retry_after)
+                    return await self.get_recent_match_ids(puuid, count=count, start_time=start_time)
                 else:
+                    text = await resp.text()
+                    print(f"[RiotAPI] get_recent_match_ids error {resp.status}: {text[:200]}")
                     return []
         except Exception as e:
             print(f"[RiotAPI] Exception in get_recent_match_ids: {e}")
@@ -129,11 +139,16 @@ class RiotAPIClient:
             async with session.get(url) as resp:
                 if resp.status == 200:
                     return await resp.json()
+                elif resp.status in (401, 403):
+                    print(f"[RiotAPI] Error {resp.status} in get_match_details ({match_id}): Riot API Key is invalid or expired.")
+                    return None
                 elif resp.status == 429:
                     retry_after = int(resp.headers.get("Retry-After", "5"))
                     await asyncio.sleep(retry_after)
                     return await self.get_match_details(match_id)
                 else:
+                    text = await resp.text()
+                    print(f"[RiotAPI] get_match_details ({match_id}) error {resp.status}: {text[:200]}")
                     return None
         except Exception as e:
             print(f"[RiotAPI] Exception in get_match_details: {e}")
