@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-15 08:08:43",
+  "generated_at": "2026-11-15 09:57:00",
   "github_repo": "jgdclima/5-stacker-lol",
   "rating_formulas": {
     "role_weights": {
@@ -2981,7 +2981,7 @@
           "tag": "2v8 Bot Kingdom",
           "avg_duo_rating": 81.2,
           "coordination_score": 87.3,
-          "favorite_combo": "Ashe + Nautilus",
+          "favorite_combo": "Ezreal + Thresh",
           "adc": "Leo",
           "support": "Sarah"
         }
@@ -3033,7 +3033,7 @@
           "tag": "Lethal Core",
           "avg_duo_rating": 72.8,
           "coordination_score": 85.7,
-          "favorite_combo": "Hwei + Amumu"
+          "favorite_combo": "Sylas + Xin Zhao"
         },
         {
           "pair": "Elena (MID) & Alex (JNG)",
@@ -3165,7 +3165,7 @@
           "tag": "Lethal Core",
           "avg_duo_rating": 68.8,
           "coordination_score": 85.9,
-          "favorite_combo": "Nautilus + Amumu"
+          "favorite_combo": "Rakan + Xin Zhao"
         },
         {
           "pair": "Melanie (SUP) & Alex (JNG)",
