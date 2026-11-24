@@ -32,6 +32,28 @@ LEGACY_DEMO_MEMBER_SIGNATURES = frozenset({
 })
 
 
+REMAKE_MAX_DURATION_MIN = 5.0
+
+
+def is_remake_record(match: Optional[dict]) -> bool:
+    """
+    Returns True if a match record (or session_matches summary) represents a remake:
+    - explicit `is_remake` truthy flag
+    - `result == 'REMAKE'`
+    - positive `duration_min` strictly under 5.0 minutes
+    """
+    if not isinstance(match, dict):
+        return False
+    if match.get("is_remake"):
+        return True
+    if str(match.get("result", "")).upper() == "REMAKE":
+        return True
+    dur = match.get("duration_min")
+    if isinstance(dur, (int, float)) and 0 < dur < REMAKE_MAX_DURATION_MIN:
+        return True
+    return False
+
+
 class StatsManager:
     def __init__(self, filepath: str = DEFAULT_DATA_PATH):
         self.filepath = filepath
@@ -279,12 +301,14 @@ class StatsManager:
 
         matches = target.setdefault("session_matches", [])
         match_id = match_record.get("match_id")
+        remake = is_remake_record(match_record)
         if not any(m.get("match_id") == match_id for m in matches):
             matches.append({
                 "match_id": match_id,
-                "result": match_record.get("result", "WIN"),
+                "result": "REMAKE" if remake else match_record.get("result", "WIN"),
+                "is_remake": remake,
                 "mode": match_record.get("mode", "Match"),
-                "mvp": match_record.get("mvp", "N/A")
+                "mvp": "N/A" if remake else match_record.get("mvp", "N/A"),
             })
             self.save()
         return target
@@ -748,7 +772,8 @@ class StatsManager:
                     match_reconciled = True
 
             if match_reconciled:
-                evaluate_match_lineup_and_mvp(match)
+                if not is_remake_record(match):
+                    evaluate_match_lineup_and_mvp(match)
                 mid = match.get("match_id")
                 if mid:
                     reconciled_ids.append(mid)
@@ -868,13 +893,21 @@ class StatsManager:
                 if existing.get("match_id") == match_id:
                     return False, existing
 
-        # Ensure every lineup participant has a holistic rating/grade/archetype/highlight
-        lineup = match_record.get("lineup", {})
-        if lineup and any(isinstance(p, dict) and "rating" not in p for p in lineup.values()):
-            explicit_mvp = match_record.get("mvp")
-            evaluate_match_lineup_and_mvp(match_record)
-            if explicit_mvp:
-                match_record["mvp"] = explicit_mvp
+        # Normalize remake metadata and skip rating/MVP evaluation for remakes
+        remake = is_remake_record(match_record)
+        if remake:
+            match_record["is_remake"] = True
+            match_record["result"] = "REMAKE"
+            match_record["mvp"] = "N/A"
+        else:
+            match_record.setdefault("is_remake", False)
+            # Ensure every lineup participant has a holistic rating/grade/archetype/highlight
+            lineup = match_record.get("lineup", {})
+            if lineup and any(isinstance(p, dict) and "rating" not in p for p in lineup.values()):
+                explicit_mvp = match_record.get("mvp")
+                evaluate_match_lineup_and_mvp(match_record)
+                if explicit_mvp:
+                    match_record["mvp"] = explicit_mvp
 
         self.data.setdefault("match_history", []).insert(0, match_record)
         self.save()
@@ -900,6 +933,8 @@ class StatsManager:
         pair_stats = {}
 
         for match in self.data.get("match_history", []):
+            if is_remake_record(match):
+                continue
             lineup = match.get("lineup", {})
             pa = lineup.get(role_a)
             pb = lineup.get(role_b)
@@ -1018,6 +1053,8 @@ class StatsManager:
         }
 
         for match in self.data.get("match_history", []):
+            if is_remake_record(match):
+                continue
             is_win = match.get("result") == "WIN"
             mvp = match.get("mvp")
             if mvp:

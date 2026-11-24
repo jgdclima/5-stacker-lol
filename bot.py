@@ -20,7 +20,7 @@ import uuid
 from dotenv import load_dotenv
 
 from schedule_checker import RankedSchedule
-from data_manager import StatsManager
+from data_manager import StatsManager, is_remake_record
 from riot_api import RiotAPIClient
 from github_tickets import GitHubTicketClient
 
@@ -762,14 +762,22 @@ def build_session_embed(session: dict, guild: discord.Guild = None) -> discord.E
     # Compact Session Match Log (if games were played during this session)
     session_matches = session.get("session_matches", [])
     if session_matches:
-        wins = sum(1 for m in session_matches if m.get("result") == "WIN")
-        losses = len(session_matches) - wins
-        match_lines = [
-            f"• Game {i+1}: {'🏆 WIN' if m.get('result') == 'WIN' else '💀 LOSS'} (MVP: **{m.get('mvp', 'N/A')}**)"
-            for i, m in enumerate(session_matches[-5:])
-        ]
+        proper_matches = [m for m in session_matches if not is_remake_record(m)]
+        remakes_count = len(session_matches) - len(proper_matches)
+        wins = sum(1 for m in proper_matches if m.get("result") == "WIN")
+        losses = len(proper_matches) - wins
+        match_lines = []
+        for i, m in enumerate(session_matches[-5:]):
+            if is_remake_record(m):
+                match_lines.append(f"• Game {i+1}: 🔄 REMAKE *(Excluded from W-L)*")
+            else:
+                res_badge = "🏆 WIN" if m.get("result") == "WIN" else "💀 LOSS"
+                match_lines.append(f"• Game {i+1}: {res_badge} (MVP: **{m.get('mvp', 'N/A')}**)")
+        tally_label = f"{wins}W - {losses}L"
+        if remakes_count:
+            tally_label += f" • {remakes_count} Remake{'s' if remakes_count != 1 else ''}"
         embed.add_field(
-            name=f"🎮 Session Match Log ({wins}W - {losses}L)",
+            name=f"🎮 Session Match Log ({tally_label})",
             value="\n".join(match_lines),
             inline=False
         )
@@ -1459,9 +1467,34 @@ async def log_match_cmd(
 
 def build_match_recap_embed(record: dict) -> discord.Embed:
     """Builds a rich match recap embed for auto-tracked matches."""
+    remake = is_remake_record(record)
     is_win = record.get("result") == "WIN"
-    color = 0x22C55E if is_win else 0xEF4444
     duration = record.get("duration_min", 0)
+
+    if remake:
+        embed = discord.Embed(
+            title=f"🔄 Remake — {record.get('mode', 'Match')} ({duration} min)",
+            description=(
+                f"**Date**: `{record.get('date')}`\n"
+                "*Game ended in early surrender (remake). Excluded from W-L, KDA, Ratings, MVP, and Synergy stats.*"
+            ),
+            color=0x64748B,
+        )
+        lineup = record.get("lineup", {})
+        lineup_rows = []
+        for role in ["Top", "Jungle", "Mid", "Bot", "Support"]:
+            pinfo = lineup.get(role)
+            if pinfo:
+                star = "🐒 " if pinfo.get("is_squad") else ""
+                lineup_rows.append(
+                    f"{star}**{role}**: **{pinfo['player']}** ({pinfo['champion']} `{pinfo['kills']}/{pinfo['deaths']}/{pinfo['assists']}`)"
+                )
+        if lineup_rows:
+            embed.add_field(name="Lobby Lineup", value="\n".join(lineup_rows), inline=False)
+        embed.set_footer(text=f"Match ID: {record.get('match_id')} • Auto-tracked via Riot Games API")
+        return embed
+
+    color = 0x22C55E if is_win else 0xEF4444
     mvp_name = record.get("mvp", "N/A")
     mvp_rating = record.get("mvp_rating")
     mvp_suffix = f" (`{mvp_rating}/100`)" if mvp_rating else ""
@@ -1913,23 +1946,37 @@ async def sync_matches_cmd(interaction: discord.Interaction, public: bool = Fals
         await interaction.followup.send("🔍 Match sync complete. No new squad matches found.", ephemeral=not public)
         return
 
+    has_proper_match = False
+    remake_count = 0
     for m in new_matches:
+        remake = is_remake_record(m)
+        if remake:
+            remake_count += 1
+            act_entry = f"🔄 Remake detected ({m.get('mode')}, {m.get('duration_min', 0)} min) — excluded from W-L"
+        else:
+            has_proper_match = True
+            act_entry = f"🎮 Match recorded: **{m.get('result')}** ({m.get('mode')})"
         matched_session = stats_mgr.attach_match_to_active_session(m)
         if matched_session:
             await notify_session(
                 session=matched_session,
-                activity_entry=f"🎮 Match recorded: **{m.get('result')}** ({m.get('mode')})",
+                activity_entry=act_entry,
                 thread_embed=build_match_recap_embed(m),
                 guild=interaction.guild,
                 recap_match_id=m.get("match_id"),
             )
-    await sync_living_synergy_threads(interaction.guild)
+    if has_proper_match:
+        await sync_living_synergy_threads(interaction.guild)
     await trigger_match_dashboard_sync()
 
-    await interaction.followup.send(
-        f"✅ Found and recorded **{len(new_matches)}** new squad match(es)! Living synergy threads updated.",
-        ephemeral=not public
-    )
+    proper_count = len(new_matches) - remake_count
+    if proper_count and remake_count:
+        summary_msg = f"✅ Found and recorded **{proper_count}** new squad match(es) and **{remake_count}** remake(s) (excluded from stats)! Living synergy threads updated."
+    elif remake_count:
+        summary_msg = f"🔄 Found **{remake_count}** remake(s) — logged separately and excluded from W-L, KDA, Ratings, and Synergy."
+    else:
+        summary_msg = f"✅ Found and recorded **{proper_count}** new squad match(es)! Living synergy threads updated."
+    await interaction.followup.send(summary_msg, ephemeral=not public)
     for m in new_matches:
         embed = build_match_recap_embed(m)
         if public:
@@ -2012,7 +2059,11 @@ async def auto_match_tracker():
             if not new_matches:
                 continue
 
+            has_proper_match = False
             for m in new_matches:
+                remake = is_remake_record(m)
+                if not remake:
+                    has_proper_match = True
                 embed = build_match_recap_embed(m)
 
                 # Only ever ping the specific players who participated in the match
@@ -2021,14 +2072,19 @@ async def auto_match_tracker():
                     found_member = discord.utils.find(lambda x: x.display_name.lower() == p_name.lower() or x.name.lower() == p_name.lower(), guild.members)
                     participant_pings.append(found_member.mention if found_member else f"**{p_name}**")
                 pings_str = ", ".join(participant_pings) or "Squad"
-                recap_header = f"🎮 **Match Auto-Recorded!** ({pings_str});\n **{m.get('result')}** ({m.get('mode')})"
+                if remake:
+                    recap_header = f"🔄 **Remake Detected** ({pings_str});\n **{m.get('mode')}** ({m.get('duration_min', 0)} min) — excluded from stats"
+                    act_entry = f"🔄 Remake detected ({m.get('mode')}, {m.get('duration_min', 0)} min) — excluded from W-L"
+                else:
+                    recap_header = f"🎮 **Match Auto-Recorded!** ({pings_str});\n **{m.get('result')}** ({m.get('mode')})"
+                    act_entry = f"🎮 Match recorded: **{m.get('result')}** (MVP: **{m.get('mvp', 'N/A')}**)"
 
                 matched_session = stats_mgr.attach_match_to_active_session(m)
                 delivered = False
                 if matched_session:
                     delivered = await notify_session(
                         session=matched_session,
-                        activity_entry=f"🎮 Match recorded: **{m.get('result')}** (MVP: **{m.get('mvp', 'N/A')}**)",
+                        activity_entry=act_entry,
                         thread_content=recap_header,
                         thread_embed=embed,
                         guild=guild,
@@ -2038,7 +2094,8 @@ async def auto_match_tracker():
                     sent_msg = await channel.send(recap_header, embed=embed)
                     stats_mgr.record_match_recap_message(m.get("match_id"), channel.id, sent_msg.id)
 
-            await sync_living_synergy_threads(guild)
+            if has_proper_match:
+                await sync_living_synergy_threads(guild)
             await trigger_match_dashboard_sync()
         except Exception as e:
             print(f"[Tracker] Error in auto match poller: {e}")
