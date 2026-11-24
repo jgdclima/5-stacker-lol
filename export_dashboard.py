@@ -26,6 +26,7 @@ from data_manager import (
     DEFAULT_GROUP_NAME,
     LEGACY_DEMO_GROUP_NAME,
     StatsManager,
+    is_remake_record,
 )
 from rating_engine import (
     ARCHETYPE_DPM_BENCHMARK,
@@ -348,10 +349,18 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
     matches = raw_data.get("match_history", [])
     sessions_map = raw_data.get("active_sessions", {})
 
-    # Ensure every match lineup has full pillar & rating evaluations
-    enriched_matches: List[dict] = []
+    # Ensure every proper match lineup has full pillar & rating evaluations; separate remakes
+    proper_matches: List[dict] = []
+    remake_matches: List[dict] = []
     for m in matches:
         m_copy = json.loads(json.dumps(m))
+        if is_remake_record(m_copy):
+            m_copy["is_remake"] = True
+            m_copy["result"] = "REMAKE"
+            m_copy["mvp"] = "N/A"
+            remake_matches.append(m_copy)
+            continue
+        m_copy["is_remake"] = False
         lineup = m_copy.get("lineup", {})
         for role, pdata in lineup.items():
             if isinstance(pdata, dict):
@@ -361,7 +370,7 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
                 pdata["archetype"] = eval_res["archetype"]
                 pdata["highlight"] = eval_res["highlight"]
                 pdata["pillars"] = eval_res["pillars"]
-        enriched_matches.append(m_copy)
+        proper_matches.append(m_copy)
 
     # Sessions list sorted by status priority then created_at descending
     status_order = {"IN_PROGRESS": 0, "READY": 1, "POLLING": 2, "COMPLETED": 3, "CANCELLED": 4}
@@ -449,7 +458,7 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
     archetype_stats: Dict[str, Dict[str, Any]] = {}
     player_role_perf: Dict[str, Dict[str, Dict[str, float]]] = {}
 
-    for match in enriched_matches:
+    for match in proper_matches:
         is_win = match.get("result") == "WIN"
         dur = float(match.get("duration_min") or 30.0)
         mode = match.get("mode", "Match")
@@ -458,7 +467,7 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
         for role, pdata in lineup.items():
             if not isinstance(pdata, dict):
                 continue
-            if not stats_mgr.is_lolers_member_entry(pdata, m_copy):
+            if not stats_mgr.is_lolers_member_entry(pdata, match):
                 continue
             pname = pdata.get("player", "Unknown")
             champ = pdata.get("champion", "Unknown")
@@ -684,16 +693,17 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
         "support_jungle": stats_mgr.get_support_jungle_synergies(min_games=1),
     }
 
-    # Overall Squad KPIs
-    total_matches = len(enriched_matches)
-    total_wins = sum(1 for m in enriched_matches if m.get("result") == "WIN")
+    # Overall Squad KPIs (proper games only; remakes tracked separately)
+    total_matches = len(proper_matches)
+    total_remakes = len(remake_matches)
+    total_wins = sum(1 for m in proper_matches if m.get("result") == "WIN")
     total_losses = total_matches - total_wins
     overall_wr = round((total_wins / total_matches) * 100, 1) if total_matches > 0 else 0.0
 
-    # Calculate current streak
+    # Calculate current streak (remakes do not break or extend streaks)
     streak_count = 0
     streak_type = "NONE"
-    for m in enriched_matches:
+    for m in proper_matches:
         res = m.get("result", "WIN")
         if streak_type == "NONE":
             streak_type = res
@@ -712,6 +722,7 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
         "group_name": group_name,
         "kpis": {
             "total_matches": total_matches,
+            "remakes": total_remakes,
             "wins": total_wins,
             "losses": total_losses,
             "win_rate": overall_wr,
@@ -721,7 +732,8 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
             "total_sessions_count": len(sessions_list),
         },
         "sessions": sessions_list,
-        "matches": enriched_matches,
+        "matches": proper_matches,
+        "remake_matches": remake_matches,
         "players": final_players,
         "synergies": synergies,
         "champions": champions_list,
@@ -757,7 +769,7 @@ def sanitize_live_payload(live_data: Dict[str, Any]) -> Dict[str, Any]:
         for sensitive_key in ("creator_id", "channel_id", "message_id", "thread_id"):
             session.pop(sensitive_key, None)
 
-    for match in sanitized.get("matches", []):
+    for match in sanitized.get("matches", []) + sanitized.get("remake_matches", []):
         if not isinstance(match, dict):
             continue
         match.pop("puuid", None)

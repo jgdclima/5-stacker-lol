@@ -37,6 +37,27 @@ POSITION_MAP = {
 }
 
 
+REMAKE_MAX_DURATION_SEC = 300  # 5 minutes
+
+
+def is_remake_match(match_data: dict) -> bool:
+    """
+    Detects whether a Riot Match-v5 payload represents a remake:
+    - Any participant has `gameEndedInEarlySurrender == True`, OR
+    - `gameDuration` is positive and strictly under 5 minutes (300 seconds).
+    """
+    if not match_data or "info" not in match_data:
+        return False
+    info = match_data["info"]
+    participants = info.get("participants", [])
+    if any(bool(p.get("gameEndedInEarlySurrender")) for p in participants):
+        return True
+    game_duration_sec = info.get("gameDuration")
+    if isinstance(game_duration_sec, (int, float)) and 0 < game_duration_sec < REMAKE_MAX_DURATION_SEC:
+        return True
+    return False
+
+
 class RiotAPIClient:
     def __init__(self, api_key: str, region: str = "americas"):
         self.api_key = api_key.strip() if api_key else ""
@@ -198,9 +219,10 @@ class RiotAPIClient:
         if len(target_squad) < min_squad_size:
             return None
 
-        # Determine outcome
+        # Determine outcome (remakes are tracked separately from proper wins/losses)
+        is_remake = is_remake_match(match_data)
         win = target_squad[0].get("win", False)
-        result_str = "WIN" if win else "LOSS"
+        result_str = "REMAKE" if is_remake else ("WIN" if win else "LOSS")
 
         # Map players and determine roles
         lineup = {}
@@ -288,11 +310,13 @@ class RiotAPIClient:
             "mode": mode_name,
             "queue_id": queue_id,
             "result": result_str,
+            "is_remake": is_remake,
             "duration_min": duration_min,
-            "mvp": target_squad[0].get("riotIdGameName", "Squad"),
+            "mvp": "N/A" if is_remake else target_squad[0].get("riotIdGameName", "Squad"),
             "squad_players": list(dict.fromkeys(linked_puuids[p["puuid"]]["name"] for p in target_squad)),
             "lineup": lineup
         }
 
-        evaluate_match_lineup_and_mvp(record)
+        if not is_remake:
+            evaluate_match_lineup_and_mvp(record)
         return record
