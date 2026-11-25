@@ -21,7 +21,8 @@ from dotenv import load_dotenv
 
 from schedule_checker import RankedSchedule
 from data_manager import StatsManager, is_remake_record
-from riot_api import RiotAPIClient
+from riot_api import RiotAPIClient, is_remake_match
+from rating_engine import score_player_in_match
 from github_tickets import GitHubTicketClient
 
 load_dotenv()
@@ -1511,18 +1512,27 @@ def build_match_recap_embed(record: dict) -> discord.Embed:
     for role in ["Top", "Jungle", "Mid", "Bot", "Support"]:
         pinfo = lineup.get(role)
         if pinfo:
-            star = "🐒 " if pinfo.get("is_squad") else ""
+            is_squad = bool(pinfo.get("is_squad"))
+            star = "🐒 " if is_squad else ""
             rating_badge = (
                 f" • `{pinfo['grade']} ({pinfo['rating']})`"
                 if pinfo.get("rating") is not None and pinfo.get("grade")
                 else ""
             )
-            highlight_badge = f" *[{pinfo['highlight']}]*" if pinfo.get("highlight") and pinfo.get("is_squad") else ""
-            lineup_rows.append(
-                f"{star}**{role}**: **{pinfo['player']}** ({pinfo['champion']} `{pinfo['kills']}/{pinfo['deaths']}/{pinfo['assists']}`){rating_badge}{highlight_badge}"
-            )
+            highlight_badge = f" *[{pinfo['highlight']}]*" if pinfo.get("highlight") and is_squad else ""
+            row = f"{star}**{role}**: **{pinfo['player']}** ({pinfo['champion']} `{pinfo['kills']}/{pinfo['deaths']}/{pinfo['assists']}`){rating_badge}{highlight_badge}"
+            if is_squad:
+                short_tip = pinfo.get("short_tip") or (pinfo.get("coaching") or {}).get("short_tip")
+                if not short_tip:
+                    short_tip = score_player_in_match(role, pinfo, record).get("short_tip", "")
+                if short_tip:
+                    row += f"\n> `↳ {short_tip}`"
+            lineup_rows.append(row)
     if lineup_rows:
-        embed.add_field(name="Squad Lineup", value="\n".join(lineup_rows), inline=False)
+        lineup_text = "\n".join(lineup_rows)
+        if len(lineup_text) > 1024:
+            lineup_text = lineup_text[:1021] + "..."
+        embed.add_field(name="Squad Lineup", value=lineup_text, inline=False)
 
     # Botlane synergy highlight
     bot_p = lineup.get("Bot")
@@ -1785,8 +1795,22 @@ async def check_and_sync_recent_matches(guild: discord.Guild = None) -> list:
             if not match_data:
                 continue
 
+            # Only fetch Match-v5 Timeline for non-remake squad matches (saves API calls on solo games/remakes)
+            timeline_data = None
+            if not is_remake_match(match_data):
+                participants = (match_data.get("info") or {}).get("participants") or []
+                t100 = sum(1 for p in participants if p.get("teamId") == 100 and p.get("puuid") in linked)
+                t200 = sum(1 for p in participants if p.get("teamId") == 200 and p.get("puuid") in linked)
+                if max(t100, t200) >= 2:
+                    timeline_data = await riot_client.get_match_timeline(mid)
+
             # Parse squad match (minimum 2 squad members together, up to full 5-stack)
-            record = riot_client.parse_squad_match(match_data, linked, min_squad_size=2)
+            record = riot_client.parse_squad_match(
+                match_data,
+                linked,
+                min_squad_size=2,
+                timeline_data=timeline_data,
+            )
             if record:
                 is_new, saved = stats_mgr.log_match(record)
                 if is_new:
@@ -1985,6 +2009,120 @@ async def sync_matches_cmd(interaction: discord.Interaction, public: bool = Fals
                 stats_mgr.record_match_recap_message(m.get("match_id"), sent_msg.channel.id, sent_msg.id)
         else:
             await interaction.followup.send(embed=embed, ephemeral=True)
+
+
+def build_coach_embed(report: dict) -> discord.Embed:
+    """Builds a concise, data-driven Discord coaching embed from a player coaching report."""
+    player_name = report.get("player", "Player")
+    games = report.get("games_analyzed", 0)
+    wins = report.get("wins", 0)
+    losses = report.get("losses", 0)
+
+    if games == 0:
+        return discord.Embed(
+            title=f"🎯 Performance Coaching — {player_name}",
+            description="No proper squad games recorded yet for this player. Play 1+ squad games (excluding remakes) and run `/sync-matches` to unlock coaching insights.",
+            color=0x64748B,
+        )
+
+    wr = round((wins / games) * 100, 1)
+    embed = discord.Embed(
+        title=f"🎯 Performance Coaching — {player_name}",
+        description=f"Analyzed **{games}** proper squad game(s) (**{wins}W - {losses}L**, `{wr}% WR`).",
+        color=0x0AC8B9,
+    )
+
+    # 1. Top 3 Recurring Focus Areas
+    focus = report.get("top_focus_areas") or []
+    if focus:
+        lines = []
+        for idx, f in enumerate(focus, start=1):
+            lines.append(
+                f"**{idx}. {f['title']}** (`{f['occurrences']}/{f['games_analyzed']}` games • `+{f['avg_est_gain']}` pts upside)\n"
+                f"↳ {f['summary']}"
+            )
+        embed.add_field(name="🔥 Top Recurring Focus Areas", value="\n".join(lines)[:1024], inline=False)
+    else:
+        embed.add_field(
+            name="🔥 Top Recurring Focus Areas",
+            value="✅ No major recurring rating leaks detected across your tracked games — keep it up!",
+            inline=False,
+        )
+
+    # 2. Win vs Loss Metric Splits
+    wvl = report.get("win_vs_loss") or {}
+    w_s = wvl.get("wins")
+    l_s = wvl.get("losses")
+    if w_s and l_s:
+        split_lines = [
+            f"• **Rating**: `{w_s['avg_rating']}` (W) vs `{l_s['avg_rating']}` (L)",
+            f"• **Deaths/10m**: `{w_s['deaths_per_10m']}` (W) vs `{l_s['deaths_per_10m']}` (L)",
+        ]
+        if w_s.get("cspm") is not None and l_s.get("cspm") is not None:
+            split_lines.append(f"• **CS/min**: `{w_s['cspm']}` (W) vs `{l_s['cspm']}` (L)")
+        if w_s.get("vspm") is not None and l_s.get("vspm") is not None:
+            split_lines.append(f"• **Vision/min**: `{w_s['vspm']}` (W) vs `{l_s['vspm']}` (L)")
+        if w_s.get("kp_pct") is not None and l_s.get("kp_pct") is not None:
+            split_lines.append(f"• **KP**: `{w_s['kp_pct']}%` (W) vs `{l_s['kp_pct']}%` (L)")
+        if wvl.get("biggest_loss_drop"):
+            split_lines.append(f"⚠️ **Biggest Loss Drop**: {wvl['biggest_loss_drop']}")
+        embed.add_field(name="⚖️ Win vs. Loss Splits", value="\n".join(split_lines)[:1024], inline=False)
+
+    # 3. Timeline Laning & Death Timing Profile
+    dp = report.get("death_profile")
+    if dp and dp.get("games_with_timeline", 0) > 0:
+        tl_lines = [
+            f"• **Deaths by Phase** ({dp['games_with_timeline']}G): Early `{dp['early_deaths_avg']}` • Mid `{dp['mid_deaths_avg']}` • Late `{dp['late_deaths_avg']}`",
+            f"• **Pre-Objective Deaths (<60s)**: `{dp['pre_objective_deaths_avg']}` / game",
+        ]
+        if dp.get("avg_gold_diff_15") is not None:
+            gd15 = int(dp["avg_gold_diff_15"])
+            csd15 = dp.get("avg_cs_diff_15")
+            cs_part = f" • `{csd15:+.1f} CS`" if csd15 is not None else ""
+            tl_lines.append(f"• **Avg @15m Diff**: `{gd15:+d}g`{cs_part}")
+        embed.add_field(name="⏱️ Laning & Death Timing (Timeline)", value="\n".join(tl_lines)[:1024], inline=False)
+
+    # 4. Role & Champion Fit
+    fit_lines = []
+    rf = report.get("role_fit") or {}
+    if rf.get("on_role_avg") is not None:
+        role_str = f"• **Main Role ({rf['primary_role']})**: `{rf['on_role_avg']}` avg ({rf['on_role_games']}G)"
+        if rf.get("off_role_avg") is not None:
+            delta = rf.get("delta")
+            sign = "+" if delta is not None and delta >= 0 else ""
+            role_str += f" vs Off-Role `{rf['off_role_avg']}` ({sign}{delta})"
+        fit_lines.append(role_str)
+    cf = report.get("champion_fit") or {}
+    if cf.get("best_pick"):
+        bp = cf["best_pick"]
+        fit_lines.append(f"• **Best Pick**: **{bp['champion']}** ({bp['role']}) — `{bp['avg_rating']}` avg, `{bp['win_rate']}%` WR ({bp['games']}G)")
+    if cf.get("weakest_pick") and cf["weakest_pick"] != cf.get("best_pick"):
+        wp = cf["weakest_pick"]
+        fit_lines.append(f"• **Toughest Pick**: **{wp['champion']}** ({wp['role']}) — `{wp['avg_rating']}` avg, `{wp['win_rate']}%` WR ({wp['games']}G)")
+    if fit_lines:
+        embed.add_field(name="🧭 Role & Champion Fit", value="\n".join(fit_lines)[:1024], inline=False)
+
+    embed.set_footer(text="Deterministic 6-Pillar & Timeline Coaching • Remakes excluded")
+    return embed
+
+
+@bot.tree.command(name="coach", description="View personalized multi-game performance coaching and recurring focus areas.")
+@app_commands.describe(
+    player="Squad member name to inspect (defaults to your own profile)",
+    public="Share publicly in the channel instead of a private response (default: False)"
+)
+async def coach_cmd(interaction: discord.Interaction, player: Optional[str] = None, public: bool = False):
+    if not has_lolers_role(interaction.user):
+        await interaction.response.send_message(
+            f"⛔ Only members with the **@{ROSTER_ROLE_NAME}** role can use `/coach`.",
+            ephemeral=True
+        )
+        return
+
+    target_name = (player or interaction.user.display_name).strip()
+    report = stats_mgr.get_player_coaching_report(target_name)
+    embed = build_coach_embed(report)
+    await interaction.response.send_message(embed=embed, ephemeral=not public)
 
 
 # --- Automated Background Tasks: Poller & 15-Minute Countdown ---

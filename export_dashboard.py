@@ -34,6 +34,8 @@ from rating_engine import (
     ROLE_CSPM_BENCHMARK,
     ROLE_PILLAR_WEIGHTS,
     ROLE_VSPM_BENCHMARK,
+    build_player_coaching_report,
+    build_squad_coaching_summary,
     get_champion_archetype,
     rating_to_grade,
     score_player_in_match,
@@ -370,6 +372,8 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
                 pdata["archetype"] = eval_res["archetype"]
                 pdata["highlight"] = eval_res["highlight"]
                 pdata["pillars"] = eval_res["pillars"]
+                pdata["short_tip"] = eval_res["short_tip"]
+                pdata["coaching"] = eval_res["coaching"]
         proper_matches.append(m_copy)
 
     # Sessions list sorted by status priority then created_at descending
@@ -586,6 +590,7 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
                     "rating": rating,
                     "grade": pdata.get("grade", rating_to_grade(rating)),
                     "highlight": pdata.get("highlight", ""),
+                    "short_tip": pdata.get("short_tip", ""),
                     "is_mvp": match.get("mvp") == pname,
                 })
 
@@ -638,6 +643,9 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
             elif prof["primary_role"] in STANDARD_ROLES:
                 prof["secondary_role"] = "Fill"
 
+        prof["coaching"] = build_player_coaching_report(
+            name, proper_matches, primary_role=prof.get("primary_role")
+        )
         final_players.append(prof)
 
     final_players.sort(key=lambda x: (x["avg_rating"], x["win_rate"], x["games"]), reverse=True)
@@ -739,6 +747,7 @@ def _compile_payload_from_manager(stats_mgr: StatsManager, is_demo: bool = False
         "champions": champions_list,
         "archetypes": archetypes_list,
         "role_distribution": role_distribution,
+        "squad_coaching": build_squad_coaching_summary(proper_matches),
     }
 
 
