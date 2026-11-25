@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25 03:49:35",
+  "generated_at": "2026-11-25 04:35:36",
   "github_repo": "jgdclima/5-stacker-lol",
   "has_live_matches": true,
   "rating_formulas": {
@@ -140,12 +140,12 @@
     "is_demo": false,
     "group_name": "5 Stackers",
     "kpis": {
-      "total_matches": 133,
+      "total_matches": 134,
       "remakes": 2,
       "wins": 62,
-      "losses": 71,
-      "win_rate": 46.6,
-      "streak_type": "WIN",
+      "losses": 72,
+      "win_rate": 46.3,
+      "streak_type": "LOSS",
       "streak_count": 1,
       "active_sessions_count": 1,
       "total_sessions_count": 24
@@ -176,7 +176,8 @@
         "activity_log": [
           "<t:1795574727:t> ⏰ **15-minute countdown reminder sent**",
           "<t:1795575627:t> ⚔️ **Session is now IN PROGRESS!**",
-          "<t:1795578569:t> 🎮 Match recorded: **WIN** (MVP: **(Ry) Zor raak**)"
+          "<t:1795578569:t> 🎮 Match recorded: **WIN** (MVP: **(Ry) Zor raak**)",
+          "<t:1795581329:t> 🎮 Match recorded: **LOSS** (MVP: **Joao/Brazil**)"
         ],
         "session_matches": [
           {
@@ -185,6 +186,13 @@
             "is_remake": false,
             "mode": "Normal Draft",
             "mvp": "(Ry) Zor raak"
+          },
+          {
+            "match_id": "NA1_5686151636",
+            "result": "LOSS",
+            "is_remake": false,
+            "mode": "Normal Draft",
+            "mvp": "Joao/Brazil"
           }
         ]
       },
@@ -1339,6 +1347,280 @@
       }
     ],
     "matches": [
+      {
+        "match_id": "NA1_5686151636",
+        "date": "2026-11-25 04:33",
+        "mode": "Normal Draft",
+        "queue_id": 400,
+        "result": "LOSS",
+        "is_remake": false,
+        "duration_min": 32.4,
+        "mvp": "Joao/Brazil",
+        "squad_players": [
+          "(Ry) Zor raak",
+          "Ryan",
+          "neetarius",
+          "Joao/Brazil"
+        ],
+        "lineup": {
+          "Top": {
+            "player": "(Ry) Zor raak",
+            "is_squad": true,
+            "champion": "Gwen",
+            "kills": 4,
+            "deaths": 11,
+            "assists": 8,
+            "damage": 14973,
+            "cs": 171,
+            "vision": 26,
+            "gold_earned": 11233,
+            "damage_taken": 33294,
+            "damage_mitigated": 26736,
+            "objective_damage": 5087,
+            "turret_damage": 2723,
+            "turret_takedowns": 0,
+            "turret_plates": 5,
+            "cc_score": 6,
+            "effective_heal_shield": 0.0,
+            "wards_placed": 12,
+            "wards_killed": 0,
+            "control_wards_placed": 0,
+            "kill_participation": 0.343,
+            "team_damage_pct": 0.14,
+            "damage_taken_pct": 0.232,
+            "solo_kills": 3,
+            "outnumbered_kills": 0,
+            "dragon_takedowns": 1,
+            "baron_takedowns": 0,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 0,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 0,
+            "pick_kill_with_ally": 8,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 3.0,
+            "max_level_lead": 1,
+            "rating": 56.9,
+            "grade": "B",
+            "archetype": "splitpusher",
+            "highlight": "Splitpusher Specialist",
+            "pillars": {
+              "combat": 55.0,
+              "damage": 57.5,
+              "objective": 73.5,
+              "frontline": 75.6,
+              "utility": 48.7,
+              "macro_vision": 68.1
+            }
+          },
+          "Jungle": {
+            "player": "Ryan",
+            "is_squad": true,
+            "champion": "MonkeyKing",
+            "kills": 8,
+            "deaths": 7,
+            "assists": 5,
+            "damage": 18303,
+            "cs": 216,
+            "vision": 37,
+            "gold_earned": 14915,
+            "damage_taken": 32648,
+            "damage_mitigated": 28171,
+            "objective_damage": 10221,
+            "turret_damage": 1084,
+            "turret_takedowns": 0,
+            "turret_plates": 2,
+            "cc_score": 19,
+            "effective_heal_shield": 0.0,
+            "wards_placed": 2,
+            "wards_killed": 10,
+            "control_wards_placed": 0,
+            "kill_participation": 0.371,
+            "team_damage_pct": 0.171,
+            "damage_taken_pct": 0.228,
+            "solo_kills": 2,
+            "outnumbered_kills": 2,
+            "dragon_takedowns": 2,
+            "baron_takedowns": 0,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 1,
+            "objectives_stolen": 1,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 6,
+            "pick_kill_with_ally": 10,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 18.7,
+            "max_level_lead": 2,
+            "rating": 72.3,
+            "grade": "A",
+            "archetype": "bruiser",
+            "highlight": "Bruiser Specialist",
+            "pillars": {
+              "combat": 70.8,
+              "damage": 72.3,
+              "objective": 75.6,
+              "frontline": 73.8,
+              "utility": 74.6,
+              "macro_vision": 87.7
+            }
+          },
+          "Mid": {
+            "player": "neetarius",
+            "is_squad": true,
+            "champion": "Kindred",
+            "kills": 7,
+            "deaths": 11,
+            "assists": 6,
+            "damage": 23874,
+            "cs": 156,
+            "vision": 22,
+            "gold_earned": 11886,
+            "damage_taken": 29875,
+            "damage_mitigated": 11406,
+            "objective_damage": 6704,
+            "turret_damage": 2254,
+            "turret_takedowns": 0,
+            "turret_plates": 4,
+            "cc_score": 7,
+            "effective_heal_shield": 4656.1,
+            "wards_placed": 7,
+            "wards_killed": 3,
+            "control_wards_placed": 0,
+            "kill_participation": 0.371,
+            "team_damage_pct": 0.223,
+            "damage_taken_pct": 0.209,
+            "solo_kills": 0,
+            "outnumbered_kills": 1,
+            "dragon_takedowns": 2,
+            "baron_takedowns": 0,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 0,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 0,
+            "pick_kill_with_ally": 11,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 6.0,
+            "max_level_lead": 1,
+            "rating": 55.6,
+            "grade": "B",
+            "archetype": "marksman",
+            "highlight": "Marksman Specialist",
+            "pillars": {
+              "combat": 49.7,
+              "damage": 73.2,
+              "objective": 90.6,
+              "frontline": 59.0,
+              "utility": 67.1,
+              "macro_vision": 58.4
+            }
+          },
+          "Bot": {
+            "player": "MiloticMaster#Pkmn",
+            "is_squad": false,
+            "champion": "Kaisa",
+            "kills": 6,
+            "deaths": 9,
+            "assists": 8,
+            "damage": 25569,
+            "cs": 232,
+            "vision": 27,
+            "gold_earned": 13780,
+            "damage_taken": 24994,
+            "damage_mitigated": 13393,
+            "objective_damage": 5953,
+            "turret_damage": 5794,
+            "turret_takedowns": 1,
+            "turret_plates": 6,
+            "cc_score": 0,
+            "effective_heal_shield": 0.0,
+            "wards_placed": 10,
+            "wards_killed": 6,
+            "control_wards_placed": 0,
+            "kill_participation": 0.4,
+            "team_damage_pct": 0.239,
+            "damage_taken_pct": 0.175,
+            "solo_kills": 1,
+            "outnumbered_kills": 2,
+            "dragon_takedowns": 0,
+            "baron_takedowns": 0,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 0,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 0,
+            "pick_kill_with_ally": 13,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 34.0,
+            "max_level_lead": 2,
+            "rating": 69.6,
+            "grade": "A",
+            "archetype": "marksman",
+            "highlight": "Marksman Specialist",
+            "pillars": {
+              "combat": 68.2,
+              "damage": 78.1,
+              "objective": 87.1,
+              "frontline": 63.1,
+              "utility": 48.3,
+              "macro_vision": 87.2
+            }
+          },
+          "Support": {
+            "player": "Joao/Brazil",
+            "is_squad": true,
+            "champion": "Zoe",
+            "kills": 10,
+            "deaths": 8,
+            "assists": 13,
+            "damage": 24135,
+            "cs": 65,
+            "vision": 80,
+            "gold_earned": 12881,
+            "damage_taken": 22394,
+            "damage_mitigated": 10386,
+            "objective_damage": 5212,
+            "turret_damage": 4730,
+            "turret_takedowns": 1,
+            "turret_plates": 8,
+            "cc_score": 41,
+            "effective_heal_shield": 164.0,
+            "wards_placed": 23,
+            "wards_killed": 15,
+            "control_wards_placed": 1,
+            "kill_participation": 0.657,
+            "team_damage_pct": 0.226,
+            "damage_taken_pct": 0.156,
+            "solo_kills": 1,
+            "outnumbered_kills": 1,
+            "dragon_takedowns": 1,
+            "baron_takedowns": 0,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 0,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 8,
+            "pick_kill_with_ally": 19,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 22.0,
+            "max_level_lead": 2,
+            "rating": 78.3,
+            "grade": "A+",
+            "archetype": "mage",
+            "highlight": "Vision Oracle",
+            "pillars": {
+              "combat": 87.7,
+              "damage": 75.3,
+              "objective": 93.8,
+              "frontline": 54.1,
+              "utility": 85.2,
+              "macro_vision": 90.4
+            }
+          }
+        },
+        "mvp_rating": 78.3
+      },
       {
         "match_id": "NA1_5686119962",
         "date": "2026-11-25 03:47",
@@ -36042,25 +36324,40 @@
             "linked_at": "2026-11-11T06:02:24.212107"
           }
         ],
-        "games": 16,
+        "games": 17,
         "wins": 10,
-        "losses": 6,
-        "win_rate": 62.5,
-        "kda": 4.6,
-        "avg_rating": 82.4,
+        "losses": 7,
+        "win_rate": 58.8,
+        "kda": 4.04,
+        "avg_rating": 80.9,
         "grade": "S",
         "mvps": 11,
         "main_role": "Top",
-        "kills": 101,
-        "deaths": 58,
-        "assists": 166,
+        "kills": 105,
+        "deaths": 69,
+        "assists": 174,
         "roles_played": {
-          "Top": 7,
+          "Top": 8,
           "Bot": 3,
           "Support": 5,
           "Jungle": 1
         },
         "recent_matches": [
+          {
+            "match_id": "NA1_5686151636",
+            "date": "2026-11-25 04:33",
+            "mode": "Normal Draft",
+            "result": "LOSS",
+            "role": "Top",
+            "champion": "Gwen",
+            "kills": 4,
+            "deaths": 11,
+            "assists": 8,
+            "rating": 56.9,
+            "grade": "B",
+            "highlight": "Splitpusher Specialist",
+            "is_mvp": false
+          },
           {
             "match_id": "NA1_5686119962",
             "date": "2026-11-25 03:47",
@@ -36303,12 +36600,12 @@
           }
         ],
         "pillars_avg": {
-          "combat": 78.4,
-          "damage": 82.1,
-          "objective": 97.7,
-          "frontline": 74.5,
-          "utility": 67.6,
-          "macro_vision": 82.2
+          "combat": 77.0,
+          "damage": 80.7,
+          "objective": 95.8,
+          "frontline": 74.6,
+          "utility": 66.5,
+          "macro_vision": 81.3
         },
         "champion_pool": [
           {
@@ -36507,6 +36804,21 @@
             "primary_role": "Top"
           },
           {
+            "champion": "Gwen",
+            "role": "Top",
+            "archetype": "splitpusher",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 1.09,
+            "avg_kills": 4.0,
+            "avg_deaths": 11.0,
+            "avg_assists": 8.0,
+            "avg_rating": 56.9,
+            "primary_role": "Top"
+          },
+          {
             "champion": "Nautilus",
             "role": "Support",
             "archetype": "catcher",
@@ -36533,7 +36845,7 @@
         "accounts": [
           {
             "riot_id": "Froatsy#BGS",
-            "linked_at": "2026-11-25T03:49:35.672052"
+            "linked_at": "2026-11-25T04:35:36.053543"
           }
         ],
         "games": 16,
@@ -36998,27 +37310,42 @@
         "accounts": [
           {
             "riot_id": "Dominital#NA1",
-            "linked_at": "2026-11-25T03:49:35.672041"
+            "linked_at": "2026-11-25T04:35:36.053531"
           }
         ],
-        "games": 49,
+        "games": 50,
         "wins": 27,
-        "losses": 22,
-        "win_rate": 55.1,
-        "kda": 2.44,
-        "avg_rating": 71.2,
+        "losses": 23,
+        "win_rate": 54.0,
+        "kda": 2.39,
+        "avg_rating": 70.9,
         "grade": "A",
         "mvps": 9,
         "main_role": "Mid",
-        "kills": 416,
-        "deaths": 266,
-        "assists": 233,
+        "kills": 423,
+        "deaths": 277,
+        "assists": 239,
         "roles_played": {
-          "Mid": 43,
+          "Mid": 44,
           "Top": 5,
           "Support": 1
         },
         "recent_matches": [
+          {
+            "match_id": "NA1_5686151636",
+            "date": "2026-11-25 04:33",
+            "mode": "Normal Draft",
+            "result": "LOSS",
+            "role": "Mid",
+            "champion": "Kindred",
+            "kills": 7,
+            "deaths": 11,
+            "assists": 6,
+            "rating": 55.6,
+            "grade": "B",
+            "highlight": "Marksman Specialist",
+            "is_mvp": false
+          },
           {
             "match_id": "NA1_5686119962",
             "date": "2026-11-25 03:47",
@@ -37756,12 +38083,12 @@
           }
         ],
         "pillars_avg": {
-          "combat": 74.6,
-          "damage": 75.1,
-          "objective": 84.4,
-          "frontline": 72.2,
-          "utility": 56.7,
-          "macro_vision": 68.2
+          "combat": 74.1,
+          "damage": 75.0,
+          "objective": 84.5,
+          "frontline": 71.9,
+          "utility": 57.0,
+          "macro_vision": 68.0
         },
         "champion_pool": [
           {
@@ -37975,6 +38302,21 @@
             "primary_role": "Mid"
           },
           {
+            "champion": "Kindred",
+            "role": "Mid",
+            "archetype": "marksman",
+            "games": 1,
+            "wins": 0,
+            "losses": 1,
+            "win_rate": 0.0,
+            "kda": 1.18,
+            "avg_kills": 7.0,
+            "avg_deaths": 11.0,
+            "avg_assists": 6.0,
+            "avg_rating": 55.6,
+            "primary_role": "Mid"
+          },
+          {
             "champion": "Mordekaiser",
             "role": "Top",
             "archetype": "bruiser",
@@ -38001,7 +38343,7 @@
         "accounts": [
           {
             "riot_id": "Mycroft Holmes#NA1",
-            "linked_at": "2026-11-25T03:49:35.672000"
+            "linked_at": "2026-11-25T04:35:36.053493"
           }
         ],
         "games": 66,
@@ -39328,26 +39670,41 @@
             "linked_at": "2026-11-15T09:57:39.049423"
           }
         ],
-        "games": 106,
+        "games": 107,
         "wins": 46,
-        "losses": 60,
-        "win_rate": 43.4,
-        "kda": 1.99,
-        "avg_rating": 70.0,
+        "losses": 61,
+        "win_rate": 43.0,
+        "kda": 2.0,
+        "avg_rating": 70.1,
         "grade": "A",
-        "mvps": 34,
+        "mvps": 35,
         "main_role": "Support",
-        "kills": 582,
-        "deaths": 721,
-        "assists": 855,
+        "kills": 592,
+        "deaths": 729,
+        "assists": 868,
         "roles_played": {
+          "Support": 36,
           "Jungle": 12,
           "Bot": 11,
-          "Support": 35,
           "Top": 29,
           "Mid": 19
         },
         "recent_matches": [
+          {
+            "match_id": "NA1_5686151636",
+            "date": "2026-11-25 04:33",
+            "mode": "Normal Draft",
+            "result": "LOSS",
+            "role": "Support",
+            "champion": "Zoe",
+            "kills": 10,
+            "deaths": 8,
+            "assists": 13,
+            "rating": 78.3,
+            "grade": "A+",
+            "highlight": "Vision Oracle",
+            "is_mvp": true
+          },
           {
             "match_id": "NA1_5685669665",
             "date": "2026-11-24 06:07",
@@ -40940,27 +41297,27 @@
           }
         ],
         "pillars_avg": {
-          "combat": 66.6,
+          "combat": 66.8,
           "damage": 79.5,
-          "objective": 78.5,
-          "frontline": 69.8,
-          "utility": 64.4,
-          "macro_vision": 70.0
+          "objective": 78.6,
+          "frontline": 69.6,
+          "utility": 64.6,
+          "macro_vision": 70.2
         },
         "champion_pool": [
           {
             "champion": "Zoe",
             "role": "Support",
             "archetype": "mage",
-            "games": 4,
+            "games": 5,
             "wins": 1,
-            "losses": 3,
-            "win_rate": 25.0,
-            "kda": 1.49,
-            "avg_kills": 6.0,
-            "avg_deaths": 8.8,
-            "avg_assists": 7.0,
-            "avg_rating": 64.1,
+            "losses": 4,
+            "win_rate": 20.0,
+            "kda": 1.74,
+            "avg_kills": 6.8,
+            "avg_deaths": 8.6,
+            "avg_assists": 8.2,
+            "avg_rating": 66.9,
             "primary_role": "Support"
           },
           {
@@ -42085,26 +42442,41 @@
         "accounts": [
           {
             "riot_id": "Cotterly#02020",
-            "linked_at": "2026-11-25T03:49:35.672015"
+            "linked_at": "2026-11-25T04:35:36.053507"
           }
         ],
-        "games": 70,
+        "games": 71,
         "wins": 31,
-        "losses": 39,
-        "win_rate": 44.3,
-        "kda": 3.25,
+        "losses": 40,
+        "win_rate": 43.7,
+        "kda": 3.22,
         "avg_rating": 69.9,
         "grade": "A",
         "mvps": 18,
         "main_role": "Jungle",
-        "kills": 323,
-        "deaths": 308,
-        "assists": 679,
+        "kills": 331,
+        "deaths": 315,
+        "assists": 684,
         "roles_played": {
-          "Jungle": 69,
+          "Jungle": 70,
           "Top": 1
         },
         "recent_matches": [
+          {
+            "match_id": "NA1_5686151636",
+            "date": "2026-11-25 04:33",
+            "mode": "Normal Draft",
+            "result": "LOSS",
+            "role": "Jungle",
+            "champion": "MonkeyKing",
+            "kills": 8,
+            "deaths": 7,
+            "assists": 5,
+            "rating": 72.3,
+            "grade": "A",
+            "highlight": "Bruiser Specialist",
+            "is_mvp": false
+          },
           {
             "match_id": "NA1_5685083860",
             "date": "2026-11-23 05:18",
@@ -43159,10 +43531,10 @@
         "pillars_avg": {
           "combat": 73.1,
           "damage": 69.6,
-          "objective": 71.6,
+          "objective": 71.7,
           "frontline": 73.2,
-          "utility": 66.8,
-          "macro_vision": 72.0
+          "utility": 66.9,
+          "macro_vision": 72.2
         },
         "champion_pool": [
           {
@@ -43199,15 +43571,15 @@
             "champion": "MonkeyKing",
             "role": "Jungle",
             "archetype": "bruiser",
-            "games": 10,
+            "games": 11,
             "wins": 7,
-            "losses": 3,
-            "win_rate": 70.0,
-            "kda": 3.38,
-            "avg_kills": 5.1,
-            "avg_deaths": 4.0,
-            "avg_assists": 8.4,
-            "avg_rating": 70.9,
+            "losses": 4,
+            "win_rate": 63.6,
+            "kda": 3.15,
+            "avg_kills": 5.4,
+            "avg_deaths": 4.3,
+            "avg_assists": 8.1,
+            "avg_rating": 71.0,
             "primary_role": "Jungle"
           },
           {
@@ -43372,7 +43744,7 @@
         "accounts": [
           {
             "riot_id": "Ace112358#NA1",
-            "linked_at": "2026-11-25T03:49:35.671978"
+            "linked_at": "2026-11-25T04:35:36.053472"
           }
         ],
         "games": 60,
@@ -44675,7 +45047,7 @@
         "accounts": [
           {
             "riot_id": "enkryptos#NA1",
-            "linked_at": "2026-11-25T03:49:35.672027"
+            "linked_at": "2026-11-25T04:35:36.053520"
           }
         ],
         "games": 72,
@@ -46385,7 +46757,7 @@
         "accounts": [
           {
             "riot_id": "Lexyg33#8183",
-            "linked_at": "2026-11-25T03:49:35.672065"
+            "linked_at": "2026-11-25T04:35:36.053553"
           }
         ],
         "games": 7,
@@ -47084,16 +47456,16 @@
           "pair": "neetarius (MID) & Ryan (JNG)",
           "player_a": "neetarius",
           "player_b": "Ryan",
-          "games": 26,
+          "games": 27,
           "wins": 13,
-          "losses": 13,
-          "win_rate": 50.0,
-          "combined_kda": 2.79,
-          "synergy_score": 57.9,
+          "losses": 14,
+          "win_rate": 48.1,
+          "combined_kda": 2.69,
+          "synergy_score": 56.8,
           "tier": "B Tier",
           "tag": "Objective Anchors",
-          "avg_duo_rating": 70.1,
-          "coordination_score": 77.2,
+          "avg_duo_rating": 69.8,
+          "coordination_score": 77.1,
           "favorite_combo": "Locke + Sejuani"
         },
         {
@@ -47483,22 +47855,6 @@
           "favorite_combo": "Irelia + Shyvana"
         },
         {
-          "pair": "(Ry) Zor raak (TOP) & Ryan (JNG)",
-          "player_a": "(Ry) Zor raak",
-          "player_b": "Ryan",
-          "games": 3,
-          "wins": 1,
-          "losses": 2,
-          "win_rate": 33.3,
-          "combined_kda": 2.79,
-          "synergy_score": 50.5,
-          "tier": "B Tier",
-          "tag": "Developing Chemistry",
-          "avg_duo_rating": 66.2,
-          "coordination_score": 60.7,
-          "favorite_combo": "Renekton + Taliyah"
-        },
-        {
           "pair": "Joao/Brazil (TOP) & enkryptos (JNG)",
           "player_a": "Joao/Brazil",
           "player_b": "enkryptos",
@@ -47545,6 +47901,22 @@
           "avg_duo_rating": 71.3,
           "coordination_score": 72.7,
           "favorite_combo": "Irelia + Sejuani"
+        },
+        {
+          "pair": "(Ry) Zor raak (TOP) & Ryan (JNG)",
+          "player_a": "(Ry) Zor raak",
+          "player_b": "Ryan",
+          "games": 4,
+          "wins": 1,
+          "losses": 3,
+          "win_rate": 25.0,
+          "combined_kda": 2.0,
+          "synergy_score": 43.4,
+          "tier": "B Tier",
+          "tag": "Developing Chemistry",
+          "avg_duo_rating": 65.8,
+          "coordination_score": 59.9,
+          "favorite_combo": "Renekton + Taliyah"
         },
         {
           "pair": "Froatsy (TOP) & Ryan (JNG)",
@@ -47872,16 +48244,16 @@
           "pair": "Joao/Brazil (SUP) & Ryan (JNG)",
           "player_a": "Joao/Brazil",
           "player_b": "Ryan",
-          "games": 25,
+          "games": 26,
           "wins": 10,
-          "losses": 15,
-          "win_rate": 40.0,
-          "combined_kda": 2.77,
-          "synergy_score": 53.4,
+          "losses": 16,
+          "win_rate": 38.5,
+          "combined_kda": 2.75,
+          "synergy_score": 52.8,
           "tier": "B Tier",
           "tag": "Objective Anchors",
-          "avg_duo_rating": 67.9,
-          "coordination_score": 78.8,
+          "avg_duo_rating": 68.2,
+          "coordination_score": 79.2,
           "favorite_combo": "Leona + Taliyah"
         },
         {
@@ -48258,6 +48630,32 @@
         }
       },
       {
+        "champion": "MonkeyKing",
+        "role": "Jungle",
+        "archetype": "bruiser",
+        "picks": 11,
+        "wins": 7,
+        "losses": 4,
+        "win_rate": 63.6,
+        "kda": 3.15,
+        "avg_kills": 5.4,
+        "avg_deaths": 4.3,
+        "avg_assists": 8.1,
+        "dpm": 489.0,
+        "cspm": 6.0,
+        "vspm": 1.01,
+        "avg_rating": 71.0,
+        "grade": "A",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 11
+        },
+        "top_pilot": "Ryan",
+        "pilots": {
+          "Ryan": 11
+        }
+      },
+      {
         "champion": "Caitlyn",
         "role": "Bot",
         "archetype": "marksman",
@@ -48282,32 +48680,6 @@
         "pilots": {
           "Aditya": 10,
           "Joao/Brazil": 1
-        }
-      },
-      {
-        "champion": "MonkeyKing",
-        "role": "Jungle",
-        "archetype": "bruiser",
-        "picks": 10,
-        "wins": 7,
-        "losses": 3,
-        "win_rate": 70.0,
-        "kda": 3.38,
-        "avg_kills": 5.1,
-        "avg_deaths": 4.0,
-        "avg_assists": 8.4,
-        "dpm": 481.0,
-        "cspm": 5.9,
-        "vspm": 1.0,
-        "avg_rating": 70.9,
-        "grade": "A",
-        "primary_role": "Jungle",
-        "roles": {
-          "Jungle": 10
-        },
-        "top_pilot": "Ryan",
-        "pilots": {
-          "Ryan": 10
         }
       },
       {
@@ -48658,6 +49030,32 @@
         "pilots": {
           "Aditya": 3,
           "Joao/Brazil": 2
+        }
+      },
+      {
+        "champion": "Zoe",
+        "role": "Support",
+        "archetype": "mage",
+        "picks": 5,
+        "wins": 1,
+        "losses": 4,
+        "win_rate": 20.0,
+        "kda": 1.74,
+        "avg_kills": 6.8,
+        "avg_deaths": 8.6,
+        "avg_assists": 8.2,
+        "dpm": 639.0,
+        "cspm": 1.8,
+        "vspm": 2.15,
+        "avg_rating": 66.9,
+        "grade": "A",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 5
+        },
+        "top_pilot": "Joao/Brazil",
+        "pilots": {
+          "Joao/Brazil": 5
         }
       },
       {
@@ -49074,32 +49472,6 @@
           "Joao/Brazil": 1,
           "enkryptos": 1,
           "Julian": 1
-        }
-      },
-      {
-        "champion": "Zoe",
-        "role": "Support",
-        "archetype": "mage",
-        "picks": 4,
-        "wins": 1,
-        "losses": 3,
-        "win_rate": 25.0,
-        "kda": 1.49,
-        "avg_kills": 6.0,
-        "avg_deaths": 8.8,
-        "avg_assists": 7.0,
-        "dpm": 612.0,
-        "cspm": 1.7,
-        "vspm": 2.07,
-        "avg_rating": 64.1,
-        "grade": "B",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 4
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "Joao/Brazil": 4
         }
       },
       {
@@ -50436,6 +50808,33 @@
         }
       },
       {
+        "champion": "Kindred",
+        "role": "Mid",
+        "archetype": "marksman",
+        "picks": 2,
+        "wins": 0,
+        "losses": 2,
+        "win_rate": 0.0,
+        "kda": 0.93,
+        "avg_kills": 4.0,
+        "avg_deaths": 7.5,
+        "avg_assists": 3.0,
+        "dpm": 566.0,
+        "cspm": 6.1,
+        "vspm": 0.71,
+        "avg_rating": 52.1,
+        "grade": "C",
+        "primary_role": "Mid",
+        "roles": {
+          "Mid": 2
+        },
+        "top_pilot": "neetarius",
+        "pilots": {
+          "neetarius": 1,
+          "Aditya": 1
+        }
+      },
+      {
         "champion": "Ryze",
         "role": "Mid",
         "archetype": "mage",
@@ -51425,6 +51824,32 @@
         }
       },
       {
+        "champion": "Gwen",
+        "role": "Top",
+        "archetype": "splitpusher",
+        "picks": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "kda": 1.09,
+        "avg_kills": 4.0,
+        "avg_deaths": 11.0,
+        "avg_assists": 8.0,
+        "dpm": 462.0,
+        "cspm": 5.3,
+        "vspm": 0.8,
+        "avg_rating": 56.9,
+        "grade": "B",
+        "primary_role": "Top",
+        "roles": {
+          "Top": 1
+        },
+        "top_pilot": "(Ry) Zor raak",
+        "pilots": {
+          "(Ry) Zor raak": 1
+        }
+      },
+      {
         "champion": "Pantheon",
         "role": "Support",
         "archetype": "assassin",
@@ -51682,32 +52107,6 @@
         "top_pilot": "Ryan",
         "pilots": {
           "Ryan": 1
-        }
-      },
-      {
-        "champion": "Kindred",
-        "role": "Mid",
-        "archetype": "marksman",
-        "picks": 1,
-        "wins": 0,
-        "losses": 1,
-        "win_rate": 0.0,
-        "kda": 0.25,
-        "avg_kills": 1.0,
-        "avg_deaths": 4.0,
-        "avg_assists": 0.0,
-        "dpm": 360.0,
-        "cspm": 7.7,
-        "vspm": 0.74,
-        "avg_rating": 48.6,
-        "grade": "C",
-        "primary_role": "Mid",
-        "roles": {
-          "Mid": 1
-        },
-        "top_pilot": "Aditya",
-        "pilots": {
-          "Aditya": 1
         }
       },
       {
@@ -52033,17 +52432,17 @@
       },
       {
         "archetype": "bruiser",
-        "picks": 84,
+        "picks": 85,
         "wins": 39,
-        "win_rate": 46.4,
-        "avg_rating": 70.4
+        "win_rate": 45.9,
+        "avg_rating": 70.5
       },
       {
         "archetype": "marksman",
-        "picks": 84,
+        "picks": 85,
         "wins": 38,
-        "win_rate": 45.2,
-        "avg_rating": 66.0
+        "win_rate": 44.7,
+        "avg_rating": 65.9
       },
       {
         "archetype": "tank",
@@ -52054,10 +52453,10 @@
       },
       {
         "archetype": "mage",
-        "picks": 56,
+        "picks": 57,
         "wins": 24,
-        "win_rate": 42.9,
-        "avg_rating": 66.2
+        "win_rate": 42.1,
+        "avg_rating": 66.4
       },
       {
         "archetype": "catcher",
@@ -52068,10 +52467,10 @@
       },
       {
         "archetype": "splitpusher",
-        "picks": 35,
+        "picks": 36,
         "wins": 20,
-        "win_rate": 57.1,
-        "avg_rating": 76.6
+        "win_rate": 55.6,
+        "avg_rating": 76.1
       },
       {
         "archetype": "enchanter",
@@ -52083,15 +52482,15 @@
     ],
     "role_distribution": {
       "Top": {
-        "games": 102,
+        "games": 103,
         "wins": 46
       },
       "Jungle": {
-        "games": 114,
+        "games": 115,
         "wins": 50
       },
       "Mid": {
-        "games": 98,
+        "games": 99,
         "wins": 46
       },
       "Bot": {
@@ -52099,7 +52498,7 @@
         "wins": 37
       },
       "Support": {
-        "games": 83,
+        "games": 84,
         "wins": 39
       }
     }
