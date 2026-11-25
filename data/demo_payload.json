@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24 22:08:15",
+  "generated_at": "2026-11-25 05:36:31",
   "github_repo": "jgdclima/5-stacker-lol",
   "rating_formulas": {
     "role_weights": {
@@ -357,6 +357,59 @@
             "grade": "S+",
             "archetype": "tank",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.32,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 70.3,
+                  "weight_pct": 17.3,
+                  "impact_vs_avg": 0.9
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 73.7,
+                  "weight_pct": 12.5,
+                  "impact_vs_avg": 1.1
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 79.9,
+                  "weight_pct": 8.0,
+                  "impact_vs_avg": 1.2
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 93.0,
+                  "weight_pct": 15.5,
+                  "impact_vs_avg": 4.3
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 93.7,
+                  "weight_pct": 20.2,
+                  "impact_vs_avg": 5.8
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 95.8,
+                  "weight_pct": 26.5,
+                  "impact_vs_avg": 8.2
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Unkillable Frontline",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 93.7,
               "damage": 93.0,
@@ -389,6 +442,59 @@
             "grade": "S",
             "archetype": "bruiser",
             "highlight": "Objective Commander",
+            "short_tip": "✓ Clean game — Objective Commander",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.63,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 72.6,
+                  "weight_pct": 9.8,
+                  "impact_vs_avg": 0.7
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 80.0,
+                  "weight_pct": 8.6,
+                  "impact_vs_avg": 1.3
+                },
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 72.0,
+                  "weight_pct": 24.6,
+                  "impact_vs_avg": 1.7
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 82.0,
+                  "weight_pct": 15.6,
+                  "impact_vs_avg": 2.7
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 81.5,
+                  "weight_pct": 18.1,
+                  "impact_vs_avg": 3.0
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 96.5,
+                  "weight_pct": 23.4,
+                  "impact_vs_avg": 7.4
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Objective Commander",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 96.5,
               "damage": 81.5,
@@ -417,6 +523,59 @@
             "grade": "S",
             "archetype": "assassin",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.32,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 47.0,
+                  "weight_pct": 11.6,
+                  "impact_vs_avg": -2.1
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 45.2,
+                  "weight_pct": 5.5,
+                  "impact_vs_avg": -1.1
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 67.0,
+                  "weight_pct": 9.8,
+                  "impact_vs_avg": 0.2
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 82.8,
+                  "weight_pct": 11.1,
+                  "impact_vs_avg": 2.0
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 84.9,
+                  "weight_pct": 32.0,
+                  "impact_vs_avg": 6.4
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 100.0,
+                  "weight_pct": 30.0,
+                  "impact_vs_avg": 10.5
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Hypercarry DPS",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 100.0,
               "damage": 84.9,
@@ -444,6 +603,59 @@
             "grade": "S+",
             "archetype": "marksman",
             "highlight": "Splitpush Titan",
+            "short_tip": "✓ Clean game — Splitpush Titan",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.63,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 55.0,
+                  "weight_pct": 14.0,
+                  "impact_vs_avg": -1.4
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 39.5,
+                  "weight_pct": 3.1,
+                  "impact_vs_avg": -0.8
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 65.8,
+                  "weight_pct": 5.1,
+                  "impact_vs_avg": 0.0
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 83.5,
+                  "weight_pct": 14.9,
+                  "impact_vs_avg": 2.8
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 100.0,
+                  "weight_pct": 26.0,
+                  "impact_vs_avg": 9.1
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 95.0,
+                  "weight_pct": 36.9,
+                  "impact_vs_avg": 11.1
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Splitpush Titan",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 100.0,
               "damage": 95.0,
@@ -472,6 +684,45 @@
             "grade": "S+",
             "archetype": "enchanter",
             "highlight": "Peel & Enchanter Carry",
+            "short_tip": "✓ Clean game — Peel & Enchanter Carry",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.32,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 60.6,
+                  "weight_pct": 7.4,
+                  "impact_vs_avg": -0.3
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 84.2,
+                  "weight_pct": 29.8,
+                  "impact_vs_avg": 5.7
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 97.0,
+                  "weight_pct": 23.9,
+                  "impact_vs_avg": 7.7
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 86.3,
+                  "weight_pct": 38.9,
+                  "impact_vs_avg": 8.3
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Peel & Enchanter Carry",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 97.0,
               "damage": 60.6,
@@ -510,6 +761,59 @@
             "grade": "S",
             "archetype": "bruiser",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.71,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 56.6,
+                  "weight_pct": 7.5,
+                  "impact_vs_avg": -0.6
+                },
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 63.7,
+                  "weight_pct": 19.1,
+                  "impact_vs_avg": -0.2
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 79.8,
+                  "weight_pct": 7.5,
+                  "impact_vs_avg": 1.1
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 89.6,
+                  "weight_pct": 21.3,
+                  "impact_vs_avg": 5.3
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 91.1,
+                  "weight_pct": 21.1,
+                  "impact_vs_avg": 5.5
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 97.5,
+                  "weight_pct": 23.4,
+                  "impact_vs_avg": 7.6
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Unkillable Frontline",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 97.5,
               "damage": 89.6,
@@ -540,6 +844,59 @@
             "grade": "S",
             "archetype": "bruiser",
             "highlight": "Objective Commander",
+            "short_tip": "✓ Clean game — Objective Commander",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.71,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 45.9,
+                  "weight_pct": 9.8,
+                  "impact_vs_avg": -1.9
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 72.3,
+                  "weight_pct": 18.1,
+                  "impact_vs_avg": 1.3
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 79.9,
+                  "weight_pct": 8.6,
+                  "impact_vs_avg": 1.3
+                },
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 72.0,
+                  "weight_pct": 24.6,
+                  "impact_vs_avg": 1.7
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 90.1,
+                  "weight_pct": 15.6,
+                  "impact_vs_avg": 3.9
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 95.4,
+                  "weight_pct": 23.4,
+                  "impact_vs_avg": 7.1
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Objective Commander",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 95.4,
               "damage": 72.3,
@@ -566,6 +923,45 @@
             "grade": "S+",
             "archetype": "mage",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.36,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 64.7,
+                  "weight_pct": 15.4,
+                  "impact_vs_avg": -0.0
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 86.4,
+                  "weight_pct": 14.3,
+                  "impact_vs_avg": 3.1
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 89.8,
+                  "weight_pct": 40.3,
+                  "impact_vs_avg": 10.0
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 100.0,
+                  "weight_pct": 29.9,
+                  "impact_vs_avg": 10.5
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Hypercarry DPS",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 100.0,
               "damage": 89.8,
@@ -588,6 +984,52 @@
             "grade": "S",
             "archetype": "marksman",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.71,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 50.5,
+                  "weight_pct": 14.4,
+                  "impact_vs_avg": -2.1
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 60.7,
+                  "weight_pct": 5.3,
+                  "impact_vs_avg": -0.2
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 81.7,
+                  "weight_pct": 15.4,
+                  "impact_vs_avg": 2.6
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 83.6,
+                  "weight_pct": 38.1,
+                  "impact_vs_avg": 7.1
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 97.2,
+                  "weight_pct": 26.8,
+                  "impact_vs_avg": 8.6
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Hypercarry DPS",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 97.2,
               "damage": 83.6,
@@ -613,6 +1055,45 @@
             "grade": "S",
             "archetype": "enchanter",
             "highlight": "Peel & Enchanter Carry",
+            "short_tip": "✓ Clean game — Peel & Enchanter Carry",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.71,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 74.1,
+                  "weight_pct": 7.4,
+                  "impact_vs_avg": 0.7
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 79.6,
+                  "weight_pct": 29.8,
+                  "impact_vs_avg": 4.3
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 93.3,
+                  "weight_pct": 23.9,
+                  "impact_vs_avg": 6.8
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 84.0,
+                  "weight_pct": 38.9,
+                  "impact_vs_avg": 7.4
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Peel & Enchanter Carry",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 93.3,
               "damage": 74.1,
@@ -651,6 +1132,59 @@
             "grade": "S",
             "archetype": "bruiser",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.88,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 47.4,
+                  "weight_pct": 7.5,
+                  "impact_vs_avg": -1.3
+                },
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 68.7,
+                  "weight_pct": 19.1,
+                  "impact_vs_avg": 0.7
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 77.2,
+                  "weight_pct": 7.5,
+                  "impact_vs_avg": 0.9
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 79.4,
+                  "weight_pct": 21.3,
+                  "impact_vs_avg": 3.1
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 84.2,
+                  "weight_pct": 21.1,
+                  "impact_vs_avg": 4.1
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 88.9,
+                  "weight_pct": 23.4,
+                  "impact_vs_avg": 5.6
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Unkillable Frontline",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 88.9,
               "damage": 79.4,
@@ -681,6 +1215,59 @@
             "grade": "S",
             "archetype": "tank",
             "highlight": "Objective Commander",
+            "short_tip": "✓ Clean game — Objective Commander",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.29,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 76.7,
+                  "weight_pct": 9.1,
+                  "impact_vs_avg": 1.1
+                },
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 72.0,
+                  "weight_pct": 22.8,
+                  "impact_vs_avg": 1.6
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 78.9,
+                  "weight_pct": 14.7,
+                  "impact_vs_avg": 2.0
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 87.8,
+                  "weight_pct": 12.2,
+                  "impact_vs_avg": 2.8
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 94.6,
+                  "weight_pct": 21.0,
+                  "impact_vs_avg": 6.2
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 98.1,
+                  "weight_pct": 20.2,
+                  "impact_vs_avg": 6.7
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Objective Commander",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 98.1,
               "damage": 87.8,
@@ -705,6 +1292,52 @@
             "grade": "S",
             "archetype": "mage",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.58,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 46.1,
+                  "weight_pct": 11.7,
+                  "impact_vs_avg": -2.2
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 61.2,
+                  "weight_pct": 13.6,
+                  "impact_vs_avg": -0.5
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 80.1,
+                  "weight_pct": 12.6,
+                  "impact_vs_avg": 1.9
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 86.9,
+                  "weight_pct": 35.6,
+                  "impact_vs_avg": 7.8
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 97.5,
+                  "weight_pct": 26.5,
+                  "impact_vs_avg": 8.6
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Hypercarry DPS",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 97.5,
               "damage": 86.9,
@@ -728,6 +1361,52 @@
             "grade": "S",
             "archetype": "marksman",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.29,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 49.6,
+                  "weight_pct": 14.4,
+                  "impact_vs_avg": -2.2
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 62.8,
+                  "weight_pct": 5.3,
+                  "impact_vs_avg": -0.1
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 77.5,
+                  "weight_pct": 15.4,
+                  "impact_vs_avg": 1.9
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 88.2,
+                  "weight_pct": 38.1,
+                  "impact_vs_avg": 8.8
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 100.0,
+                  "weight_pct": 26.8,
+                  "impact_vs_avg": 9.4
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Hypercarry DPS",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 100.0,
               "damage": 88.2,
@@ -753,6 +1432,45 @@
             "grade": "S",
             "archetype": "catcher",
             "highlight": "Map Omnipresence",
+            "short_tip": "✓ Clean game — Map Omnipresence",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.58,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 53.7,
+                  "weight_pct": 9.1,
+                  "impact_vs_avg": -1.0
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 78.8,
+                  "weight_pct": 29.5,
+                  "impact_vs_avg": 4.1
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 78.1,
+                  "weight_pct": 35.8,
+                  "impact_vs_avg": 4.7
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 97.2,
+                  "weight_pct": 25.6,
+                  "impact_vs_avg": 8.2
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Map Omnipresence",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 97.2,
               "damage": 53.7,
@@ -790,6 +1508,52 @@
             "grade": "A+",
             "archetype": "tank",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 1.36,
+              "outcome_adj": -1.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 46.4,
+                  "weight_pct": 15.1,
+                  "impact_vs_avg": -2.8
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 71.3,
+                  "weight_pct": 9.7,
+                  "impact_vs_avg": 0.6
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 74.2,
+                  "weight_pct": 24.4,
+                  "impact_vs_avg": 2.2
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 87.2,
+                  "weight_pct": 18.7,
+                  "impact_vs_avg": 4.2
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 94.1,
+                  "weight_pct": 32.0,
+                  "impact_vs_avg": 9.3
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Unkillable Frontline",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 74.2,
               "damage": 87.2,
@@ -816,6 +1580,82 @@
             "grade": "B",
             "archetype": "tank",
             "highlight": "Unkillable Frontline",
+            "short_tip": "↑ Objective pressure (11/100)",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 1.63,
+              "outcome_adj": -1.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 10.9,
+                  "weight_pct": 22.8,
+                  "impact_vs_avg": -12.3
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 49.3,
+                  "weight_pct": 14.7,
+                  "impact_vs_avg": -2.3
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 66.7,
+                  "weight_pct": 9.1,
+                  "impact_vs_avg": 0.2
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 75.2,
+                  "weight_pct": 20.2,
+                  "impact_vs_avg": 2.1
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 86.0,
+                  "weight_pct": 12.2,
+                  "impact_vs_avg": 2.6
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 86.6,
+                  "weight_pct": 21.0,
+                  "impact_vs_avg": 4.5
+                }
+              ],
+              "levers": [
+                {
+                  "key": "low_objectives",
+                  "category": "Objectives & Turrets",
+                  "title": "Convert Objective Pressure",
+                  "observed": "11/100 pillar",
+                  "target": ">= 65/100 pillar",
+                  "est_rating_gain": 7.5,
+                  "severity": "medium",
+                  "detail": "Objective/turret pressure scored 11/100 — prioritize dragon/herald setups or side-lane plates.",
+                  "short_cue": "↑ Objective pressure (11/100)"
+                },
+                {
+                  "key": "low_cspm",
+                  "category": "Economy & Farming",
+                  "title": "Raise CS/min",
+                  "observed": "4.8 CS/m",
+                  "target": "5.8 CS/m (Jungle)",
+                  "est_rating_gain": 1.5,
+                  "severity": "medium",
+                  "detail": "Farmed 4.8 CS/min vs. 5.8 Jungle benchmark — catch side waves between fights.",
+                  "short_cue": "↑ CS/m (4.8 vs 5.8)"
+                }
+              ],
+              "short_tip": "↑ Objective pressure (11/100)",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 75.2,
               "damage": 86.0,
@@ -840,6 +1680,45 @@
             "grade": "A+",
             "archetype": "mage",
             "highlight": "Mage Specialist",
+            "short_tip": "✓ Clean game — Mage Specialist",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 1.09,
+              "outcome_adj": -1.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 50.8,
+                  "weight_pct": 15.4,
+                  "impact_vs_avg": -2.2
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 73.6,
+                  "weight_pct": 14.3,
+                  "impact_vs_avg": 1.2
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 78.0,
+                  "weight_pct": 40.3,
+                  "impact_vs_avg": 5.2
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 91.1,
+                  "weight_pct": 29.9,
+                  "impact_vs_avg": 7.8
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Mage Specialist",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 91.1,
               "damage": 78.0,
@@ -862,6 +1741,52 @@
             "grade": "S",
             "archetype": "marksman",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.82,
+              "outcome_adj": -1.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 48.0,
+                  "weight_pct": 14.4,
+                  "impact_vs_avg": -2.5
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 53.4,
+                  "weight_pct": 5.3,
+                  "impact_vs_avg": -0.6
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 80.1,
+                  "weight_pct": 15.4,
+                  "impact_vs_avg": 2.3
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 88.1,
+                  "weight_pct": 38.1,
+                  "impact_vs_avg": 8.8
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 99.4,
+                  "weight_pct": 26.8,
+                  "impact_vs_avg": 9.2
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Hypercarry DPS",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 99.4,
               "damage": 88.1,
@@ -886,6 +1811,45 @@
             "grade": "A",
             "archetype": "enchanter",
             "highlight": "Peel & Enchanter Carry",
+            "short_tip": "✓ Clean game — Peel & Enchanter Carry",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 1.09,
+              "outcome_adj": -1.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 44.0,
+                  "weight_pct": 7.4,
+                  "impact_vs_avg": -1.6
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 61.1,
+                  "weight_pct": 38.9,
+                  "impact_vs_avg": -1.5
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 66.6,
+                  "weight_pct": 29.8,
+                  "impact_vs_avg": 0.5
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 87.4,
+                  "weight_pct": 23.9,
+                  "impact_vs_avg": 5.4
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Peel & Enchanter Carry",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 87.4,
               "damage": 44.0,
@@ -924,6 +1888,52 @@
             "grade": "S+",
             "archetype": "tank",
             "highlight": "Peel & Enchanter Carry",
+            "short_tip": "✓ Clean game — Peel & Enchanter Carry",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.34,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 52.1,
+                  "weight_pct": 15.1,
+                  "impact_vs_avg": -1.9
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 77.1,
+                  "weight_pct": 9.7,
+                  "impact_vs_avg": 1.2
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 88.6,
+                  "weight_pct": 18.7,
+                  "impact_vs_avg": 4.4
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 97.6,
+                  "weight_pct": 24.4,
+                  "impact_vs_avg": 8.0
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 92.7,
+                  "weight_pct": 32.0,
+                  "impact_vs_avg": 8.9
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Peel & Enchanter Carry",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 97.6,
               "damage": 88.6,
@@ -950,6 +1960,52 @@
             "grade": "S",
             "archetype": "bruiser",
             "highlight": "Objective Commander",
+            "short_tip": "✓ Clean game — Objective Commander",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.68,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 73.9,
+                  "weight_pct": 11.6,
+                  "impact_vs_avg": 1.0
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 80.4,
+                  "weight_pct": 10.2,
+                  "impact_vs_avg": 1.6
+                },
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 72.0,
+                  "weight_pct": 29.1,
+                  "impact_vs_avg": 2.0
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 84.5,
+                  "weight_pct": 21.4,
+                  "impact_vs_avg": 4.2
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 96.1,
+                  "weight_pct": 27.7,
+                  "impact_vs_avg": 8.6
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Objective Commander",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 96.1,
               "damage": 84.5,
@@ -974,6 +2030,45 @@
             "grade": "S",
             "archetype": "assassin",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.34,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 41.0,
+                  "weight_pct": 11.8,
+                  "impact_vs_avg": -2.8
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 82.9,
+                  "weight_pct": 13.4,
+                  "impact_vs_avg": 2.4
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 84.5,
+                  "weight_pct": 38.6,
+                  "impact_vs_avg": 7.5
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 100.0,
+                  "weight_pct": 36.2,
+                  "impact_vs_avg": 12.7
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Hypercarry DPS",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 100.0,
               "damage": 84.5,
@@ -997,6 +2092,52 @@
             "grade": "S",
             "archetype": "marksman",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.34,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 55.0,
+                  "weight_pct": 14.4,
+                  "impact_vs_avg": -1.4
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 75.8,
+                  "weight_pct": 5.3,
+                  "impact_vs_avg": 0.6
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 82.7,
+                  "weight_pct": 15.4,
+                  "impact_vs_avg": 2.7
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 86.9,
+                  "weight_pct": 38.1,
+                  "impact_vs_avg": 8.3
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 100.0,
+                  "weight_pct": 26.8,
+                  "impact_vs_avg": 9.4
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Hypercarry DPS",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 100.0,
               "damage": 86.9,
@@ -1023,6 +2164,52 @@
             "grade": "S+",
             "archetype": "catcher",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.68,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 74.3,
+                  "weight_pct": 7.7,
+                  "impact_vs_avg": 0.7
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 91.9,
+                  "weight_pct": 15.0,
+                  "impact_vs_avg": 4.0
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 81.2,
+                  "weight_pct": 25.1,
+                  "impact_vs_avg": 4.1
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 82.3,
+                  "weight_pct": 30.4,
+                  "impact_vs_avg": 5.3
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 94.3,
+                  "weight_pct": 21.7,
+                  "impact_vs_avg": 6.4
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Unkillable Frontline",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 94.3,
               "damage": 74.3,
@@ -1063,6 +2250,59 @@
             "grade": "S",
             "archetype": "splitpusher",
             "highlight": "Splitpush Titan",
+            "short_tip": "✓ Clean game — Splitpush Titan",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.62,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 48.5,
+                  "weight_pct": 6.2,
+                  "impact_vs_avg": -1.0
+                },
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 72.0,
+                  "weight_pct": 24.5,
+                  "impact_vs_avg": 1.7
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 81.7,
+                  "weight_pct": 10.7,
+                  "impact_vs_avg": 1.8
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 87.9,
+                  "weight_pct": 20.0,
+                  "impact_vs_avg": 4.6
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 97.9,
+                  "weight_pct": 17.5,
+                  "impact_vs_avg": 5.8
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 100.0,
+                  "weight_pct": 21.1,
+                  "impact_vs_avg": 7.4
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Splitpush Titan",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 100.0,
               "damage": 87.9,
@@ -1091,6 +2331,71 @@
             "grade": "A+",
             "archetype": "tank",
             "highlight": "Objective Commander",
+            "short_tip": "↑ Objective pressure (48/100)",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.62,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 48.4,
+                  "weight_pct": 22.8,
+                  "impact_vs_avg": -3.8
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 60.2,
+                  "weight_pct": 14.7,
+                  "impact_vs_avg": -0.7
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 75.8,
+                  "weight_pct": 9.1,
+                  "impact_vs_avg": 1.0
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 88.3,
+                  "weight_pct": 12.2,
+                  "impact_vs_avg": 2.8
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 91.6,
+                  "weight_pct": 21.0,
+                  "impact_vs_avg": 5.6
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 96.7,
+                  "weight_pct": 20.2,
+                  "impact_vs_avg": 6.4
+                }
+              ],
+              "levers": [
+                {
+                  "key": "low_objectives",
+                  "category": "Objectives & Turrets",
+                  "title": "Convert Objective Pressure",
+                  "observed": "48/100 pillar",
+                  "target": ">= 65/100 pillar",
+                  "est_rating_gain": 3.8,
+                  "severity": "medium",
+                  "detail": "Objective/turret pressure scored 48/100 — prioritize dragon/herald setups or side-lane plates.",
+                  "short_cue": "↑ Objective pressure (48/100)"
+                }
+              ],
+              "short_tip": "↑ Objective pressure (48/100)",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 96.7,
               "damage": 88.3,
@@ -1115,6 +2420,45 @@
             "grade": "S",
             "archetype": "mage",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.62,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 52.7,
+                  "weight_pct": 15.4,
+                  "impact_vs_avg": -1.9
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 81.5,
+                  "weight_pct": 14.3,
+                  "impact_vs_avg": 2.4
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 86.4,
+                  "weight_pct": 40.3,
+                  "impact_vs_avg": 8.6
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 100.0,
+                  "weight_pct": 29.9,
+                  "impact_vs_avg": 10.5
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Hypercarry DPS",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 100.0,
               "damage": 86.4,
@@ -1138,6 +2482,45 @@
             "grade": "S+",
             "archetype": "marksman",
             "highlight": "Map Omnipresence",
+            "short_tip": "✓ Clean game — Map Omnipresence",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.62,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 73.2,
+                  "weight_pct": 6.2,
+                  "impact_vs_avg": 0.5
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 83.3,
+                  "weight_pct": 18.0,
+                  "impact_vs_avg": 3.3
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 81.3,
+                  "weight_pct": 44.5,
+                  "impact_vs_avg": 7.3
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 100.0,
+                  "weight_pct": 31.4,
+                  "impact_vs_avg": 11.0
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Map Omnipresence",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 100.0,
               "damage": 81.3,
@@ -1163,6 +2546,52 @@
             "grade": "S",
             "archetype": "catcher",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.94,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 60.1,
+                  "weight_pct": 7.7,
+                  "impact_vs_avg": -0.4
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 76.2,
+                  "weight_pct": 25.1,
+                  "impact_vs_avg": 2.8
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 90.1,
+                  "weight_pct": 15.0,
+                  "impact_vs_avg": 3.8
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 79.4,
+                  "weight_pct": 30.4,
+                  "impact_vs_avg": 4.4
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 93.4,
+                  "weight_pct": 21.7,
+                  "impact_vs_avg": 6.2
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Unkillable Frontline",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 93.4,
               "damage": 60.1,
@@ -1201,6 +2630,52 @@
             "grade": "S+",
             "archetype": "tank",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.38,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 54.0,
+                  "weight_pct": 15.1,
+                  "impact_vs_avg": -1.7
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 79.7,
+                  "weight_pct": 9.7,
+                  "impact_vs_avg": 1.4
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 92.5,
+                  "weight_pct": 18.7,
+                  "impact_vs_avg": 5.2
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 92.1,
+                  "weight_pct": 24.4,
+                  "impact_vs_avg": 6.6
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 94.4,
+                  "weight_pct": 32.0,
+                  "impact_vs_avg": 9.4
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Unkillable Frontline",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 92.1,
               "damage": 92.5,
@@ -1227,6 +2702,52 @@
             "grade": "S",
             "archetype": "bruiser",
             "highlight": "Objective Commander",
+            "short_tip": "✓ Clean game — Objective Commander",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.75,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 75.2,
+                  "weight_pct": 11.6,
+                  "impact_vs_avg": 1.2
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 81.4,
+                  "weight_pct": 10.2,
+                  "impact_vs_avg": 1.7
+                },
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 72.0,
+                  "weight_pct": 29.1,
+                  "impact_vs_avg": 2.0
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 89.8,
+                  "weight_pct": 21.4,
+                  "impact_vs_avg": 5.3
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 100.0,
+                  "weight_pct": 27.7,
+                  "impact_vs_avg": 9.7
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Objective Commander",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 100.0,
               "damage": 89.8,
@@ -1250,6 +2771,45 @@
             "grade": "S",
             "archetype": "assassin",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.38,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 40.5,
+                  "weight_pct": 11.8,
+                  "impact_vs_avg": -2.9
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 84.5,
+                  "weight_pct": 13.4,
+                  "impact_vs_avg": 2.6
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 83.6,
+                  "weight_pct": 38.6,
+                  "impact_vs_avg": 7.2
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 95.7,
+                  "weight_pct": 36.2,
+                  "impact_vs_avg": 11.1
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Hypercarry DPS",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 95.7,
               "damage": 83.6,
@@ -1273,6 +2833,52 @@
             "grade": "S+",
             "archetype": "marksman",
             "highlight": "Splitpush Titan",
+            "short_tip": "✓ Clean game — Splitpush Titan",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.38,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 55.0,
+                  "weight_pct": 14.4,
+                  "impact_vs_avg": -1.4
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 66.2,
+                  "weight_pct": 5.3,
+                  "impact_vs_avg": 0.1
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 85.1,
+                  "weight_pct": 15.4,
+                  "impact_vs_avg": 3.1
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 100.0,
+                  "weight_pct": 26.8,
+                  "impact_vs_avg": 9.4
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 95.1,
+                  "weight_pct": 38.1,
+                  "impact_vs_avg": 11.5
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Splitpush Titan",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 100.0,
               "damage": 95.1,
@@ -1297,6 +2903,45 @@
             "grade": "S",
             "archetype": "enchanter",
             "highlight": "Peel & Enchanter Carry",
+            "short_tip": "✓ Clean game — Peel & Enchanter Carry",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 0.38,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 63.4,
+                  "weight_pct": 7.4,
+                  "impact_vs_avg": -0.1
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 70.2,
+                  "weight_pct": 38.9,
+                  "impact_vs_avg": 2.0
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 79.1,
+                  "weight_pct": 29.8,
+                  "impact_vs_avg": 4.2
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 95.0,
+                  "weight_pct": 23.9,
+                  "impact_vs_avg": 7.2
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Peel & Enchanter Carry",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 95.0,
               "damage": 63.4,
@@ -1334,6 +2979,52 @@
             "grade": "A",
             "archetype": "tank",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 1.49,
+              "outcome_adj": -1.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 39.6,
+                  "weight_pct": 15.1,
+                  "impact_vs_avg": -3.8
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 66.2,
+                  "weight_pct": 9.7,
+                  "impact_vs_avg": 0.1
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 68.2,
+                  "weight_pct": 24.4,
+                  "impact_vs_avg": 0.8
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 86.9,
+                  "weight_pct": 18.7,
+                  "impact_vs_avg": 4.1
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 90.2,
+                  "weight_pct": 32.0,
+                  "impact_vs_avg": 8.1
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Unkillable Frontline",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 68.2,
               "damage": 86.9,
@@ -1358,6 +3049,82 @@
             "grade": "C",
             "archetype": "bruiser",
             "highlight": "Bruiser Specialist",
+            "short_tip": "↑ Objective pressure (11/100)",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 1.79,
+              "outcome_adj": -1.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 10.9,
+                  "weight_pct": 24.6,
+                  "impact_vs_avg": -13.3
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 38.1,
+                  "weight_pct": 15.6,
+                  "impact_vs_avg": -4.2
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 49.2,
+                  "weight_pct": 9.8,
+                  "impact_vs_avg": -1.5
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 64.4,
+                  "weight_pct": 8.6,
+                  "impact_vs_avg": -0.1
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 67.4,
+                  "weight_pct": 23.4,
+                  "impact_vs_avg": 0.6
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 72.9,
+                  "weight_pct": 18.1,
+                  "impact_vs_avg": 1.4
+                }
+              ],
+              "levers": [
+                {
+                  "key": "low_objectives",
+                  "category": "Objectives & Turrets",
+                  "title": "Convert Objective Pressure",
+                  "observed": "11/100 pillar",
+                  "target": ">= 65/100 pillar",
+                  "est_rating_gain": 7.5,
+                  "severity": "medium",
+                  "detail": "Objective/turret pressure scored 11/100 — prioritize dragon/herald setups or side-lane plates.",
+                  "short_cue": "↑ Objective pressure (11/100)"
+                },
+                {
+                  "key": "low_cspm",
+                  "category": "Economy & Farming",
+                  "title": "Raise CS/min",
+                  "observed": "4.9 CS/m",
+                  "target": "5.8 CS/m (Jungle)",
+                  "est_rating_gain": 1.5,
+                  "severity": "medium",
+                  "detail": "Farmed 4.9 CS/min vs. 5.8 Jungle benchmark — catch side waves between fights.",
+                  "short_cue": "↑ CS/m (4.9 vs 5.8)"
+                }
+              ],
+              "short_tip": "↑ Objective pressure (11/100)",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 67.4,
               "damage": 72.9,
@@ -1382,6 +3149,45 @@
             "grade": "A+",
             "archetype": "assassin",
             "highlight": "Assassin Specialist",
+            "short_tip": "✓ Clean game — Assassin Specialist",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 1.49,
+              "outcome_adj": -1.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 49.1,
+                  "weight_pct": 11.8,
+                  "impact_vs_avg": -1.9
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 70.3,
+                  "weight_pct": 13.4,
+                  "impact_vs_avg": 0.7
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 84.1,
+                  "weight_pct": 38.6,
+                  "impact_vs_avg": 7.4
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 89.8,
+                  "weight_pct": 36.2,
+                  "impact_vs_avg": 9.0
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Assassin Specialist",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 89.8,
               "damage": 84.1,
@@ -1403,6 +3209,45 @@
             "grade": "A+",
             "archetype": "marksman",
             "highlight": "Marksman Specialist",
+            "short_tip": "✓ Clean game — Marksman Specialist",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 1.19,
+              "outcome_adj": -1.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 54.8,
+                  "weight_pct": 6.2,
+                  "impact_vs_avg": -0.6
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 75.4,
+                  "weight_pct": 18.0,
+                  "impact_vs_avg": 1.9
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 80.1,
+                  "weight_pct": 44.5,
+                  "impact_vs_avg": 6.7
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 88.6,
+                  "weight_pct": 31.4,
+                  "impact_vs_avg": 7.4
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Marksman Specialist",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 88.6,
               "damage": 80.1,
@@ -1426,6 +3271,45 @@
             "grade": "A",
             "archetype": "catcher",
             "highlight": "Map Omnipresence",
+            "short_tip": "✓ Clean game — Map Omnipresence",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 1.49,
+              "outcome_adj": -1.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 47.7,
+                  "weight_pct": 9.1,
+                  "impact_vs_avg": -1.6
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 63.2,
+                  "weight_pct": 35.8,
+                  "impact_vs_avg": -0.6
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 68.5,
+                  "weight_pct": 29.5,
+                  "impact_vs_avg": 1.0
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 79.0,
+                  "weight_pct": 25.6,
+                  "impact_vs_avg": 3.6
+                }
+              ],
+              "levers": [],
+              "short_tip": "✓ Clean game — Map Omnipresence",
+              "has_timeline": false
+            },
             "pillars": {
               "combat": 79.0,
               "damage": 47.7,
@@ -1493,6 +3377,7 @@
             "rating": 88.3,
             "grade": "S+",
             "highlight": "Splitpush Titan",
+            "short_tip": "✓ Clean game — Splitpush Titan",
             "is_mvp": false
           },
           {
@@ -1508,6 +3393,7 @@
             "rating": 83.5,
             "grade": "S",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
             "is_mvp": false
           },
           {
@@ -1523,6 +3409,7 @@
             "rating": 80.8,
             "grade": "S",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
             "is_mvp": true
           },
           {
@@ -1538,6 +3425,7 @@
             "rating": 87.1,
             "grade": "S",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
             "is_mvp": false
           },
           {
@@ -1553,6 +3441,7 @@
             "rating": 90.1,
             "grade": "S+",
             "highlight": "Splitpush Titan",
+            "short_tip": "✓ Clean game — Splitpush Titan",
             "is_mvp": true
           }
         ],
@@ -1610,7 +3499,58 @@
             "avg_rating": 83.5,
             "primary_role": "Bot"
           }
-        ]
+        ],
+        "coaching": {
+          "player": "João",
+          "games_analyzed": 5,
+          "wins": 4,
+          "losses": 1,
+          "top_focus_areas": [],
+          "win_vs_loss": {
+            "wins": {
+              "games": 4,
+              "avg_rating": 87.2,
+              "deaths_per_10m": 0.52,
+              "cspm": 8.0,
+              "vspm": 0.87,
+              "kp_pct": null,
+              "dpm": 1124.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "losses": {
+              "games": 1,
+              "avg_rating": 80.8,
+              "deaths_per_10m": 0.82,
+              "cspm": 7.6,
+              "vspm": 0.79,
+              "kp_pct": null,
+              "dpm": 929.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "biggest_loss_drop": null
+          },
+          "death_profile": null,
+          "role_fit": {
+            "primary_role": "Bot",
+            "on_role_games": 5,
+            "off_role_games": 0,
+            "on_role_avg": 86.0,
+            "off_role_avg": null,
+            "delta": null
+          },
+          "champion_fit": {
+            "best_pick": {
+              "champion": "Jinx",
+              "role": "Bot",
+              "games": 3,
+              "win_rate": 66.7,
+              "avg_rating": 86.4
+            },
+            "weakest_pick": null
+          }
+        }
       },
       {
         "id": "5",
@@ -1659,6 +3599,7 @@
             "rating": 89.0,
             "grade": "S+",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
             "is_mvp": true
           },
           {
@@ -1674,6 +3615,7 @@
             "rating": 86.1,
             "grade": "S",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
             "is_mvp": false
           },
           {
@@ -1689,6 +3631,7 @@
             "rating": 77.0,
             "grade": "A+",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
             "is_mvp": false
           },
           {
@@ -1704,6 +3647,7 @@
             "rating": 88.0,
             "grade": "S+",
             "highlight": "Peel & Enchanter Carry",
+            "short_tip": "✓ Clean game — Peel & Enchanter Carry",
             "is_mvp": true
           },
           {
@@ -1719,6 +3663,7 @@
             "rating": 88.4,
             "grade": "S+",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
             "is_mvp": false
           }
         ],
@@ -1776,7 +3721,58 @@
             "avg_rating": 86.1,
             "primary_role": "Top"
           }
-        ]
+        ],
+        "coaching": {
+          "player": "David",
+          "games_analyzed": 5,
+          "wins": 4,
+          "losses": 1,
+          "top_focus_areas": [],
+          "win_vs_loss": {
+            "wins": {
+              "games": 4,
+              "avg_rating": 87.9,
+              "deaths_per_10m": 0.44,
+              "cspm": 6.7,
+              "vspm": 0.87,
+              "kp_pct": null,
+              "dpm": 643.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "losses": {
+              "games": 1,
+              "avg_rating": 77.0,
+              "deaths_per_10m": 1.36,
+              "cspm": 6.0,
+              "vspm": 0.73,
+              "kp_pct": null,
+              "dpm": 448.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "biggest_loss_drop": "Deaths jump from 0.4 to 1.4/10m in losses"
+          },
+          "death_profile": null,
+          "role_fit": {
+            "primary_role": "Top",
+            "on_role_games": 5,
+            "off_role_games": 0,
+            "on_role_avg": 85.7,
+            "off_role_avg": null,
+            "delta": null
+          },
+          "champion_fit": {
+            "best_pick": {
+              "champion": "Ornn",
+              "role": "Top",
+              "games": 3,
+              "win_rate": 66.7,
+              "avg_rating": 84.8
+            },
+            "weakest_pick": null
+          }
+        }
       },
       {
         "id": "3",
@@ -1825,6 +3821,7 @@
             "rating": 84.3,
             "grade": "S",
             "highlight": "Objective Commander",
+            "short_tip": "✓ Clean game — Objective Commander",
             "is_mvp": false
           },
           {
@@ -1840,6 +3837,7 @@
             "rating": 81.0,
             "grade": "S",
             "highlight": "Objective Commander",
+            "short_tip": "✓ Clean game — Objective Commander",
             "is_mvp": false
           },
           {
@@ -1855,6 +3853,7 @@
             "rating": 87.9,
             "grade": "S",
             "highlight": "Objective Commander",
+            "short_tip": "✓ Clean game — Objective Commander",
             "is_mvp": true
           },
           {
@@ -1870,6 +3869,7 @@
             "rating": 84.9,
             "grade": "S",
             "highlight": "Objective Commander",
+            "short_tip": "✓ Clean game — Objective Commander",
             "is_mvp": false
           },
           {
@@ -1885,6 +3885,7 @@
             "rating": 87.4,
             "grade": "S",
             "highlight": "Objective Commander",
+            "short_tip": "✓ Clean game — Objective Commander",
             "is_mvp": false
           }
         ],
@@ -1942,7 +3943,48 @@
             "avg_rating": 81.0,
             "primary_role": "Jungle"
           }
-        ]
+        ],
+        "coaching": {
+          "player": "Marcus",
+          "games_analyzed": 5,
+          "wins": 5,
+          "losses": 0,
+          "top_focus_areas": [],
+          "win_vs_loss": {
+            "wins": {
+              "games": 5,
+              "avg_rating": 85.1,
+              "deaths_per_10m": 0.61,
+              "cspm": 5.9,
+              "vspm": 1.16,
+              "kp_pct": null,
+              "dpm": 686.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "losses": null,
+            "biggest_loss_drop": null
+          },
+          "death_profile": null,
+          "role_fit": {
+            "primary_role": "Jungle",
+            "on_role_games": 5,
+            "off_role_games": 0,
+            "on_role_avg": 85.1,
+            "off_role_avg": null,
+            "delta": null
+          },
+          "champion_fit": {
+            "best_pick": {
+              "champion": "Vi",
+              "role": "Jungle",
+              "games": 3,
+              "win_rate": 100.0,
+              "avg_rating": 85.5
+            },
+            "weakest_pick": null
+          }
+        }
       },
       {
         "id": "4",
@@ -1991,6 +4033,7 @@
             "rating": 83.4,
             "grade": "S",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
             "is_mvp": false
           },
           {
@@ -2006,6 +4049,7 @@
             "rating": 91.0,
             "grade": "S+",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
             "is_mvp": true
           },
           {
@@ -2021,6 +4065,7 @@
             "rating": 75.6,
             "grade": "A+",
             "highlight": "Mage Specialist",
+            "short_tip": "✓ Clean game — Mage Specialist",
             "is_mvp": false
           },
           {
@@ -2036,6 +4081,7 @@
             "rating": 87.3,
             "grade": "S",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
             "is_mvp": false
           },
           {
@@ -2051,6 +4097,7 @@
             "rating": 85.5,
             "grade": "S",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
             "is_mvp": false
           }
         ],
@@ -2108,7 +4155,58 @@
             "avg_rating": 75.6,
             "primary_role": "Mid"
           }
-        ]
+        ],
+        "coaching": {
+          "player": "Elena",
+          "games_analyzed": 5,
+          "wins": 4,
+          "losses": 1,
+          "top_focus_areas": [],
+          "win_vs_loss": {
+            "wins": {
+              "games": 4,
+              "avg_rating": 86.8,
+              "deaths_per_10m": 0.35,
+              "cspm": 7.6,
+              "vspm": 1.01,
+              "kp_pct": null,
+              "dpm": 953.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "losses": {
+              "games": 1,
+              "avg_rating": 75.6,
+              "deaths_per_10m": 1.09,
+              "cspm": 6.6,
+              "vspm": 0.76,
+              "kp_pct": null,
+              "dpm": 728.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "biggest_loss_drop": "Deaths jump from 0.3 to 1.1/10m in losses"
+          },
+          "death_profile": null,
+          "role_fit": {
+            "primary_role": "Mid",
+            "on_role_games": 5,
+            "off_role_games": 0,
+            "on_role_avg": 84.6,
+            "off_role_avg": null,
+            "delta": null
+          },
+          "champion_fit": {
+            "best_pick": {
+              "champion": "Ahri",
+              "role": "Mid",
+              "games": 3,
+              "win_rate": 100.0,
+              "avg_rating": 85.4
+            },
+            "weakest_pick": null
+          }
+        }
       },
       {
         "id": "7",
@@ -2157,6 +4255,7 @@
             "rating": 85.3,
             "grade": "S",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
             "is_mvp": false
           },
           {
@@ -2172,6 +4271,7 @@
             "rating": 89.5,
             "grade": "S+",
             "highlight": "Map Omnipresence",
+            "short_tip": "✓ Clean game — Map Omnipresence",
             "is_mvp": true
           },
           {
@@ -2187,6 +4287,7 @@
             "rating": 78.9,
             "grade": "A+",
             "highlight": "Marksman Specialist",
+            "short_tip": "✓ Clean game — Marksman Specialist",
             "is_mvp": true
           }
         ],
@@ -2244,7 +4345,64 @@
             "avg_rating": 78.9,
             "primary_role": "Bot"
           }
-        ]
+        ],
+        "coaching": {
+          "player": "Leo",
+          "games_analyzed": 3,
+          "wins": 2,
+          "losses": 1,
+          "top_focus_areas": [],
+          "win_vs_loss": {
+            "wins": {
+              "games": 2,
+              "avg_rating": 87.4,
+              "deaths_per_10m": 0.45,
+              "cspm": 7.3,
+              "vspm": 0.87,
+              "kp_pct": null,
+              "dpm": 957.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "losses": {
+              "games": 1,
+              "avg_rating": 78.9,
+              "deaths_per_10m": 1.19,
+              "cspm": 6.8,
+              "vspm": 0.75,
+              "kp_pct": null,
+              "dpm": 770.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "biggest_loss_drop": "Deaths jump from 0.5 to 1.2/10m in losses"
+          },
+          "death_profile": null,
+          "role_fit": {
+            "primary_role": "Bot",
+            "on_role_games": 3,
+            "off_role_games": 0,
+            "on_role_avg": 84.6,
+            "off_role_avg": null,
+            "delta": null
+          },
+          "champion_fit": {
+            "best_pick": {
+              "champion": "Ashe",
+              "role": "Bot",
+              "games": 1,
+              "win_rate": 100.0,
+              "avg_rating": 89.5
+            },
+            "weakest_pick": {
+              "champion": "Varus",
+              "role": "Bot",
+              "games": 1,
+              "win_rate": 0.0,
+              "avg_rating": 78.9
+            }
+          }
+        }
       },
       {
         "id": "8",
@@ -2293,6 +4451,7 @@
             "rating": 83.1,
             "grade": "S",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
             "is_mvp": false
           },
           {
@@ -2308,6 +4467,7 @@
             "rating": 87.1,
             "grade": "S",
             "highlight": "Hypercarry DPS",
+            "short_tip": "✓ Clean game — Hypercarry DPS",
             "is_mvp": false
           },
           {
@@ -2323,6 +4483,7 @@
             "rating": 78.7,
             "grade": "A+",
             "highlight": "Assassin Specialist",
+            "short_tip": "✓ Clean game — Assassin Specialist",
             "is_mvp": false
           }
         ],
@@ -2380,7 +4541,64 @@
             "avg_rating": 78.7,
             "primary_role": "Mid"
           }
-        ]
+        ],
+        "coaching": {
+          "player": "Chloe",
+          "games_analyzed": 3,
+          "wins": 2,
+          "losses": 1,
+          "top_focus_areas": [],
+          "win_vs_loss": {
+            "wins": {
+              "games": 2,
+              "avg_rating": 85.1,
+              "deaths_per_10m": 0.6,
+              "cspm": 7.3,
+              "vspm": 0.89,
+              "kp_pct": null,
+              "dpm": 986.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "losses": {
+              "games": 1,
+              "avg_rating": 78.7,
+              "deaths_per_10m": 1.49,
+              "cspm": 6.3,
+              "vspm": 0.72,
+              "kp_pct": null,
+              "dpm": 788.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "biggest_loss_drop": "Deaths jump from 0.6 to 1.5/10m in losses"
+          },
+          "death_profile": null,
+          "role_fit": {
+            "primary_role": "Mid",
+            "on_role_games": 3,
+            "off_role_games": 0,
+            "on_role_avg": 83.0,
+            "off_role_avg": null,
+            "delta": null
+          },
+          "champion_fit": {
+            "best_pick": {
+              "champion": "Hwei",
+              "role": "Mid",
+              "games": 1,
+              "win_rate": 100.0,
+              "avg_rating": 87.1
+            },
+            "weakest_pick": {
+              "champion": "Sylas",
+              "role": "Mid",
+              "games": 1,
+              "win_rate": 0.0,
+              "avg_rating": 78.7
+            }
+          }
+        }
       },
       {
         "id": "2",
@@ -2429,6 +4647,7 @@
             "rating": 88.9,
             "grade": "S+",
             "highlight": "Peel & Enchanter Carry",
+            "short_tip": "✓ Clean game — Peel & Enchanter Carry",
             "is_mvp": false
           },
           {
@@ -2444,6 +4663,7 @@
             "rating": 86.7,
             "grade": "S",
             "highlight": "Peel & Enchanter Carry",
+            "short_tip": "✓ Clean game — Peel & Enchanter Carry",
             "is_mvp": false
           },
           {
@@ -2459,6 +4679,7 @@
             "rating": 66.2,
             "grade": "A",
             "highlight": "Peel & Enchanter Carry",
+            "short_tip": "✓ Clean game — Peel & Enchanter Carry",
             "is_mvp": false
           },
           {
@@ -2474,6 +4695,7 @@
             "rating": 88.0,
             "grade": "S+",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
             "is_mvp": false
           },
           {
@@ -2489,6 +4711,7 @@
             "rating": 80.8,
             "grade": "S",
             "highlight": "Peel & Enchanter Carry",
+            "short_tip": "✓ Clean game — Peel & Enchanter Carry",
             "is_mvp": false
           }
         ],
@@ -2546,7 +4769,58 @@
             "avg_rating": 86.7,
             "primary_role": "Support"
           }
-        ]
+        ],
+        "coaching": {
+          "player": "Melanie",
+          "games_analyzed": 5,
+          "wins": 4,
+          "losses": 1,
+          "top_focus_areas": [],
+          "win_vs_loss": {
+            "wins": {
+              "games": 4,
+              "avg_rating": 86.1,
+              "deaths_per_10m": 0.52,
+              "cspm": null,
+              "vspm": 2.37,
+              "kp_pct": null,
+              "dpm": 260.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "losses": {
+              "games": 1,
+              "avg_rating": 66.2,
+              "deaths_per_10m": 1.09,
+              "cspm": null,
+              "vspm": 1.85,
+              "kp_pct": null,
+              "dpm": 141.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "biggest_loss_drop": "Vision/m falls from 2.37 (W) to 1.85 (L)"
+          },
+          "death_profile": null,
+          "role_fit": {
+            "primary_role": "Support",
+            "on_role_games": 5,
+            "off_role_games": 0,
+            "on_role_avg": 82.1,
+            "off_role_avg": null,
+            "delta": null
+          },
+          "champion_fit": {
+            "best_pick": {
+              "champion": "Lulu",
+              "role": "Support",
+              "games": 3,
+              "win_rate": 66.7,
+              "avg_rating": 78.6
+            },
+            "weakest_pick": null
+          }
+        }
       },
       {
         "id": "10",
@@ -2595,6 +4869,7 @@
             "rating": 80.5,
             "grade": "S",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
             "is_mvp": false
           },
           {
@@ -2610,6 +4885,7 @@
             "rating": 87.7,
             "grade": "S",
             "highlight": "Splitpush Titan",
+            "short_tip": "✓ Clean game — Splitpush Titan",
             "is_mvp": false
           },
           {
@@ -2625,6 +4901,7 @@
             "rating": 72.7,
             "grade": "A",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
             "is_mvp": false
           }
         ],
@@ -2682,7 +4959,64 @@
             "avg_rating": 72.7,
             "primary_role": "Top"
           }
-        ]
+        ],
+        "coaching": {
+          "player": "Sam",
+          "games_analyzed": 3,
+          "wins": 2,
+          "losses": 1,
+          "top_focus_areas": [],
+          "win_vs_loss": {
+            "wins": {
+              "games": 2,
+              "avg_rating": 84.1,
+              "deaths_per_10m": 0.75,
+              "cspm": 7.1,
+              "vspm": 0.76,
+              "kp_pct": null,
+              "dpm": 733.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "losses": {
+              "games": 1,
+              "avg_rating": 72.7,
+              "deaths_per_10m": 1.49,
+              "cspm": 5.8,
+              "vspm": 0.63,
+              "kp_pct": null,
+              "dpm": 442.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "biggest_loss_drop": "CS/m drops from 7.1 (W) to 5.8 (L)"
+          },
+          "death_profile": null,
+          "role_fit": {
+            "primary_role": "Top",
+            "on_role_games": 3,
+            "off_role_games": 0,
+            "on_role_avg": 80.3,
+            "off_role_avg": null,
+            "delta": null
+          },
+          "champion_fit": {
+            "best_pick": {
+              "champion": "Jax",
+              "role": "Top",
+              "games": 1,
+              "win_rate": 100.0,
+              "avg_rating": 87.7
+            },
+            "weakest_pick": {
+              "champion": "Malphite",
+              "role": "Top",
+              "games": 1,
+              "win_rate": 0.0,
+              "avg_rating": 72.7
+            }
+          }
+        }
       },
       {
         "id": "6",
@@ -2731,6 +5065,7 @@
             "rating": 83.5,
             "grade": "S",
             "highlight": "Map Omnipresence",
+            "short_tip": "✓ Clean game — Map Omnipresence",
             "is_mvp": false
           },
           {
@@ -2746,6 +5081,7 @@
             "rating": 84.3,
             "grade": "S",
             "highlight": "Unkillable Frontline",
+            "short_tip": "✓ Clean game — Unkillable Frontline",
             "is_mvp": false
           },
           {
@@ -2761,6 +5097,7 @@
             "rating": 65.9,
             "grade": "A",
             "highlight": "Map Omnipresence",
+            "short_tip": "✓ Clean game — Map Omnipresence",
             "is_mvp": false
           }
         ],
@@ -2818,7 +5155,64 @@
             "avg_rating": 65.9,
             "primary_role": "Support"
           }
-        ]
+        ],
+        "coaching": {
+          "player": "Sarah",
+          "games_analyzed": 3,
+          "wins": 2,
+          "losses": 1,
+          "top_focus_areas": [],
+          "win_vs_loss": {
+            "wins": {
+              "games": 2,
+              "avg_rating": 83.9,
+              "deaths_per_10m": 0.76,
+              "cspm": null,
+              "vspm": 2.22,
+              "kp_pct": null,
+              "dpm": 230.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "losses": {
+              "games": 1,
+              "avg_rating": 65.9,
+              "deaths_per_10m": 1.49,
+              "cspm": null,
+              "vspm": 1.91,
+              "kp_pct": null,
+              "dpm": 176.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "biggest_loss_drop": "Deaths jump from 0.8 to 1.5/10m in losses"
+          },
+          "death_profile": null,
+          "role_fit": {
+            "primary_role": "Support",
+            "on_role_games": 3,
+            "off_role_games": 0,
+            "on_role_avg": 77.9,
+            "off_role_avg": null,
+            "delta": null
+          },
+          "champion_fit": {
+            "best_pick": {
+              "champion": "Nautilus",
+              "role": "Support",
+              "games": 1,
+              "win_rate": 100.0,
+              "avg_rating": 84.3
+            },
+            "weakest_pick": {
+              "champion": "Rakan",
+              "role": "Support",
+              "games": 1,
+              "win_rate": 0.0,
+              "avg_rating": 65.9
+            }
+          }
+        }
       },
       {
         "id": "9",
@@ -2867,6 +5261,7 @@
             "rating": 58.2,
             "grade": "B",
             "highlight": "Unkillable Frontline",
+            "short_tip": "↑ Objective pressure (11/100)",
             "is_mvp": false
           },
           {
@@ -2882,6 +5277,7 @@
             "rating": 78.8,
             "grade": "A+",
             "highlight": "Objective Commander",
+            "short_tip": "↑ Objective pressure (48/100)",
             "is_mvp": false
           },
           {
@@ -2897,6 +5293,7 @@
             "rating": 46.4,
             "grade": "C",
             "highlight": "Bruiser Specialist",
+            "short_tip": "↑ Objective pressure (11/100)",
             "is_mvp": false
           }
         ],
@@ -2954,7 +5351,87 @@
             "avg_rating": 46.4,
             "primary_role": "Jungle"
           }
-        ]
+        ],
+        "coaching": {
+          "player": "Alex",
+          "games_analyzed": 3,
+          "wins": 1,
+          "losses": 2,
+          "top_focus_areas": [
+            {
+              "key": "low_objectives",
+              "category": "Objectives & Turrets",
+              "title": "Convert Objective Pressure",
+              "occurrences": 3,
+              "games_analyzed": 3,
+              "frequency_pct": 100.0,
+              "avg_est_gain": 6.3,
+              "priority_score": 18.9,
+              "summary": "Flagged in 3/3 games (100%), avg +6.3 rating upside. Objective/turret pressure scored 11/100 — prioritize dragon/herald setups or side-lane plates."
+            },
+            {
+              "key": "low_cspm",
+              "category": "Economy & Farming",
+              "title": "Raise CS/min",
+              "occurrences": 2,
+              "games_analyzed": 3,
+              "frequency_pct": 66.7,
+              "avg_est_gain": 1.5,
+              "priority_score": 3.0,
+              "summary": "Flagged in 2/3 games (67%), avg +1.5 rating upside. Farmed 4.8 CS/min vs. 5.8 Jungle benchmark — catch side waves between fights."
+            }
+          ],
+          "win_vs_loss": {
+            "wins": {
+              "games": 1,
+              "avg_rating": 78.8,
+              "deaths_per_10m": 0.62,
+              "cspm": 5.4,
+              "vspm": 1.16,
+              "kp_pct": null,
+              "dpm": 512.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "losses": {
+              "games": 2,
+              "avg_rating": 52.3,
+              "deaths_per_10m": 1.71,
+              "cspm": 4.8,
+              "vspm": 0.89,
+              "kp_pct": null,
+              "dpm": 483.0,
+              "gold_diff_15": null,
+              "cs_diff_15": null
+            },
+            "biggest_loss_drop": "Deaths jump from 0.6 to 1.7/10m in losses"
+          },
+          "death_profile": null,
+          "role_fit": {
+            "primary_role": "Jungle",
+            "on_role_games": 3,
+            "off_role_games": 0,
+            "on_role_avg": 61.1,
+            "off_role_avg": null,
+            "delta": null
+          },
+          "champion_fit": {
+            "best_pick": {
+              "champion": "Amumu",
+              "role": "Jungle",
+              "games": 1,
+              "win_rate": 100.0,
+              "avg_rating": 78.8
+            },
+            "weakest_pick": {
+              "champion": "Xin Zhao",
+              "role": "Jungle",
+              "games": 1,
+              "win_rate": 0.0,
+              "avg_rating": 46.4
+            }
+          }
+        }
       }
     ],
     "synergies": {
@@ -2991,7 +5468,7 @@
           "tag": "2v8 Bot Kingdom",
           "avg_duo_rating": 81.2,
           "coordination_score": 87.3,
-          "favorite_combo": "Ezreal + Thresh",
+          "favorite_combo": "Varus + Rakan",
           "adc": "Leo",
           "support": "Sarah"
         }
@@ -3043,7 +5520,7 @@
           "tag": "Lethal Core",
           "avg_duo_rating": 72.8,
           "coordination_score": 85.7,
-          "favorite_combo": "Hwei + Amumu"
+          "favorite_combo": "Sylas + Xin Zhao"
         },
         {
           "pair": "Elena (MID) & Alex (JNG)",
@@ -4056,6 +6533,39 @@
         "games": 8,
         "wins": 6
       }
+    },
+    "squad_coaching": {
+      "games_analyzed": 8,
+      "squad_appearances": 40,
+      "avg_death_penalty": 0.0,
+      "top_leaks": [
+        {
+          "key": "low_objectives",
+          "category": "Objectives & Turrets",
+          "title": "Convert Objective Pressure",
+          "occurrences": 3,
+          "rate_pct": 7.5,
+          "avg_est_gain": 6.3,
+          "total_points_impact": 18.8,
+          "top_affected_players": [
+            "Alex"
+          ],
+          "summary": "Appears in 3 squad game-slots (8%), costing ~6.3 rating pts when triggered."
+        },
+        {
+          "key": "low_cspm",
+          "category": "Economy & Farming",
+          "title": "Raise CS/min",
+          "occurrences": 2,
+          "rate_pct": 5.0,
+          "avg_est_gain": 1.5,
+          "total_points_impact": 3.0,
+          "top_affected_players": [
+            "Alex"
+          ],
+          "summary": "Appears in 2 squad game-slots (5%), costing ~1.5 rating pts when triggered."
+        }
+      ]
     }
   }
 }
