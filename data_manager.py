@@ -13,6 +13,8 @@ from rating_engine import (
     score_player_in_match,
     compute_holistic_pair_synergy,
     rating_to_grade,
+    build_player_coaching_report,
+    build_squad_coaching_summary,
 )
 
 DEFAULT_DATA_PATH = "data/league_stats.json"
@@ -1106,6 +1108,23 @@ class StatsManager:
             })
 
         return sorted(leaderboard, key=lambda x: (x["avg_rating"], x["win_rate"], x["games"]), reverse=True)
+
+    def get_player_coaching_report(self, player_name: str, primary_role: Optional[str] = None) -> dict:
+        """Builds a multi-game coaching report for a specific @LOLers player across proper matches."""
+        resolved_primary = primary_role
+        if not resolved_primary:
+            name_lower = (player_name or "").strip().lower()
+            for m in self.data.get("members", []):
+                if (m.get("name") or "").strip().lower() == name_lower:
+                    resolved_primary = m.get("primary_role")
+                    break
+        proper_matches = [m for m in self.data.get("match_history", []) if not is_remake_record(m)]
+        return build_player_coaching_report(player_name, proper_matches, primary_role=resolved_primary)
+
+    def get_squad_coaching_summary(self) -> dict:
+        """Builds a squad-wide summary of recurring rating leaks across all proper matches."""
+        proper_matches = [m for m in self.data.get("match_history", []) if not is_remake_record(m)]
+        return build_squad_coaching_summary(proper_matches)
 
     # Living Synergy Thread State Management
     def get_synergy_thread_state(self, pair_key: str) -> Optional[dict]:

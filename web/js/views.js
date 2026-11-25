@@ -199,6 +199,42 @@ export function renderOverviewTab(data, filters) {
     insightsEl.innerHTML = renderInsightsHtml(insights);
   }
 
+  // 3b. Squad Coaching & Recurring Leaks Summary
+  const coachingEl = document.getElementById('overview-coaching-grid');
+  if (coachingEl) {
+    const sc = data.squad_coaching;
+    const leaks = sc?.top_leaks || [];
+    if (leaks.length > 0) {
+      coachingEl.innerHTML = leaks.map(lk => {
+        const playersStr = (lk.top_affected_players || []).length > 0
+          ? `<div style="margin-top: 0.4rem; font-size: 0.72rem; color: var(--text-dim);">Most frequent: <strong style="color: var(--gold-bright);">${lk.top_affected_players.map(escapeHtml).join(', ')}</strong></div>`
+          : '';
+        return `
+          <div class="insight-card tone-warn">
+            <div class="insight-top">
+              <span class="insight-category">${escapeHtml(lk.category)}</span>
+              <span class="insight-metric">+${lk.avg_est_gain} pts upside</span>
+            </div>
+            <div class="insight-title">${escapeHtml(lk.title)}</div>
+            <div class="insight-summary">${escapeHtml(lk.summary)}</div>
+            ${playersStr}
+          </div>
+        `;
+      }).join('');
+    } else {
+      coachingEl.innerHTML = `
+        <div class="insight-card tone-green">
+          <div class="insight-top">
+            <span class="insight-category">Squad Coaching</span>
+            <span class="insight-metric">${sc?.games_analyzed || 0} Games</span>
+          </div>
+          <div class="insight-title">${(sc?.games_analyzed || 0) > 0 ? 'Clean Execution Across Tracked Games' : 'Awaiting Proper Squad Matches'}</div>
+          <div class="insight-summary">${(sc?.games_analyzed || 0) > 0 ? 'No recurring squad-wide rating drains detected. Check individual Player Profiles for fine-grained pillar tuning.' : 'Log or sync squad matches to surface recurring team-wide rating leaks and coaching focus areas.'}</div>
+        </div>
+      `;
+    }
+  }
+
   // 4. Top Players & Top Synergies Mini Lists
   const topPlayersHtml = (data.players || []).filter(p => p.games > 0).slice(0, 5).map((p, idx) => `
     <div onclick="openPlayerModal('${escapeHtml(p.name)}')" style="display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 0.65rem; border-bottom: 1px solid var(--border-subtle); cursor: pointer;">
@@ -267,6 +303,8 @@ export function renderOverviewTab(data, filters) {
       const playerLabel = isSquad
         ? `<strong style="cursor: pointer; color: var(--gold-bright);" onclick="openPlayerModal('${escapeHtml(p.player)}')">${escapeHtml(p.player)}</strong>`
         : `<span style="color: var(--text-dim);">${escapeHtml(p.player)}</span> <span style="font-size: 0.7rem; color: var(--text-dim);">(Random)</span>`;
+      const shortTip = isSquad ? (p.short_tip || p.coaching?.short_tip || '') : '';
+      const tipTone = shortTip.startsWith('✓') ? 'clean' : 'improve';
       return `
         <tr style="${isSquad ? '' : 'opacity: 0.65;'}">
           <td><span class="role-badge">${escapeHtml(r)}</span></td>
@@ -282,7 +320,10 @@ export function renderOverviewTab(data, filters) {
           <td>${(p.damage || 0).toLocaleString()}</td>
           <td>${p.cs || 0}</td>
           <td>${p.vision || 0}</td>
-          <td><span class="highlight-chip">${escapeHtml(p.highlight || 'Squad Contributor')}</span></td>
+          <td>
+            <span class="highlight-chip">${escapeHtml(p.highlight || 'Squad Contributor')}</span>
+            ${shortTip ? `<div class="coaching-tip-chip ${tipTone}" style="margin-top: 0.25rem;">${escapeHtml(shortTip)}</div>` : ''}
+          </td>
           <td>
             <strong style="color: var(--gold-bright); margin-right: 0.35rem;">${p.rating ?? '-'}</strong>
             <span class="grade-badge ${gradeClass(p.grade)}">${escapeHtml(p.grade || '-')}</span>
@@ -290,6 +331,45 @@ export function renderOverviewTab(data, filters) {
         </tr>
       `;
     }).join('');
+
+    const squadCoachingCards = rolesPresent
+      .map(r => ({ role: r, p: lineup[r] }))
+      .filter(({ p }) => isSquadLineupEntry(p, squadNames) && p.coaching)
+      .map(({ role, p }) => {
+        const c = p.coaching;
+        const tl = p.timeline || null;
+        const deathBadge = c.death_penalty > 0
+          ? `<span class="badge badge-loss" style="font-size: 0.68rem;">Deaths -${c.death_penalty} pts</span>`
+          : `<span class="badge badge-win" style="font-size: 0.68rem;">0 Death Penalty</span>`;
+        const tlBadge = tl && tl.gold_diff_15 != null
+          ? `<span class="archetype-tag">@15m: ${tl.gold_diff_15 >= 0 ? '+' : ''}${tl.gold_diff_15}g${tl.cs_diff_15 != null ? ` / ${tl.cs_diff_15 >= 0 ? '+' : ''}${tl.cs_diff_15} CS` : ''}</span>`
+          : '';
+        const leversHtml = (c.levers || []).length > 0
+          ? c.levers.slice(0, 2).map(lv => `
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+                <strong style="color: var(--gold-primary);">• ${escapeHtml(lv.title)}</strong>
+                <span style="color: var(--cyan-bright);">(+${lv.est_rating_gain} pts)</span>: ${escapeHtml(lv.detail)}
+              </div>
+            `).join('')
+          : `<div style="font-size: 0.75rem; color: var(--win-green); margin-top: 0.25rem;">✓ Clean game — no major rating leaks flagged.</div>`;
+
+        return `
+          <div class="coaching-lever-card">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; flex-wrap: wrap;">
+              <div>
+                <span class="role-badge">${escapeHtml(role)}</span>
+                <strong style="color: var(--gold-bright); cursor: pointer;" onclick="openPlayerModal('${escapeHtml(p.player)}')">${escapeHtml(p.player)}</strong>
+                <span style="font-size: 0.74rem; color: var(--text-muted);">(${escapeHtml(p.champion)})</span>
+              </div>
+              <div style="display: flex; gap: 0.3rem; flex-wrap: wrap; align-items: center;">
+                ${deathBadge}
+                ${tlBadge}
+              </div>
+            </div>
+            ${leversHtml}
+          </div>
+        `;
+      }).join('');
 
     return `
       <div class="match-card ${isWin ? 'win' : 'loss'} ${idx === 0 ? 'expanded' : ''}" id="match-card-${idx}">
@@ -316,13 +396,21 @@ export function renderOverviewTab(data, filters) {
                   <th>Damage</th>
                   <th>CS</th>
                   <th>Vision</th>
-                  <th>Standout Highlight</th>
+                  <th>Highlight &amp; Action Cue</th>
                   <th>Holistic Rating</th>
                 </tr>
               </thead>
               <tbody>${detailRows}</tbody>
             </table>
           </div>
+          ${squadCoachingCards ? `
+            <div style="margin-top: 0.85rem;">
+              <div style="font-size: 0.78rem; font-weight: 700; color: var(--cyan-bright); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.45rem;">
+                🎯 Per-Match Rating &amp; Coaching Breakdown
+              </div>
+              <div class="match-coaching-grid">${squadCoachingCards}</div>
+            </div>
+          ` : ''}
         </div>
       </div>
     `;
@@ -581,16 +669,121 @@ export function openPlayerModal(data, playerName, compareName = '__SQUAD_AVG__')
     </tr>
   `).join('');
 
-  const recentRows = (p.recent_matches || []).slice(0, 8).map(m => `
-    <tr>
-      <td><span class="badge ${m.result === 'WIN' ? 'badge-win' : 'badge-loss'}">${m.result}</span></td>
-      <td>${escapeHtml(m.date || '')}</td>
-      <td><span class="role-badge">${escapeHtml(m.role)}</span> <strong>${escapeHtml(m.champion)}</strong></td>
-      <td>${m.kills}/${m.deaths}/${m.assists}</td>
-      <td><span class="highlight-chip">${escapeHtml(m.highlight || '')}</span> ${m.is_mvp ? '👑' : ''}</td>
-      <td><strong>${m.rating}</strong> <span class="grade-badge ${gradeClass(m.grade)}">${escapeHtml(m.grade)}</span></td>
-    </tr>
-  `).join('');
+  const recentRows = (p.recent_matches || []).slice(0, 8).map(m => {
+    const tip = m.short_tip || '';
+    const tipTone = tip.startsWith('✓') ? 'clean' : 'improve';
+    return `
+      <tr>
+        <td><span class="badge ${m.result === 'WIN' ? 'badge-win' : 'badge-loss'}">${m.result}</span></td>
+        <td>${escapeHtml(m.date || '')}</td>
+        <td><span class="role-badge">${escapeHtml(m.role)}</span> <strong>${escapeHtml(m.champion)}</strong></td>
+        <td>${m.kills}/${m.deaths}/${m.assists}</td>
+        <td>
+          <span class="highlight-chip">${escapeHtml(m.highlight || '')}</span> ${m.is_mvp ? '👑' : ''}
+          ${tip ? `<div class="coaching-tip-chip ${tipTone}" style="margin-top: 0.25rem;">${escapeHtml(tip)}</div>` : ''}
+        </td>
+        <td><strong>${m.rating}</strong> <span class="grade-badge ${gradeClass(m.grade)}">${escapeHtml(m.grade)}</span></td>
+      </tr>
+    `;
+  }).join('');
+
+  // Performance Coaching Report HTML
+  const coach = p.coaching;
+  let coachingSectionHtml = '';
+  if (coach && coach.games_analyzed > 0) {
+    const focusCardsHtml = (coach.top_focus_areas || []).length > 0
+      ? coach.top_focus_areas.map((f, idx) => `
+          <div class="coaching-lever-card">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+              <strong style="color: var(--gold-bright);">#${idx + 1} ${escapeHtml(f.title)}</strong>
+              <span class="badge badge-polling" style="font-size: 0.68rem;">${f.occurrences}/${f.games_analyzed}G (${f.frequency_pct}%) • +${f.avg_est_gain} pts</span>
+            </div>
+            <div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 0.3rem;">${escapeHtml(f.summary)}</div>
+          </div>
+        `).join('')
+      : `<div class="coaching-lever-card" style="color: var(--win-green); font-size: 0.8rem;">✅ No recurring rating leaks detected across ${coach.games_analyzed} tracked game(s).</div>`;
+
+    const wvl = coach.win_vs_loss || {};
+    const ws = wvl.wins;
+    const ls = wvl.losses;
+    let wvlHtml = '<div style="font-size: 0.78rem; color: var(--text-dim);">Play both wins and losses to unlock Win vs. Loss diagnostic splits.</div>';
+    if (ws && ls) {
+      const splitRows = [
+        ['Avg Rating', ws.avg_rating, ls.avg_rating],
+        ['Deaths / 10m', ws.deaths_per_10m, ls.deaths_per_10m],
+        ...(ws.cspm != null && ls.cspm != null ? [['CS / min', ws.cspm, ls.cspm]] : []),
+        ...(ws.vspm != null && ls.vspm != null ? [['Vision / min', ws.vspm, ls.vspm]] : []),
+        ...(ws.kp_pct != null && ls.kp_pct != null ? [['Kill Participation', `${ws.kp_pct}%`, `${ls.kp_pct}%`]] : []),
+        ...(ws.gold_diff_15 != null && ls.gold_diff_15 != null ? [['Avg Gold Diff @15m', `${ws.gold_diff_15 >= 0 ? '+' : ''}${ws.gold_diff_15}g`, `${ls.gold_diff_15 >= 0 ? '+' : ''}${ls.gold_diff_15}g`]] : []),
+      ];
+      wvlHtml = `
+        <table class="hex-table" style="font-size: 0.78rem;">
+          <thead><tr><th>Metric</th><th style="color: var(--win-green);">Wins (${ws.games}G)</th><th style="color: var(--loss-red);">Losses (${ls.games}G)</th></tr></thead>
+          <tbody>
+            ${splitRows.map(([lbl, wv, lv]) => `<tr><td>${lbl}</td><td><strong>${wv}</strong></td><td><strong>${lv}</strong></td></tr>`).join('')}
+          </tbody>
+        </table>
+        ${wvl.biggest_loss_drop ? `<div style="margin-top: 0.45rem; font-size: 0.76rem; color: var(--gold-primary);">⚠️ <strong>Biggest Loss Drop:</strong> ${escapeHtml(wvl.biggest_loss_drop)}</div>` : ''}
+      `;
+    }
+
+    const dp = coach.death_profile;
+    const timelineHtml = dp && dp.games_with_timeline > 0
+      ? `
+        <div class="coaching-lever-card" style="margin-top: 0.65rem;">
+          <div style="font-size: 0.75rem; font-weight: 700; color: var(--cyan-bright); text-transform: uppercase; margin-bottom: 0.35rem;">
+            ⏱️ Laning &amp; Death Timing (${dp.games_with_timeline} Timeline Game${dp.games_with_timeline === 1 ? '' : 's'})
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.55rem; font-size: 0.76rem; color: var(--text-muted);">
+            <span>Early (&lt;14m): <strong style="color: var(--text-main);">${dp.early_deaths_avg}</strong></span>
+            <span>Mid (14–25m): <strong style="color: var(--text-main);">${dp.mid_deaths_avg}</strong></span>
+            <span>Late (25m+): <strong style="color: var(--loss-red);">${dp.late_deaths_avg}</strong></span>
+            <span>Pre-Obj (&lt;60s): <strong style="color: var(--gold-bright);">${dp.pre_objective_deaths_avg}</strong></span>
+            ${dp.avg_gold_diff_15 != null ? `<span>@15m Diff: <strong style="color: ${dp.avg_gold_diff_15 >= 0 ? 'var(--win-green)' : 'var(--loss-red)'};">${dp.avg_gold_diff_15 >= 0 ? '+' : ''}${dp.avg_gold_diff_15}g${dp.avg_cs_diff_15 != null ? ` (${dp.avg_cs_diff_15 >= 0 ? '+' : ''}${dp.avg_cs_diff_15} CS)` : ''}</strong></span>` : ''}
+          </div>
+        </div>
+      `
+      : '';
+
+    const rf = coach.role_fit || {};
+    const cf = coach.champion_fit || {};
+    const fitParts = [];
+    if (rf.on_role_avg != null) {
+      let roleTxt = `Main (${escapeHtml(rf.primary_role)}): <strong>${rf.on_role_avg}</strong> (${rf.on_role_games}G)`;
+      if (rf.off_role_avg != null) {
+        const sign = rf.delta >= 0 ? '+' : '';
+        roleTxt += ` vs Off-Role <strong>${rf.off_role_avg}</strong> (${sign}${rf.delta})`;
+      }
+      fitParts.push(roleTxt);
+    }
+    if (cf.best_pick) {
+      fitParts.push(`Best Pick: <strong style="color: var(--win-green);">${escapeHtml(cf.best_pick.champion)}</strong> (${cf.best_pick.avg_rating} avg, ${cf.best_pick.win_rate}% WR)`);
+    }
+    if (cf.weakest_pick && cf.weakest_pick.champion !== cf.best_pick?.champion) {
+      fitParts.push(`Toughest Pick: <strong style="color: var(--loss-red);">${escapeHtml(cf.weakest_pick.champion)}</strong> (${cf.weakest_pick.avg_rating} avg, ${cf.weakest_pick.win_rate}% WR)`);
+    }
+
+    coachingSectionHtml = `
+      <div class="coaching-panel" style="margin-bottom: 1.25rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; flex-wrap: wrap; gap: 0.5rem;">
+          <h3 style="color: var(--cyan-bright); font-size: 1rem; margin: 0;">🎯 Performance Coaching Report</h3>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">${coach.games_analyzed} Proper Game${coach.games_analyzed === 1 ? '' : 's'} Analyzed</span>
+        </div>
+        <div class="grid-2">
+          <div>
+            <div style="font-size: 0.76rem; font-weight: 700; color: var(--gold-primary); text-transform: uppercase; margin-bottom: 0.45rem;">🔥 Top Recurring Focus Areas</div>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">${focusCardsHtml}</div>
+          </div>
+          <div>
+            <div style="font-size: 0.76rem; font-weight: 700; color: var(--gold-primary); text-transform: uppercase; margin-bottom: 0.45rem;">⚖️ Win vs. Loss Splits</div>
+            ${wvlHtml}
+            ${timelineHtml}
+          </div>
+        </div>
+        ${fitParts.length > 0 ? `<div style="margin-top: 0.7rem; padding-top: 0.6rem; border-top: 1px solid var(--border-subtle); font-size: 0.78rem; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 1rem;">${fitParts.map(x => `<span>🧭 ${x}</span>`).join('')}</div>` : ''}
+      </div>
+    `;
+  }
 
   const riotAccounts = (p.accounts || [])
     .map(a => `<code style="margin-right: 0.5rem; color: var(--cyan-bright);">${escapeHtml(a.riot_id)}</code>`)
@@ -660,6 +853,8 @@ export function openPlayerModal(data, playerName, compareName = '__SQUAD_AVG__')
       </div>
     </div>
 
+    ${coachingSectionHtml}
+
     <h3 style="color: var(--gold-bright); font-size: 1rem; margin-bottom: 0.55rem;">🐉 Personal Champion Pool</h3>
     <div class="table-wrap" style="margin-bottom: 1.25rem;">
       <table class="hex-table">
@@ -686,7 +881,7 @@ export function openPlayerModal(data, playerName, compareName = '__SQUAD_AVG__')
             <th>Date</th>
             <th>Role &amp; Champion</th>
             <th>K/D/A</th>
-            <th>Highlight</th>
+            <th>Highlight &amp; Action Cue</th>
             <th>Rating</th>
           </tr>
         </thead>

@@ -605,6 +605,7 @@ def score_player_in_match(
     weighted_sum = 0.0
     active_weight_total = 0.0
     active_pillars = {}
+    raw_active_weights = {}
 
     for p_name, p_val in raw_pillars.items():
         if p_val < 0:
@@ -613,8 +614,13 @@ def score_player_in_match(
         weighted_sum += p_val * blended_w
         active_weight_total += blended_w
         active_pillars[p_name] = round(p_val, 1)
+        raw_active_weights[p_name] = blended_w
 
     base_score = (weighted_sum / active_weight_total) if active_weight_total > 0 else combat_score
+    norm_weights = {
+        k: round((w / active_weight_total), 4) if active_weight_total > 0 else 0.0
+        for k, w in raw_active_weights.items()
+    }
 
     # Excess-death liability penalty (especially punishing for carries & high death frequency)
     deaths_per_10m = deaths / (duration_min / 10.0)
@@ -630,12 +636,32 @@ def score_player_in_match(
     # Determine standout badge
     highlight = _determine_player_highlight(role, archetype, pdata, active_pillars, kda, kp)
 
+    # Compute deterministic per-match coaching diagnostics
+    coaching = _build_match_coaching_diagnostics(
+        role=role,
+        archetype=archetype,
+        pdata=pdata,
+        duration_min=duration_min,
+        team_kills=team_kills,
+        kp=kp,
+        kp_target=kp_target,
+        deaths_per_10m=deaths_per_10m,
+        death_penalty=death_penalty,
+        outcome_adj=outcome_adj,
+        active_pillars=active_pillars,
+        norm_weights=norm_weights,
+        final_score=final_score,
+        highlight=highlight,
+    )
+
     return {
         "rating": final_score,
         "grade": rating_to_grade(final_score),
         "archetype": archetype,
         "highlight": highlight,
         "pillars": active_pillars,
+        "short_tip": coaching["short_tip"],
+        "coaching": coaching,
     }
 
 
@@ -673,8 +699,8 @@ def _determine_player_highlight(
 def evaluate_match_lineup_and_mvp(record: dict) -> Tuple[str, float, Dict[str, Any]]:
     """
     Scores every participant in `record['lineup']`, attaches `rating`, `grade`,
-    `archetype`, and `highlight` to each lineup entry, and selects the `@LOLers`
-    squad member with the highest holistic rating as Match MVP.
+    `archetype`, `highlight`, `short_tip`, and `coaching` to each lineup entry,
+    and selects the `@LOLers` squad member with the highest holistic rating as Match MVP.
     """
     lineup = record.get("lineup", {})
     best_mvp = record.get("mvp") or "Squad"
@@ -688,6 +714,8 @@ def evaluate_match_lineup_and_mvp(record: dict) -> Tuple[str, float, Dict[str, A
         pdata["grade"] = eval_res["grade"]
         pdata["archetype"] = eval_res["archetype"]
         pdata["highlight"] = eval_res["highlight"]
+        pdata["short_tip"] = eval_res["short_tip"]
+        pdata["coaching"] = eval_res["coaching"]
 
         if pdata.get("is_squad", True) and eval_res["rating"] > best_score:
             best_score = eval_res["rating"]
@@ -872,3 +900,579 @@ def _determine_pair_synergy_tag(
     if avg_duo_rating >= 68.0:
         return "High-Impact Duo"
     return "Developing Chemistry"
+
+
+# --- 3. Deterministic Performance-Improvement Coaching Engine ---
+
+PILLAR_LABELS: Dict[str, str] = {
+    "combat": "Combat & KDA",
+    "damage": "Damage Output",
+    "objective": "Objectives & Turrets",
+    "frontline": "Frontline & Survivability",
+    "utility": "Utility & Setup",
+    "macro_vision": "CS, Vision & Macro",
+}
+
+
+def _build_match_coaching_diagnostics(
+    role: str,
+    archetype: str,
+    pdata: dict,
+    duration_min: float,
+    team_kills: int,
+    kp: float,
+    kp_target: float,
+    deaths_per_10m: float,
+    death_penalty: float,
+    outcome_adj: float,
+    active_pillars: Dict[str, float],
+    norm_weights: Dict[str, float],
+    final_score: float,
+    highlight: str,
+) -> Dict[str, Any]:
+    """
+    Produces a deterministic, transparent per-match coaching breakdown showing:
+    - Exact pillar contributions vs. 65.0 baseline
+    - Exact death liability penalty & outcome adjustment
+    - Ranked improvement levers (summary + optional Match-v5 timeline signals)
+    - Compact 1-line Discord cue (`short_tip`)
+    """
+    pillar_impacts = []
+    for pk, pscore in active_pillars.items():
+        w = norm_weights.get(pk, 0.0)
+        pillar_impacts.append({
+            "pillar": pk,
+            "label": PILLAR_LABELS.get(pk, pk),
+            "score": round(pscore, 1),
+            "weight_pct": round(w * 100.0, 1),
+            "impact_vs_avg": round((pscore - 65.0) * w, 1),
+        })
+    pillar_impacts.sort(key=lambda x: x["impact_vs_avg"])
+
+    levers: List[Dict[str, Any]] = []
+
+    # 1. Excess deaths penalty (exact rating drain)
+    if death_penalty >= 1.5:
+        pen_r = round(death_penalty, 1)
+        levers.append({
+            "key": "excess_deaths",
+            "category": "Survivability",
+            "title": "Cut Excess Deaths",
+            "observed": f"{deaths_per_10m:.1f} deaths / 10m",
+            "target": "<= 2.0 deaths / 10m",
+            "est_rating_gain": pen_r,
+            "severity": "high" if pen_r >= 5.0 else "medium",
+            "detail": f"Died {deaths_per_10m:.1f}/10m (threshold 2.0/10m), directly costing -{pen_r} rating pts.",
+            "short_cue": f"↑ Cut deaths ({deaths_per_10m:.1f}/10m, -{pen_r} pts)",
+        })
+
+    # 2. CS/min gap (non-Support when CS data is present)
+    cs = int(pdata.get("cs", 0))
+    if role != "Support" and cs > 0:
+        cspm = cs / duration_min
+        cs_target = ROLE_CSPM_BENCHMARK.get(role, 6.0)
+        if cspm < cs_target * 0.85:
+            gap_ratio = (cs_target - cspm) / max(1.0, cs_target)
+            est_gain = round(min(9.0, max(1.5, gap_ratio * 24.0 * max(0.12, norm_weights.get("macro_vision", 0.16)))), 1)
+            levers.append({
+                "key": "low_cspm",
+                "category": "Economy & Farming",
+                "title": "Raise CS/min",
+                "observed": f"{cspm:.1f} CS/m",
+                "target": f"{cs_target:.1f} CS/m ({role})",
+                "est_rating_gain": est_gain,
+                "severity": "high" if cspm < cs_target * 0.72 else "medium",
+                "detail": f"Farmed {cspm:.1f} CS/min vs. {cs_target:.1f} {role} benchmark — catch side waves between fights.",
+                "short_cue": f"↑ CS/m ({cspm:.1f} vs {cs_target:.1f})",
+            })
+
+    # 3. Vision/min & Control Wards
+    vision = int(pdata.get("vision", 0))
+    v_target = ROLE_VSPM_BENCHMARK.get(role, 0.85)
+    if vision > 0 or pdata.get("wards_placed", 0) > 0:
+        vspm = vision / duration_min
+        if vspm < v_target * 0.78:
+            gap_ratio = (v_target - vspm) / max(0.5, v_target)
+            est_gain = round(min(8.5, max(1.5, gap_ratio * 22.0 * max(0.14, norm_weights.get("macro_vision", 0.16)))), 1)
+            levers.append({
+                "key": "low_vision",
+                "category": "Vision Control",
+                "title": "Boost Vision Score",
+                "observed": f"{vspm:.2f} vis/m",
+                "target": f"{v_target:.2f} vis/m ({role})",
+                "est_rating_gain": est_gain,
+                "severity": "high" if (role == "Support" or vspm < v_target * 0.6) else "medium",
+                "detail": f"Vision score {vspm:.2f}/min vs. {v_target:.2f}/min {role} target — drop wards before objective setups.",
+                "short_cue": f"↑ Vision ({vspm:.2f} vs {v_target:.2f}/m)",
+            })
+        elif duration_min >= 20.0 and int(pdata.get("control_wards_placed", 0)) == 0 and int(pdata.get("wards_placed", 0)) > 0:
+            levers.append({
+                "key": "no_control_wards",
+                "category": "Vision Control",
+                "title": "Buy Control Wards",
+                "observed": "0 control wards",
+                "target": ">= 2 control wards",
+                "est_rating_gain": 2.0,
+                "severity": "low",
+                "detail": f"Placed 0 control wards in a {duration_min:.0f}-minute game; denying river vision unlocks objective setups.",
+                "short_cue": "↑ Buy control wards (0 placed)",
+            })
+
+    # 4. Damage Output (for damage-dealing archetypes)
+    damage = int(pdata.get("damage", 0))
+    if damage > 0 and archetype in ("marksman", "mage", "assassin", "bruiser", "splitpusher"):
+        dpm = damage / duration_min
+        dpm_target = ARCHETYPE_DPM_BENCHMARK.get(archetype, 600.0)
+        if dpm < dpm_target * 0.78:
+            gap_ratio = (dpm_target - dpm) / max(100.0, dpm_target)
+            est_gain = round(min(9.5, max(1.8, gap_ratio * 26.0 * max(0.15, norm_weights.get("damage", 0.22)))), 1)
+            levers.append({
+                "key": "low_dpm",
+                "category": "Damage Output",
+                "title": "Increase Damage Share",
+                "observed": f"{dpm:.0f} DPM",
+                "target": f"{dpm_target:.0f} DPM ({archetype})",
+                "est_rating_gain": est_gain,
+                "severity": "high" if dpm < dpm_target * 0.62 else "medium",
+                "detail": f"Dealt {dpm:.0f} DPM vs. {dpm_target:.0f} {archetype} target — look for safer poke/uptime in skirmishes.",
+                "short_cue": f"↑ DPM ({dpm:.0f} vs {dpm_target:.0f})",
+            })
+
+    # 5. Kill Participation / Fight Presence
+    if team_kills >= 8 and kp < kp_target * 0.75:
+        kp_pct = round(kp * 100)
+        kp_t_pct = round(kp_target * 100)
+        est_gain = round(min(7.0, max(1.5, (kp_target - kp) * 20.0 * max(0.15, norm_weights.get("combat", 0.20)))), 1)
+        levers.append({
+            "key": "low_kp",
+            "category": "Map Presence",
+            "title": "Join More Teamfights",
+            "observed": f"{kp_pct}% KP",
+            "target": f"{kp_t_pct}% KP ({role})",
+            "est_rating_gain": est_gain,
+            "severity": "medium",
+            "detail": f"Kill participation was {kp_pct}% vs. {kp_t_pct}% {role} target — sync rotations with squad skirmishes.",
+            "short_cue": f"↑ Fight presence ({kp_pct}% vs {kp_t_pct}% KP)",
+        })
+
+    # 6. Objective / Structural Pressure
+    obj_score = active_pillars.get("objective", -1.0)
+    if obj_score >= 0 and obj_score < 52.0 and (role in ("Jungle", "Top") or archetype == "splitpusher"):
+        est_gain = round(min(7.5, max(1.5, (65.0 - obj_score) * max(0.14, norm_weights.get("objective", 0.18)))), 1)
+        levers.append({
+            "key": "low_objectives",
+            "category": "Objectives & Turrets",
+            "title": "Convert Objective Pressure",
+            "observed": f"{obj_score:.0f}/100 pillar",
+            "target": ">= 65/100 pillar",
+            "est_rating_gain": est_gain,
+            "severity": "medium",
+            "detail": f"Objective/turret pressure scored {obj_score:.0f}/100 — prioritize dragon/herald setups or side-lane plates.",
+            "short_cue": f"↑ Objective pressure ({obj_score:.0f}/100)",
+        })
+
+    # 7. Timeline-powered diagnostics (when Match-v5 Timeline data is present)
+    tl = pdata.get("timeline") if isinstance(pdata.get("timeline"), dict) else None
+    if tl:
+        gd15 = tl.get("gold_diff_15")
+        csd15 = tl.get("cs_diff_15")
+        if (isinstance(gd15, (int, float)) and gd15 <= -800) or (
+            role != "Support" and isinstance(csd15, (int, float)) and csd15 <= -15
+        ):
+            if isinstance(gd15, (int, float)) and gd15 <= -800:
+                obs_str = f"{int(gd15):+d}g @15m"
+                cue_str = f"↑ Early lane ({int(gd15):+d}g @15m)"
+                sev = "high" if gd15 <= -1500 else "medium"
+                gain = round(min(6.5, max(2.0, abs(gd15) / 350.0)), 1)
+            else:
+                obs_str = f"{int(csd15):+d} CS @15m"
+                cue_str = f"↑ Early lane ({int(csd15):+d} CS @15m)"
+                sev = "high" if csd15 <= -25 else "medium"
+                gain = round(min(5.5, max(1.8, abs(csd15) / 6.0)), 1)
+            levers.append({
+                "key": "lane_deficit_15",
+                "category": "Laning Phase (0–15m)",
+                "title": "Tighten Early Laning",
+                "observed": obs_str,
+                "target": "Even or ahead @15m",
+                "est_rating_gain": gain,
+                "severity": sev,
+                "detail": f"Fell behind lane opponent by {obs_str}; focus on wave control and early recall timings.",
+                "short_cue": cue_str,
+            })
+
+        pre_obj = int(tl.get("pre_objective_deaths", 0))
+        if pre_obj >= 2:
+            levers.append({
+                "key": "pre_obj_deaths",
+                "category": "Objective Timing",
+                "title": "Avoid Pre-Objective Deaths",
+                "observed": f"{pre_obj} deaths <60s pre-obj",
+                "target": "0 pre-objective deaths",
+                "est_rating_gain": round(min(6.0, pre_obj * 2.2), 1),
+                "severity": "high" if pre_obj >= 3 else "medium",
+                "detail": f"Died {pre_obj} times within 60s before an epic monster — avoid face-checking or overextending on spawn timers.",
+                "short_cue": f"↑ Pre-obj discipline ({pre_obj} deaths)",
+            })
+
+        late_d = int(tl.get("late_deaths", 0))
+        if late_d >= 2:
+            levers.append({
+                "key": "late_deaths",
+                "category": "Late-Game Positioning",
+                "title": "Protect Late-Game Life",
+                "observed": f"{late_d} deaths after 25m",
+                "target": "<= 1 late death",
+                "est_rating_gain": round(min(6.0, late_d * 2.0), 1),
+                "severity": "high" if late_d >= 3 else "medium",
+                "detail": f"Recorded {late_d} deaths past 25 minutes — late picks swing Baron/Soul fights.",
+                "short_cue": f"↑ Late positioning ({late_d} deaths 25m+)",
+            })
+
+    # Rank levers by estimated rating impact descending and keep top 3
+    levers.sort(key=lambda x: x["est_rating_gain"], reverse=True)
+    top_levers = levers[:3]
+
+    if top_levers and (final_score < 84.0 or top_levers[0]["severity"] == "high"):
+        short_tip = top_levers[0]["short_cue"]
+    else:
+        short_tip = f"✓ Clean game — {highlight}"
+
+    return {
+        "death_penalty": round(death_penalty, 1),
+        "deaths_per_10m": round(deaths_per_10m, 2),
+        "outcome_adj": outcome_adj,
+        "pillar_impacts": pillar_impacts,
+        "levers": top_levers,
+        "short_tip": short_tip,
+        "has_timeline": bool(tl),
+    }
+
+
+def build_player_coaching_report(
+    player_name: str,
+    matches: List[dict],
+    primary_role: Optional[str] = None,
+) -> Dict[str, Any]:
+    """
+    Builds a multi-game deterministic coaching report for a specific squad player:
+    - Top 3 recurring focus areas (frequency & average rating gain)
+    - Win vs. Loss metric splits (what drops most in losses)
+    - Timeline laning & death-timing profile (when available)
+    - Role fit (on-role vs off-role) & Champion fit (best vs weakest pick)
+    """
+    target_lower = (player_name or "").strip().lower()
+    appearances: List[Tuple[dict, str, dict, dict]] = []
+
+    for match in matches:
+        if not isinstance(match, dict):
+            continue
+        if match.get("is_remake") or str(match.get("result", "")).upper() == "REMAKE":
+            continue
+        dur = match.get("duration_min")
+        if isinstance(dur, (int, float)) and 0 < dur < 5.0:
+            continue
+
+        for role, pdata in (match.get("lineup") or {}).items():
+            if not isinstance(pdata, dict):
+                continue
+            if "is_squad" in pdata and not pdata.get("is_squad"):
+                continue
+            if (pdata.get("player") or "").strip().lower() != target_lower:
+                continue
+            eval_res = score_player_in_match(role, pdata, match)
+            appearances.append((match, role, pdata, eval_res))
+            break
+
+    total_games = len(appearances)
+    if total_games == 0:
+        return {
+            "player": player_name,
+            "games_analyzed": 0,
+            "wins": 0,
+            "losses": 0,
+            "top_focus_areas": [],
+            "win_vs_loss": None,
+            "death_profile": None,
+            "role_fit": None,
+            "champion_fit": None,
+        }
+
+    wins_list = [a for a in appearances if a[0].get("result") == "WIN"]
+    losses_list = [a for a in appearances if a[0].get("result") != "WIN"]
+
+    # 1. Aggregate recurring coaching levers
+    lever_agg: Dict[str, Dict[str, Any]] = {}
+    for _m, _role, _pdata, ev in appearances:
+        for lv in ev["coaching"]["levers"]:
+            k = lv["key"]
+            if k not in lever_agg:
+                lever_agg[k] = {
+                    "key": k,
+                    "category": lv["category"],
+                    "title": lv["title"],
+                    "occurrences": 0,
+                    "gain_sum": 0.0,
+                    "latest_detail": lv["detail"],
+                    "short_cue": lv["short_cue"],
+                }
+            lever_agg[k]["occurrences"] += 1
+            lever_agg[k]["gain_sum"] += float(lv["est_rating_gain"])
+
+    focus_areas = []
+    for item in lever_agg.values():
+        occ = item["occurrences"]
+        avg_gain = round(item["gain_sum"] / occ, 1)
+        freq_pct = round((occ / total_games) * 100.0, 1)
+        priority_score = round(occ * avg_gain, 2)
+        focus_areas.append({
+            "key": item["key"],
+            "category": item["category"],
+            "title": item["title"],
+            "occurrences": occ,
+            "games_analyzed": total_games,
+            "frequency_pct": freq_pct,
+            "avg_est_gain": avg_gain,
+            "priority_score": priority_score,
+            "summary": f"Flagged in {occ}/{total_games} games ({freq_pct:.0f}%), avg +{avg_gain} rating upside. {item['latest_detail']}",
+        })
+    focus_areas.sort(key=lambda x: (x["priority_score"], x["occurrences"]), reverse=True)
+
+    # 2. Win vs. Loss metric splits
+    def _avg_metrics(subset: List[Tuple[dict, str, dict, dict]]) -> Optional[Dict[str, Any]]:
+        if not subset:
+            return None
+        ratings, d10_list, cspm_list, vspm_list, kp_list, dpm_list, gd15_list, csd15_list = [], [], [], [], [], [], [], []
+        for m, r, p, ev in subset:
+            dur = max(10.0, float(m.get("duration_min") or 30.0))
+            ratings.append(float(ev["rating"]))
+            d10_list.append(float(ev["coaching"]["deaths_per_10m"]))
+            if r != "Support" and int(p.get("cs", 0)) > 0:
+                cspm_list.append(int(p.get("cs", 0)) / dur)
+            if int(p.get("vision", 0)) > 0:
+                vspm_list.append(int(p.get("vision", 0)) / dur)
+            if p.get("kill_participation") is not None:
+                kp_list.append(float(p["kill_participation"]) * 100.0)
+            if int(p.get("damage", 0)) > 0:
+                dpm_list.append(int(p.get("damage", 0)) / dur)
+            tl = p.get("timeline") if isinstance(p.get("timeline"), dict) else None
+            if tl:
+                if isinstance(tl.get("gold_diff_15"), (int, float)):
+                    gd15_list.append(float(tl["gold_diff_15"]))
+                if isinstance(tl.get("cs_diff_15"), (int, float)):
+                    csd15_list.append(float(tl["cs_diff_15"]))
+        return {
+            "games": len(subset),
+            "avg_rating": round(sum(ratings) / len(ratings), 1),
+            "deaths_per_10m": round(sum(d10_list) / len(d10_list), 2),
+            "cspm": round(sum(cspm_list) / len(cspm_list), 1) if cspm_list else None,
+            "vspm": round(sum(vspm_list) / len(vspm_list), 2) if vspm_list else None,
+            "kp_pct": round(sum(kp_list) / len(kp_list), 1) if kp_list else None,
+            "dpm": round(sum(dpm_list) / len(dpm_list), 0) if dpm_list else None,
+            "gold_diff_15": round(sum(gd15_list) / len(gd15_list), 0) if gd15_list else None,
+            "cs_diff_15": round(sum(csd15_list) / len(csd15_list), 1) if csd15_list else None,
+        }
+
+    win_stats = _avg_metrics(wins_list)
+    loss_stats = _avg_metrics(losses_list)
+    biggest_loss_drop = None
+    if win_stats and loss_stats:
+        drops = []
+        d_diff = loss_stats["deaths_per_10m"] - win_stats["deaths_per_10m"]
+        if d_diff >= 0.4:
+            drops.append((d_diff * 12.0, f"Deaths jump from {win_stats['deaths_per_10m']:.1f} to {loss_stats['deaths_per_10m']:.1f}/10m in losses"))
+        if win_stats["cspm"] is not None and loss_stats["cspm"] is not None:
+            cs_drop = win_stats["cspm"] - loss_stats["cspm"]
+            if cs_drop >= 0.6:
+                drops.append((cs_drop * 8.0, f"CS/m drops from {win_stats['cspm']:.1f} (W) to {loss_stats['cspm']:.1f} (L)"))
+        if win_stats["vspm"] is not None and loss_stats["vspm"] is not None:
+            vis_drop = win_stats["vspm"] - loss_stats["vspm"]
+            if vis_drop >= 0.15:
+                drops.append((vis_drop * 25.0, f"Vision/m falls from {win_stats['vspm']:.2f} (W) to {loss_stats['vspm']:.2f} (L)"))
+        if win_stats["kp_pct"] is not None and loss_stats["kp_pct"] is not None:
+            kp_drop = win_stats["kp_pct"] - loss_stats["kp_pct"]
+            if kp_drop >= 8.0:
+                drops.append((kp_drop * 0.5, f"KP drops from {win_stats['kp_pct']:.0f}% (W) to {loss_stats['kp_pct']:.0f}% (L)"))
+        if drops:
+            drops.sort(key=lambda x: x[0], reverse=True)
+            biggest_loss_drop = drops[0][1]
+
+    win_vs_loss = {
+        "wins": win_stats,
+        "losses": loss_stats,
+        "biggest_loss_drop": biggest_loss_drop,
+    }
+
+    # 3. Timeline laning & death-timing profile
+    tl_games = 0
+    early_d, mid_d, late_d, pre_obj_d = 0, 0, 0, 0
+    gd10_vals, csd10_vals, gd15_vals, csd15_vals = [], [], [], []
+    for _m, _r, p, _ev in appearances:
+        tl = p.get("timeline") if isinstance(p.get("timeline"), dict) else None
+        if not tl:
+            continue
+        tl_games += 1
+        early_d += int(tl.get("early_deaths", 0))
+        mid_d += int(tl.get("mid_deaths", 0))
+        late_d += int(tl.get("late_deaths", 0))
+        pre_obj_d += int(tl.get("pre_objective_deaths", 0))
+        if isinstance(tl.get("gold_diff_10"), (int, float)):
+            gd10_vals.append(float(tl["gold_diff_10"]))
+        if isinstance(tl.get("cs_diff_10"), (int, float)):
+            csd10_vals.append(float(tl["cs_diff_10"]))
+        if isinstance(tl.get("gold_diff_15"), (int, float)):
+            gd15_vals.append(float(tl["gold_diff_15"]))
+        if isinstance(tl.get("cs_diff_15"), (int, float)):
+            csd15_vals.append(float(tl["cs_diff_15"]))
+
+    death_profile = None
+    if tl_games > 0:
+        death_profile = {
+            "games_with_timeline": tl_games,
+            "early_deaths_avg": round(early_d / tl_games, 2),
+            "mid_deaths_avg": round(mid_d / tl_games, 2),
+            "late_deaths_avg": round(late_d / tl_games, 2),
+            "pre_objective_deaths_avg": round(pre_obj_d / tl_games, 2),
+            "avg_gold_diff_10": round(sum(gd10_vals) / len(gd10_vals), 0) if gd10_vals else None,
+            "avg_cs_diff_10": round(sum(csd10_vals) / len(csd10_vals), 1) if csd10_vals else None,
+            "avg_gold_diff_15": round(sum(gd15_vals) / len(gd15_vals), 0) if gd15_vals else None,
+            "avg_cs_diff_15": round(sum(csd15_vals) / len(csd15_vals), 1) if csd15_vals else None,
+        }
+
+    # 4. Role Fit (on-role vs off-role)
+    role_counts: Dict[str, int] = {}
+    for _m, r, _p, _ev in appearances:
+        role_counts[r] = role_counts.get(r, 0) + 1
+    inferred_primary = primary_role if primary_role in ("Top", "Jungle", "Mid", "Bot", "Support") else max(role_counts, key=role_counts.get)
+    on_role_ratings = [ev["rating"] for _m, r, _p, ev in appearances if r == inferred_primary]
+    off_role_ratings = [ev["rating"] for _m, r, _p, ev in appearances if r != inferred_primary]
+    role_fit = {
+        "primary_role": inferred_primary,
+        "on_role_games": len(on_role_ratings),
+        "off_role_games": len(off_role_ratings),
+        "on_role_avg": round(sum(on_role_ratings) / len(on_role_ratings), 1) if on_role_ratings else None,
+        "off_role_avg": round(sum(off_role_ratings) / len(off_role_ratings), 1) if off_role_ratings else None,
+        "delta": (
+            round((sum(on_role_ratings) / len(on_role_ratings)) - (sum(off_role_ratings) / len(off_role_ratings)), 1)
+            if on_role_ratings and off_role_ratings
+            else None
+        ),
+    }
+
+    # 5. Champion Fit
+    champ_agg: Dict[Tuple[str, str], Dict[str, Any]] = {}
+    for m, r, p, ev in appearances:
+        ck = (p.get("champion", "Unknown"), r)
+        if ck not in champ_agg:
+            champ_agg[ck] = {"champion": ck[0], "role": r, "games": 0, "wins": 0, "rating_sum": 0.0}
+        champ_agg[ck]["games"] += 1
+        if m.get("result") == "WIN":
+            champ_agg[ck]["wins"] += 1
+        champ_agg[ck]["rating_sum"] += float(ev["rating"])
+
+    champ_entries = [
+        {
+            "champion": c["champion"],
+            "role": c["role"],
+            "games": c["games"],
+            "win_rate": round((c["wins"] / c["games"]) * 100.0, 1),
+            "avg_rating": round(c["rating_sum"] / c["games"], 1),
+        }
+        for c in champ_agg.values()
+    ]
+    qualified = [c for c in champ_entries if c["games"] >= 2] or champ_entries
+    qualified.sort(key=lambda x: (x["avg_rating"], x["win_rate"], x["games"]), reverse=True)
+    champion_fit = {
+        "best_pick": qualified[0] if qualified else None,
+        "weakest_pick": qualified[-1] if len(qualified) > 1 else None,
+    }
+
+    return {
+        "player": player_name,
+        "games_analyzed": total_games,
+        "wins": len(wins_list),
+        "losses": len(losses_list),
+        "top_focus_areas": focus_areas[:3],
+        "win_vs_loss": win_vs_loss,
+        "death_profile": death_profile,
+        "role_fit": role_fit,
+        "champion_fit": champion_fit,
+    }
+
+
+def build_squad_coaching_summary(matches: List[dict]) -> Dict[str, Any]:
+    """
+    Aggregates squad-wide recurring rating drains across all proper matches for the
+    Overview tab's 'Coaching & Leaks' summary section.
+    """
+    proper_matches = [
+        m for m in matches
+        if isinstance(m, dict)
+        and not m.get("is_remake")
+        and str(m.get("result", "")).upper() != "REMAKE"
+        and not (isinstance(m.get("duration_min"), (int, float)) and 0 < m.get("duration_min") < 5.0)
+    ]
+    if not proper_matches:
+        return {
+            "games_analyzed": 0,
+            "squad_appearances": 0,
+            "avg_death_penalty": 0.0,
+            "top_leaks": [],
+        }
+
+    lever_agg: Dict[str, Dict[str, Any]] = {}
+    total_appearances = 0
+    total_death_penalty = 0.0
+
+    for match in proper_matches:
+        for role, pdata in (match.get("lineup") or {}).items():
+            if not isinstance(pdata, dict):
+                continue
+            if "is_squad" in pdata and not pdata.get("is_squad"):
+                continue
+            ev = score_player_in_match(role, pdata, match)
+            total_appearances += 1
+            total_death_penalty += float(ev["coaching"]["death_penalty"])
+            pname = pdata.get("player", "Unknown")
+
+            for lv in ev["coaching"]["levers"]:
+                k = lv["key"]
+                if k not in lever_agg:
+                    lever_agg[k] = {
+                        "key": k,
+                        "category": lv["category"],
+                        "title": lv["title"],
+                        "occurrences": 0,
+                        "gain_sum": 0.0,
+                        "players": {},
+                    }
+                lever_agg[k]["occurrences"] += 1
+                lever_agg[k]["gain_sum"] += float(lv["est_rating_gain"])
+                lever_agg[k]["players"][pname] = lever_agg[k]["players"].get(pname, 0) + 1
+
+    leaks = []
+    for item in lever_agg.values():
+        occ = item["occurrences"]
+        avg_gain = round(item["gain_sum"] / occ, 1)
+        rate_pct = round((occ / max(1, total_appearances)) * 100.0, 1)
+        top_players = sorted(item["players"].items(), key=lambda x: x[1], reverse=True)[:3]
+        leaks.append({
+            "key": item["key"],
+            "category": item["category"],
+            "title": item["title"],
+            "occurrences": occ,
+            "rate_pct": rate_pct,
+            "avg_est_gain": avg_gain,
+            "total_points_impact": round(item["gain_sum"], 1),
+            "top_affected_players": [p for p, _cnt in top_players],
+            "summary": f"Appears in {occ} squad game-slots ({rate_pct:.0f}%), costing ~{avg_gain} rating pts when triggered.",
+        })
+    leaks.sort(key=lambda x: (x["total_points_impact"], x["occurrences"]), reverse=True)
+
+    return {
+        "games_analyzed": len(proper_matches),
+        "squad_appearances": total_appearances,
+        "avg_death_penalty": round(total_death_penalty / max(1, total_appearances), 2),
+        "top_leaks": leaks[:4],
+    }
+

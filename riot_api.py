@@ -175,11 +175,155 @@ class RiotAPIClient:
             print(f"[RiotAPI] Exception in get_match_details: {e}")
             return None
 
+    async def get_match_timeline(self, match_id: str) -> Optional[dict]:
+        """
+        Fetches Match-v5 timeline JSON payload for a specific matchId.
+        Endpoint: GET /lol/match/v5/matches/{matchId}/timeline
+        """
+        if not self.is_configured() or not match_id:
+            return None
+
+        url = f"{self.base_url}/lol/match/v5/matches/{match_id}/timeline"
+        session = await self._get_session()
+        try:
+            async with session.get(url) as resp:
+                if resp.status == 200:
+                    return await resp.json()
+                elif resp.status in (401, 403):
+                    print(f"[RiotAPI] Error {resp.status} in get_match_timeline ({match_id}): Riot API Key is invalid or expired.")
+                    return None
+                elif resp.status == 429:
+                    retry_after = int(resp.headers.get("Retry-After", "5"))
+                    await asyncio.sleep(retry_after)
+                    return await self.get_match_timeline(match_id)
+                else:
+                    text = await resp.text()
+                    print(f"[RiotAPI] get_match_timeline ({match_id}) error {resp.status}: {text[:200]}")
+                    return None
+        except Exception as e:
+            print(f"[RiotAPI] Exception in get_match_timeline: {e}")
+            return None
+
+    @staticmethod
+    def extract_timeline_player_metrics(timeline_data: Optional[dict], match_data: dict) -> Dict[str, dict]:
+        """
+        Extracts per-PUUID laning differentials (10m & 15m gold/CS vs lane opponent)
+        and death timing distribution (early <14m, mid 14-25m, late >=25m, pre-objective deaths)
+        from a Riot Match-v5 timeline payload.
+        """
+        if not timeline_data or not match_data:
+            return {}
+        frames = (timeline_data.get("info") or {}).get("frames") or []
+        participants = (match_data.get("info") or {}).get("participants") or []
+        if not frames or not participants:
+            return {}
+
+        # Map participantId (1-10) -> participant metadata
+        pid_to_puuid: Dict[int, str] = {}
+        pid_to_team_pos: Dict[int, Tuple[int, str]] = {}
+        pos_by_team: Dict[Tuple[int, str], int] = {}
+
+        for idx, p in enumerate(participants, start=1):
+            pid = int(p.get("participantId") or idx)
+            puuid = p.get("puuid")
+            if not puuid:
+                continue
+            team_id = int(p.get("teamId") or (100 if pid <= 5 else 200))
+            pos = (p.get("teamPosition") or "").upper()
+            pid_to_puuid[pid] = puuid
+            pid_to_team_pos[pid] = (team_id, pos)
+            if pos:
+                pos_by_team[(team_id, pos)] = pid
+
+        def _get_frame_at_minute(minute: int) -> Optional[dict]:
+            target_ms = minute * 60_000
+            best_frame = None
+            best_diff = None
+            for fr in frames:
+                ts = fr.get("timestamp", 0)
+                diff = abs(ts - target_ms)
+                if best_diff is None or diff < best_diff:
+                    best_diff = diff
+                    best_frame = fr
+            # Only accept frame if match actually reached close to that minute (within 45s)
+            if best_frame is not None and best_diff is not None and best_diff <= 45_000:
+                return best_frame
+            return None
+
+        frame_10 = _get_frame_at_minute(10)
+        frame_15 = _get_frame_at_minute(15)
+
+        def _extract_gold_cs(frame: Optional[dict], pid: int) -> Tuple[Optional[int], Optional[int]]:
+            if not frame:
+                return None, None
+            pf = (frame.get("participantFrames") or {}).get(str(pid))
+            if not isinstance(pf, dict):
+                return None, None
+            gold = pf.get("totalGold")
+            cs = int(pf.get("minionsKilled", 0)) + int(pf.get("jungleMinionsKilled", 0))
+            return (int(gold) if gold is not None else None), cs
+
+        # Collect death timestamps per participant and elite monster kill timestamps
+        death_timestamps: Dict[int, List[int]] = {pid: [] for pid in pid_to_puuid}
+        elite_monster_timestamps: List[int] = []
+
+        for fr in frames:
+            for ev in fr.get("events") or []:
+                ev_type = ev.get("type")
+                ts = int(ev.get("timestamp") or 0)
+                if ev_type == "CHAMPION_KILL":
+                    victim_id = ev.get("victimId")
+                    if victim_id in death_timestamps:
+                        death_timestamps[victim_id].append(ts)
+                elif ev_type == "ELITE_MONSTER_KILL":
+                    elite_monster_timestamps.append(ts)
+
+        metrics_by_puuid: Dict[str, dict] = {}
+        for pid, puuid in pid_to_puuid.items():
+            team_id, pos = pid_to_team_pos[pid]
+            opp_team = 200 if team_id == 100 else 100
+            opp_pid = pos_by_team.get((opp_team, pos)) if pos else None
+
+            g10, cs10 = _extract_gold_cs(frame_10, pid)
+            og10, ocs10 = _extract_gold_cs(frame_10, opp_pid) if opp_pid else (None, None)
+            g15, cs15 = _extract_gold_cs(frame_15, pid)
+            og15, ocs15 = _extract_gold_cs(frame_15, opp_pid) if opp_pid else (None, None)
+
+            deaths_ts = death_timestamps.get(pid, [])
+            early_deaths = sum(1 for ts in deaths_ts if ts < 14 * 60_000)
+            mid_deaths = sum(1 for ts in deaths_ts if 14 * 60_000 <= ts < 25 * 60_000)
+            late_deaths = sum(1 for ts in deaths_ts if ts >= 25 * 60_000)
+            pre_obj_deaths = sum(
+                1
+                for d_ts in deaths_ts
+                if any(0 <= (m_ts - d_ts) <= 60_000 for m_ts in elite_monster_timestamps)
+            )
+
+            entry: Dict[str, object] = {
+                "early_deaths": early_deaths,
+                "mid_deaths": mid_deaths,
+                "late_deaths": late_deaths,
+                "pre_objective_deaths": pre_obj_deaths,
+            }
+            if g10 is not None and og10 is not None:
+                entry["gold_diff_10"] = g10 - og10
+            if cs10 is not None and ocs10 is not None:
+                entry["cs_diff_10"] = cs10 - ocs10
+            if g15 is not None and og15 is not None:
+                entry["gold_diff_15"] = g15 - og15
+            if cs15 is not None and ocs15 is not None:
+                entry["cs_diff_15"] = cs15 - ocs15
+
+            metrics_by_puuid[puuid] = entry
+
+        return metrics_by_puuid
+
     def parse_squad_match(
         self,
         match_data: dict,
         linked_puuids: Dict[str, dict],
-        min_squad_size: int = 2
+        min_squad_size: int = 2,
+        timeline_data: Optional[dict] = None,
     ) -> Optional[dict]:
         """
         Analyzes a match payload to check if members of the squad played together on the same team.
@@ -227,6 +371,11 @@ class RiotAPIClient:
         # Map players and determine roles
         lineup = {}
         team_kills = sum(p.get("kills", 0) for p in full_team)
+        timeline_metrics = (
+            self.extract_timeline_player_metrics(timeline_data, match_data)
+            if timeline_data and not is_remake
+            else {}
+        )
 
         mvp_candidate = None
         highest_score = -1.0
@@ -255,7 +404,7 @@ class RiotAPIClient:
                 or (p.get("totalHealsOnTeammates", 0) + p.get("totalDamageShieldedOnTeammates", 0))
             )
 
-            lineup[role] = {
+            entry = {
                 "player": player_display_name,
                 "puuid": puuid,
                 "is_squad": is_squad_member,
@@ -295,6 +444,9 @@ class RiotAPIClient:
                 "max_cs_advantage": round(float(challenges.get("maxCsAdvantageOnLaneOpponent", 0.0)), 1),
                 "max_level_lead": challenges.get("maxLevelLeadLaneOpponent", 0),
             }
+            if puuid and puuid in timeline_metrics:
+                entry["timeline"] = timeline_metrics[puuid]
+            lineup[role] = entry
 
         # Timestamp formatting
         game_end_ts = info.get("gameEndTimestamp") or info.get("gameStartTimestamp") or 0
