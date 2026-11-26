@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25 06:05:10",
+  "generated_at": "2026-11-26 02:06:54",
   "github_repo": "jgdclima/5-stacker-lol",
   "has_live_matches": true,
   "rating_formulas": {
@@ -140,17 +140,72 @@
     "is_demo": false,
     "group_name": "5 Stackers",
     "kpis": {
-      "total_matches": 137,
+      "total_matches": 138,
       "remakes": 2,
-      "wins": 63,
+      "wins": 64,
       "losses": 74,
-      "win_rate": 46.0,
-      "streak_type": "LOSS",
+      "win_rate": 46.4,
+      "streak_type": "WIN",
       "streak_count": 1,
       "active_sessions_count": 1,
-      "total_sessions_count": 24
+      "total_sessions_count": 25
     },
     "sessions": [
+      {
+        "session_id": "264e8f07",
+        "created_at": "2026-11-25T23:09:25.554844",
+        "scheduled_time": "Wednesday Nov 25 at 07:00 PM MST",
+        "scheduled_iso": "2026-11-25T19:00:00-07:00",
+        "mode": "Ranked Flex (Fallback)",
+        "is_ranked_5s": false,
+        "creator": "Joao/Brazil",
+        "status": "IN_PROGRESS",
+        "confirmed_players": [
+          {
+            "name": "Joao/Brazil",
+            "role_pref": "Top"
+          },
+          {
+            "name": "enkryptos",
+            "role_pref": "Fill"
+          },
+          {
+            "name": "Aurelion Swole",
+            "role_pref": "Fill"
+          },
+          {
+            "name": "Julian",
+            "role_pref": "Fill"
+          },
+          {
+            "name": "neetarius",
+            "role_pref": "Top, Mid"
+          }
+        ],
+        "bench_substitutes": [
+          {
+            "name": "Ryan",
+            "role_pref": "Jungle"
+          }
+        ],
+        "declined": [],
+        "reminder_sent": true,
+        "activity_log": [
+          "<t:1795650488:t> 🚨 **5/5 Quorum Reached — Lobby Ready!**",
+          "<t:1795657543:t> ⏰ **15-minute countdown reminder sent**",
+          "<t:1795658443:t> ⚔️ **Session is now IN PROGRESS!**",
+          "<t:1795658805:t> 🎮 Match recorded: **WIN** (MVP: **Joao/Brazil**)"
+        ],
+        "session_matches": [
+          {
+            "match_id": "NA1_5686613376",
+            "result": "WIN",
+            "is_remake": false,
+            "mode": "Normal Draft",
+            "mvp": "Joao/Brazil"
+          }
+        ]
+      },
       {
         "session_id": "cd9fc93b",
         "created_at": "2026-11-25T02:28:05.101491",
@@ -159,7 +214,7 @@
         "mode": "Ranked Flex (Fallback)",
         "is_ranked_5s": false,
         "creator": "neetarius",
-        "status": "IN_PROGRESS",
+        "status": "COMPLETED",
         "confirmed_players": [
           {
             "name": "Julian",
@@ -174,11 +229,11 @@
         "declined": [],
         "reminder_sent": true,
         "activity_log": [
-          "<t:1795578569:t> 🎮 Match recorded: **WIN** (MVP: **(Ry) Zor raak**)",
           "<t:1795581329:t> 🎮 Match recorded: **LOSS** (MVP: **Joao/Brazil**)",
           "<t:1795583609:t> 🎮 Match recorded: **LOSS** (MVP: **Aurelion Swole**)",
           "<t:1795584928:t> 🎮 Match recorded: **WIN** (MVP: **neetarius**)",
-          "<t:1795586698:t> 🎮 Match recorded: **LOSS** (MVP: **Aurelion Swole**)"
+          "<t:1795586698:t> 🎮 Match recorded: **LOSS** (MVP: **Aurelion Swole**)",
+          "<t:1795590057:t> 🏁 **Session auto-concluded**"
         ],
         "session_matches": [
           {
@@ -1369,6 +1424,754 @@
       }
     ],
     "matches": [
+      {
+        "match_id": "NA1_5686613376",
+        "date": "2026-11-26 02:05",
+        "mode": "Normal Draft",
+        "queue_id": 400,
+        "result": "WIN",
+        "is_remake": false,
+        "duration_min": 34.7,
+        "mvp": "Joao/Brazil",
+        "squad_players": [
+          "Joao/Brazil",
+          "Julian",
+          "Aurelion Swole",
+          "enkryptos"
+        ],
+        "lineup": {
+          "Top": {
+            "player": "Joao/Brazil",
+            "is_squad": true,
+            "champion": "Darius",
+            "kills": 8,
+            "deaths": 8,
+            "assists": 5,
+            "damage": 42308,
+            "cs": 241,
+            "vision": 24,
+            "gold_earned": 15865,
+            "damage_taken": 43065,
+            "damage_mitigated": 41572,
+            "objective_damage": 13191,
+            "turret_damage": 12396,
+            "turret_takedowns": 4,
+            "turret_plates": 15,
+            "cc_score": 27,
+            "effective_heal_shield": 0.0,
+            "wards_placed": 9,
+            "wards_killed": 2,
+            "control_wards_placed": 0,
+            "kill_participation": 0.419,
+            "team_damage_pct": 0.256,
+            "damage_taken_pct": 0.289,
+            "solo_kills": 3,
+            "outnumbered_kills": 1,
+            "dragon_takedowns": 1,
+            "baron_takedowns": 0,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 0,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 3,
+            "pick_kill_with_ally": 7,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 40.2,
+            "max_level_lead": 1,
+            "timeline": {
+              "early_deaths": 3,
+              "mid_deaths": 3,
+              "late_deaths": 2,
+              "pre_objective_deaths": 3,
+              "gold_diff_10": 468,
+              "cs_diff_10": 15,
+              "gold_diff_15": 1143,
+              "cs_diff_15": 16
+            },
+            "rating": 87.6,
+            "grade": "S",
+            "archetype": "bruiser",
+            "highlight": "Splitpush Titan",
+            "short_tip": "↑ Pre-obj discipline (3 deaths)",
+            "coaching": {
+              "death_penalty": 1.4,
+              "deaths_per_10m": 2.31,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 71.3,
+                  "weight_pct": 7.5,
+                  "impact_vs_avg": 0.5
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 80.3,
+                  "weight_pct": 7.5,
+                  "impact_vs_avg": 1.2
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 74.6,
+                  "weight_pct": 23.4,
+                  "impact_vs_avg": 2.2
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 83.9,
+                  "weight_pct": 21.1,
+                  "impact_vs_avg": 4.0
+                },
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 100.0,
+                  "weight_pct": 19.1,
+                  "impact_vs_avg": 6.7
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 97.4,
+                  "weight_pct": 21.3,
+                  "impact_vs_avg": 6.9
+                }
+              ],
+              "levers": [
+                {
+                  "key": "pre_obj_deaths",
+                  "category": "Objective Timing",
+                  "title": "Avoid Pre-Objective Deaths",
+                  "observed": "3 deaths <60s pre-obj",
+                  "target": "0 pre-objective deaths",
+                  "est_rating_gain": 6.0,
+                  "severity": "high",
+                  "detail": "Died 3 times within 60s before an epic monster — avoid face-checking or overextending on spawn timers.",
+                  "short_cue": "↑ Pre-obj discipline (3 deaths)"
+                },
+                {
+                  "key": "late_deaths",
+                  "category": "Late-Game Positioning",
+                  "title": "Protect Late-Game Life",
+                  "observed": "2 deaths after 25m",
+                  "target": "<= 1 late death",
+                  "est_rating_gain": 4.0,
+                  "severity": "medium",
+                  "detail": "Recorded 2 deaths past 25 minutes — late picks swing Baron/Soul fights.",
+                  "short_cue": "↑ Late positioning (2 deaths 25m+)"
+                },
+                {
+                  "key": "no_control_wards",
+                  "category": "Vision Control",
+                  "title": "Buy Control Wards",
+                  "observed": "0 control wards",
+                  "target": ">= 2 control wards",
+                  "est_rating_gain": 2.0,
+                  "severity": "low",
+                  "detail": "Placed 0 control wards in a 35-minute game; denying river vision unlocks objective setups.",
+                  "short_cue": "↑ Buy control wards (0 placed)"
+                }
+              ],
+              "short_tip": "↑ Pre-obj discipline (3 deaths)",
+              "has_timeline": true
+            },
+            "pillars": {
+              "combat": 74.6,
+              "damage": 97.4,
+              "objective": 100.0,
+              "frontline": 83.9,
+              "utility": 71.3,
+              "macro_vision": 80.3
+            }
+          },
+          "Jungle": {
+            "player": "Julian",
+            "is_squad": true,
+            "champion": "JarvanIV",
+            "kills": 2,
+            "deaths": 8,
+            "assists": 14,
+            "damage": 23021,
+            "cs": 180,
+            "vision": 34,
+            "gold_earned": 12697,
+            "damage_taken": 26191,
+            "damage_mitigated": 37146,
+            "objective_damage": 18070,
+            "turret_damage": 0,
+            "turret_takedowns": 0,
+            "turret_plates": 0,
+            "cc_score": 26,
+            "effective_heal_shield": 0.0,
+            "wards_placed": 12,
+            "wards_killed": 4,
+            "control_wards_placed": 0,
+            "kill_participation": 0.516,
+            "team_damage_pct": 0.139,
+            "damage_taken_pct": 0.176,
+            "solo_kills": 0,
+            "outnumbered_kills": 0,
+            "dragon_takedowns": 3,
+            "baron_takedowns": 0,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 0,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 5,
+            "pick_kill_with_ally": 12,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 10.4,
+            "max_level_lead": 1,
+            "timeline": {
+              "early_deaths": 0,
+              "mid_deaths": 4,
+              "late_deaths": 4,
+              "pre_objective_deaths": 2,
+              "gold_diff_10": -1271,
+              "cs_diff_10": 4,
+              "gold_diff_15": -1755,
+              "cs_diff_15": -6
+            },
+            "rating": 69.6,
+            "grade": "A",
+            "archetype": "bruiser",
+            "highlight": "Objective Commander",
+            "short_tip": "↑ Late positioning (4 deaths 25m+)",
+            "coaching": {
+              "death_penalty": 1.4,
+              "deaths_per_10m": 2.31,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 61.2,
+                  "weight_pct": 23.4,
+                  "impact_vs_avg": -0.9
+                },
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 66.5,
+                  "weight_pct": 24.6,
+                  "impact_vs_avg": 0.4
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 70.9,
+                  "weight_pct": 8.6,
+                  "impact_vs_avg": 0.5
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 70.8,
+                  "weight_pct": 15.6,
+                  "impact_vs_avg": 0.9
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 72.2,
+                  "weight_pct": 18.1,
+                  "impact_vs_avg": 1.3
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 78.5,
+                  "weight_pct": 9.8,
+                  "impact_vs_avg": 1.3
+                }
+              ],
+              "levers": [
+                {
+                  "key": "late_deaths",
+                  "category": "Late-Game Positioning",
+                  "title": "Protect Late-Game Life",
+                  "observed": "4 deaths after 25m",
+                  "target": "<= 1 late death",
+                  "est_rating_gain": 6.0,
+                  "severity": "high",
+                  "detail": "Recorded 4 deaths past 25 minutes — late picks swing Baron/Soul fights.",
+                  "short_cue": "↑ Late positioning (4 deaths 25m+)"
+                },
+                {
+                  "key": "lane_deficit_15",
+                  "category": "Laning Phase (0–15m)",
+                  "title": "Tighten Early Laning",
+                  "observed": "-1755g @15m",
+                  "target": "Even or ahead @15m",
+                  "est_rating_gain": 5.0,
+                  "severity": "high",
+                  "detail": "Fell behind lane opponent by -1755g @15m; focus on wave control and early recall timings.",
+                  "short_cue": "↑ Early lane (-1755g @15m)"
+                },
+                {
+                  "key": "pre_obj_deaths",
+                  "category": "Objective Timing",
+                  "title": "Avoid Pre-Objective Deaths",
+                  "observed": "2 deaths <60s pre-obj",
+                  "target": "0 pre-objective deaths",
+                  "est_rating_gain": 4.4,
+                  "severity": "medium",
+                  "detail": "Died 2 times within 60s before an epic monster — avoid face-checking or overextending on spawn timers.",
+                  "short_cue": "↑ Pre-obj discipline (2 deaths)"
+                }
+              ],
+              "short_tip": "↑ Late positioning (4 deaths 25m+)",
+              "has_timeline": true
+            },
+            "pillars": {
+              "combat": 61.2,
+              "damage": 72.2,
+              "objective": 66.5,
+              "frontline": 70.8,
+              "utility": 78.5,
+              "macro_vision": 70.9
+            }
+          },
+          "Mid": {
+            "player": "Nekoris#NA1",
+            "is_squad": false,
+            "champion": "Malzahar",
+            "kills": 8,
+            "deaths": 5,
+            "assists": 10,
+            "damage": 38990,
+            "cs": 313,
+            "vision": 33,
+            "gold_earned": 16542,
+            "damage_taken": 22861,
+            "damage_mitigated": 16471,
+            "objective_damage": 10621,
+            "turret_damage": 8805,
+            "turret_takedowns": 4,
+            "turret_plates": 14,
+            "cc_score": 112,
+            "effective_heal_shield": 0.0,
+            "wards_placed": 12,
+            "wards_killed": 1,
+            "control_wards_placed": 1,
+            "kill_participation": 0.581,
+            "team_damage_pct": 0.236,
+            "damage_taken_pct": 0.154,
+            "solo_kills": 2,
+            "outnumbered_kills": 1,
+            "dragon_takedowns": 1,
+            "baron_takedowns": 0,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 0,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 8,
+            "pick_kill_with_ally": 12,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 2.0,
+            "max_level_lead": 2,
+            "timeline": {
+              "early_deaths": 2,
+              "mid_deaths": 1,
+              "late_deaths": 2,
+              "pre_objective_deaths": 1,
+              "gold_diff_10": -997,
+              "cs_diff_10": -45,
+              "gold_diff_15": -1316,
+              "cs_diff_15": -54
+            },
+            "rating": 92.3,
+            "grade": "S+",
+            "archetype": "mage",
+            "highlight": "Splitpush Titan",
+            "short_tip": "✓ Clean game — Splitpush Titan",
+            "coaching": {
+              "death_penalty": 0.0,
+              "deaths_per_10m": 1.44,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 73.8,
+                  "weight_pct": 5.1,
+                  "impact_vs_avg": 0.4
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 85.0,
+                  "weight_pct": 12.9,
+                  "impact_vs_avg": 2.6
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 89.2,
+                  "weight_pct": 12.0,
+                  "impact_vs_avg": 2.9
+                },
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 100.0,
+                  "weight_pct": 11.1,
+                  "impact_vs_avg": 3.9
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 86.5,
+                  "weight_pct": 33.8,
+                  "impact_vs_avg": 7.3
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 95.9,
+                  "weight_pct": 25.1,
+                  "impact_vs_avg": 7.8
+                }
+              ],
+              "levers": [
+                {
+                  "key": "late_deaths",
+                  "category": "Late-Game Positioning",
+                  "title": "Protect Late-Game Life",
+                  "observed": "2 deaths after 25m",
+                  "target": "<= 1 late death",
+                  "est_rating_gain": 4.0,
+                  "severity": "medium",
+                  "detail": "Recorded 2 deaths past 25 minutes — late picks swing Baron/Soul fights.",
+                  "short_cue": "↑ Late positioning (2 deaths 25m+)"
+                },
+                {
+                  "key": "lane_deficit_15",
+                  "category": "Laning Phase (0–15m)",
+                  "title": "Tighten Early Laning",
+                  "observed": "-1316g @15m",
+                  "target": "Even or ahead @15m",
+                  "est_rating_gain": 3.8,
+                  "severity": "medium",
+                  "detail": "Fell behind lane opponent by -1316g @15m; focus on wave control and early recall timings.",
+                  "short_cue": "↑ Early lane (-1316g @15m)"
+                }
+              ],
+              "short_tip": "✓ Clean game — Splitpush Titan",
+              "has_timeline": true
+            },
+            "pillars": {
+              "combat": 95.9,
+              "damage": 86.5,
+              "objective": 100.0,
+              "frontline": 73.8,
+              "utility": 85.0,
+              "macro_vision": 89.2
+            }
+          },
+          "Bot": {
+            "player": "Aurelion Swole",
+            "is_squad": true,
+            "champion": "Draven",
+            "kills": 10,
+            "deaths": 9,
+            "assists": 9,
+            "damage": 48351,
+            "cs": 259,
+            "vision": 16,
+            "gold_earned": 18869,
+            "damage_taken": 25523,
+            "damage_mitigated": 22237,
+            "objective_damage": 14309,
+            "turret_damage": 8376,
+            "turret_takedowns": 3,
+            "turret_plates": 13,
+            "cc_score": 13,
+            "effective_heal_shield": 0.0,
+            "wards_placed": 9,
+            "wards_killed": 1,
+            "control_wards_placed": 0,
+            "kill_participation": 0.613,
+            "team_damage_pct": 0.293,
+            "damage_taken_pct": 0.171,
+            "solo_kills": 1,
+            "outnumbered_kills": 4,
+            "dragon_takedowns": 2,
+            "baron_takedowns": 0,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 0,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 9,
+            "pick_kill_with_ally": 15,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 24.0,
+            "max_level_lead": 1,
+            "timeline": {
+              "early_deaths": 3,
+              "mid_deaths": 4,
+              "late_deaths": 2,
+              "pre_objective_deaths": 3,
+              "gold_diff_10": 1163,
+              "cs_diff_10": 19,
+              "gold_diff_15": -119,
+              "cs_diff_15": 5
+            },
+            "rating": 86.1,
+            "grade": "S",
+            "archetype": "marksman",
+            "highlight": "Marksman Specialist",
+            "short_tip": "↑ Pre-obj discipline (3 deaths)",
+            "coaching": {
+              "death_penalty": 3.9,
+              "deaths_per_10m": 2.59,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 65.7,
+                  "weight_pct": 5.1,
+                  "impact_vs_avg": 0.0
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 72.5,
+                  "weight_pct": 3.1,
+                  "impact_vs_avg": 0.2
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 67.7,
+                  "weight_pct": 14.9,
+                  "impact_vs_avg": 0.4
+                },
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 100.0,
+                  "weight_pct": 14.0,
+                  "impact_vs_avg": 4.9
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 88.2,
+                  "weight_pct": 26.0,
+                  "impact_vs_avg": 6.0
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 94.4,
+                  "weight_pct": 36.9,
+                  "impact_vs_avg": 10.8
+                }
+              ],
+              "levers": [
+                {
+                  "key": "pre_obj_deaths",
+                  "category": "Objective Timing",
+                  "title": "Avoid Pre-Objective Deaths",
+                  "observed": "3 deaths <60s pre-obj",
+                  "target": "0 pre-objective deaths",
+                  "est_rating_gain": 6.0,
+                  "severity": "high",
+                  "detail": "Died 3 times within 60s before an epic monster — avoid face-checking or overextending on spawn timers.",
+                  "short_cue": "↑ Pre-obj discipline (3 deaths)"
+                },
+                {
+                  "key": "late_deaths",
+                  "category": "Late-Game Positioning",
+                  "title": "Protect Late-Game Life",
+                  "observed": "2 deaths after 25m",
+                  "target": "<= 1 late death",
+                  "est_rating_gain": 4.0,
+                  "severity": "medium",
+                  "detail": "Recorded 2 deaths past 25 minutes — late picks swing Baron/Soul fights.",
+                  "short_cue": "↑ Late positioning (2 deaths 25m+)"
+                },
+                {
+                  "key": "excess_deaths",
+                  "category": "Survivability",
+                  "title": "Cut Excess Deaths",
+                  "observed": "2.6 deaths / 10m",
+                  "target": "<= 2.0 deaths / 10m",
+                  "est_rating_gain": 3.9,
+                  "severity": "medium",
+                  "detail": "Died 2.6/10m (threshold 2.0/10m), directly costing -3.9 rating pts.",
+                  "short_cue": "↑ Cut deaths (2.6/10m, -3.9 pts)"
+                }
+              ],
+              "short_tip": "↑ Pre-obj discipline (3 deaths)",
+              "has_timeline": true
+            },
+            "pillars": {
+              "combat": 88.2,
+              "damage": 94.4,
+              "objective": 100.0,
+              "frontline": 72.5,
+              "utility": 65.7,
+              "macro_vision": 67.7
+            }
+          },
+          "Support": {
+            "player": "enkryptos",
+            "is_squad": true,
+            "champion": "Nautilus",
+            "kills": 3,
+            "deaths": 10,
+            "assists": 18,
+            "damage": 12596,
+            "cs": 26,
+            "vision": 79,
+            "gold_earned": 9727,
+            "damage_taken": 31274,
+            "damage_mitigated": 45966,
+            "objective_damage": 389,
+            "turret_damage": 389,
+            "turret_takedowns": 0,
+            "turret_plates": 3,
+            "cc_score": 78,
+            "effective_heal_shield": 2401.1,
+            "wards_placed": 33,
+            "wards_killed": 4,
+            "control_wards_placed": 2,
+            "kill_participation": 0.677,
+            "team_damage_pct": 0.076,
+            "damage_taken_pct": 0.21,
+            "solo_kills": 1,
+            "outnumbered_kills": 1,
+            "dragon_takedowns": 1,
+            "baron_takedowns": 0,
+            "rift_herald_takedowns": 0,
+            "void_monster_kills": 0,
+            "objectives_stolen": 0,
+            "save_ally_from_death": 0,
+            "immobilize_and_kill_with_ally": 14,
+            "pick_kill_with_ally": 16,
+            "laning_gold_xp_advantage": 0,
+            "max_cs_advantage": 3.0,
+            "max_level_lead": 1,
+            "timeline": {
+              "early_deaths": 3,
+              "mid_deaths": 4,
+              "late_deaths": 3,
+              "pre_objective_deaths": 3,
+              "gold_diff_10": 465,
+              "cs_diff_10": -5,
+              "gold_diff_15": 111,
+              "cs_diff_15": -4
+            },
+            "rating": 77.1,
+            "grade": "A+",
+            "archetype": "catcher",
+            "highlight": "Catcher Specialist",
+            "short_tip": "↑ Pre-obj discipline (3 deaths)",
+            "coaching": {
+              "death_penalty": 4.0,
+              "deaths_per_10m": 2.88,
+              "outcome_adj": 2.5,
+              "pillar_impacts": [
+                {
+                  "pillar": "objective",
+                  "label": "Objectives & Turrets",
+                  "score": 45.7,
+                  "weight_pct": 8.0,
+                  "impact_vs_avg": -1.5
+                },
+                {
+                  "pillar": "damage",
+                  "label": "Damage Output",
+                  "score": 74.5,
+                  "weight_pct": 7.1,
+                  "impact_vs_avg": 0.7
+                },
+                {
+                  "pillar": "combat",
+                  "label": "Combat & KDA",
+                  "score": 72.9,
+                  "weight_pct": 20.0,
+                  "impact_vs_avg": 1.6
+                },
+                {
+                  "pillar": "frontline",
+                  "label": "Frontline & Survivability",
+                  "score": 81.2,
+                  "weight_pct": 13.8,
+                  "impact_vs_avg": 2.2
+                },
+                {
+                  "pillar": "macro_vision",
+                  "label": "CS, Vision & Macro",
+                  "score": 76.0,
+                  "weight_pct": 23.1,
+                  "impact_vs_avg": 2.5
+                },
+                {
+                  "pillar": "utility",
+                  "label": "Utility & Setup",
+                  "score": 94.0,
+                  "weight_pct": 28.0,
+                  "impact_vs_avg": 8.1
+                }
+              ],
+              "levers": [
+                {
+                  "key": "pre_obj_deaths",
+                  "category": "Objective Timing",
+                  "title": "Avoid Pre-Objective Deaths",
+                  "observed": "3 deaths <60s pre-obj",
+                  "target": "0 pre-objective deaths",
+                  "est_rating_gain": 6.0,
+                  "severity": "high",
+                  "detail": "Died 3 times within 60s before an epic monster — avoid face-checking or overextending on spawn timers.",
+                  "short_cue": "↑ Pre-obj discipline (3 deaths)"
+                },
+                {
+                  "key": "late_deaths",
+                  "category": "Late-Game Positioning",
+                  "title": "Protect Late-Game Life",
+                  "observed": "3 deaths after 25m",
+                  "target": "<= 1 late death",
+                  "est_rating_gain": 6.0,
+                  "severity": "high",
+                  "detail": "Recorded 3 deaths past 25 minutes — late picks swing Baron/Soul fights.",
+                  "short_cue": "↑ Late positioning (3 deaths 25m+)"
+                },
+                {
+                  "key": "excess_deaths",
+                  "category": "Survivability",
+                  "title": "Cut Excess Deaths",
+                  "observed": "2.9 deaths / 10m",
+                  "target": "<= 2.0 deaths / 10m",
+                  "est_rating_gain": 4.0,
+                  "severity": "medium",
+                  "detail": "Died 2.9/10m (threshold 2.0/10m), directly costing -4.0 rating pts.",
+                  "short_cue": "↑ Cut deaths (2.9/10m, -4.0 pts)"
+                }
+              ],
+              "short_tip": "↑ Pre-obj discipline (3 deaths)",
+              "has_timeline": true
+            },
+            "pillars": {
+              "combat": 72.9,
+              "damage": 74.5,
+              "objective": 45.7,
+              "frontline": 81.2,
+              "utility": 94.0,
+              "macro_vision": 76.0
+            }
+          }
+        },
+        "mvp_rating": 87.6
+      },
       {
         "match_id": "NA1_5686238796",
         "date": "2026-11-25 06:03",
@@ -85195,26 +85998,42 @@
             "linked_at": "2026-11-15T05:30:10.091062"
           }
         ],
-        "games": 21,
-        "wins": 10,
+        "games": 22,
+        "wins": 11,
         "losses": 11,
-        "win_rate": 47.6,
-        "kda": 3.01,
-        "avg_rating": 82.7,
+        "win_rate": 50.0,
+        "kda": 2.94,
+        "avg_rating": 82.9,
         "grade": "S",
         "mvps": 15,
         "main_role": "Bot",
-        "kills": 169,
-        "deaths": 118,
-        "assists": 186,
+        "kills": 179,
+        "deaths": 127,
+        "assists": 195,
         "roles_played": {
-          "Bot": 8,
+          "Bot": 9,
           "Top": 2,
           "Mid": 4,
           "Support": 5,
           "Jungle": 2
         },
         "recent_matches": [
+          {
+            "match_id": "NA1_5686613376",
+            "date": "2026-11-26 02:05",
+            "mode": "Normal Draft",
+            "result": "WIN",
+            "role": "Bot",
+            "champion": "Draven",
+            "kills": 10,
+            "deaths": 9,
+            "assists": 9,
+            "rating": 86.1,
+            "grade": "S",
+            "highlight": "Marksman Specialist",
+            "short_tip": "↑ Pre-obj discipline (3 deaths)",
+            "is_mvp": false
+          },
           {
             "match_id": "NA1_5686238796",
             "date": "2026-11-25 06:03",
@@ -85553,12 +86372,12 @@
           }
         ],
         "pillars_avg": {
-          "combat": 82.9,
-          "damage": 87.1,
-          "objective": 84.5,
-          "frontline": 77.2,
-          "utility": 70.5,
-          "macro_vision": 85.7
+          "combat": 83.1,
+          "damage": 87.5,
+          "objective": 85.2,
+          "frontline": 77.0,
+          "utility": 70.2,
+          "macro_vision": 84.9
         },
         "champion_pool": [
           {
@@ -85667,6 +86486,21 @@
             "primary_role": "Mid"
           },
           {
+            "champion": "Draven",
+            "role": "Bot",
+            "archetype": "marksman",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 2.11,
+            "avg_kills": 10.0,
+            "avg_deaths": 9.0,
+            "avg_assists": 9.0,
+            "avg_rating": 86.1,
+            "primary_role": "Bot"
+          },
+          {
             "champion": "Karma",
             "role": "Support",
             "archetype": "enchanter",
@@ -85714,55 +86548,55 @@
         ],
         "coaching": {
           "player": "Aurelion Swole",
-          "games_analyzed": 21,
-          "wins": 10,
+          "games_analyzed": 22,
+          "wins": 11,
           "losses": 11,
           "top_focus_areas": [
             {
               "key": "excess_deaths",
               "category": "Survivability",
               "title": "Cut Excess Deaths",
-              "occurrences": 4,
-              "games_analyzed": 21,
-              "frequency_pct": 19.0,
-              "avg_est_gain": 6.7,
-              "priority_score": 26.8,
-              "summary": "Flagged in 4/21 games (19%), avg +6.7 rating upside. Died 2.8/10m (threshold 2.0/10m), directly costing -5.3 rating pts."
+              "occurrences": 5,
+              "games_analyzed": 22,
+              "frequency_pct": 22.7,
+              "avg_est_gain": 6.1,
+              "priority_score": 30.5,
+              "summary": "Flagged in 5/22 games (23%), avg +6.1 rating upside. Died 2.6/10m (threshold 2.0/10m), directly costing -3.9 rating pts."
+            },
+            {
+              "key": "pre_obj_deaths",
+              "category": "Objective Timing",
+              "title": "Avoid Pre-Objective Deaths",
+              "occurrences": 2,
+              "games_analyzed": 22,
+              "frequency_pct": 9.1,
+              "avg_est_gain": 6.0,
+              "priority_score": 12.0,
+              "summary": "Flagged in 2/22 games (9%), avg +6.0 rating upside. Died 3 times within 60s before an epic monster — avoid face-checking or overextending on spawn timers."
             },
             {
               "key": "low_vision",
               "category": "Vision Control",
               "title": "Boost Vision Score",
               "occurrences": 7,
-              "games_analyzed": 21,
-              "frequency_pct": 33.3,
+              "games_analyzed": 22,
+              "frequency_pct": 31.8,
               "avg_est_gain": 1.5,
               "priority_score": 10.5,
-              "summary": "Flagged in 7/21 games (33%), avg +1.5 rating upside. Vision score 0.48/min vs. 0.75/min Bot target — drop wards before objective setups."
-            },
-            {
-              "key": "low_dpm",
-              "category": "Damage Output",
-              "title": "Increase Damage Share",
-              "occurrences": 2,
-              "games_analyzed": 21,
-              "frequency_pct": 9.5,
-              "avg_est_gain": 4.6,
-              "priority_score": 9.2,
-              "summary": "Flagged in 2/21 games (10%), avg +4.6 rating upside. Dealt 477 DPM vs. 760 mage target — look for safer poke/uptime in skirmishes."
+              "summary": "Flagged in 7/22 games (32%), avg +1.5 rating upside. Vision score 0.48/min vs. 0.75/min Bot target — drop wards before objective setups."
             }
           ],
           "win_vs_loss": {
             "wins": {
-              "games": 10,
-              "avg_rating": 91.3,
-              "deaths_per_10m": 1.37,
-              "cspm": 8.2,
-              "vspm": 1.35,
-              "kp_pct": 60.7,
-              "dpm": 928.0,
-              "gold_diff_15": null,
-              "cs_diff_15": null
+              "games": 11,
+              "avg_rating": 90.8,
+              "deaths_per_10m": 1.48,
+              "cspm": 8.1,
+              "vspm": 1.27,
+              "kp_pct": 60.8,
+              "dpm": 970.0,
+              "gold_diff_15": -119.0,
+              "cs_diff_15": 5.0
             },
             "losses": {
               "games": 11,
@@ -85775,26 +86609,26 @@
               "gold_diff_15": 1501.0,
               "cs_diff_15": 5.0
             },
-            "biggest_loss_drop": "Deaths jump from 1.4 to 2.2/10m in losses"
+            "biggest_loss_drop": "Deaths jump from 1.5 to 2.2/10m in losses"
           },
           "death_profile": {
-            "games_with_timeline": 1,
-            "early_deaths_avg": 1.0,
+            "games_with_timeline": 2,
+            "early_deaths_avg": 2.0,
             "mid_deaths_avg": 4.0,
-            "late_deaths_avg": 0.0,
+            "late_deaths_avg": 1.0,
             "pre_objective_deaths_avg": 3.0,
-            "avg_gold_diff_10": 675.0,
-            "avg_cs_diff_10": -6.0,
-            "avg_gold_diff_15": 1501.0,
+            "avg_gold_diff_10": 919.0,
+            "avg_cs_diff_10": 6.5,
+            "avg_gold_diff_15": 691.0,
             "avg_cs_diff_15": 5.0
           },
           "role_fit": {
             "primary_role": "Bot",
-            "on_role_games": 8,
+            "on_role_games": 9,
             "off_role_games": 13,
-            "on_role_avg": 91.0,
+            "on_role_avg": 90.5,
             "off_role_avg": 77.6,
-            "delta": 13.4
+            "delta": 12.8
           },
           "champion_fit": {
             "best_pick": {
@@ -86472,7 +87306,7 @@
         "accounts": [
           {
             "riot_id": "Froatsy#BGS",
-            "linked_at": "2026-11-25T06:05:09.745268"
+            "linked_at": "2026-11-26T02:06:54.681409"
           }
         ],
         "games": 16,
@@ -87044,7 +87878,7 @@
         "accounts": [
           {
             "riot_id": "Dominital#NA1",
-            "linked_at": "2026-11-25T06:05:09.745255"
+            "linked_at": "2026-11-26T02:06:54.681398"
           }
         ],
         "games": 52,
@@ -88250,29 +89084,45 @@
         "accounts": [
           {
             "riot_id": "Mycroft Holmes#NA1",
-            "linked_at": "2026-11-25T06:05:09.745215"
+            "linked_at": "2026-11-26T02:06:54.681366"
           }
         ],
-        "games": 68,
-        "wins": 33,
+        "games": 69,
+        "wins": 34,
         "losses": 35,
-        "win_rate": 48.5,
-        "kda": 2.5,
-        "avg_rating": 70.6,
+        "win_rate": 49.3,
+        "kda": 2.49,
+        "avg_rating": 70.5,
         "grade": "A",
         "mvps": 11,
         "main_role": "Top",
-        "kills": 362,
-        "deaths": 396,
-        "assists": 629,
+        "kills": 364,
+        "deaths": 404,
+        "assists": 643,
         "roles_played": {
+          "Jungle": 8,
           "Support": 19,
-          "Jungle": 7,
           "Bot": 10,
           "Top": 21,
           "Mid": 11
         },
         "recent_matches": [
+          {
+            "match_id": "NA1_5686613376",
+            "date": "2026-11-26 02:05",
+            "mode": "Normal Draft",
+            "result": "WIN",
+            "role": "Jungle",
+            "champion": "JarvanIV",
+            "kills": 2,
+            "deaths": 8,
+            "assists": 14,
+            "rating": 69.6,
+            "grade": "A",
+            "highlight": "Objective Commander",
+            "short_tip": "↑ Late positioning (4 deaths 25m+)",
+            "is_mvp": false
+          },
           {
             "match_id": "NA1_5686238796",
             "date": "2026-11-25 06:03",
@@ -89363,11 +90213,11 @@
           }
         ],
         "pillars_avg": {
-          "combat": 70.7,
+          "combat": 70.6,
           "damage": 75.9,
-          "objective": 75.9,
+          "objective": 75.8,
           "frontline": 69.2,
-          "utility": 65.7,
+          "utility": 65.9,
           "macro_vision": 68.9
         },
         "champion_pool": [
@@ -89432,6 +90282,21 @@
             "primary_role": "Bot"
           },
           {
+            "champion": "JarvanIV",
+            "role": "Jungle",
+            "archetype": "bruiser",
+            "games": 6,
+            "wins": 4,
+            "losses": 2,
+            "win_rate": 66.7,
+            "kda": 2.89,
+            "avg_kills": 3.0,
+            "avg_deaths": 6.3,
+            "avg_assists": 15.3,
+            "avg_rating": 69.3,
+            "primary_role": "Jungle"
+          },
+          {
             "champion": "Leona",
             "role": "Support",
             "archetype": "catcher",
@@ -89445,21 +90310,6 @@
             "avg_assists": 11.4,
             "avg_rating": 81.1,
             "primary_role": "Support"
-          },
-          {
-            "champion": "JarvanIV",
-            "role": "Jungle",
-            "archetype": "bruiser",
-            "games": 5,
-            "wins": 3,
-            "losses": 2,
-            "win_rate": 60.0,
-            "kda": 3.13,
-            "avg_kills": 3.2,
-            "avg_deaths": 6.0,
-            "avg_assists": 15.6,
-            "avg_rating": 69.2,
-            "primary_role": "Jungle"
           },
           {
             "champion": "Leblanc",
@@ -89659,8 +90509,8 @@
         ],
         "coaching": {
           "player": "Julian",
-          "games_analyzed": 68,
-          "wins": 33,
+          "games_analyzed": 69,
+          "wins": 34,
           "losses": 35,
           "top_focus_areas": [
             {
@@ -89668,46 +90518,46 @@
               "category": "Survivability",
               "title": "Cut Excess Deaths",
               "occurrences": 24,
-              "games_analyzed": 68,
-              "frequency_pct": 35.3,
+              "games_analyzed": 69,
+              "frequency_pct": 34.8,
               "avg_est_gain": 6.0,
               "priority_score": 144.0,
-              "summary": "Flagged in 24/68 games (35%), avg +6.0 rating upside. Died 2.6/10m (threshold 2.0/10m), directly costing -2.6 rating pts."
+              "summary": "Flagged in 24/69 games (35%), avg +6.0 rating upside. Died 2.6/10m (threshold 2.0/10m), directly costing -2.6 rating pts."
             },
             {
               "key": "low_dpm",
               "category": "Damage Output",
               "title": "Increase Damage Share",
               "occurrences": 15,
-              "games_analyzed": 68,
-              "frequency_pct": 22.1,
+              "games_analyzed": 69,
+              "frequency_pct": 21.7,
               "avg_est_gain": 2.9,
               "priority_score": 43.5,
-              "summary": "Flagged in 15/68 games (22%), avg +2.9 rating upside. Dealt 576 DPM vs. 760 mage target — look for safer poke/uptime in skirmishes."
+              "summary": "Flagged in 15/69 games (22%), avg +2.9 rating upside. Dealt 576 DPM vs. 760 mage target — look for safer poke/uptime in skirmishes."
             },
             {
               "key": "low_vision",
               "category": "Vision Control",
               "title": "Boost Vision Score",
               "occurrences": 24,
-              "games_analyzed": 68,
-              "frequency_pct": 35.3,
+              "games_analyzed": 69,
+              "frequency_pct": 34.8,
               "avg_est_gain": 1.8,
               "priority_score": 43.2,
-              "summary": "Flagged in 24/68 games (35%), avg +1.8 rating upside. Vision score 1.37/min vs. 2.10/min Support target — drop wards before objective setups."
+              "summary": "Flagged in 24/69 games (35%), avg +1.8 rating upside. Vision score 1.37/min vs. 2.10/min Support target — drop wards before objective setups."
             }
           ],
           "win_vs_loss": {
             "wins": {
-              "games": 33,
-              "avg_rating": 80.7,
-              "deaths_per_10m": 1.51,
-              "cspm": 6.2,
-              "vspm": 1.13,
-              "kp_pct": 50.2,
-              "dpm": 617.0,
-              "gold_diff_15": null,
-              "cs_diff_15": null
+              "games": 34,
+              "avg_rating": 80.4,
+              "deaths_per_10m": 1.53,
+              "cspm": 6.1,
+              "vspm": 1.12,
+              "kp_pct": 50.3,
+              "dpm": 619.0,
+              "gold_diff_15": -1755.0,
+              "cs_diff_15": -6.0
             },
             "losses": {
               "games": 35,
@@ -89723,23 +90573,23 @@
             "biggest_loss_drop": "Deaths jump from 1.5 to 2.5/10m in losses"
           },
           "death_profile": {
-            "games_with_timeline": 1,
+            "games_with_timeline": 2,
             "early_deaths_avg": 0.0,
             "mid_deaths_avg": 4.0,
-            "late_deaths_avg": 0.0,
-            "pre_objective_deaths_avg": 3.0,
-            "avg_gold_diff_10": 552.0,
-            "avg_cs_diff_10": -3.0,
-            "avg_gold_diff_15": 303.0,
+            "late_deaths_avg": 2.0,
+            "pre_objective_deaths_avg": 2.5,
+            "avg_gold_diff_10": -360.0,
+            "avg_cs_diff_10": 0.5,
+            "avg_gold_diff_15": -726.0,
             "avg_cs_diff_15": -6.0
           },
           "role_fit": {
             "primary_role": "Top",
             "on_role_games": 21,
-            "off_role_games": 47,
+            "off_role_games": 48,
             "on_role_avg": 67.8,
-            "off_role_avg": 71.8,
-            "delta": -4.0
+            "off_role_avg": 71.7,
+            "delta": -3.9
           },
           "champion_fit": {
             "best_pick": {
@@ -89776,26 +90626,42 @@
             "linked_at": "2026-11-15T09:57:39.049423"
           }
         ],
-        "games": 110,
-        "wins": 47,
+        "games": 111,
+        "wins": 48,
         "losses": 63,
-        "win_rate": 42.7,
+        "win_rate": 43.2,
         "kda": 2.02,
-        "avg_rating": 69.9,
+        "avg_rating": 70.0,
         "grade": "A",
-        "mvps": 35,
+        "mvps": 36,
         "main_role": "Support",
-        "kills": 601,
-        "deaths": 745,
-        "assists": 907,
+        "kills": 609,
+        "deaths": 753,
+        "assists": 912,
         "roles_played": {
+          "Top": 30,
           "Mid": 20,
           "Bot": 12,
           "Support": 37,
-          "Jungle": 12,
-          "Top": 29
+          "Jungle": 12
         },
         "recent_matches": [
+          {
+            "match_id": "NA1_5686613376",
+            "date": "2026-11-26 02:05",
+            "mode": "Normal Draft",
+            "result": "WIN",
+            "role": "Top",
+            "champion": "Darius",
+            "kills": 8,
+            "deaths": 8,
+            "assists": 5,
+            "rating": 87.6,
+            "grade": "S",
+            "highlight": "Splitpush Titan",
+            "short_tip": "↑ Pre-obj discipline (3 deaths)",
+            "is_mvp": true
+          },
           {
             "match_id": "NA1_5686238796",
             "date": "2026-11-25 06:03",
@@ -91559,11 +92425,11 @@
         ],
         "pillars_avg": {
           "combat": 66.9,
-          "damage": 79.1,
-          "objective": 78.4,
-          "frontline": 69.0,
-          "utility": 64.2,
-          "macro_vision": 70.0
+          "damage": 79.2,
+          "objective": 78.6,
+          "frontline": 69.2,
+          "utility": 64.3,
+          "macro_vision": 70.1
         },
         "champion_pool": [
           {
@@ -92045,6 +92911,21 @@
             "avg_assists": 29.0,
             "avg_rating": 87.8,
             "primary_role": "Support"
+          },
+          {
+            "champion": "Darius",
+            "role": "Top",
+            "archetype": "bruiser",
+            "games": 1,
+            "wins": 1,
+            "losses": 0,
+            "win_rate": 100.0,
+            "kda": 1.62,
+            "avg_kills": 8.0,
+            "avg_deaths": 8.0,
+            "avg_assists": 5.0,
+            "avg_rating": 87.6,
+            "primary_role": "Top"
           },
           {
             "champion": "Malphite",
@@ -92724,8 +93605,8 @@
         ],
         "coaching": {
           "player": "Joao/Brazil",
-          "games_analyzed": 110,
-          "wins": 47,
+          "games_analyzed": 111,
+          "wins": 48,
           "losses": 63,
           "top_focus_areas": [
             {
@@ -92733,46 +93614,46 @@
               "category": "Survivability",
               "title": "Cut Excess Deaths",
               "occurrences": 57,
-              "games_analyzed": 110,
-              "frequency_pct": 51.8,
+              "games_analyzed": 111,
+              "frequency_pct": 51.4,
               "avg_est_gain": 5.4,
               "priority_score": 307.8,
-              "summary": "Flagged in 57/110 games (52%), avg +5.4 rating upside. Died 2.6/10m (threshold 2.0/10m), directly costing -3.9 rating pts."
+              "summary": "Flagged in 57/111 games (51%), avg +5.4 rating upside. Died 2.6/10m (threshold 2.0/10m), directly costing -3.9 rating pts."
             },
             {
               "key": "low_vision",
               "category": "Vision Control",
               "title": "Boost Vision Score",
               "occurrences": 50,
-              "games_analyzed": 110,
-              "frequency_pct": 45.5,
+              "games_analyzed": 111,
+              "frequency_pct": 45.0,
               "avg_est_gain": 1.8,
               "priority_score": 90.0,
-              "summary": "Flagged in 50/110 games (46%), avg +1.8 rating upside. Vision score 0.39/min vs. 0.75/min Bot target — drop wards before objective setups."
+              "summary": "Flagged in 50/111 games (45%), avg +1.8 rating upside. Vision score 0.39/min vs. 0.75/min Bot target — drop wards before objective setups."
             },
             {
               "key": "low_dpm",
               "category": "Damage Output",
               "title": "Increase Damage Share",
               "occurrences": 17,
-              "games_analyzed": 110,
-              "frequency_pct": 15.5,
+              "games_analyzed": 111,
+              "frequency_pct": 15.3,
               "avg_est_gain": 3.2,
               "priority_score": 54.4,
-              "summary": "Flagged in 17/110 games (16%), avg +3.2 rating upside. Dealt 526 DPM vs. 780 marksman target — look for safer poke/uptime in skirmishes."
+              "summary": "Flagged in 17/111 games (15%), avg +3.2 rating upside. Dealt 526 DPM vs. 780 marksman target — look for safer poke/uptime in skirmishes."
             }
           ],
           "win_vs_loss": {
             "wins": {
-              "games": 47,
-              "avg_rating": 80.9,
-              "deaths_per_10m": 1.83,
+              "games": 48,
+              "avg_rating": 81.1,
+              "deaths_per_10m": 1.84,
               "cspm": 7.2,
-              "vspm": 0.97,
-              "kp_pct": 46.0,
-              "dpm": 785.0,
-              "gold_diff_15": null,
-              "cs_diff_15": null
+              "vspm": 0.96,
+              "kp_pct": 45.9,
+              "dpm": 794.0,
+              "gold_diff_15": 1143.0,
+              "cs_diff_15": 16.0
             },
             "losses": {
               "games": 63,
@@ -92788,23 +93669,23 @@
             "biggest_loss_drop": "Deaths jump from 1.8 to 2.6/10m in losses"
           },
           "death_profile": {
-            "games_with_timeline": 1,
-            "early_deaths_avg": 5.0,
-            "mid_deaths_avg": 1.0,
-            "late_deaths_avg": 0.0,
-            "pre_objective_deaths_avg": 2.0,
-            "avg_gold_diff_10": -1721.0,
-            "avg_cs_diff_10": -16.0,
-            "avg_gold_diff_15": -2870.0,
-            "avg_cs_diff_15": -27.0
+            "games_with_timeline": 2,
+            "early_deaths_avg": 4.0,
+            "mid_deaths_avg": 2.0,
+            "late_deaths_avg": 1.0,
+            "pre_objective_deaths_avg": 2.5,
+            "avg_gold_diff_10": -626.0,
+            "avg_cs_diff_10": -0.5,
+            "avg_gold_diff_15": -864.0,
+            "avg_cs_diff_15": -5.5
           },
           "role_fit": {
             "primary_role": "Support",
             "on_role_games": 37,
-            "off_role_games": 73,
+            "off_role_games": 74,
             "on_role_avg": 68.7,
-            "off_role_avg": 70.5,
-            "delta": -1.7
+            "off_role_avg": 70.7,
+            "delta": -2.0
           },
           "champion_fit": {
             "best_pick": {
@@ -92834,7 +93715,7 @@
         "accounts": [
           {
             "riot_id": "Cotterly#02020",
-            "linked_at": "2026-11-25T06:05:09.745230"
+            "linked_at": "2026-11-26T02:06:54.681377"
           }
         ],
         "games": 74,
@@ -94356,7 +95237,7 @@
         "accounts": [
           {
             "riot_id": "Ace112358#NA1",
-            "linked_at": "2026-11-25T06:05:09.745190"
+            "linked_at": "2026-11-26T02:06:54.681347"
           }
         ],
         "games": 60,
@@ -95810,29 +96691,45 @@
         "accounts": [
           {
             "riot_id": "enkryptos#NA1",
-            "linked_at": "2026-11-25T06:05:09.745243"
+            "linked_at": "2026-11-26T02:06:54.681388"
           }
         ],
-        "games": 73,
-        "wins": 31,
+        "games": 74,
+        "wins": 32,
         "losses": 42,
-        "win_rate": 42.5,
-        "kda": 1.81,
-        "avg_rating": 65.4,
+        "win_rate": 43.2,
+        "kda": 1.82,
+        "avg_rating": 65.6,
         "grade": "A",
         "mvps": 13,
         "main_role": "Jungle",
-        "kills": 396,
-        "deaths": 513,
-        "assists": 534,
+        "kills": 399,
+        "deaths": 523,
+        "assists": 552,
         "roles_played": {
+          "Support": 13,
           "Top": 14,
-          "Support": 12,
           "Jungle": 21,
           "Bot": 15,
           "Mid": 11
         },
         "recent_matches": [
+          {
+            "match_id": "NA1_5686613376",
+            "date": "2026-11-26 02:05",
+            "mode": "Normal Draft",
+            "result": "WIN",
+            "role": "Support",
+            "champion": "Nautilus",
+            "kills": 3,
+            "deaths": 10,
+            "assists": 18,
+            "rating": 77.1,
+            "grade": "A+",
+            "highlight": "Catcher Specialist",
+            "short_tip": "↑ Pre-obj discipline (3 deaths)",
+            "is_mvp": false
+          },
           {
             "match_id": "NA1_5686238796",
             "date": "2026-11-25 06:03",
@@ -97003,12 +97900,12 @@
           }
         ],
         "pillars_avg": {
-          "combat": 64.3,
+          "combat": 64.4,
           "damage": 69.9,
-          "objective": 75.1,
-          "frontline": 68.2,
-          "utility": 61.6,
-          "macro_vision": 68.8
+          "objective": 74.6,
+          "frontline": 68.4,
+          "utility": 62.1,
+          "macro_vision": 68.9
         },
         "champion_pool": [
           {
@@ -97220,6 +98117,21 @@
             "avg_assists": 2.0,
             "avg_rating": 57.9,
             "primary_role": "Bot"
+          },
+          {
+            "champion": "Nautilus",
+            "role": "Support",
+            "archetype": "catcher",
+            "games": 2,
+            "wins": 1,
+            "losses": 1,
+            "win_rate": 50.0,
+            "kda": 1.35,
+            "avg_kills": 1.5,
+            "avg_deaths": 8.5,
+            "avg_assists": 10.0,
+            "avg_rating": 57.5,
+            "primary_role": "Support"
           },
           {
             "champion": "Braum",
@@ -97522,21 +98434,6 @@
             "primary_role": "Bot"
           },
           {
-            "champion": "Nautilus",
-            "role": "Support",
-            "archetype": "catcher",
-            "games": 1,
-            "wins": 0,
-            "losses": 1,
-            "win_rate": 0.0,
-            "kda": 0.29,
-            "avg_kills": 0.0,
-            "avg_deaths": 7.0,
-            "avg_assists": 2.0,
-            "avg_rating": 37.9,
-            "primary_role": "Support"
-          },
-          {
             "champion": "Sejuani",
             "role": "Jungle",
             "archetype": "tank",
@@ -97599,55 +98496,55 @@
         ],
         "coaching": {
           "player": "enkryptos",
-          "games_analyzed": 73,
-          "wins": 31,
+          "games_analyzed": 74,
+          "wins": 32,
           "losses": 42,
           "top_focus_areas": [
             {
               "key": "excess_deaths",
               "category": "Survivability",
               "title": "Cut Excess Deaths",
-              "occurrences": 38,
-              "games_analyzed": 73,
-              "frequency_pct": 52.1,
-              "avg_est_gain": 6.7,
-              "priority_score": 254.6,
-              "summary": "Flagged in 38/73 games (52%), avg +6.7 rating upside. Died 2.6/10m (threshold 2.0/10m), directly costing -2.7 rating pts."
+              "occurrences": 39,
+              "games_analyzed": 74,
+              "frequency_pct": 52.7,
+              "avg_est_gain": 6.6,
+              "priority_score": 257.4,
+              "summary": "Flagged in 39/74 games (53%), avg +6.6 rating upside. Died 2.9/10m (threshold 2.0/10m), directly costing -4.0 rating pts."
             },
             {
               "key": "low_dpm",
               "category": "Damage Output",
               "title": "Increase Damage Share",
               "occurrences": 23,
-              "games_analyzed": 73,
-              "frequency_pct": 31.5,
+              "games_analyzed": 74,
+              "frequency_pct": 31.1,
               "avg_est_gain": 3.0,
               "priority_score": 69.0,
-              "summary": "Flagged in 23/73 games (32%), avg +3.0 rating upside. Dealt 491 DPM vs. 680 assassin target — look for safer poke/uptime in skirmishes."
+              "summary": "Flagged in 23/74 games (31%), avg +3.0 rating upside. Dealt 491 DPM vs. 680 assassin target — look for safer poke/uptime in skirmishes."
             },
             {
               "key": "no_control_wards",
               "category": "Vision Control",
               "title": "Buy Control Wards",
               "occurrences": 27,
-              "games_analyzed": 73,
-              "frequency_pct": 37.0,
+              "games_analyzed": 74,
+              "frequency_pct": 36.5,
               "avg_est_gain": 2.0,
               "priority_score": 54.0,
-              "summary": "Flagged in 27/73 games (37%), avg +2.0 rating upside. Placed 0 control wards in a 23-minute game; denying river vision unlocks objective setups."
+              "summary": "Flagged in 27/74 games (36%), avg +2.0 rating upside. Placed 0 control wards in a 23-minute game; denying river vision unlocks objective setups."
             }
           ],
           "win_vs_loss": {
             "wins": {
-              "games": 31,
-              "avg_rating": 78.7,
-              "deaths_per_10m": 1.8,
+              "games": 32,
+              "avg_rating": 78.6,
+              "deaths_per_10m": 1.83,
               "cspm": 6.4,
-              "vspm": 0.93,
-              "kp_pct": 46.3,
-              "dpm": 705.0,
-              "gold_diff_15": null,
-              "cs_diff_15": null
+              "vspm": 0.98,
+              "kp_pct": 47.1,
+              "dpm": 694.0,
+              "gold_diff_15": 111.0,
+              "cs_diff_15": -4.0
             },
             "losses": {
               "games": 42,
@@ -97663,23 +98560,23 @@
             "biggest_loss_drop": "Deaths jump from 1.8 to 3.0/10m in losses"
           },
           "death_profile": {
-            "games_with_timeline": 1,
+            "games_with_timeline": 2,
             "early_deaths_avg": 3.0,
-            "mid_deaths_avg": 3.0,
-            "late_deaths_avg": 0.0,
-            "pre_objective_deaths_avg": 1.0,
-            "avg_gold_diff_10": 743.0,
-            "avg_cs_diff_10": 12.0,
-            "avg_gold_diff_15": -323.0,
-            "avg_cs_diff_15": 4.0
+            "mid_deaths_avg": 3.5,
+            "late_deaths_avg": 1.5,
+            "pre_objective_deaths_avg": 2.0,
+            "avg_gold_diff_10": 604.0,
+            "avg_cs_diff_10": 3.5,
+            "avg_gold_diff_15": -106.0,
+            "avg_cs_diff_15": 0.0
           },
           "role_fit": {
             "primary_role": "Jungle",
             "on_role_games": 21,
-            "off_role_games": 52,
+            "off_role_games": 53,
             "on_role_avg": 66.5,
-            "off_role_avg": 65.0,
-            "delta": 1.5
+            "off_role_avg": 65.2,
+            "delta": 1.2
           },
           "champion_fit": {
             "best_pick": {
@@ -97709,7 +98606,7 @@
         "accounts": [
           {
             "riot_id": "Lexyg33#8183",
-            "linked_at": "2026-11-25T06:05:09.745280"
+            "linked_at": "2026-11-26T02:06:54.681419"
           }
         ],
         "games": 7,
@@ -98067,6 +98964,24 @@
           "support": "Aurelion Swole"
         },
         {
+          "pair": "Aurelion Swole (ADC) & enkryptos (SUP)",
+          "player_a": "Aurelion Swole",
+          "player_b": "enkryptos",
+          "games": 3,
+          "wins": 2,
+          "losses": 1,
+          "win_rate": 66.7,
+          "combined_kda": 2.62,
+          "synergy_score": 65.6,
+          "tier": "A Tier",
+          "tag": "2v8 Bot Kingdom",
+          "avg_duo_rating": 79.9,
+          "coordination_score": 89.5,
+          "favorite_combo": "Jinx + Thresh",
+          "adc": "Aurelion Swole",
+          "support": "enkryptos"
+        },
+        {
           "pair": "Aditya (ADC) & enkryptos (SUP)",
           "player_a": "Aditya",
           "player_b": "enkryptos",
@@ -98080,7 +98995,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 74.2,
           "coordination_score": 77.4,
-          "favorite_combo": "Sivir + Leona",
+          "favorite_combo": "Draven + Thresh",
           "adc": "Aditya",
           "support": "enkryptos"
         },
@@ -98098,7 +99013,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 63.2,
           "coordination_score": 71.8,
-          "favorite_combo": "Kaisa + Zoe",
+          "favorite_combo": "Jhin + Zoe",
           "adc": "enkryptos",
           "support": "Joao/Brazil"
         },
@@ -98116,7 +99031,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 62.6,
           "coordination_score": 65.7,
-          "favorite_combo": "Smolder + Nami",
+          "favorite_combo": "Jhin + Soraka",
           "adc": "Joao/Brazil",
           "support": "T-Rexa"
         },
@@ -98170,7 +99085,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 60.8,
           "coordination_score": 67.2,
-          "favorite_combo": "Caitlyn + Leblanc",
+          "favorite_combo": "Sivir + Braum",
           "adc": "Aditya",
           "support": "Julian"
         },
@@ -98242,7 +99157,7 @@
           "tag": "2v8 Bot Kingdom",
           "avg_duo_rating": 83.7,
           "coordination_score": 80.8,
-          "favorite_combo": "Yunara + Alistar",
+          "favorite_combo": "Jinx + Soraka",
           "adc": "Aditya",
           "support": "(Ry) Zor raak"
         },
@@ -98278,7 +99193,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 75.9,
           "coordination_score": 79.4,
-          "favorite_combo": "Lucian + Morgana",
+          "favorite_combo": "Ziggs + Thresh",
           "adc": "Joao/Brazil",
           "support": "Julian"
         },
@@ -98299,24 +99214,6 @@
           "favorite_combo": "Sivir + Seraphine",
           "adc": "enkryptos",
           "support": "(Ry) Zor raak"
-        },
-        {
-          "pair": "Aurelion Swole (ADC) & enkryptos (SUP)",
-          "player_a": "Aurelion Swole",
-          "player_b": "enkryptos",
-          "games": 2,
-          "wins": 1,
-          "losses": 1,
-          "win_rate": 50.0,
-          "combined_kda": 2.91,
-          "synergy_score": 59.4,
-          "tier": "B Tier",
-          "tag": "Objective Anchors",
-          "avg_duo_rating": 79.0,
-          "coordination_score": 87.9,
-          "favorite_combo": "Kalista + Thresh",
-          "adc": "Aurelion Swole",
-          "support": "enkryptos"
         },
         {
           "pair": "Aditya (ADC) & Aurelion Swole (SUP)",
@@ -98560,7 +99457,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 70.0,
           "coordination_score": 74.3,
-          "favorite_combo": "Renekton + JarvanIV"
+          "favorite_combo": "Locke + JarvanIV"
         },
         {
           "pair": "Julian (MID) & Joao/Brazil (JNG)",
@@ -98576,7 +99473,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 70.9,
           "coordination_score": 80.6,
-          "favorite_combo": "Leblanc + XinZhao"
+          "favorite_combo": "Leblanc + Amumu"
         },
         {
           "pair": "enkryptos (MID) & Ryan (JNG)",
@@ -98608,7 +99505,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 60.5,
           "coordination_score": 66.8,
-          "favorite_combo": "Sion + Taliyah"
+          "favorite_combo": "Sion + Vi"
         },
         {
           "pair": "Joao/Brazil (MID) & enkryptos (JNG)",
@@ -98624,7 +99521,7 @@
           "tag": "Map Terror 2v2",
           "avg_duo_rating": 85.9,
           "coordination_score": 90.5,
-          "favorite_combo": "Sylas + JarvanIV"
+          "favorite_combo": "AurelionSol + Shyvana"
         },
         {
           "pair": "Julian (MID) & Froatsy (JNG)",
@@ -98672,7 +99569,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 66.7,
           "coordination_score": 78.4,
-          "favorite_combo": "Locke + Belveth"
+          "favorite_combo": "Lissandra + Locke"
         },
         {
           "pair": "Aurelion Swole (MID) & enkryptos (JNG)",
@@ -98688,7 +99585,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 67.3,
           "coordination_score": 73.0,
-          "favorite_combo": "Yasuo + Chogath"
+          "favorite_combo": "AurelionSol + Nocturne"
         },
         {
           "pair": "Aditya (MID) & enkryptos (JNG)",
@@ -98885,6 +99782,22 @@
           "favorite_combo": "Zaahen + MonkeyKing"
         },
         {
+          "pair": "Joao/Brazil (TOP) & Julian (JNG)",
+          "player_a": "Joao/Brazil",
+          "player_b": "Julian",
+          "games": 3,
+          "wins": 2,
+          "losses": 1,
+          "win_rate": 66.7,
+          "combined_kda": 2.45,
+          "synergy_score": 65.3,
+          "tier": "A Tier",
+          "tag": "Topside Raidbosses",
+          "avg_duo_rating": 81.3,
+          "coordination_score": 88.9,
+          "favorite_combo": "Darius + JarvanIV"
+        },
+        {
           "pair": "Joao/Brazil (TOP) & Ryan (JNG)",
           "player_a": "Joao/Brazil",
           "player_b": "Ryan",
@@ -98962,7 +99875,7 @@
           "tag": "High-Impact Duo",
           "avg_duo_rating": 71.3,
           "coordination_score": 72.7,
-          "favorite_combo": "Irelia + Trundle"
+          "favorite_combo": "DrMundo + Trundle"
         },
         {
           "pair": "(Ry) Zor raak (TOP) & Ryan (JNG)",
@@ -98994,7 +99907,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 63.1,
           "coordination_score": 60.8,
-          "favorite_combo": "TahmKench + JarvanIV"
+          "favorite_combo": "Darius + JarvanIV"
         },
         {
           "pair": "enkryptos (TOP) & Joao/Brazil (JNG)",
@@ -99010,7 +99923,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 52.9,
           "coordination_score": 66.5,
-          "favorite_combo": "Yone + XinZhao"
+          "favorite_combo": "Yone + Amumu"
         },
         {
           "pair": "enkryptos (TOP) & Ryan (JNG)",
@@ -99026,7 +99939,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 60.3,
           "coordination_score": 68.6,
-          "favorite_combo": "Yone + Shyvana"
+          "favorite_combo": "DrMundo + MonkeyKing"
         },
         {
           "pair": "enkryptos (TOP) & Froatsy (JNG)",
@@ -99109,22 +100022,6 @@
           "favorite_combo": "Zac + Warwick"
         },
         {
-          "pair": "Joao/Brazil (TOP) & Julian (JNG)",
-          "player_a": "Joao/Brazil",
-          "player_b": "Julian",
-          "games": 2,
-          "wins": 1,
-          "losses": 1,
-          "win_rate": 50.0,
-          "combined_kda": 2.82,
-          "synergy_score": 59.8,
-          "tier": "B Tier",
-          "tag": "Objective Anchors",
-          "avg_duo_rating": 82.6,
-          "coordination_score": 89.3,
-          "favorite_combo": "Malphite + JarvanIV"
-        },
-        {
           "pair": "Aditya (TOP) & Joao/Brazil (JNG)",
           "player_a": "Aditya",
           "player_b": "Joao/Brazil",
@@ -99154,7 +100051,7 @@
           "tag": "High-Impact Duo",
           "avg_duo_rating": 68.9,
           "coordination_score": 56.2,
-          "favorite_combo": "Ornn + Ivern"
+          "favorite_combo": "Ornn + MonkeyKing"
         },
         {
           "pair": "Ryan (TOP) & Joao/Brazil (JNG)",
@@ -99186,7 +100083,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 78.8,
           "coordination_score": 80.3,
-          "favorite_combo": "Jax + Lillia"
+          "favorite_combo": "DrMundo + Lillia"
         },
         {
           "pair": "Julian (TOP) & Froatsy (JNG)",
@@ -99234,7 +100131,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 51.5,
           "coordination_score": 81.6,
-          "favorite_combo": "DrMundo + LeeSin"
+          "favorite_combo": "Poppy + JarvanIV"
         }
       ],
       "support_jungle": [
@@ -99316,7 +100213,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 68.3,
           "coordination_score": 79.3,
-          "favorite_combo": "Blitzcrank + MonkeyKing"
+          "favorite_combo": "Leona + Taliyah"
         },
         {
           "pair": "T-Rexa (SUP) & enkryptos (JNG)",
@@ -99332,7 +100229,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 63.1,
           "coordination_score": 75.3,
-          "favorite_combo": "Soraka + Warwick"
+          "favorite_combo": "Nami + Warwick"
         },
         {
           "pair": "Julian (SUP) & Joao/Brazil (JNG)",
@@ -99348,7 +100245,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 63.8,
           "coordination_score": 79.1,
-          "favorite_combo": "Thresh + Chogath"
+          "favorite_combo": "Thresh + XinZhao"
         },
         {
           "pair": "Joao/Brazil (SUP) & enkryptos (JNG)",
@@ -99364,7 +100261,7 @@
           "tag": "Objective Anchors",
           "avg_duo_rating": 66.8,
           "coordination_score": 78.2,
-          "favorite_combo": "Zoe + Vi"
+          "favorite_combo": "Zoe + Chogath"
         },
         {
           "pair": "(Ry) Zor raak (SUP) & Froatsy (JNG)",
@@ -99447,6 +100344,22 @@
           "favorite_combo": "Seraphine + Skarner"
         },
         {
+          "pair": "enkryptos (SUP) & Julian (JNG)",
+          "player_a": "enkryptos",
+          "player_b": "Julian",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "win_rate": 100.0,
+          "combined_kda": 2.06,
+          "synergy_score": 57.8,
+          "tier": "B Tier",
+          "tag": "Objective Anchors",
+          "avg_duo_rating": 73.3,
+          "coordination_score": 88.4,
+          "favorite_combo": "Nautilus + JarvanIV"
+        },
+        {
           "pair": "Julian (SUP) & Aurelion Swole (JNG)",
           "player_a": "Julian",
           "player_b": "Aurelion Swole",
@@ -99524,7 +100437,7 @@
           "tag": "Developing Chemistry",
           "avg_duo_rating": 44.6,
           "coordination_score": 68.5,
-          "favorite_combo": "Nautilus + Shen"
+          "favorite_combo": "Thresh + Diana"
         }
       ]
     },
@@ -99612,6 +100525,34 @@
         }
       },
       {
+        "champion": "JarvanIV",
+        "role": "Jungle",
+        "archetype": "bruiser",
+        "picks": 16,
+        "wins": 6,
+        "losses": 10,
+        "win_rate": 37.5,
+        "kda": 2.79,
+        "avg_kills": 3.7,
+        "avg_deaths": 5.7,
+        "avg_assists": 12.2,
+        "dpm": 501.0,
+        "cspm": 5.4,
+        "vspm": 0.83,
+        "avg_rating": 65.9,
+        "grade": "A",
+        "primary_role": "Jungle",
+        "roles": {
+          "Jungle": 16
+        },
+        "top_pilot": "Ryan",
+        "pilots": {
+          "Julian": 6,
+          "enkryptos": 3,
+          "Ryan": 7
+        }
+      },
+      {
         "champion": "Taliyah",
         "role": "Jungle",
         "archetype": "mage",
@@ -99635,34 +100576,6 @@
         "top_pilot": "Ryan",
         "pilots": {
           "Ryan": 15
-        }
-      },
-      {
-        "champion": "JarvanIV",
-        "role": "Jungle",
-        "archetype": "bruiser",
-        "picks": 15,
-        "wins": 5,
-        "losses": 10,
-        "win_rate": 33.3,
-        "kda": 2.87,
-        "avg_kills": 3.8,
-        "avg_deaths": 5.5,
-        "avg_assists": 12.1,
-        "dpm": 488.0,
-        "cspm": 5.4,
-        "vspm": 0.82,
-        "avg_rating": 65.6,
-        "grade": "A",
-        "primary_role": "Jungle",
-        "roles": {
-          "Jungle": 15
-        },
-        "top_pilot": "Ryan",
-        "pilots": {
-          "Julian": 5,
-          "enkryptos": 3,
-          "Ryan": 7
         }
       },
       {
@@ -100072,6 +100985,34 @@
         }
       },
       {
+        "champion": "Draven",
+        "role": "Bot",
+        "archetype": "marksman",
+        "picks": 5,
+        "wins": 3,
+        "losses": 2,
+        "win_rate": 60.0,
+        "kda": 1.85,
+        "avg_kills": 7.4,
+        "avg_deaths": 7.8,
+        "avg_assists": 7.0,
+        "dpm": 851.0,
+        "cspm": 6.9,
+        "vspm": 0.42,
+        "avg_rating": 59.3,
+        "grade": "B",
+        "primary_role": "Bot",
+        "roles": {
+          "Bot": 5
+        },
+        "top_pilot": "Aditya",
+        "pilots": {
+          "Aurelion Swole": 1,
+          "Aditya": 2,
+          "Froatsy": 2
+        }
+      },
+      {
         "champion": "Warwick",
         "role": "Jungle",
         "archetype": "bruiser",
@@ -100095,6 +101036,34 @@
         "top_pilot": "enkryptos",
         "pilots": {
           "enkryptos": 5
+        }
+      },
+      {
+        "champion": "Nautilus",
+        "role": "Support",
+        "archetype": "catcher",
+        "picks": 5,
+        "wins": 2,
+        "losses": 3,
+        "win_rate": 40.0,
+        "kda": 1.43,
+        "avg_kills": 1.6,
+        "avg_deaths": 8.0,
+        "avg_assists": 9.8,
+        "dpm": 357.0,
+        "cspm": 1.1,
+        "vspm": 1.89,
+        "avg_rating": 61.2,
+        "grade": "B",
+        "primary_role": "Support",
+        "roles": {
+          "Support": 5
+        },
+        "top_pilot": "enkryptos",
+        "pilots": {
+          "enkryptos": 2,
+          "Joao/Brazil": 2,
+          "(Ry) Zor raak": 1
         }
       },
       {
@@ -100616,30 +101585,32 @@
         }
       },
       {
-        "champion": "Draven",
-        "role": "Bot",
-        "archetype": "marksman",
+        "champion": "Darius",
+        "role": "Top",
+        "archetype": "bruiser",
         "picks": 4,
-        "wins": 2,
-        "losses": 2,
-        "win_rate": 50.0,
-        "kda": 1.77,
-        "avg_kills": 6.8,
-        "avg_deaths": 7.5,
-        "avg_assists": 6.5,
-        "dpm": 684.0,
-        "cspm": 6.7,
-        "vspm": 0.41,
-        "avg_rating": 52.6,
-        "grade": "C",
-        "primary_role": "Bot",
+        "wins": 1,
+        "losses": 3,
+        "win_rate": 25.0,
+        "kda": 1.46,
+        "avg_kills": 8.2,
+        "avg_deaths": 8.8,
+        "avg_assists": 4.5,
+        "dpm": 914.0,
+        "cspm": 6.3,
+        "vspm": 0.65,
+        "avg_rating": 73.8,
+        "grade": "A+",
+        "primary_role": "Top",
         "roles": {
-          "Bot": 4
+          "Top": 4
         },
-        "top_pilot": "Aditya",
+        "top_pilot": "Joao/Brazil",
         "pilots": {
-          "Aditya": 2,
-          "Froatsy": 2
+          "Joao/Brazil": 1,
+          "Aditya": 1,
+          "enkryptos": 1,
+          "Froatsy": 1
         }
       },
       {
@@ -100669,34 +101640,6 @@
           "Joao/Brazil": 1,
           "enkryptos": 1,
           "Julian": 1
-        }
-      },
-      {
-        "champion": "Nautilus",
-        "role": "Support",
-        "archetype": "catcher",
-        "picks": 4,
-        "wins": 1,
-        "losses": 3,
-        "win_rate": 25.0,
-        "kda": 1.2,
-        "avg_kills": 1.2,
-        "avg_deaths": 7.5,
-        "avg_assists": 7.8,
-        "dpm": 354.0,
-        "cspm": 1.2,
-        "vspm": 1.72,
-        "avg_rating": 57.2,
-        "grade": "B",
-        "primary_role": "Support",
-        "roles": {
-          "Support": 4
-        },
-        "top_pilot": "Joao/Brazil",
-        "pilots": {
-          "Joao/Brazil": 2,
-          "enkryptos": 1,
-          "(Ry) Zor raak": 1
         }
       },
       {
@@ -101100,34 +102043,6 @@
         "pilots": {
           "Julian": 2,
           "Joao/Brazil": 1
-        }
-      },
-      {
-        "champion": "Darius",
-        "role": "Top",
-        "archetype": "bruiser",
-        "picks": 3,
-        "wins": 0,
-        "losses": 3,
-        "win_rate": 0.0,
-        "kda": 1.41,
-        "avg_kills": 8.3,
-        "avg_deaths": 9.0,
-        "avg_assists": 4.3,
-        "dpm": 798.0,
-        "cspm": 6.0,
-        "vspm": 0.63,
-        "avg_rating": 69.2,
-        "grade": "A",
-        "primary_role": "Top",
-        "roles": {
-          "Top": 3
-        },
-        "top_pilot": "Aditya",
-        "pilots": {
-          "Aditya": 1,
-          "enkryptos": 1,
-          "Froatsy": 1
         }
       },
       {
@@ -103514,10 +104429,17 @@
     "archetypes": [
       {
         "archetype": "bruiser",
-        "picks": 90,
+        "picks": 92,
+        "wins": 42,
+        "win_rate": 45.7,
+        "avg_rating": 70.5
+      },
+      {
+        "archetype": "marksman",
+        "picks": 89,
         "wins": 40,
-        "win_rate": 44.4,
-        "avg_rating": 70.3
+        "win_rate": 44.9,
+        "avg_rating": 66.7
       },
       {
         "archetype": "assassin",
@@ -103525,13 +104447,6 @@
         "wins": 39,
         "win_rate": 43.8,
         "avg_rating": 68.2
-      },
-      {
-        "archetype": "marksman",
-        "picks": 88,
-        "wins": 39,
-        "win_rate": 44.3,
-        "avg_rating": 66.4
       },
       {
         "archetype": "tank",
@@ -103549,10 +104464,10 @@
       },
       {
         "archetype": "catcher",
-        "picks": 55,
-        "wins": 28,
-        "win_rate": 50.9,
-        "avg_rating": 71.1
+        "picks": 56,
+        "wins": 29,
+        "win_rate": 51.8,
+        "avg_rating": 71.2
       },
       {
         "archetype": "splitpusher",
@@ -103571,52 +104486,52 @@
     ],
     "role_distribution": {
       "Top": {
-        "games": 106,
-        "wins": 47
+        "games": 107,
+        "wins": 48
       },
       "Jungle": {
-        "games": 118,
-        "wins": 51
+        "games": 119,
+        "wins": 52
       },
       "Mid": {
         "games": 102,
         "wins": 47
       },
       "Bot": {
-        "games": 86,
-        "wins": 38
+        "games": 87,
+        "wins": 39
       },
       "Support": {
-        "games": 87,
-        "wins": 40
+        "games": 88,
+        "wins": 41
       }
     },
     "squad_coaching": {
-      "games_analyzed": 137,
-      "squad_appearances": 499,
-      "avg_death_penalty": 2.3,
+      "games_analyzed": 138,
+      "squad_appearances": 503,
+      "avg_death_penalty": 2.31,
       "top_leaks": [
         {
           "key": "excess_deaths",
           "category": "Survivability",
           "title": "Cut Excess Deaths",
-          "occurrences": 187,
-          "rate_pct": 37.5,
+          "occurrences": 189,
+          "rate_pct": 37.6,
           "avg_est_gain": 5.9,
-          "total_points_impact": 1108.4,
+          "total_points_impact": 1116.3,
           "top_affected_players": [
             "Joao/Brazil",
             "enkryptos",
             "Julian"
           ],
-          "summary": "Appears in 187 squad game-slots (38%), costing ~5.9 rating pts when triggered."
+          "summary": "Appears in 189 squad game-slots (38%), costing ~5.9 rating pts when triggered."
         },
         {
           "key": "low_dpm",
           "category": "Damage Output",
           "title": "Increase Damage Share",
           "occurrences": 123,
-          "rate_pct": 24.6,
+          "rate_pct": 24.5,
           "avg_est_gain": 3.2,
           "total_points_impact": 394.0,
           "top_affected_players": [
@@ -103624,14 +104539,14 @@
             "Ryan",
             "enkryptos"
           ],
-          "summary": "Appears in 123 squad game-slots (25%), costing ~3.2 rating pts when triggered."
+          "summary": "Appears in 123 squad game-slots (24%), costing ~3.2 rating pts when triggered."
         },
         {
           "key": "low_vision",
           "category": "Vision Control",
           "title": "Boost Vision Score",
           "occurrences": 195,
-          "rate_pct": 39.1,
+          "rate_pct": 38.8,
           "avg_est_gain": 1.8,
           "total_points_impact": 346.6,
           "top_affected_players": [
@@ -103645,16 +104560,16 @@
           "key": "no_control_wards",
           "category": "Vision Control",
           "title": "Buy Control Wards",
-          "occurrences": 119,
-          "rate_pct": 23.8,
+          "occurrences": 120,
+          "rate_pct": 23.9,
           "avg_est_gain": 2.0,
-          "total_points_impact": 238.0,
+          "total_points_impact": 240.0,
           "top_affected_players": [
             "enkryptos",
             "neetarius",
             "Joao/Brazil"
           ],
-          "summary": "Appears in 119 squad game-slots (24%), costing ~2.0 rating pts when triggered."
+          "summary": "Appears in 120 squad game-slots (24%), costing ~2.0 rating pts when triggered."
         }
       ]
     }
